@@ -1,0 +1,7 @@
+{
+  "issuer": "IdentityServer",
+  "audience": "Server",
+  "key": "BEgLx°nh]+e#]#KBxl<[9#wyu01(k-M!jPFVz=Dqu5,d/CV/J2z$]/TkrSaMov4W",
+  "lifetime": 10, // время жизни токена - 10 минут
+  "lifetime_refresh_token": 1440 // время жизни рефреш токена - 24 часа
+}

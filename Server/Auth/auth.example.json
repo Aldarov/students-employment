@@ -1,7 +1,7 @@
 {
-  "issuer": "IdentityServer",
-  "audience": "Server",
-  "key": "BEgLx°nh]+e#]#KBxl<[9#wyu01(k-M!jPFVz=Dqu5,d/CV/J2z$]/TkrSaMov4W",
+  "issuer": "IdentityServer", // издатель токена
+  "audience": "Server", // потребители токена
+  "key": "BEgLx°nh]+e#]#KBxl<[9#wyu01(k-M!jPFVz=Dqu5,d/CV/J2z$]/TkrSaMov4W", // ключ для шифрования
   "lifetime": 10, // время жизни токена - 10 минут
   "lifetime_refresh_token": 1440 // время жизни рефреш токена - 24 часа
 }

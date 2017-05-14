@@ -4,8 +4,8 @@ const merge = require('webpack-merge');
 const devserver = require('./webpack/devserver');
 
 const PATHS = {
-  source: path.join(__dirname, 'src'),
-  build: path.join(__dirname, 'build')
+  source: path.resolve(__dirname, 'src'),
+  build: path.resolve(__dirname, 'build')
 };
 
 const common = {
@@ -46,15 +46,14 @@ const common = {
 module.exports = function(env) {
   if (env === 'production') {
     return merge([
-      common,
-      {devtool: 'cheap-module-eval-source-map'}
+      common
     ]);
   }
   if (env === 'development') {
     return merge([
       common,
-      devserver,
-      {devtool: 'source-map'}
+      devserver(),
+      {devtool: 'cheap-module-eval-source-map'}
     ]);
   }
 };

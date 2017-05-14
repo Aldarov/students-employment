@@ -1,6 +1,7 @@
+const merge = require('webpack-merge');
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const merge = require('webpack-merge');
+
 const devserver = require('./webpack/devserver');
 
 const PATHS = {
@@ -21,7 +22,7 @@ const common = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: [
-          { loader: 'react-hot-loader' },
+          { loader: 'react-hot-loader' }, //убрать в продакшене
           {
             loader: 'babel-loader',
             options: {

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import Button from './Button';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class Login extends React.Component {
   constructor(props) {
@@ -12,14 +11,12 @@ class Login extends React.Component {
       password: ''
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.handleLoginChange = this.handleLoginChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-
+  handleLogin(event) {
     const login = this.state.login;
     const password = this.state.password;
     let from = null;
@@ -44,20 +41,20 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-        <form className="login" onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            value={this.state.login}
-            placeholder="Введите логин"
-            onChange={this.handleLoginChange} />
-          <input
-            type="password"
-            value={this.state.password}
-            placeholder="Введите пароль"
-            onChange={this.handlePasswordChange} />
+        <input
+          type="text"
+          value={this.state.login}
+          placeholder="Введите логин"
+          onChange={this.handleLoginChange} />
+        <input
+          type="password"
+          value={this.state.password}
+          placeholder="Введите пароль"
+          onChange={this.handlePasswordChange} />
 
-          <Button type="submit">Войти</Button>
-        </form>
+        <RaisedButton label="Войти" primary
+          onClick={this.handleLogin}
+        />
       </div>
     );
   }

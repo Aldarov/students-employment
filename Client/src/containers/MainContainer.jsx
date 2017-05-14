@@ -13,8 +13,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     redirectTo: (path, from) => dispatch(redirectTo(path, from)),
-    // getTodos: () => dispatch(getTodos()),
     checkAuth: () => dispatch(checkAuth())
+    // here need to call function for load of main data
+    // getData: () => dispatch(getData())
   };
 }
 

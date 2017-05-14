@@ -7,7 +7,7 @@ function apiSetToken(access_token, refresh_token) {
 }
 
 export function apiSetRequestHeader(access_token) {
-  const token = access_token || sessionStorage.getItem('access_token') || "";
+  const token = access_token || sessionStorage.getItem('access_token') || '';
   axios.defaults.baseURL = '/';
   axios.defaults.headers.post['Content-Type'] = 'application/json';
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
@@ -38,7 +38,8 @@ export function apiLogout() {
 }
 
 export function apiIsAuth() {
-  if (sessionStorage.getItem('access_token')) {
+  const token = sessionStorage.getItem('access_token');
+  if (token != 'undefined' && token) {
     return true;
   } else {
     return false;

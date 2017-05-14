@@ -6,13 +6,13 @@ class Main extends React.Component {
   componentWillMount() {
     this.props.checkAuth();
     if (this.props.isAuth) {
-      // this.props.getTodos();
+      // here need to load a main data
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isAuth) {
-      // this.props.getTodos();
+      // here need to load a main data
     }
     else {
       this.props.redirectTo('/login', this.props.location.pathname);
@@ -32,7 +32,6 @@ Main.propTypes = {
   isAuth: PropTypes.bool.isRequired,
   redirectTo: PropTypes.func.isRequired,
   checkAuth: PropTypes.func.isRequired,
-  // getTodos: React.PropTypes.func.isRequired,
 };
 
 export default Main;

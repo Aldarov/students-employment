@@ -1,16 +1,23 @@
 const path = require('path');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const merge = require('webpack-merge');
+const devserver = require('./webpack/devserver');
 
-module.exports = {
-  entry: './src/index.js',
+const PATHS = {
+  source: path.join(__dirname, 'src'),
+  build: path.join(__dirname, 'build')
+};
 
+const common = {
+  entry: PATHS.source + '/index.js',
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js'
+    path: PATHS.build,
+    filename: '[name].js',
+    publicPath: '/'
   },
 
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: [
@@ -22,21 +29,32 @@ module.exports = {
             }
           }
         ]
-      }
-    ]
+    }]
   },
 
-  devServer: {
-    historyApiFallback: true,
-    proxy: {
-      '/api': 'http://localhost:5000'
-    }
-  },
-
-  // devtool: 'cheap-eval-source-map',
-  devtool: 'eval',
+  plugins: [
+    new HTMLWebpackPlugin({
+      template: PATHS.source + '/index.html'
+    })
+  ],
 
   resolve: {
     extensions: ['.js', '.jsx', '.json', '*']
+  }
+};
+
+module.exports = function(env) {
+  if (env === 'production') {
+    return merge([
+      common,
+      {devtool: 'cheap-module-eval-source-map'}
+    ]);
+  }
+  if (env === 'development') {
+    return merge([
+      common,
+      devserver,
+      {devtool: 'source-map'}
+    ]);
   }
 };

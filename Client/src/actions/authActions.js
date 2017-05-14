@@ -1,7 +1,6 @@
-import { push } from 'react-router-redux';
-
 import { apiLogin, apiLogout, apiIsAuth, apiSetRequestHeader } from '../api';
 import { REQUEST_START, REQUEST_END } from './fetchingActions';
+import { redirectTo } from './redirectActions';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
@@ -11,14 +10,13 @@ export function login(login, password, from) {
     dispatch({ type: REQUEST_START });
 
     return apiLogin(login, password)
-      .then(() => {
+      .then((res) => {
         dispatch({ type: LOGIN });
         dispatch({ type: REQUEST_END });
-        dispatch(push(from || '/'));
+        dispatch(redirectTo(from || '/'));
       })
       .catch((err) => {
         logout();
-        console.log(err);
         dispatch({ type: REQUEST_END });
       });
   };
@@ -38,7 +36,7 @@ export function checkAuth() {
       dispatch({ type: LOGIN });
     } else {
       dispatch({ type: LOGOUT });
-      dispatch(push('/login'));
+      dispatch(redirectTo('/login'));
     }
   };
 }

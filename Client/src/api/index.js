@@ -16,11 +16,11 @@ axios.interceptors.response.use(
             prev_req.headers.Authorization = 'Bearer ' + token.access_token;
             return axios(prev_req);
           } else {
-            return error.response;
+            return Promise.reject(error.response);
           }
         });
       }
     }
-    return error.response;
+    return Promise.reject(error.response);
   }
 );

@@ -16,3 +16,10 @@ export function getStore(history) {
     )
   );
 }
+
+//for production
+// export function getStore(history) {
+//   return createStore(reducers,
+//     applyMiddleware(promise, thunk, routerMiddleware(history))
+//   );
+// }

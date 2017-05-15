@@ -4,6 +4,9 @@ import { Route, Switch } from 'react-router';
 import LoginContainer from './containers/LoginContainer';
 import MainContainer from './containers/MainContainer';
 
+import 'normalize.css';
+import './styles/base.scss';
+
 function App()  {
   return (
     <Switch>

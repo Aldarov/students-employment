@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+import './Login.scss';
 
 class Login extends React.Component {
   constructor(props) {
@@ -40,21 +42,34 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-        <input
-          type="text"
-          value={this.state.login}
-          placeholder="Введите логин"
-          onChange={this.handleLoginChange} />
-        <input
-          type="password"
-          value={this.state.password}
-          placeholder="Введите пароль"
-          onChange={this.handlePasswordChange} />
-
-        <RaisedButton label="Войти" primary
-          onClick={this.handleLogin}
-        />
+      <div className="Login">
+        <div className="Login__banner">
+          <div>
+            <h3>
+              Вход в систему
+            </h3>
+            <TextField
+              hintText="Введите логин"
+              floatingLabelText="Логин"
+              onChange={this.handleLoginChange}
+            /> <br />
+            <TextField
+              hintText="Введите пароль"
+              floatingLabelText="Пароль"
+              type="password"
+              onChange={this.handlePasswordChange}
+            /><br />
+            <RaisedButton label="Войти"
+              primary
+              onClick={this.handleLogin}
+            />
+          </div>
+          <img
+            className="Login__image"
+            src={require("../assets/images/desk.png")}
+            alt="login image"
+          />
+        </div>
       </div>
     );
   }

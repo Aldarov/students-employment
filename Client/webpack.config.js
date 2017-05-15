@@ -6,6 +6,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const devserver = require('./webpack/devserver');
 const jsx = require('./webpack/jsx');
 const css = require('./webpack/css');
+const cssExtract = require('./webpack/cssExtract');
 const uglifyJS = require('./webpack/js.uglify');
 const images = require('./webpack/images');
 
@@ -42,7 +43,6 @@ const common = function(env) {
       }
     },
     jsx(env),
-    css(),
     images()
   ])
 };
@@ -51,12 +51,14 @@ module.exports = function(env) {
   if (env === 'production') {
     return merge([
       common(env),
+      cssExtract(),
       uglifyJS()
     ]);
   }
   if (env === 'development') {
     return merge([
       common(env),
+      css(),
       devserver(),
       {devtool: 'cheap-module-eval-source-map'}
     ]);

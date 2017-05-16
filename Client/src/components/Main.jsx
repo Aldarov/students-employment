@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 
 class Main extends React.Component {
@@ -39,6 +38,7 @@ class Main extends React.Component {
 }
 
 Main.propTypes = {
+  location: PropTypes.object.isRequired,
   isAuth: PropTypes.bool.isRequired,
   redirectTo: PropTypes.func.isRequired,
   checkAuth: PropTypes.func.isRequired,

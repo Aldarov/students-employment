@@ -1,7 +1,6 @@
-import React from 'react';
 import { connect } from 'react-redux';
 
-import { getTodos, redirectTo, checkAuth } from '../actions';
+import { redirectTo, checkAuth } from '../actions';
 import Main from '../components/Main';
 
 function mapStateToProps(state) {

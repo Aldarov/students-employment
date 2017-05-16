@@ -18,7 +18,7 @@ class Login extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
-  handleLogin(event) {
+  handleLogin() {
     const login = this.state.login;
     const password = this.state.password;
     let from = null;
@@ -66,7 +66,7 @@ class Login extends React.Component {
           </div>
           <img
             className="Login__image"
-            src={require("../assets/images/desk.png")}
+            src={require('../assets/images/desk.png')}
             alt="login image"
           />
         </div>
@@ -76,6 +76,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
+  location: PropTypes.object.isRequired,
   onLogin: PropTypes.func.isRequired
 };
 

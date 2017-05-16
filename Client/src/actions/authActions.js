@@ -10,12 +10,12 @@ export function login(login, password, from) {
     dispatch({ type: REQUEST_START });
 
     return apiLogin(login, password)
-      .then((res) => {
+      .then(() => {
         dispatch({ type: LOGIN });
         dispatch({ type: REQUEST_END });
         dispatch(redirectTo(from || '/'));
       })
-      .catch((err) => {
+      .catch(() => {
         logout();
         dispatch({ type: REQUEST_END });
       });
@@ -26,7 +26,7 @@ export function logout() {
   return dispatch => {
     apiLogout();
     return dispatch({ type: LOGOUT });
-  }
+  };
 }
 
 export function checkAuth() {

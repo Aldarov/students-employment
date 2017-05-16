@@ -16,4 +16,4 @@ module.exports = function() {
       new webpack.NamedModulesPlugin()
     ],
   };
-}
+};

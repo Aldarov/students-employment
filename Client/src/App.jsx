@@ -11,7 +11,7 @@ function App()  {
   return (
     <Switch>
       <Route exact path='/login' component={LoginContainer} />
-      <Route path='/' component={MainContainer} />
+      <Route exact path='/' component={MainContainer} />
       <Route path='*' component={() => <div>Not Found</div>} />
     </Switch>
   );

@@ -5,21 +5,18 @@ import promise from 'redux-promise';
 import thunk from 'redux-thunk';
 import { composeWithDevTools  } from 'redux-devtools-extension';
 
-import reducers from './reducers'
-
-const composeEnhancers = composeWithDevTools({});
+import reducers from './reducers';
 
 export function getStore(history) {
-  return createStore(reducers,
-    composeEnhancers(
-      applyMiddleware(promise, thunk, routerMiddleware(history))
-    )
+  const middleware = applyMiddleware(
+    promise,
+    thunk,
+    routerMiddleware(history)
   );
-}
 
-//for production
-// export function getStore(history) {
-//   return createStore(reducers,
-//     applyMiddleware(promise, thunk, routerMiddleware(history))
-//   );
-// }
+  if (process.env.NODE_ENV === 'development') {
+    return createStore(reducers, composeWithDevTools({})(middleware));
+  }
+
+  return createStore(reducers, middleware);
+}

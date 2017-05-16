@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Server.Models.Auth;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace Server
 {
@@ -47,9 +48,6 @@ namespace Server
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 AutomaticAuthenticate = true,
@@ -77,7 +75,18 @@ namespace Server
                 }
             });
 
-            app.UseMvc();
+            app.Use(async (context, next) => 
+            { 
+                await next(); 
+                if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value)) 
+                { 
+                    context.Request.Path = "/index.html"; 
+                    await next(); 
+                } 
+            })
+            .UseDefaultFiles()
+            .UseStaticFiles()
+            .UseMvc();
         }
     }
 }

@@ -294,4 +294,6 @@ env.json
 
 .vscode
 
+wwwroot/*
+
 # End of https://www.gitignore.io/api/visualstudio

@@ -1,28 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+// import TextField from 'material-ui/TextField';
 import Formsy from 'formsy-react';
+import FormsyText from 'formsy-material-ui/lib/FormsyText';
 
 import './Login.scss';
+
+// const errorMessages = {
+//     isRequiredLogin: 'Введите имя пользователя',
+//     isRequiredPassword: 'Введите пароль'
+//   };
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      login: '',
-      password: ''
+      // login: '',
+      // password: '',
+      canSubmit: true,
     };
 
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLoginChange = this.handleLoginChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.notifyFormError = this.notifyFormError.bind(this);
+    // this.errorMessages = this.errorMessages.bind(this);
   }
 
-  handleLogin() {
-    const login = this.state.login;
-    const password = this.state.password;
+  handleLogin(data) {
+    const login = data ? data.login : '';
+    const password = data ? data.password : '';
     let from = null;
     if (this.props.location.state) {
       from = this.props.location.state.from;
@@ -42,30 +51,51 @@ class Login extends React.Component {
     this.setState({ password: event.target.value });
   }
 
+  notifyFormError(data) {
+    console.error('Ошибки:', data);
+  }
+
   render() {
     return (
       <div className="Login">
         <div className="Login__banner">
-          <div className="Login__form">
+          <Formsy.Form
+            // onValid={ this.setState({canSubmit: true}) }
+            // onInvalid={ this.setState({canSubmit: false}) }
+            onValidSubmit={this.handleLogin}
+            onInvalidSubmit={this.notifyFormError}
+            className="Login__form"
+          >
             <h3>
               Вход в систему
             </h3>
-            <TextField
+            <FormsyText
+              name="login"
               hintText="Введите логин"
+              validations={{minLength: 3}}
+              validationErrors={{
+                minLength: 'Длина не менее 3',
+                isEmptyString: 'Введите имя пользователя'
+              }}
               floatingLabelText="Логин"
-              onChange={this.handleLoginChange}
+              // onChange={this.handleLoginChange}
             />
-            <TextField
+            <FormsyText
+              name="password"
+              type="password"
+              // validations={{ isEmptyString: true }}
+              // validationError={this.errorMessages.isRequiredPassword}
               hintText="Введите пароль"
               floatingLabelText="Пароль"
-              type="password"
-              onChange={this.handlePasswordChange}
+              // onChange={this.handlePasswordChange}
             />
+
             <RaisedButton label="Войти"
               primary
-              onClick={this.handleLogin}
+              type="submit"
+              disabled={!this.state.canSubmit}
             />
-          </div>
+          </Formsy.Form>
           <img
             className="Login__image"
             src={require('../assets/images/desk.png')}

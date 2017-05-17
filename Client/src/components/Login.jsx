@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import Formsy from 'formsy-react';
+
 import './Login.scss';
 
 class Login extends React.Component {
@@ -44,7 +46,7 @@ class Login extends React.Component {
     return (
       <div className="Login">
         <div className="Login__banner">
-          <div>
+          <div className="Login__form">
             <h3>
               Вход в систему
             </h3>
@@ -52,13 +54,13 @@ class Login extends React.Component {
               hintText="Введите логин"
               floatingLabelText="Логин"
               onChange={this.handleLoginChange}
-            /> <br />
+            />
             <TextField
               hintText="Введите пароль"
               floatingLabelText="Пароль"
               type="password"
               onChange={this.handlePasswordChange}
-            /><br />
+            />
             <RaisedButton label="Войти"
               primary
               onClick={this.handleLogin}

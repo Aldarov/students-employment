@@ -20,7 +20,10 @@ const common = function(env) {
   return merge([
     {
       entry: {
-        'main': PATHS.source + '/index.js'
+        'main': [
+          'babel-polyfill',
+          PATHS.source + '/index.js'
+        ]
       },
       output: {
         path: PATHS.build,
@@ -62,7 +65,7 @@ module.exports = function(env) {
       common(env),
       css(),
       devserver(),
-      {devtool: 'cheap-module-eval-source-map'}
+      {devtool: 'eval'}
     ]);
   }
 };

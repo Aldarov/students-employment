@@ -4,25 +4,24 @@
 .Login {
   width: 100vw;
   height: 100vh;
-  // background-color: $primary-color;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  margin-top: 30px;
 }
 
 .Login__banner {
   display: flex;
   justify-content: center;
   align-items: center;
-  @media #{$phone} {
-      flex-direction: column;
-  }
+  flex-wrap: wrap;
+}
+
+.Login__form {
+  display: flex;
+  flex-direction: column;
 }
 
 .Login__image {
   max-width: 500px;
-}
-
-.Login__text {
-  font-weight: 600;
 }

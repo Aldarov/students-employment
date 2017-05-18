@@ -7,26 +7,48 @@ import FormsyText from 'formsy-material-ui/lib/FormsyText';
 
 import './Login.scss';
 
-// const errorMessages = {
-//     isRequiredLogin: 'Введите имя пользователя',
-//     isRequiredPassword: 'Введите пароль'
-//   };
-
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      // login: '',
-      // password: '',
-      canSubmit: true,
+      canSubmit: false,
+      validationErrors: {
+        login_required: 'Введите логин',
+        password_required: 'Введите пароль'
+      }
     };
 
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleLoginChange = this.handleLoginChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.notifyFormError = this.notifyFormError.bind(this);
-    // this.errorMessages = this.errorMessages.bind(this);
+    this.handleValid = this.handleValid.bind(this);
+    this.handleInvalid = this.handleInvalid.bind(this);
+    this.validateForm = this.validateForm.bind(this);
+  }
+
+  validateForm(item) {
+    if (item == 'login') {
+      return {
+        login_required: function (values, value) {
+          if (value) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      };
+    }
+
+    if (item == 'password') {
+      return {
+        password_required: function (values, value) {
+          if (value) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      };
+    }
   }
 
   handleLogin(data) {
@@ -43,16 +65,12 @@ class Login extends React.Component {
     }
   }
 
-  handleLoginChange(event) {
-    this.setState({ login: event.target.value });
+  handleValid() {
+    this.setState({ canSubmit: true });
   }
 
-  handlePasswordChange(event) {
-    this.setState({ password: event.target.value });
-  }
-
-  notifyFormError(data) {
-    console.error('Ошибки:', data);
+  handleInvalid() {
+    this.setState({ canSubmit: false });
   }
 
   render() {
@@ -60,10 +78,9 @@ class Login extends React.Component {
       <div className="Login">
         <div className="Login__banner">
           <Formsy.Form
-            // onValid={ this.setState({canSubmit: true}) }
-            // onInvalid={ this.setState({canSubmit: false}) }
+            onValid={ this.handleValid }
+            onInvalid={ this.handleInvalid }
             onValidSubmit={this.handleLogin}
-            onInvalidSubmit={this.notifyFormError}
             className="Login__form"
           >
             <h3>
@@ -72,23 +89,18 @@ class Login extends React.Component {
             <FormsyText
               name="login"
               hintText="Введите логин"
-              validations={{minLength: 3}}
-              validationErrors={{
-                minLength: 'Длина не менее 3',
-                isEmptyString: 'Введите имя пользователя'
-              }}
+              validations={this.validateForm('login')}
+              validationErrors={this.state.validationErrors}
               floatingLabelText="Логин"
-              // onChange={this.handleLoginChange}
             />
             <FormsyText
               name="password"
               type="password"
-              // validations={{ isEmptyString: true }}
-              // validationError={this.errorMessages.isRequiredPassword}
+              validations={this.validateForm('password')}
+              validationErrors={this.state.validationErrors}
               hintText="Введите пароль"
               floatingLabelText="Пароль"
-              // onChange={this.handlePasswordChange}
-            />
+            /><br/>
 
             <RaisedButton label="Войти"
               primary

@@ -13,7 +13,7 @@ export default function RenderTextField({ input, label, meta: { touched, error }
 }
 
 RenderTextField.propTypes = {
-  input: PropTypes.object.isRequired,
+  input: PropTypes.object,
   label: PropTypes.string,
-  meta: PropTypes.object.isRequired
+  meta: PropTypes.object
 };

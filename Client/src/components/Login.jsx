@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import { RenderTextField } from './redux_form_fields/TextField';
 
@@ -10,82 +10,70 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      canSubmit: false,
-      validationErrors: {
-        login_required: 'Введите логин',
-        password_required: 'Введите пароль'
-      }
-    };
+    // this.state = {
+    //   canSubmit: false,
+    //   validationErrors: {
+    //     login_required: 'Введите логин',
+    //     password_required: 'Введите пароль'
+    //   }
+    // };
 
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleValid = this.handleValid.bind(this);
-    this.handleInvalid = this.handleInvalid.bind(this);
-    this.validateForm = this.validateForm.bind(this);
+    // this.handleLogin = this.handleLogin.bind(this);
+    // this.handleValid = this.handleValid.bind(this);
+    // this.handleInvalid = this.handleInvalid.bind(this);
+    // this.validateForm = this.validateForm.bind(this);
   }
 
-  validate(values) {
-    const errors = {};
-    const requiredFields = [ 'login', 'password' ];
-    requiredFields.forEach(field => {
-      if (!values[ field ]) {
-        errors[ field ] = 'Данное поле обязательное';
-      }
-    });
+  // validateForm(item) {
+  //   if (item == 'login') {
+  //     return {
+  //       login_required: function (values, value) {
+  //         if (value) {
+  //           return true;
+  //         } else {
+  //           return false;
+  //         }
+  //       }
+  //     };
+  //   }
 
-    return errors;
-  }
+  //   if (item == 'password') {
+  //     return {
+  //       password_required: function (values, value) {
+  //         if (value) {
+  //           return true;
+  //         } else {
+  //           return false;
+  //         }
+  //       }
+  //     };
+  //   }
+  // }
 
-  validateForm(item) {
-    if (item == 'login') {
-      return {
-        login_required: function (values, value) {
-          if (value) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-      };
-    }
+  // handleLogin(data) {
+  //   const login = data ? data.login : '';
+  //   const password = data ? data.password : '';
+  //   let from = null;
+  //   if (this.props.location.state) {
+  //     from = this.props.location.state.from;
+  //   }
 
-    if (item == 'password') {
-      return {
-        password_required: function (values, value) {
-          if (value) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-      };
-    }
-  }
+  //   if (login && password) {
+  //     this.props.onLogin(login, password, from);
+  //     this.setState({ login: '', password: '' });
+  //   }
+  // }
 
-  handleLogin(data) {
-    const login = data ? data.login : '';
-    const password = data ? data.password : '';
-    let from = null;
-    if (this.props.location.state) {
-      from = this.props.location.state.from;
-    }
+  // handleValid() {
+  //   this.setState({ canSubmit: true });
+  // }
 
-    if (login && password) {
-      this.props.onLogin(login, password, from);
-      this.setState({ login: '', password: '' });
-    }
-  }
-
-  handleValid() {
-    this.setState({ canSubmit: true });
-  }
-
-  handleInvalid() {
-    this.setState({ canSubmit: false });
-  }
+  // handleInvalid() {
+  //   this.setState({ canSubmit: false });
+  // }
 
   render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props;
+    const { handleSubmit, pristine, submitting } = this.props;
     return (
       <div className="Login">
         <div className="Login__banner">
@@ -117,7 +105,7 @@ class Login extends React.Component {
             <RaisedButton label="Войти"
               primary
               type="submit"
-              // disabled={!this.state.canSubmit}
+              disabled={pristine || submitting}
             />
           </form>
           <img
@@ -132,8 +120,12 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  location: PropTypes.object.isRequired,
-  onLogin: PropTypes.func.isRequired
+  // location: PropTypes.object.isRequired,
+  // onLogin: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+  reset: PropTypes.func
 };
 
-export default Login;
+export default reduxForm({ form: 'Login' })(Login);

@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
-// import TextField from 'material-ui/TextField';
-import Formsy from 'formsy-react';
-import FormsyText from 'formsy-material-ui/lib/FormsyText';
+import { RenderTextField } from './redux_form_fields/TextField';
 
 import './Login.scss';
 
@@ -23,6 +22,18 @@ class Login extends React.Component {
     this.handleValid = this.handleValid.bind(this);
     this.handleInvalid = this.handleInvalid.bind(this);
     this.validateForm = this.validateForm.bind(this);
+  }
+
+  validate(values) {
+    const errors = {};
+    const requiredFields = [ 'login', 'password' ];
+    requiredFields.forEach(field => {
+      if (!values[ field ]) {
+        errors[ field ] = 'Данное поле обязательное';
+      }
+    });
+
+    return errors;
   }
 
   validateForm(item) {
@@ -74,40 +85,41 @@ class Login extends React.Component {
   }
 
   render() {
+    const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <div className="Login">
         <div className="Login__banner">
-          <Formsy.Form
-            onValid={ this.handleValid }
-            onInvalid={ this.handleInvalid }
-            onValidSubmit={this.handleLogin}
+          <form
             className="Login__form"
+            onSubmit={handleSubmit}
           >
             <h3>
               Вход в систему
             </h3>
-            <FormsyText
+            <Field
               name="login"
               hintText="Введите логин"
-              validations={this.validateForm('login')}
-              validationErrors={this.state.validationErrors}
+              // validations={this.validateForm('login')}
+              // validationErrors={this.state.validationErrors}
               floatingLabelText="Логин"
+              Component={RenderTextField}
             />
-            <FormsyText
+            <Field
               name="password"
               type="password"
-              validations={this.validateForm('password')}
-              validationErrors={this.state.validationErrors}
+              // validations={this.validateForm('password')}
+              // validationErrors={this.state.validationErrors}
               hintText="Введите пароль"
               floatingLabelText="Пароль"
+              Component={RenderTextField}
             /><br/>
 
             <RaisedButton label="Войти"
               primary
               type="submit"
-              disabled={!this.state.canSubmit}
+              // disabled={!this.state.canSubmit}
             />
-          </Formsy.Form>
+          </form>
           <img
             className="Login__image"
             src={require('../assets/images/desk.png')}

@@ -2,18 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 
-export default function RenderTextField({ input, label, meta: { touched, error }, ...rest }) {
+export const RenderTextField = ({meta: {touched, error}, input, ...custom}) => {
   return <TextField
-    hintText={label}
-    floatingLabelText={label}
     errorText={touched && error}
     {...input}
-    {...rest}
+    {...custom}
   />;
-}
+};
 
 RenderTextField.propTypes = {
-  input: PropTypes.object,
-  label: PropTypes.string,
-  meta: PropTypes.object
+  meta: PropTypes.object,
+  input:PropTypes.object
 };

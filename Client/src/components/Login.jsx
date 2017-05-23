@@ -7,73 +7,9 @@ import { RenderTextField } from './redux_form_fields/TextField';
 import './Login.scss';
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // this.state = {
-    //   canSubmit: false,
-    //   validationErrors: {
-    //     login_required: 'Введите логин',
-    //     password_required: 'Введите пароль'
-    //   }
-    // };
-
-    // this.handleLogin = this.handleLogin.bind(this);
-    // this.handleValid = this.handleValid.bind(this);
-    // this.handleInvalid = this.handleInvalid.bind(this);
-    // this.validateForm = this.validateForm.bind(this);
-  }
-
-  // validateForm(item) {
-  //   if (item == 'login') {
-  //     return {
-  //       login_required: function (values, value) {
-  //         if (value) {
-  //           return true;
-  //         } else {
-  //           return false;
-  //         }
-  //       }
-  //     };
-  //   }
-
-  //   if (item == 'password') {
-  //     return {
-  //       password_required: function (values, value) {
-  //         if (value) {
-  //           return true;
-  //         } else {
-  //           return false;
-  //         }
-  //       }
-  //     };
-  //   }
-  // }
-
-  // handleLogin(data) {
-  //   const login = data ? data.login : '';
-  //   const password = data ? data.password : '';
-  //   let from = null;
-  //   if (this.props.location.state) {
-  //     from = this.props.location.state.from;
-  //   }
-
-  //   if (login && password) {
-  //     this.props.onLogin(login, password, from);
-  //     this.setState({ login: '', password: '' });
-  //   }
-  // }
-
-  // handleValid() {
-  //   this.setState({ canSubmit: true });
-  // }
-
-  // handleInvalid() {
-  //   this.setState({ canSubmit: false });
-  // }
-
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
+
     return (
       <div className="Login">
         <div className="Login__banner">
@@ -84,22 +20,19 @@ class Login extends React.Component {
             <h3>
               Вход в систему
             </h3>
+
             <Field
               name="login"
+              component={RenderTextField}
               hintText="Введите логин"
-              // validations={this.validateForm('login')}
-              // validationErrors={this.state.validationErrors}
               floatingLabelText="Логин"
-              Component={RenderTextField}
             />
             <Field
               name="password"
+              component={RenderTextField}
               type="password"
-              // validations={this.validateForm('password')}
-              // validationErrors={this.state.validationErrors}
               hintText="Введите пароль"
               floatingLabelText="Пароль"
-              Component={RenderTextField}
             /><br/>
 
             <RaisedButton label="Войти"
@@ -120,12 +53,27 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  // location: PropTypes.object.isRequired,
-  // onLogin: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
   reset: PropTypes.func
 };
 
-export default reduxForm({ form: 'Login' })(Login);
+function validate(values) {
+  const errors = {};
+  const requiredFields = [ 'login', 'password' ];
+  requiredFields.forEach(field => {
+    if (!values[field]) {
+      errors[field] = 'Данное поле обязательное';
+    }
+  });
+
+  return errors;
+}
+
+export default {
+  ReduxForm: reduxForm({
+    form: 'Login',
+    validate
+  })(Login)
+};

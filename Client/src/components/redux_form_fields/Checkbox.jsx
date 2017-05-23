@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'material-ui/Checkbox';
 
-export default function RenderCheckbox({ input, label, ...rest }) {
+export default function RenderCheckbox({ input, ...rest }) {
   return <Checkbox
-    label={label}
-    checked={input.value ? true : false}
     onCheck={input.onChange}
+    {...input}
     {...rest}
   />;
 }
 
 RenderCheckbox.propTypes = {
-  input: PropTypes.object.isRequired,
-  label: PropTypes.string,
+  input: PropTypes.object.isRequired
 };

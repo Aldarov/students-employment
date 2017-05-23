@@ -1,9 +1,40 @@
-import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { login } from '../actions';
 import Login from '../components/Login';
+
+class LoginContainer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  handleLogin(data) {
+    const login = data ? data.login : '';
+    const password = data ? data.password : '';
+    let from = null;
+    if (this.props.location.state) {
+      from = this.props.location.state.from;
+    }
+
+    if (login && password) {
+      this.props.onLogin(login, password, from);
+    }
+
+  }
+
+  render () {
+    return <Login.ReduxForm onSubmit={this.handleLogin} />;
+  }
+}
+
+LoginContainer.propTypes = {
+  location: PropTypes.object.isRequired,
+  onLogin: PropTypes.func.isRequired,
+};
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -11,36 +42,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const LoginContainer = (onLogin) => {
-  return <Login
-    onSubmit={ data => {
-      const login = data ? data.login : '';
-      const password = data ? data.password : '';
-      let from = null;
-      if (this.props.location.state) {
-        from = this.props.location.state.from;
-      }
-
-      if (login && password) {
-        onLogin(login, password, from);
-      }
-    }}
-  />;
-};
-
-function validate(values) {
-  const errors = {};
-  const requiredFields = [ 'login', 'password' ];
-  requiredFields.forEach(field => {
-    if (!values[ field ]) {
-      errors[ field ] = 'Данное поле обязательное';
-    }
-  });
-
-  return errors;
-}
-
-export default reduxForm({
-  form: 'LoginContainer',
-  validate,
-})(connect(null, mapDispatchToProps)(LoginContainer));
+export default connect(null, mapDispatchToProps)(LoginContainer);

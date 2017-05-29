@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Server.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using Server.Models.University;
 
 namespace Server
 {
@@ -39,6 +40,11 @@ namespace Server
             services.AddDbContext<AuthContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
+
+            services.AddDbContext<UniversityContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("UniversityConnection"))
+            );
+            
             services.AddSingleton<IJwt, Jwt>();            
         }
 

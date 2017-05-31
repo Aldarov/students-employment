@@ -10,6 +10,7 @@ using Server.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 using Server.Models.University;
 using Microsoft.AspNetCore.Authorization;
+using Server.Infrastructure;
 
 namespace Server.Controllers
 {
@@ -23,10 +24,14 @@ namespace Server.Controllers
             db = context;
         }
 
-        [HttpGet]
-        public IEnumerable<Placement> Get()
+        [HttpGet()]
+        public IEnumerable<Placement> Get(QueryArgsBase args)
         {
-            var p = db.Placements.Include(x => x.EduForm);
+            var p = db.Placements
+                .Include(x => x.EduForm)
+                .Filter(Request.Query.ToList())
+                .Sort(args)
+                .Paginate(args);
             return p;
         }        
     }

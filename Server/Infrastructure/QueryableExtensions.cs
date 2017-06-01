@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -83,10 +84,43 @@ namespace Server.Infrastructure
             return source;
         }
 
+        private static T ChangeType<T>(string value)
+        {
+            return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
+        }
+
         public static IQueryable<T> Filter<T>(this IQueryable<T> source, List<KeyValuePair<string, StringValues>> queryStrings)
         {
-            var query = queryStrings.Where(x => !x.Key.StartsWith("_") && x.Key != "q").ToList();
-            return source;
+            IQueryable<T> query = source;
+            var filters = queryStrings.Where(x => !x.Key.StartsWith("_") && x.Key != "q").ToList();
+
+            foreach (var filter in filters)
+            {
+                var parameter = Expression.Parameter(typeof(T), "x");
+                var property = Expression.Property(parameter, filter.Key);
+
+                var v = Convert.ChangeType(filter.Value.First(), property.Type, CultureInfo.InvariantCulture);
+
+                var val = filter.Value
+                    .Select(x => Convert.ChangeType(x, property.Type, CultureInfo.InvariantCulture))
+                    .ToList()
+                    .MakeGenericType(new Type[] { property.Type });
+                var values = Expression.Constant(val);
+
+                var methodInfo = val.GetType()
+                    .GetMethod("Contains", new Type[] { property.Type });
+
+                var call = Expression.Call(values, methodInfo, property);
+
+                // var value = Expression.Constant(Convert.ChangeType(filter.Value.First(), property.Type, CultureInfo.InvariantCulture));
+                // var equal = Expression.Equal(property, value);
+                // var lambda = Expression.Lambda<Func<T, bool>>(equal, parameter);
+
+                var lambda = Expression.Lambda<Func<T, bool>>(call, parameter);
+
+                query = query.Where(lambda);
+            }
+            return query;
         }        
         
     }

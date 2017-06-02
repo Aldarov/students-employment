@@ -84,9 +84,10 @@ namespace Server.Infrastructure
             return source;
         }
 
-        private static T ChangeType<T>(string value)
+        public static T ChangeType<T>(string value)
         {
-            return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
+            var res = (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
+            return res;
         }
 
         public static IQueryable<T> Filter<T>(this IQueryable<T> source, List<KeyValuePair<string, StringValues>> queryStrings)
@@ -99,16 +100,17 @@ namespace Server.Infrastructure
                 var parameter = Expression.Parameter(typeof(T), "x");
                 var property = Expression.Property(parameter, filter.Key);
 
-                var v = Convert.ChangeType(filter.Value.First(), property.Type, CultureInfo.InvariantCulture);
+                MethodInfo castMethod = typeof(QueryableExtensions).GetMethod("ChangeType").MakeGenericMethod(property.Type);
 
+                var v = castMethod.Invoke(null, new object[] {filter.Value.First()});
                 var val = filter.Value
-                    .Select(x => Convert.ChangeType(x, property.Type, CultureInfo.InvariantCulture))
-                    .ToList()
-                    .MakeGenericType(new Type[] { property.Type });
+                    .Select(x => castMethod.Invoke(null, new object[] {x}))
+                    .ToList();
+
                 var values = Expression.Constant(val);
 
-                var methodInfo = val.GetType()
-                    .GetMethod("Contains", new Type[] { property.Type });
+                var methodInfo = val.GetType().GetMethod("Contains", new Type[] { property.Type });
+                //var methodInfo = typeof(List<object>).GetMethod("Contains", new Type[] { typeof(object) });
 
                 var call = Expression.Call(values, methodInfo, property);
 

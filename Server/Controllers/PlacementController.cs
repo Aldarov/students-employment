@@ -28,7 +28,8 @@ namespace Server.Controllers
         public IEnumerable<Placement> Get(QueryArgsBase args)
         {
             var p = db.Placements
-                .Include(x => x.EduForm)
+                //.Include(x => x.EduForm)
+                .Embed(Request.Query.ToList())
                 .Filter(Request.Query.ToList())
                 .Sort(args)
                 .Paginate(args);

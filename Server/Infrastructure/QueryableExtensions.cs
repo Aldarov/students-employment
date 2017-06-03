@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.Extensions.Primitives;
+using Microsoft.EntityFrameworkCore;
 
 namespace Server.Infrastructure
 {
@@ -21,12 +22,18 @@ namespace Server.Infrastructure
         string _order { get; }
     }
 
-    public class QueryArgsBase : IPaginationInfo, ISortInfo
+    public interface IEmbedInfo
+    {
+        string _embed { get; }
+    }
+
+    public class QueryArgsBase : IPaginationInfo, ISortInfo, IEmbedInfo
     {
         public int _page { get; set; } = 1;
         public int _limit { get; set; } = 30;
         public string _sort { get; set; }
         public string _order { get; set; }
+        public string _embed { get; set; }
     }
 
     public static class QueryableExtensions
@@ -45,6 +52,13 @@ namespace Server.Infrastructure
 
             return Expression.Lambda<Func<T, object>>(propAsObject, parameter);            
         }
+
+        private static Expression<Func<T, object>> ExpressionObject<T>(string propertyName)
+        {
+            var parameter = Expression.Parameter(typeof(T));
+            var propAsObject = Expression.Convert(Expression.Property(parameter, propertyName), typeof(object));
+            return Expression.Lambda<Func<T, object>>(propAsObject, parameter);            
+        }        
 
         public static IQueryable<T> Paginate<T>(this IQueryable<T> source, IPaginationInfo pagination)
         {
@@ -127,6 +141,36 @@ namespace Server.Infrastructure
             }
             return query;
         }        
+
+        public static IQueryable<T> Embed<T>(this IQueryable<T> source, List<KeyValuePair<string, StringValues>> queryStrings)
+        {
+            IQueryable<T> query = source;
+            
+            var embedList = queryStrings.Where(x => x.Key == "_embed").FirstOrDefault();
+            if (embedList.Key != null)
+            {
+                
+                foreach (var embed in embedList.Value)
+                {
+                    var embetArray = embed.Split('.').ToList();
+                    var i = 0;
+                    foreach (var item in embetArray)
+                    {
+                        if (i == 0)
+                        {
+                            query = query.Include(ExpressionObject<T>(item));
+                        }
+                        else
+                        {
+                            query = query.ThenInclude(ExpressionObject<T>(item));
+                        }                        
+                        i++;
+                    }
+                }               
+                
+            }
+            return query;
+        }
         
     }
 }

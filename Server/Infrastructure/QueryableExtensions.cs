@@ -34,7 +34,13 @@ namespace Server.Infrastructure
         private static Expression<Func<T, object>> ExpressionForSort<T>(string propertyName)
         {
             var parameter = Expression.Parameter(typeof(T));
-            var property = Expression.Property(parameter, propertyName);
+
+            var nameProperties = propertyName.Split('.').ToList();
+            Expression property = parameter;
+            foreach (var item in nameProperties)
+            {
+                property = Expression.Property(property, item);
+            }            
             var propAsObject = Expression.Convert(property, typeof(object));
 
             return Expression.Lambda<Func<T, object>>(propAsObject, parameter);            
@@ -84,10 +90,11 @@ namespace Server.Infrastructure
             return source;
         }
 
-        public static T ChangeType<T>(string value)
+        public static List<T> ConvertFilter<T>(List<string> filter)
         {
-            var res = (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
-            return res;
+            return filter
+                .Select(x => (T)Convert.ChangeType(x, typeof(T)))
+                .ToList();
         }
 
         public static IQueryable<T> Filter<T>(this IQueryable<T> source, List<KeyValuePair<string, StringValues>> queryStrings)
@@ -98,25 +105,21 @@ namespace Server.Infrastructure
             foreach (var filter in filters)
             {
                 var parameter = Expression.Parameter(typeof(T), "x");
-                var property = Expression.Property(parameter, filter.Key);
 
-                MethodInfo castMethod = typeof(QueryableExtensions).GetMethod("ChangeType").MakeGenericMethod(property.Type);
+                var nameProperties = filter.Key.Split('.').ToList();
+                Expression property = parameter;
+                foreach (var item in nameProperties)
+                {
+                    property = Expression.Property(property, item);
+                }
 
-                var v = castMethod.Invoke(null, new object[] {filter.Value.First()});
-                var val = filter.Value
-                    .Select(x => castMethod.Invoke(null, new object[] {x}))
-                    .ToList();
+                var ConvertFilterMethod = typeof(QueryableExtensions).GetMethod("ConvertFilter").MakeGenericMethod(property.Type);
+                var filterValues = ConvertFilterMethod.Invoke(null, new object[] {filter.Value.ToList()});
 
-                var values = Expression.Constant(val);
+                var methodInfo = filterValues.GetType().GetMethod("Contains", new Type[] { property.Type });
 
-                var methodInfo = val.GetType().GetMethod("Contains", new Type[] { property.Type });
-                //var methodInfo = typeof(List<object>).GetMethod("Contains", new Type[] { typeof(object) });
-
-                var call = Expression.Call(values, methodInfo, property);
-
-                // var value = Expression.Constant(Convert.ChangeType(filter.Value.First(), property.Type, CultureInfo.InvariantCulture));
-                // var equal = Expression.Equal(property, value);
-                // var lambda = Expression.Lambda<Func<T, bool>>(equal, parameter);
+                //Expression.Call(объект, метод объекта, аргументы для метода)
+                var call = Expression.Call(Expression.Constant(filterValues), methodInfo, property); 
 
                 var lambda = Expression.Lambda<Func<T, bool>>(call, parameter);
 

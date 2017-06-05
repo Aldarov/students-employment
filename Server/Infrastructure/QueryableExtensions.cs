@@ -7,11 +7,12 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.Extensions.Primitives;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Server.Infrastructure
 {
     public interface IPaginationInfo
-    { 
+    {
         int _page { get; }
         int _limit { get; }
     }
@@ -47,18 +48,18 @@ namespace Server.Infrastructure
             foreach (var item in nameProperties)
             {
                 property = Expression.Property(property, item);
-            }            
+            }
             var propAsObject = Expression.Convert(property, typeof(object));
 
-            return Expression.Lambda<Func<T, object>>(propAsObject, parameter);            
+            return Expression.Lambda<Func<T, object>>(propAsObject, parameter);
         }
 
         private static Expression<Func<T, object>> ExpressionObject<T>(string propertyName)
         {
             var parameter = Expression.Parameter(typeof(T));
             var propAsObject = Expression.Convert(Expression.Property(parameter, propertyName), typeof(object));
-            return Expression.Lambda<Func<T, object>>(propAsObject, parameter);            
-        }        
+            return Expression.Lambda<Func<T, object>>(propAsObject, parameter);
+        }
 
         public static IQueryable<T> Paginate<T>(this IQueryable<T> source, IPaginationInfo pagination)
         {
@@ -84,7 +85,7 @@ namespace Server.Infrastructure
                 {
                     query = source.OrderBy(ExpressionForSort<T>(sortArray.First()));
                 }
-                
+
                 var i = 1;
                 foreach (var sort in sortArray.Skip(1))
                 {
@@ -95,7 +96,7 @@ namespace Server.Infrastructure
                     else
                     {
                         query = query.ThenBy(ExpressionForSort<T>(sort));
-                    }                    
+                    }
                     i++;
                 }
 
@@ -128,28 +129,28 @@ namespace Server.Infrastructure
                 }
 
                 var ConvertFilterMethod = typeof(QueryableExtensions).GetMethod("ConvertFilter").MakeGenericMethod(property.Type);
-                var filterValues = ConvertFilterMethod.Invoke(null, new object[] {filter.Value.ToList()});
+                var filterValues = ConvertFilterMethod.Invoke(null, new object[] { filter.Value.ToList() });
 
                 var methodInfo = filterValues.GetType().GetMethod("Contains", new Type[] { property.Type });
 
                 //Expression.Call(объект, метод объекта, аргументы для метода)
-                var call = Expression.Call(Expression.Constant(filterValues), methodInfo, property); 
+                var call = Expression.Call(Expression.Constant(filterValues), methodInfo, property);
 
                 var lambda = Expression.Lambda<Func<T, bool>>(call, parameter);
 
                 query = query.Where(lambda);
             }
             return query;
-        }        
+        }
 
-        public static IQueryable<T> Embed<T>(this IQueryable<T> source, List<KeyValuePair<string, StringValues>> queryStrings)
+        public static IQueryable<T> Embed<T>(this IQueryable<T> source, List<KeyValuePair<string, StringValues>> queryStrings) where T : class
         {
             IQueryable<T> query = source;
-            
+
             var embedList = queryStrings.Where(x => x.Key == "_embed").FirstOrDefault();
             if (embedList.Key != null)
             {
-                
+
                 foreach (var embed in embedList.Value)
                 {
                     var embetArray = embed.Split('.').ToList();
@@ -162,15 +163,15 @@ namespace Server.Infrastructure
                         }
                         else
                         {
-                            query = query.ThenInclude(ExpressionObject<T>(item));
-                        }                        
+                            //query = query.ThenInclude(ExpressionObject<T>(item));
+                        }
                         i++;
                     }
-                }               
-                
+                }
+
             }
             return query;
         }
-        
+
     }
 }

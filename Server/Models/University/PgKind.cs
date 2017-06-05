@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Server.Models.University
 {
-    public partial class EducationForm
+    public partial class PgKind
     {
-        public EducationForm()
+        public PgKind()
         {
             PgHeaders = new HashSet<PgHeader>();
+            PgTypes = new HashSet<PgType>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
-        
-        [JsonIgnore]
+
         public virtual ICollection<PgHeader> PgHeaders { get; set; }
+        public virtual ICollection<PgType> PgTypes { get; set; }
     }
 }

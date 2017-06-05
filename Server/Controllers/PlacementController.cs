@@ -25,11 +25,13 @@ namespace Server.Controllers
         }
 
         [HttpGet()]
-        public IEnumerable<Placement> Get(QueryArgsBase args)
+        public IEnumerable<PgHeader> Get(QueryArgsBase args)
         {
-            var p = db.Placements
-                //.Include(x => x.EduForm)
-                .Embed(Request.Query.ToList())
+            var p = db.PgHeaders
+                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DirectionOrganization)
+                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionOrganization)
+                .Include(x => x.EduForm)
+                // .Embed(Request.Query.ToList())
                 .Filter(Request.Query.ToList())
                 .Sort(args)
                 .Paginate(args);

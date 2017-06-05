@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Server.Models.University
+namespace Server.Models.University1
 {
     public class Placement
     {

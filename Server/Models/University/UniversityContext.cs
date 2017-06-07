@@ -20,9 +20,33 @@ namespace Server.Models.University
         public virtual DbSet<School> Schools { get; set; }
         public virtual DbSet<Street> Streets { get; set; }
         public virtual DbSet<Country> Contries { get; set; }
+        public virtual DbSet<Structure> Structures { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Structure>(entity =>
+            {
+                entity.ToTable("vStructure");
+
+                entity.Property(e => e.AffiliateId).HasColumnName("affiliate_id");
+                entity.Property(e => e.Affiliate)
+                    .HasColumnName("affiliate")
+                    .HasColumnType("varchar(50)");
+                entity.Property(e => e.FacultyId).HasColumnName("faculty_id");
+                entity.Property(e => e.Faculty)
+                    .HasColumnName("faculty")
+                    .HasColumnType("varchar(100)");
+                entity.Property(e => e.SpecialityId).HasColumnName("speciality_id");
+                entity.Property(e => e.Speciality)
+                    .HasColumnName("speciality_full")
+                    .HasColumnType("varchar(250)");
+                entity.Property(e => e.GroupId).HasColumnName("group_id");
+                entity.Property(e => e.GroupName)
+                    .HasColumnName("group_name")
+                    .HasColumnType("varchar(100)");
+            });
+
             modelBuilder.Entity<EducationForm>(entity =>
             {
                 entity.ToTable("education_forms");

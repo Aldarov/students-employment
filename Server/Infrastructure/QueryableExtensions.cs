@@ -28,13 +28,19 @@ namespace Server.Infrastructure
         string _embed { get; }
     }
 
-    public class QueryArgsBase : IPaginationInfo, ISortInfo, IEmbedInfo
+    public interface IFullTextSearchInfo
+    {
+        string q { get; }
+    }    
+
+    public class QueryArgsBase : IPaginationInfo, ISortInfo, IEmbedInfo, IFullTextSearchInfo
     {
         public int _page { get; set; } = 1;
         public int _limit { get; set; } = 30;
         public string _sort { get; set; }
         public string _order { get; set; }
         public string _embed { get; set; }
+        public string q { get; set; }
     }
 
     public static class QueryableExtensions
@@ -150,7 +156,6 @@ namespace Server.Infrastructure
             var embedList = queryStrings.Where(x => x.Key == "_embed").FirstOrDefault();
             if (embedList.Key != null)
             {
-
                 foreach (var embed in embedList.Value)
                 {
                     var embetArray = embed.Split('.').ToList();
@@ -168,7 +173,6 @@ namespace Server.Infrastructure
                         i++;
                     }
                 }
-
             }
             return query;
         }

@@ -28,13 +28,11 @@ namespace Server.Controllers
         public IEnumerable<PgHeader> Get(QueryArgsBase args)
         {
             var p = db.PgHeaders
-                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DirectionOrganization)
-                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionOrganization)
                 .Include(x => x.EduForm)
-                // .Embed(Request.Query.ToList())
                 .Filter(Request.Query.ToList())
                 .Sort(args)
-                .Paginate(args);
+                .Paginate(args)
+                .AsNoTracking();
             return p;
         }        
     }

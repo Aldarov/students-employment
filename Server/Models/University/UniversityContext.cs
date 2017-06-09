@@ -22,12 +22,26 @@ namespace Server.Models.University
         public virtual DbSet<Country> Contries { get; set; }
         public virtual DbSet<Structure> Structures { get; set; }
         public virtual DbSet<Placement> Placements { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Student>(entity =>
+            {
+                entity.ToTable("v_pg_students");
+                entity.Property(e => e.StudentId).HasColumnName("student_id");
+                entity.Property(e => e.FullName).HasColumnName("full_name");
+                entity.Property(e => e.RegAddress).HasColumnName("registration");
+                entity.Property(e => e.FinanceId).HasColumnName("finance_id");
+                entity.Property(e => e.Finance).HasColumnName("finance");
+                entity.Property(e => e.EntrTypeId).HasColumnName("entr_type_id");
+                entity.Property(e => e.EntrType).HasColumnName("entr_type");
+                entity.Property(e => e.Phone).HasColumnName("phone");
+            });
+
             modelBuilder.Entity<Placement>(entity =>
             {
-                entity.ToTable("pg_placements");
+                entity.ToTable("v_pg_placements");
                 entity.Property(e => e.Id).HasColumnName("placement_id");
                 entity.Property(e => e.FacultyId).HasColumnName("faculty_id");
                 entity.Property(e => e.Faculty).HasColumnName("faculty");
@@ -260,6 +274,9 @@ namespace Server.Models.University
                     .WithMany(p => p.DistributionContractStuffs)
                     .HasForeignKey(d => d.DistributionSchoolId)
                     .HasConstraintName("FK_pg_contract_stuff_schools1");
+                entity.HasOne(d => d.Student)
+                    .WithMany(p => p.ContractStuffs)
+                    .HasForeignKey(d => d.StudentId);
             });
 
             modelBuilder.Entity<PgGraduateWorkplace>(entity =>

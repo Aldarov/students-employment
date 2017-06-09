@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace Server.Models.University
@@ -25,5 +26,7 @@ namespace Server.Models.University
         public virtual JuridicalPerson DistributionOrganization { get; set; }
         public virtual School DirectionSchool { get; set; }
         public virtual School DistributionSchool { get; set; }
+        [NotMapped]
+        public virtual Student Student { get; set; }
     }
 }

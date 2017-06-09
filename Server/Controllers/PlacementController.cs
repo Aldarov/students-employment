@@ -47,6 +47,7 @@ namespace Server.Controllers
                 .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionType)
                 .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionOrganization)
                 .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionSchool)
+                .Include(x => x.PgContractStuffs).ThenInclude(x => x.Student)
                 .Where(x => x.Id == id)
                 .AsNoTracking()
                 .SingleOrDefault();

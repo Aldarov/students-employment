@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Server.Models.University
 {
@@ -29,7 +30,9 @@ namespace Server.Models.University
         public virtual Kladr SchoolRegion { get; set; }
         public virtual Kladr SchoolSettlement { get; set; }
         public virtual Country Country { get; set; }
+        [JsonIgnore]
         public virtual ICollection<PgContractStuff> DirectionContractStuffs { get; set; }
+        [JsonIgnore]
         public virtual ICollection<PgContractStuff> DistributionContractStuffs { get; set; }
         public virtual ICollection<PgGraduateWorkplace> PgGraduateWorkplaces { get; set; }
     }

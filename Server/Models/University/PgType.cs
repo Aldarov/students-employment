@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Server.Models.University
 {
@@ -15,8 +16,9 @@ namespace Server.Models.University
         public string Name { get; set; }
         public int PgKindId { get; set; }
         public virtual PgKind PgKind { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<PgContractStuff> DirectionContractStuffs { get; set; }
+        [JsonIgnore]
         public virtual ICollection<PgContractStuff> DistributionContractStuffs { get; set; }
     }
 }

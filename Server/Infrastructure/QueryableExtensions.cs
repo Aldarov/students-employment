@@ -31,7 +31,7 @@ namespace Server.Infrastructure
     public interface IFullTextSearchInfo
     {
         string q { get; }
-    }    
+    }
 
     public class QueryArgsBase : IPaginationInfo, ISortInfo, IEmbedInfo, IFullTextSearchInfo
     {
@@ -177,5 +177,14 @@ namespace Server.Infrastructure
             return query;
         }
 
+        public static IQueryable<T> Search<T>(this IQueryable<T> source, string searchSQL, IFullTextSearchInfo args) where T : class
+        {        
+            IQueryable<T> query = source;
+            if (args.q != null)
+            {
+                query = query.FromSql<T>(searchSQL, args.q);
+            }
+            return query;
+        }
     }
 }

@@ -25,15 +25,32 @@ namespace Server.Controllers
         }
 
         [HttpGet()]
-        public IEnumerable<PgHeader> Get(QueryArgsBase args)
+        public IEnumerable<Placement> Get(QueryArgsBase args)
         {
-            var p = db.PgHeaders
-                .Include(x => x.EduForm)
+            var res = db.Placements
+                .Search("select * from dbo.pg_search_placements({0})", args)
                 .Filter(Request.Query.ToList())
                 .Sort(args)
                 .Paginate(args)
                 .AsNoTracking();
-            return p;
+            return res;
+        }
+
+        [HttpGet("{id}")]
+        public PgHeader Get(int id)
+        {
+            var res = db.PgHeaders
+                .Include(x => x.EduForm)
+                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DirectionType)
+                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DirectionOrganization)
+                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DirectionSchool)
+                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionType)
+                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionOrganization)
+                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionSchool)
+                .Where(x => x.Id == id)
+                .AsNoTracking()
+                .SingleOrDefault();
+            return res;
         }        
     }
 }

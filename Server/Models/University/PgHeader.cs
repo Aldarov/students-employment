@@ -15,10 +15,7 @@ namespace Server.Models.University
         public int EntraceYear { get; set; }
         public int EduFormId { get; set; }
         public DateTime DocDate { get; set; }
-        public int PgKindId { get; set; }
-        public DateTime DocDate2 { get; set; }
         public virtual EducationForm EduForm { get; set; }
-        public virtual PgKind PgKind { get; set; }
         public virtual ICollection<PgContractStuff> PgContractStuffs { get; set; }
     }
 }

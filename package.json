@@ -1,0 +1,18 @@
+{
+  "name": "employment",
+  "version": "1.0.0",
+  "description": "student employment",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "restore:client": "cd client && yarn",
+    "restore:server": "cd server && dotnet restore",
+    "start:client": "cd client && yarn start",
+    "start:server": "cd server && dotnet run watch",
+    "start": "concurrently \"yarn start:server\" \"yarn start:client\""
+  },
+  "author": "Alex Aldarov",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^3.5.0"
+  }
+}

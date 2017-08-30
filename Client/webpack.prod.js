@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const extractTextPlugin = require('extract-text-webpack-plugin');
+const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = merge(
   common,
@@ -24,7 +24,7 @@ module.exports = merge(
         {
           test: /\.(scss|css)$/,
           exclude: [/build/],
-          use: ExtractTextPlugin.extract({
+          use: extractTextPlugin.extract({
             publicPath: '../',
             fallback: 'style-loader',
             use: ['css-loader', 'sass-loader']
@@ -33,8 +33,8 @@ module.exports = merge(
       ]
     },
     plugins: [
-      new ExtractTextPlugin('./css/[name]-[hash].css'),
-      new OptimizeCssAssetsPlugin(),
+      new extractTextPlugin('./css/[name]-[hash].css'),
+      new optimizeCssAssetsPlugin(),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false

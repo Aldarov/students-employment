@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
+const htmlWebpackPlugin = require('html-webpack-plugin');
 
 const paths = {
   source: path.resolve(__dirname, 'src'),
@@ -30,7 +30,7 @@ module.exports = {
     }]
   },
   plugins: [
-    new HTMLWebpackPlugin({
+    new htmlWebpackPlugin({
       chunks: ['main', 'common'],
       favicon: paths.source + '/assets/favicon.ico',
       template: paths.source + '/assets/index.html'

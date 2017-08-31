@@ -36,6 +36,7 @@
             "error",
             "always"
         ],
-        "no-console": 1
+        "no-console": "warn",
+        "no-unused-vars": "warn"
     }
 }

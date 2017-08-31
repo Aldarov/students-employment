@@ -1,21 +1,19 @@
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import AuthHOC from './AuthHOC';
+import { Switch, Route } from 'react-router-dom';
 
-import { redirectTo, checkAuth } from '../actions';
-import Main from '../components/Main';
+import EmploymentListContainer from './EmploymentListContainer';
+import EmploymentContainer from './EmploymentContainer';
 
-function mapStateToProps(state) {
-  return {
-    isAuth: state.isAuth
-  };
+class MainContainer extends Component {
+  render() {
+    return (
+      <Switch>
+        <Route exact path='/employment' component={EmploymentListContainer}/>
+        <Route path='/employment/:id' component={EmploymentContainer}/>
+      </Switch>
+    );
+  }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    redirectTo: (path, from) => dispatch(redirectTo(path, from)),
-    checkAuth: () => dispatch(checkAuth())
-    // here need to call function for load of main data
-    // getData: () => dispatch(getData())
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default AuthHOC(MainContainer);

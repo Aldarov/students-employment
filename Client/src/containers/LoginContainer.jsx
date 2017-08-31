@@ -1,6 +1,8 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { login } from '../actions';
 import Login from '../components/Login';
@@ -38,8 +40,8 @@ LoginContainer.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLogin: (l, p, from) => dispatch(login(l, p, from))
+    onLogin: (l, p, from) => bindActionCreators(login(l, p, from), dispatch)
   };
 }
 
-export default connect(null, mapDispatchToProps)(LoginContainer);
+export default connect(null, mapDispatchToProps)(withRouter(LoginContainer));

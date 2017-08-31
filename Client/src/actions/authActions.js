@@ -36,7 +36,7 @@ export function checkAuth() {
       dispatch({ type: LOGIN });
     } else {
       dispatch({ type: LOGOUT });
-      dispatch(redirectTo('/login'));
+      // dispatch(redirectTo('/login'));
     }
   };
 }

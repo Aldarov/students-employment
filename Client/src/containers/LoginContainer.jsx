@@ -1,47 +1,61 @@
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 import { login } from '../actions';
 import Login from '../components/Login';
 
-class LoginContainer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleLogin = this.handleLogin.bind(this);
-  }
-
+class LoginContainer extends Component {
   handleLogin(data) {
     const login = data ? data.login : '';
     const password = data ? data.password : '';
-    let from = null;
-    if (this.props.location.state) {
-      from = this.props.location.state.from;
-    }
-
     if (login && password) {
-      this.props.onLogin(login, password, from);
+      this.props.onLogin(login, password);
     }
-
   }
 
-  render () {
-    return <Login.ReduxForm onSubmit={this.handleLogin} />;
+  handleValidate(values) {
+    const errors = {};
+    const requiredFields = [ 'login', 'password' ];
+    requiredFields.forEach(field => {
+      if (!values[field]) {
+        errors[field] = 'Данное поле обязательное';
+      }
+    });
+
+    return errors;
+  }
+
+  render() {
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    return (
+      this.props.isAuth
+        ? <Redirect to={from}/>
+        : <Login.ReduxForm
+          onSubmit={this.handleLogin.bind(this)}
+          validate={this.handleValidate.bind(this)}
+        />
+    );
   }
 }
-
 LoginContainer.propTypes = {
+  isAuth: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
   onLogin: PropTypes.func.isRequired,
 };
 
-function mapDispatchToProps(dispatch) {
+function mapStateToProps(state) {
   return {
-    onLogin: (l, p, from) => bindActionCreators(login(l, p, from), dispatch)
+    isAuth: state.isAuth
   };
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(LoginContainer));
+function mapDispatchToProps(dispatch) {
+  return {
+    onLogin: (l, p) => dispatch(login(l, p))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
+

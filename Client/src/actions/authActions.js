@@ -1,11 +1,11 @@
 import { apiLogin, apiLogout, apiIsAuth, apiSetRequestHeader } from '../api';
 import { REQUEST_START, REQUEST_END } from './fetchingActions';
-import { redirectTo } from './redirectActions';
+// import { redirectTo } from './redirectActions';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
-export function login(login, password, from) {
+export function login(login, password) {
   return dispatch => {
     dispatch({ type: REQUEST_START });
 
@@ -13,7 +13,6 @@ export function login(login, password, from) {
       .then(() => {
         dispatch({ type: LOGIN });
         dispatch({ type: REQUEST_END });
-        dispatch(redirectTo(from || '/'));
       })
       .catch(() => {
         logout();

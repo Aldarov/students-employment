@@ -59,21 +59,20 @@ Login.propTypes = {
   reset: PropTypes.func
 };
 
-function validate(values) {
-  const errors = {};
-  const requiredFields = [ 'login', 'password' ];
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Данное поле обязательное';
-    }
-  });
+// function validate(values) {
+//   const errors = {};
+//   const requiredFields = [ 'login', 'password' ];
+//   requiredFields.forEach(field => {
+//     if (!values[field]) {
+//       errors[field] = 'Данное поле обязательное';
+//     }
+//   });
 
-  return errors;
-}
+//   return errors;
+// }
 
 export default {
   ReduxForm: reduxForm({
-    form: 'Login',
-    validate
+    form: 'Login'
   })(Login)
 };

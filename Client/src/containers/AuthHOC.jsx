@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
@@ -15,7 +14,8 @@ export default (ChildComponent) => {
 
     render() {
       return (
-        this.props.isAuth ? <ChildComponent/> :
+        this.props.isAuth ?
+          <ChildComponent/> :
           <Redirect to={{ pathname: '/login', state: { from: this.props.location } }}/>
       );
     }
@@ -34,7 +34,7 @@ export default (ChildComponent) => {
 
   function mapDispatchToProps(dispatch) {
     return {
-      checkAuth: () => bindActionCreators(checkAuth, dispatch)
+      checkAuth: () => dispatch(checkAuth())
     };
   }
 

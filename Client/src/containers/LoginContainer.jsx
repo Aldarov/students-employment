@@ -30,9 +30,9 @@ class LoginContainer extends Component {
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
     return (
-      this.props.isAuth
-        ? <Redirect to={from}/>
-        : <Login.ReduxForm
+      this.props.isAuth ?
+        <Redirect to={from}/> :
+        <Login.ReduxForm
           onSubmit={this.handleLogin.bind(this)}
           validate={this.handleValidate.bind(this)}
         />

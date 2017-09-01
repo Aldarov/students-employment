@@ -1,6 +1,5 @@
 import { apiLogin, apiLogout, apiIsAuth, apiSetRequestHeader } from '../api';
 import { REQUEST_START, REQUEST_END } from './fetchingActions';
-// import { redirectTo } from './redirectActions';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
@@ -35,7 +34,6 @@ export function checkAuth() {
       dispatch({ type: LOGIN });
     } else {
       dispatch({ type: LOGOUT });
-      // dispatch(redirectTo('/login'));
     }
   };
 }

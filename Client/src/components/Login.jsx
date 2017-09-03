@@ -35,9 +35,10 @@ class Login extends React.Component {
               floatingLabelText="Пароль"
             /><br/>
 
-            <RaisedButton label="Войти"
-              primary
+            <RaisedButton
               type="submit"
+              label="Войти"
+              primary={true}
               disabled={pristine || submitting}
             />
           </form>
@@ -58,18 +59,6 @@ Login.propTypes = {
   submitting: PropTypes.bool,
   reset: PropTypes.func
 };
-
-// function validate(values) {
-//   const errors = {};
-//   const requiredFields = [ 'login', 'password' ];
-//   requiredFields.forEach(field => {
-//     if (!values[field]) {
-//       errors[field] = 'Данное поле обязательное';
-//     }
-//   });
-
-//   return errors;
-// }
 
 export default {
   ReduxForm: reduxForm({

@@ -7,9 +7,10 @@ import { login } from '../actions';
 import Login from '../components/Login';
 
 class LoginContainer extends Component {
-  handleLogin(data) {
-    const login = data ? data.login : '';
-    const password = data ? data.password : '';
+  handleLogin(values) {
+    console.log('dsds');
+    const login = values ? values.login : '';
+    const password = values ? values.password : '';
     if (login && password) {
       this.props.onLogin(login, password);
     }
@@ -20,7 +21,7 @@ class LoginContainer extends Component {
     const requiredFields = [ 'login', 'password' ];
     requiredFields.forEach(field => {
       if (!values[field]) {
-        errors[field] = 'Данное поле обязательное';
+        errors[field] = 'Заполните данное поле';
       }
     });
 

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import RaisedButton from 'material-ui/RaisedButton';
-import { RenderTextField } from './redux_form_fields/TextField';
-
+// import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
+// import { RenderTextField } from './redux_form_fields/TextField';
+import { TextField } from '@gfpacheco/redux-form-material-ui';
 import './Login.scss';
 
 class Login extends React.Component {
@@ -23,24 +24,28 @@ class Login extends React.Component {
 
             <Field
               name="login"
-              component={RenderTextField}
-              hintText="Введите логин"
-              floatingLabelText="Логин"
+              component={TextField}
+              placeholder="Введите логин"
+              label="Логин"
+              margin="normal"
             />
             <Field
               name="password"
-              component={RenderTextField}
+              component={TextField}
               type="password"
-              hintText="Введите пароль"
-              floatingLabelText="Пароль"
+              placeholder="Введите пароль"
+              label="Пароль"
+              margin="normal"
             /><br/>
 
-            <RaisedButton
+            <Button
               type="submit"
-              label="Войти"
-              primary={true}
+              raised
+              color="primary"
               disabled={pristine || submitting}
-            />
+            >
+              Войти
+            </Button>
           </form>
           <img
             className="Login__image"

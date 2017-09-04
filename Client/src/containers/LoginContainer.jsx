@@ -8,7 +8,6 @@ import Login from '../components/Login';
 
 class LoginContainer extends Component {
   handleLogin(values) {
-    console.log('dsds');
     const login = values ? values.login : '';
     const password = values ? values.password : '';
     if (login && password) {

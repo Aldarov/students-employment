@@ -6,29 +6,29 @@
   version "1.0.0-alpha.8"
   resolved "https://registry.yarnpkg.com/@devexpress/dx-core/-/dx-core-1.0.0-alpha.8.tgz#4d77177615013a9c16cd2a33596b95495e36a225"
 
-"@devexpress/dx-grid-core@1.0.0-alpha.8":
-  version "1.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-grid-core/-/dx-grid-core-1.0.0-alpha.8.tgz#76ad883223404c7bb549016c8ff866ca9e2ac11b"
+"@devexpress/dx-grid-core@1.0.0-alpha.9":
+  version "1.0.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-grid-core/-/dx-grid-core-1.0.0-alpha.9.tgz#a7f88c1df3c804faf07065d82060ed6704223eb0"
 
-"@devexpress/dx-react-core@^1.0.0-alpha.8":
-  version "1.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-core/-/dx-react-core-1.0.0-alpha.8.tgz#366673d63a1fd3f0acdaba42d92083dbd49fab55"
+"@devexpress/dx-react-core@next":
+  version "1.0.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-core/-/dx-react-core-1.0.0-alpha.9.tgz#e4137867d4ce1b0f522d59316b7f2f89a205f3a2"
   dependencies:
     "@devexpress/dx-core" "1.0.0-alpha.8"
     prop-types "^15.5.8"
 
-"@devexpress/dx-react-grid-material-ui@^1.0.0-alpha.8":
-  version "1.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid-material-ui/-/dx-react-grid-material-ui-1.0.0-alpha.8.tgz#195daca816c917c86aba20e28877a6dbcebf5446"
+"@devexpress/dx-react-grid-material-ui@next":
+  version "1.0.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid-material-ui/-/dx-react-grid-material-ui-1.0.0-alpha.9.tgz#5804daf482b1738cc5bdfb6a27ad3d11b60fb220"
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.5.8"
 
-"@devexpress/dx-react-grid@^1.0.0-alpha.8":
-  version "1.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid/-/dx-react-grid-1.0.0-alpha.8.tgz#5c69c540b3f23b94cff8402521ee90e65dedb12e"
+"@devexpress/dx-react-grid@next":
+  version "1.0.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid/-/dx-react-grid-1.0.0-alpha.9.tgz#017a2d4a1c17f438532cbd3e0586a20c007dbb12"
   dependencies:
-    "@devexpress/dx-grid-core" "1.0.0-alpha.8"
+    "@devexpress/dx-grid-core" "1.0.0-alpha.9"
     prop-types "^15.5.8"
 
 "@gfpacheco/redux-form-material-ui@v1.0.0-beta.1":

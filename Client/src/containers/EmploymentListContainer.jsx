@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-// import {
-//   Grid, TableView, TableHeaderRow
-// } from '@devexpress/dx-react-grid-material-ui';
+import {
+  Grid, TableView, TableHeaderRow
+} from '@devexpress/dx-react-grid-material-ui';
 
 class EmploymentList extends Component {
   render() {
     return (
       <div>
-        EmploymentList
-        {/* <Grid
+        <Grid
           rows={[
             { id: 0, product: 'DevExtreme', owner: 'DevExpress' },
             { id: 1, product: 'DevExtreme Reactive', owner: 'DevExpress' },
@@ -20,7 +19,7 @@ class EmploymentList extends Component {
           ]}>
           <TableView />
           <TableHeaderRow />
-        </Grid> */}
+        </Grid>
       </div>
     );
   }

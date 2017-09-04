@@ -9,6 +9,7 @@ class MainContainer extends Component {
   render() {
     return (
       <Switch>
+        <Route exact path="/" component={EmploymentListContainer}/>
         <Route exact path="/employment" component={EmploymentListContainer}/>
         <Route path="/employment/:id" component={EmploymentContainer}/>
       </Switch>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import MainContainer from './containers/MainContainer';
+import Main from './components/Main';
 import LoginContainer from './containers/LoginContainer';
 
 import 'normalize.css';
@@ -12,7 +12,7 @@ function App()  {
     <BrowserRouter>
       <Switch>
         <Route path='/login' component={LoginContainer} />
-        <Route path='/' component={MainContainer} />
+        <Route path='/' component={Main} />
         <Route path='*' render = {() => (<div>Not found</div>)} />
       </Switch>
     </BrowserRouter>

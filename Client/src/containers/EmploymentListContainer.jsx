@@ -1,28 +1,19 @@
-import React, { Component } from 'react';
-import {
-  Grid, TableView, TableHeaderRow
-} from '@devexpress/dx-react-grid-material-ui';
+import { connect } from 'react-redux';
+import EmploymentList from '../Components/EmploymentList';
+// import { actionCreator } from '../actionPath'
 
-class EmploymentList extends Component {
-  render() {
-    return (
-      <div>
-        <Grid
-          rows={[
-            { id: 0, product: 'DevExtreme', owner: 'DevExpress' },
-            { id: 1, product: 'DevExtreme Reactive', owner: 'DevExpress' },
-          ]}
-          columns={[
-            { name: 'id', title: 'ID' },
-            { name: 'product', title: 'Product' },
-            { name: 'owner', title: 'Owner' },
-          ]}>
-          <TableView />
-          <TableHeaderRow />
-        </Grid>
-      </div>
-    );
-  }
-}
+const mapStateToProps = (state, ownProps) => {
+  return {
+  };
+};
 
-export default EmploymentList;
+const mapDispatchToProps = {
+
+};
+
+const EmploymentListContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EmploymentList);
+
+export default EmploymentListContainer;

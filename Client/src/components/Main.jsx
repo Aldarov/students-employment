@@ -115,7 +115,9 @@ class Main extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, title } = this.props;
+    // const { title } = this.state.header;
+    // console.log(this.state.header);
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
@@ -130,7 +132,7 @@ class Main extends Component {
                 <MenuIcon />
               </IconButton>
               <Typography type="title" color="inherit" noWrap>
-                Persistent drawer
+                {title}
               </Typography>
             </Toolbar>
           </AppBar>
@@ -169,7 +171,9 @@ class Main extends Component {
   }
 }
 Main.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  title: PropTypes.string,
+  header: PropTypes.object,
 };
 
 export default AuthHOC(withStyles(styles)(Main));

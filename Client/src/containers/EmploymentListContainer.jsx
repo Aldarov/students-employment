@@ -1,14 +1,17 @@
 import { connect } from 'react-redux';
 import EmploymentList from '../Components/EmploymentList';
-// import { actionCreator } from '../actionPath'
+import { changeTitle } from '../actions';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = () => {
   return {
+
   };
 };
 
-const mapDispatchToProps = {
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onChangeTitle: (t) => dispatch(changeTitle(t))
+  };
 };
 
 const EmploymentListContainer = connect(

@@ -7,6 +7,11 @@ import {
 import './EmploymentList.scss';
 
 class EmploymentList extends Component {
+  componentDidMount() {
+    const { onChangeTitle } = this.props;
+    onChangeTitle('Трудоустройство');
+  }
+
   render() {
     return (
       <div>
@@ -29,7 +34,7 @@ class EmploymentList extends Component {
 }
 
 EmploymentList.propTypes = {
-
+  onChangeTitle: PropTypes.func,
 };
 
 export default EmploymentList;

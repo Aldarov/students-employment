@@ -7,12 +7,14 @@ import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
+
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
+import DescriptionIcon from 'material-ui-icons/Description';
 
 import AuthHOC from '../containers/AuthHOC';
 import EmploymentListContainer from '../containers/EmploymentListContainer';
@@ -24,8 +26,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     width: '100%',
-    height: 430,
-    marginTop: theme.spacing.unit * 3,
+    height: '100vh',
     zIndex: 1,
     overflow: 'hidden',
   },
@@ -147,9 +148,14 @@ class Main extends Component {
                 </IconButton>
               </div>
               <Divider />
-              <List className={classes.list}>mailFolderListItems</List>
-              <Divider />
-              <List className={classes.list}>otherMailFolderListItems</List>
+              <List className={classes.list}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <DescriptionIcon />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Трудоустройство" />
+                </ListItem>
+              </List>
             </div>
           </Drawer>
           <main className={classNames(classes.content, this.state.open && classes.contentShift)}>

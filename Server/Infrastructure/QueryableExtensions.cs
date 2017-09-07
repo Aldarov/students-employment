@@ -36,7 +36,7 @@ namespace Server.Infrastructure
     public class QueryArgsBase : IPaginationInfo, ISortInfo, IEmbedInfo, IFullTextSearchInfo
     {
         public int _page { get; set; } = 1;
-        public int _limit { get; set; } = 30;
+        public int _limit { get; set; } = 0;
         public string _sort { get; set; }
         public string _order { get; set; }
         public string _embed { get; set; }
@@ -69,9 +69,12 @@ namespace Server.Infrastructure
 
         public static IQueryable<T> Paginate<T>(this IQueryable<T> source, IPaginationInfo pagination)
         {
-            return source
-                .Skip((pagination._page - 1) * pagination._limit)
-                .Take(pagination._limit);
+            IQueryable<T> res = source;
+            if (pagination._limit > 0)
+                res = source
+                        .Skip((pagination._page - 1) * pagination._limit)
+                        .Take(pagination._limit);
+            return res;
         }
 
         public static IQueryable<T> Sort<T>(this IQueryable<T> source, ISortInfo sortInfo)

@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
-import EmploymentList from '../Components/EmploymentList';
+import OrganizationList from '../Components/OrganizationList';
 import { changeTitle } from '../actions';
 
 const mapStateToProps = () => {
   return {
-
   };
 };
 
@@ -14,9 +13,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const EmploymentListContainer = connect(
+const OrganizationListContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(EmploymentList);
+)(OrganizationList);
 
-export default EmploymentListContainer;
+export default OrganizationListContainer;

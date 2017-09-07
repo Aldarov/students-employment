@@ -14,7 +14,7 @@ using Server.Infrastructure;
 
 namespace Server.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class PlacementsController : Controller
     {

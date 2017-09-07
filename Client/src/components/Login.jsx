@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-// import RaisedButton from 'material-ui/RaisedButton';
 import Button from 'material-ui/Button';
-// import { RenderTextField } from './redux_form_fields/TextField';
 import { TextField } from '@gfpacheco/redux-form-material-ui';
 import './Login.scss';
 

@@ -4,12 +4,10 @@ import {
   Grid, TableView, TableHeaderRow
 } from '@devexpress/dx-react-grid-material-ui';
 
-import './EmploymentList.scss';
 
 class EmploymentList extends Component {
-  componentDidMount() {
-    const { onChangeTitle } = this.props;
-    onChangeTitle('Трудоустройство');
+  componentWillMount() {
+    this.props.onChangeTitle('Трудоустройство');
   }
 
   render() {

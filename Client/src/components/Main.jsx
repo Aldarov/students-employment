@@ -15,11 +15,11 @@ import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import DescriptionIcon from 'material-ui-icons/Description';
+import AccountBalanceIcon from 'material-ui-icons/AccountBalance';
 
-import AuthHOC from '../containers/AuthHOC';
 import EmploymentListContainer from '../containers/EmploymentListContainer';
 import EmploymentContainer from '../containers/EmploymentContainer';
-import './Main.scss';
+import OrganizationListContainer from '../containers/OrganizationListContainer';
 
 const drawerWidth = 240;
 
@@ -114,10 +114,18 @@ class Main extends Component {
     this.setState({ open: false });
   };
 
+  handleRedirectToEmployment = () => {
+    const { push } = this.props.history;
+    push('employment');
+  };
+
+  handleRedirectToOrganization = () => {
+    const { push } = this.props.history;
+    push('organization');
+  };
+
   render() {
     const { classes, title } = this.props;
-    // const { title } = this.state.header;
-    // console.log(this.state.header);
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
@@ -151,11 +159,17 @@ class Main extends Component {
               </div>
               <Divider />
               <List className={classes.list}>
-                <ListItem button>
+                <ListItem button onClick={this.handleRedirectToEmployment}>
                   <ListItemIcon>
                     <DescriptionIcon />
                   </ListItemIcon>
                   <ListItemText inset primary="Трудоустройство" />
+                </ListItem>
+                <ListItem button onClick={this.handleRedirectToOrganization.bind(this)}>
+                  <ListItemIcon>
+                    <AccountBalanceIcon />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Организации" />
                 </ListItem>
               </List>
             </div>
@@ -164,6 +178,7 @@ class Main extends Component {
             <Route exact path="/" component={EmploymentListContainer}/>
             <Route exact path="/employment" component={EmploymentListContainer}/>
             <Route path="/employment/:id" component={EmploymentContainer}/>
+            <Route exact path="/organization" component={OrganizationListContainer}/>
           </main>
         </div>
       </div>
@@ -173,7 +188,7 @@ class Main extends Component {
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
   title: PropTypes.string,
-  header: PropTypes.object,
+  history: PropTypes.object,
 };
 
-export default AuthHOC(withStyles(styles)(Main));
+export default withStyles(styles)(Main);

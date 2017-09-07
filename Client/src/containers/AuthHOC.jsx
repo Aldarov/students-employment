@@ -3,15 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
-import { checkAuth } from '../actions';
-
 export default (ChildComponent) => {
 
   class AuthHOC extends Component {
-    componentWillMount() {
-      this.props.checkAuth();
-    }
-
     render() {
       return (
         this.props.isAuth ?
@@ -22,7 +16,6 @@ export default (ChildComponent) => {
   }
   AuthHOC.propTypes = {
     isAuth: PropTypes.bool.isRequired,
-    checkAuth: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired
   };
 
@@ -32,9 +25,8 @@ export default (ChildComponent) => {
     };
   }
 
-  function mapDispatchToProps(dispatch) {
+  function mapDispatchToProps() {
     return {
-      checkAuth: () => dispatch(checkAuth())
     };
   }
 

@@ -8,9 +8,13 @@ import {
 class EmploymentList extends Component {
   componentWillMount() {
     this.props.onChangeTitle('Трудоустройство');
+    this.props.onGetEmploymentList({ limit: 30 })
+      .then((res) => {console.log(res);});
   }
 
   render() {
+    const { employmentList } = this.props;
+    console.log(employmentList);
     return (
       <div>
         <Grid
@@ -33,6 +37,8 @@ class EmploymentList extends Component {
 
 EmploymentList.propTypes = {
   onChangeTitle: PropTypes.func,
+  onGetEmploymentList: PropTypes.func,
+  employmentList: PropTypes.array,
 };
 
 export default EmploymentList;

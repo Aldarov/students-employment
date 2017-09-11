@@ -17,7 +17,6 @@ export function apiGetEmployment(page, limit, sort, order, search) {
   if (search) {
     url = url + 'q=' + search;
   }
-
   return axios.get(url)
     .then(response => {
       return response;

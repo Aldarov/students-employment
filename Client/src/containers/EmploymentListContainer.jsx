@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
       { name: 'eduForm', title: 'Форма обучения' },
     ],
     pageSize: state.employment.list.info.limit,
-    currentPage: state.employment.list.info.page,
+    currentPage: state.employment.list.info.page - 1,
     totalCount: state.employment.list.info.totalRecord,
     loading: state.fetching
   };
@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onChangeTitle: () => dispatch(changeTitle('Трудоустройство')),
-    onLoadData: (page) => dispatch(GetEmploymentList({ limit: 20, page }))
+    onLoadData: (page) => dispatch(GetEmploymentList({ limit: 15, page: page + 1 }))
   };
 };
 

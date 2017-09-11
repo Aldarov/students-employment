@@ -35,8 +35,6 @@ const styles = theme => ({
     width: '100%',
     height: '100%',
   },
-  main: {
-  },
   appBar: {
     position: 'fixed',
     transition: theme.transitions.create(['margin', 'width'], {
@@ -92,7 +90,7 @@ const styles = theme => ({
 
 class Main extends Component {
   state = {
-    open: false
+    open: true
   };
 
   handleDrawerOpen = () => {
@@ -154,7 +152,7 @@ class Main extends Component {
                   </ListItemIcon>
                   <ListItemText inset primary="Трудоустройство" />
                 </ListItem>
-                <ListItem button onClick={this.handleRedirectToOrganization.bind(this)}>
+                <ListItem button onClick={this.handleRedirectToOrganization}>
                   <ListItemIcon>
                     <AccountBalanceIcon />
                   </ListItemIcon>

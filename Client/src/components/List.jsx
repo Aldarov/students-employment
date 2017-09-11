@@ -6,27 +6,24 @@ import {
 import {
   Grid, TableView, TableHeaderRow, PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
-import { withStyles } from 'material-ui/styles';
-
-const styles = () => ({
-  grid: {
-  }}
-);
+// import { withStyles } from 'material-ui/styles';
+import Loading from './common/Loading';
 
 class List extends Component {
   componentWillMount() {
     this.props.onChangeTitle();
-    this.props.onLoadData(1);
+    this.props.onLoadData();
   }
 
   changeCurrentPage = (currentPage) => {
-    this.props.onLoadData(currentPage);
+    if (currentPage != this.props.currentPage )
+      this.props.onLoadData(currentPage);
   }
 
   render() {
-    const { classes, data, columns, pageSize, currentPage, totalCount, loading } = this.props;
+    const { data, columns, pageSize, currentPage, totalCount, loading } = this.props;
     return (
-      <div className={classes.grid}>
+      <div>
         <Grid
           rows={data}
           columns={columns}>
@@ -40,6 +37,7 @@ class List extends Component {
           <TableHeaderRow />
           <PagingPanel />
         </Grid>
+        {loading && <Loading />}
       </div>
     );
   }
@@ -57,4 +55,4 @@ List.propTypes = {
   loading: PropTypes.bool,
 };
 
-export default withStyles(styles)(List);
+export default List;

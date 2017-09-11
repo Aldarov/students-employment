@@ -71,10 +71,30 @@ namespace Server.Infrastructure
         {
             IQueryable<T> res = source;
             if (pagination._limit > 0)
+            {
                 res = source
                         .Skip((pagination._page - 1) * pagination._limit)
                         .Take(pagination._limit);
+            }
             return res;
+        }
+
+        public static PaginateResult<T> PaginateResult<T>(this IQueryable<T> source, IPaginationInfo pagination)
+        {
+            PaginateResult<T> result = new PaginateResult<T>();
+            int count_rec = 0;
+            IQueryable<T> query = source;
+            if (pagination._limit > 0)
+            {
+                count_rec = source.Count();
+                query = source
+                        .Skip((pagination._page - 1) * pagination._limit)
+                        .Take(pagination._limit);
+            }
+            result.Data = query;
+            result.Info = new PaginateInfo() { Page = pagination._page, Limit = pagination._limit, TotalRecord = count_rec };
+            
+            return result;
         }
 
         public static IQueryable<T> Sort<T>(this IQueryable<T> source, ISortInfo sortInfo)

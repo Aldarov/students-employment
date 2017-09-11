@@ -25,15 +25,15 @@ namespace Server.Controllers
         }
 
         [HttpGet()]
-        public IEnumerable<Placement> Get(QueryArgsBase args)
+        public JsonResult Get(QueryArgsBase args)
         {
             var res = db.Placements
                 .Search("select * from dbo.pg_search_placements({0})", args)
                 .Filter(Request.Query.ToList())
                 .Sort(args)
-                .Paginate(args)
-                .AsNoTracking();
-            return res;
+                .AsNoTracking()
+                .PaginateResult(args);
+            return Json(res);
         }
 
         [HttpGet("{id}")]

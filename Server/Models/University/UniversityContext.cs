@@ -47,7 +47,7 @@ namespace Server.Models.University
                 entity.Property(e => e.Faculty).HasColumnName("faculty");
                 entity.Property(e => e.SpecialityId).HasColumnName("speciality_id");
                 entity.Property(e => e.Speciality).HasColumnName("speciality");
-                entity.Property(e => e.EntraceYear).HasColumnName("entrace_year");
+                entity.Property(e => e.EntranceYear).HasColumnName("entrace_year");
                 entity.Property(e => e.EduFormId).HasColumnName("edu_form_id");
                 entity.Property(e => e.EduForm).HasColumnName("edu_form");
             });

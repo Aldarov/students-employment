@@ -26,7 +26,6 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     width: '100%',
-    height: '100vh',
     zIndex: 1,
     overflow: 'hidden',
   },
@@ -36,8 +35,10 @@ const styles = theme => ({
     width: '100%',
     height: '100%',
   },
+  main: {
+  },
   appBar: {
-    position: 'absolute',
+    position: 'fixed',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -59,8 +60,6 @@ const styles = theme => ({
     display: 'none',
   },
   drawerPaper: {
-    position: 'relative',
-    height: 'auto',
     width: drawerWidth,
   },
   drawerHeader: {
@@ -68,32 +67,22 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
-    height: 56,
+    height: 48,
     [theme.breakpoints.up('sm')]: {
       height: 64,
     },
   },
   content: {
     width: '100%',
-    marginLeft: -drawerWidth,
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    height: 'calc(100% - 56px)',
-    marginTop: 56,
+    padding: theme.spacing.unit,
+    marginTop: 48,
     [theme.breakpoints.up('sm')]: {
-      content: {
-        height: 'calc(100% - 64px)',
-        marginTop: 64,
-      },
+      marginTop: 64
     },
   },
   contentShift: {
-    marginLeft: 0,
+    marginLeft: drawerWidth,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -158,7 +147,7 @@ class Main extends Component {
                 </IconButton>
               </div>
               <Divider />
-              <List className={classes.list}>
+              <List>
                 <ListItem button onClick={this.handleRedirectToEmployment}>
                   <ListItemIcon>
                     <DescriptionIcon />

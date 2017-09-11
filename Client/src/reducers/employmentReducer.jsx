@@ -1,9 +1,15 @@
 import { GET_EMPLOYMENT_LIST } from '../actions';
 
-export default function reducer(state = {}, action) {
+const defaultData = {
+  list: {
+    data : [],
+    info: { limit: 0, page: 1, totalRecord: 0 }
+  }
+};
+export default function reducer(state = defaultData, action) {
   switch (action.type) {
   case GET_EMPLOYMENT_LIST:
-    return { list: action.data};
+    return {...state, list: action.data};
   default:
     return state;
   }

@@ -15,14 +15,18 @@ const mapStateToProps = (state) => {
     pageSize: state.employment.list.info.limit,
     currentPage: state.employment.list.info.page - 1,
     totalCount: state.employment.list.info.totalRecord,
-    loading: state.fetching
+    loading: state.fetching,
+    searchPlaceholder: 'Поиск по слову',
+    // searchSuggestions,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onChangeTitle: () => dispatch(changeTitle('Трудоустройство')),
-    onLoadData: (page) => dispatch(GetEmploymentList({ limit: 15, page: page + 1 }))
+    onLoadData: (page) => dispatch(GetEmploymentList({ limit: 15, page: page + 1 })),
+    // onSuggestionsFetchRequested: (value) => {},
+    // onSuggestionsClearRequested: () => {}
   };
 };
 

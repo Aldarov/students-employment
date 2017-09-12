@@ -8,6 +8,7 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 // import { withStyles } from 'material-ui/styles';
 import Loading from './common/Loading';
+import Autocomplete from './common/Autocomplete';
 
 class List extends Component {
   componentWillMount() {
@@ -21,9 +22,19 @@ class List extends Component {
   }
 
   render() {
-    const { data, columns, pageSize, currentPage, totalCount, loading } = this.props;
+    const {
+      data, columns, pageSize, currentPage, totalCount, loading,
+      searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested, onSuggestionsClearRequested, onChangeSearchValue
+    } = this.props;
     return (
       <div>
+        <Autocomplete
+          placeholder={searchPlaceholder}
+          suggestions={searchSuggestions}
+          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          onChangeValue={onChangeSearchValue}
+        />
         <Grid
           rows={data}
           columns={columns}>
@@ -53,6 +64,12 @@ List.propTypes = {
   currentPage: PropTypes.number,
   totalCount: PropTypes.number,
   loading: PropTypes.bool,
+
+  searchPlaceholder: PropTypes.object,
+  searchSuggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
+  onSuggestionsFetchRequested: PropTypes.func,
+  onSuggestionsClearRequested: PropTypes.func,
+  onChangeSearchValue: PropTypes.func,
 };
 
 export default List;

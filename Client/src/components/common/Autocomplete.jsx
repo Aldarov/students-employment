@@ -28,7 +28,9 @@ function renderInput(inputProps) {
 }
 
 function getSuggestionValue(suggestion) {
-  return suggestion.id;
+// this.props.onChangeValue(newValue);
+// console.log(suggestion);
+  return suggestion.name;
 }
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
@@ -95,28 +97,14 @@ class Autocomplete extends React.Component {
     value: '',
   };
 
-  // handleSuggestionsFetchRequested = ({ value }) => {
-  //   this.setState({
-  //     suggestions: getSuggestions(value),
-  //   });
-  // };
-
-  // handleSuggestionsClearRequested = () => {
-  //   this.setState({
-  //     suggestions: [],
-  //   });
-  // };
-
   handleChange = (event, { newValue }) => {
     this.setState({
       value: newValue,
     });
-    // this.props.onChangeValue(newValue);
   };
 
   render() {
     const { classes, placeholder, suggestions, onSuggestionsFetchRequested, onSuggestionsClearRequested} = this.props;
-
     return (
       <Autosuggest
         renderInputComponent={renderInput}
@@ -129,7 +117,7 @@ class Autocomplete extends React.Component {
         inputProps={{
           autoFocus: true,
           classes,
-          placeholder: {placeholder},
+          placeholder,
           value: this.state.value,
           onChange: this.handleChange,
         }}
@@ -140,11 +128,11 @@ class Autocomplete extends React.Component {
 
 Autocomplete.propTypes = {
   classes: PropTypes.object.isRequired,
-  placeholder: PropTypes.object,
+  placeholder: PropTypes.string,
   suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,
-  // onChangeValue: PropTypes.func,
+  onChangeValue: PropTypes.func,
 };
 
 export default withStyles(styles)(Autocomplete);

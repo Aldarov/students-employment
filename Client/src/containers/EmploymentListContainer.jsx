@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
 import List from '../Components/List';
-import { changeTitle, GetEmploymentList } from '../actions';
+import {
+  changeTitle, getEmploymentList,
+  getSearchSuggestions, clearSearchSuggestions
+} from '../actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -16,17 +19,17 @@ const mapStateToProps = (state) => {
     currentPage: state.employment.list.info.page - 1,
     totalCount: state.employment.list.info.totalRecord,
     loading: state.fetching,
-    searchPlaceholder: 'Поиск по слову',
-    // searchSuggestions,
+    searchPlaceholder: 'Для поиска введите значения через пробел',
+    searchSuggestions: state.employment.list.searchSuggestions,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onChangeTitle: () => dispatch(changeTitle('Трудоустройство')),
-    onLoadData: (page) => dispatch(GetEmploymentList({ limit: 15, page: page + 1 })),
-    // onSuggestionsFetchRequested: (value) => {},
-    // onSuggestionsClearRequested: () => {}
+    onLoadData: (page) => dispatch(getEmploymentList({ limit: 15, page: page + 1 })),
+    onSuggestionsFetchRequested: (valueObj) => dispatch(getSearchSuggestions({ limit: 20, search: valueObj.value })),
+    onSuggestionsClearRequested: () => dispatch(clearSearchSuggestions())
   };
 };
 

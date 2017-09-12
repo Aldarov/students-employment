@@ -13,7 +13,7 @@ import Autocomplete from './common/Autocomplete';
 class List extends Component {
   componentWillMount() {
     this.props.onChangeTitle();
-    this.props.onLoadData();
+    this.props.onLoadData(0);
   }
 
   changeCurrentPage = (currentPage) => {
@@ -65,7 +65,7 @@ List.propTypes = {
   totalCount: PropTypes.number,
   loading: PropTypes.bool,
 
-  searchPlaceholder: PropTypes.object,
+  searchPlaceholder: PropTypes.string,
   searchSuggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,

@@ -5,26 +5,34 @@ import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import { MenuItem } from 'material-ui/Menu';
 import { withStyles } from 'material-ui/styles';
+import IconButton from 'material-ui/IconButton';
+import ClearIcon from 'material-ui-icons/Clear';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import _ from 'lodash';
 
 function renderInput(inputProps) {
-  const { classes, home, value, ref, ...other } = inputProps;
+  const { classes, home, value, ref, onClearSelectSuggestion, inputDisable, ...other } = inputProps;
 
   return (
-    <TextField
-      autoFocus={home}
-      className={classes.textField}
-      value={value}
-      inputRef={ref}
-      InputProps={{
-        classes: {
-          input: classes.input,
-        },
-        ...other,
-      }}
-    />
+    <div className={classes.renderInput}>
+      <TextField
+        disabled={inputDisable}
+        autoFocus={home}
+        className={classes.textField}
+        value={value}
+        inputRef={ref}
+        InputProps={{
+          classes: {
+            input: classes.input,
+          },
+          ...other,
+        }}
+      />
+      <IconButton disabled={!value} onClick={onClearSelectSuggestion} >
+        <ClearIcon />
+      </IconButton>
+    </div>
   );
 }
 
@@ -85,17 +93,24 @@ const styles = theme => ({
   textField: {
     width: '100%',
   },
+  renderInput: {
+    display: 'flex',
+    width: '75%'
+  }
 });
 
 class Autocomplete extends React.Component {
-  state = { value: '' };
+  state = { value: '', inputDisable: false };
 
   handleChange = (event, { newValue }) => {
     this.setState({ value: newValue });
   };
 
   handleSuggestionSelected = (event, {suggestion}) => {
-    this.props.onSuggestionSelected(suggestion.id);
+    if (suggestion && suggestion.id) {
+      this.setState({ inputDisable: true });
+      this.props.onSuggestionSelected(suggestion.id);
+    }
   }
 
   handleGetSuggestionValue = (suggestion) => {
@@ -106,6 +121,11 @@ class Autocomplete extends React.Component {
     _.debounce((val) => {
       this.props.onSuggestionsFetchRequested(val);
     }, 500)(value);
+  }
+
+  handleClearSelectSuggestion = () => {
+    this.props.onClearSelectSuggestion();
+    this.setState({ value: '', inputDisable: false });
   }
 
   render() {
@@ -131,6 +151,8 @@ class Autocomplete extends React.Component {
           placeholder,
           value: this.state.value,
           onChange: this.handleChange,
+          onClearSelectSuggestion: this.handleClearSelectSuggestion,
+          inputDisable: this.state.inputDisable
         }}
         getSuggestionValue={this.handleGetSuggestionValue}
         onSuggestionSelected={this.handleSuggestionSelected}
@@ -147,6 +169,7 @@ Autocomplete.propTypes = {
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,
   onSuggestionSelected: PropTypes.func,
+  onClearSelectSuggestion: PropTypes.func,
 };
 
 export default withStyles(styles)(Autocomplete);

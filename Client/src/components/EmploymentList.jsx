@@ -16,6 +16,11 @@ export default class EmploymentList extends Component {
       this.props.onLoadData(currentPage);
   }
 
+  handleClearSelectSuggestion = () => {
+    this.props.onSuggestionsClearRequested();
+    this.props.onLoadData();
+  }
+
   render() {
     const {
       searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested, onSuggestionsClearRequested, onSuggestionSelected,
@@ -30,6 +35,7 @@ export default class EmploymentList extends Component {
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           onSuggestionSelected={onSuggestionSelected}
+          onClearSelectSuggestion={this.handleClearSelectSuggestion}
         />
         <List
           data={data}
@@ -37,6 +43,7 @@ export default class EmploymentList extends Component {
           pageSize={pageSize}
           currentPage={currentPage}
           totalCount={totalCount}
+          changeCurrentPage={this.changeCurrentPage}
         />
         {loading && <Loading />}
       </div>

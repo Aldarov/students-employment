@@ -10,7 +10,7 @@ import {
 class List extends Component {
   render() {
     const {
-      data, columns, pageSize, currentPage, totalCount
+      data, columns, pageSize, currentPage, totalCount, changeCurrentPage
     } = this.props;
     return (
       <div>
@@ -19,7 +19,7 @@ class List extends Component {
           columns={columns}>
           <PagingState
             currentPage={currentPage}
-            onCurrentPageChange={this.changeCurrentPage}
+            onCurrentPageChange={changeCurrentPage}
             pageSize={pageSize}
             totalCount={totalCount}
           />
@@ -38,6 +38,7 @@ List.propTypes = {
   pageSize: PropTypes.number,
   currentPage: PropTypes.number,
   totalCount: PropTypes.number,
+  changeCurrentPage: PropTypes.func,
 };
 
 export default List;

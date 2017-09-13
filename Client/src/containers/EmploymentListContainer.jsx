@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => {
     onLoadData: (page) => dispatch(getEmploymentList({ limit: pageSize, page: page + 1 })),
     onSuggestionsFetchRequested: (value) => dispatch(getSearchSuggestions({ limit: 7, search: value })),
     onSuggestionsClearRequested: () => dispatch(clearSearchSuggestions()),
-    onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit: pageSize, page: 1, id: value }))//{ console.log('suggestion: ', value); },
+    onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit: pageSize, page: 1, id: value }))
   };
 };
 

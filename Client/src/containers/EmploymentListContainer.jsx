@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import List from '../Components/List';
+import EmploymentList from '../Components/EmploymentList';
 import {
   changeTitle, getEmploymentList,
   getSearchSuggestions, clearSearchSuggestions
@@ -24,18 +24,21 @@ const mapStateToProps = (state) => {
   };
 };
 
+const pageSize = 15;
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onChangeTitle: () => dispatch(changeTitle('Трудоустройство')),
-    onLoadData: (page) => dispatch(getEmploymentList({ limit: 15, page: page + 1 })),
-    onSuggestionsFetchRequested: (valueObj) => dispatch(getSearchSuggestions({ limit: 20, search: valueObj.value })),
-    onSuggestionsClearRequested: () => dispatch(clearSearchSuggestions())
+    onLoadData: (page) => dispatch(getEmploymentList({ limit: pageSize, page: page + 1 })),
+    onSuggestionsFetchRequested: (value) => dispatch(getSearchSuggestions({ limit: 7, search: value })),
+    onSuggestionsClearRequested: () => dispatch(clearSearchSuggestions()),
+    onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit: pageSize, page: 1, id: value }))//{ console.log('suggestion: ', value); },
   };
 };
 
 const EmploymentListContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(List);
+)(EmploymentList);
 
 export default EmploymentListContainer;

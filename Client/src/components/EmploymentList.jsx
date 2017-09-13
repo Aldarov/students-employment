@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  PagingState,
-} from '@devexpress/dx-react-grid';
-import {
-  Grid, TableView, TableHeaderRow, PagingPanel,
-} from '@devexpress/dx-react-grid-material-ui';
-// import { withStyles } from 'material-ui/styles';
-import Loading from './common/Loading';
-import Autocomplete from './common/Autocomplete';
 
-class List extends Component {
+import List from './common/List';
+import Autocomplete from './common/Autocomplete';
+import Loading from './common/Loading';
+
+export default class EmploymentList extends Component {
   componentWillMount() {
     this.props.onChangeTitle();
-    this.props.onLoadData(0);
+    this.props.onLoadData();
   }
 
   changeCurrentPage = (currentPage) => {
@@ -23,9 +18,10 @@ class List extends Component {
 
   render() {
     const {
+      searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested, onSuggestionsClearRequested, onSuggestionSelected,
       data, columns, pageSize, currentPage, totalCount, loading,
-      searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested, onSuggestionsClearRequested, onChangeSearchValue
     } = this.props;
+
     return (
       <div>
         <Autocomplete
@@ -33,43 +29,36 @@ class List extends Component {
           suggestions={searchSuggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
-          onChangeValue={onChangeSearchValue}
+          onSuggestionSelected={onSuggestionSelected}
         />
-        <Grid
-          rows={data}
-          columns={columns}>
-          <PagingState
-            currentPage={currentPage}
-            onCurrentPageChange={this.changeCurrentPage}
-            pageSize={pageSize}
-            totalCount={totalCount}
-          />
-          <TableView />
-          <TableHeaderRow />
-          <PagingPanel />
-        </Grid>
+        <List
+          data={data}
+          columns={columns}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          totalCount={totalCount}
+        />
         {loading && <Loading />}
       </div>
     );
   }
 }
 
-List.propTypes = {
-  classes: PropTypes.object,
+EmploymentList.propTypes = {
   onChangeTitle: PropTypes.func,
   onLoadData: PropTypes.func,
+
   data: PropTypes.array,
   columns: PropTypes.array,
   pageSize: PropTypes.number,
   currentPage: PropTypes.number,
   totalCount: PropTypes.number,
+
   loading: PropTypes.bool,
 
   searchPlaceholder: PropTypes.string,
   searchSuggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,
-  onChangeSearchValue: PropTypes.func,
+  onSuggestionSelected: PropTypes.func,
 };
-
-export default List;

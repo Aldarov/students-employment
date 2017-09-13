@@ -90,7 +90,7 @@ const styles = theme => ({
 
 class Main extends Component {
   state = {
-    open: true
+    open: false
   };
 
   handleDrawerOpen = () => {
@@ -102,13 +102,13 @@ class Main extends Component {
   };
 
   handleRedirectToEmployment = () => {
-    const { push } = this.props.history;
-    push('employment');
+    this.props.history.push('employment');
+    this.setState({ open: false });
   };
 
   handleRedirectToOrganization = () => {
-    const { push } = this.props.history;
-    push('organization');
+    this.props.history.push('organization');
+    this.setState({ open: false });
   };
 
   render() {

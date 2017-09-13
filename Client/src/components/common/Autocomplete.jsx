@@ -7,6 +7,7 @@ import { MenuItem } from 'material-ui/Menu';
 import { withStyles } from 'material-ui/styles';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
+import _ from 'lodash';
 
 function renderInput(inputProps) {
   const { classes, home, value, ref, ...other } = inputProps;
@@ -27,15 +28,9 @@ function renderInput(inputProps) {
   );
 }
 
-function getSuggestionValue(suggestion) {
-// this.props.onChangeValue(newValue);
-// console.log(suggestion);
-  return suggestion.name;
-}
-
 function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.name, query);
-  const parts = parse(suggestion.name, matches);
+  const matches = match(suggestion.text, query);
+  const parts = parse(suggestion.text, matches);
 
   return (
     <MenuItem selected={isHighlighted} component="div">
@@ -70,7 +65,7 @@ const styles = theme => ({
   container: {
     flexGrow: 1,
     position: 'relative',
-    height: 200,
+    margin: 5,
   },
   suggestionsContainerOpen: {
     position: 'absolute',
@@ -93,26 +88,42 @@ const styles = theme => ({
 });
 
 class Autocomplete extends React.Component {
-  state = {
-    value: '',
-  };
+  state = { value: '' };
 
   handleChange = (event, { newValue }) => {
-    this.setState({
-      value: newValue,
-    });
+    this.setState({ value: newValue });
   };
 
+  handleSuggestionSelected = (event, {suggestion}) => {
+    this.props.onSuggestionSelected(suggestion.id);
+  }
+
+  handleGetSuggestionValue = (suggestion) => {
+    return suggestion.text;
+  }
+
+  handleSuggestionsFetchRequested = ({ value }) => {
+    _.debounce((val) => {
+      this.props.onSuggestionsFetchRequested(val);
+    }, 500)(value);
+  }
+
   render() {
-    const { classes, placeholder, suggestions, onSuggestionsFetchRequested, onSuggestionsClearRequested} = this.props;
+    const {
+      classes, placeholder, suggestions, onSuggestionsClearRequested
+    } = this.props;
     return (
       <Autosuggest
+        theme={{
+          container: classes.container,
+          suggestionsContainerOpen: classes.suggestionsContainerOpen,
+          suggestionsList: classes.suggestionsList,
+          suggestion: classes.suggestion,
+        }}
         renderInputComponent={renderInput}
         suggestions={suggestions}
-        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
         onSuggestionsClearRequested={onSuggestionsClearRequested}
         renderSuggestionsContainer={renderSuggestionsContainer}
-        getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={{
           autoFocus: true,
@@ -121,6 +132,9 @@ class Autocomplete extends React.Component {
           value: this.state.value,
           onChange: this.handleChange,
         }}
+        getSuggestionValue={this.handleGetSuggestionValue}
+        onSuggestionSelected={this.handleSuggestionSelected}
+        onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
       />
     );
   }
@@ -129,10 +143,10 @@ class Autocomplete extends React.Component {
 Autocomplete.propTypes = {
   classes: PropTypes.object.isRequired,
   placeholder: PropTypes.string,
-  suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
+  suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, text: <text> }
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,
-  onChangeValue: PropTypes.func,
+  onSuggestionSelected: PropTypes.func,
 };
 
 export default withStyles(styles)(Autocomplete);

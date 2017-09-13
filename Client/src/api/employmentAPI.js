@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function apiGetEmployment({page, limit, sort, order, search}) {
+export function apiGetEmployment({page, limit, sort, order, search, ...other}) {
   let url = 'api/placements?';
   if (limit) {
     url = url + '_limit=' + limit + '&';
@@ -15,7 +15,10 @@ export function apiGetEmployment({page, limit, sort, order, search}) {
     url = url + '_order=' + order + '&';
   }
   if (search) {
-    url = url + 'q=' + search;
+    url = url + 'q=' + search + '&';
+  }
+  if (other.id) {
+    url = url + 'id=' + other.id + '&';
   }
   return axios.get(url)
     .then(response => {

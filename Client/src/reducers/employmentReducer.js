@@ -21,7 +21,7 @@ export default function reducer(state = defaultData, action) {
     };
   }
   case GET_EMPLOYMENT_SUGGESTIONS: {
-    const suggestions = action.data.data.map((item)=> ({ id: item.id, name: item.id + ' ' +
+    const suggestions = action.data.data.map((item)=> ({ id: item.id, text: item.id + ' ' +
       item.faculty + ' ' + item.speciality + ' ' + item.entranceYear + ' ' + item.eduForm }));
     return {...state,
       list: {

@@ -81,6 +81,7 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 3,
     left: 0,
     right: 0,
+    zIndex: 999999
   },
   suggestion: {
     display: 'block',
@@ -117,10 +118,12 @@ class Autocomplete extends React.Component {
     return suggestion.text;
   }
 
+  debounceSuggestionsFetch = _.debounce((val) => {
+    this.props.onSuggestionsFetchRequested(val);
+  }, 500);
+
   handleSuggestionsFetchRequested = ({ value }) => {
-    _.debounce((val) => {
-      this.props.onSuggestionsFetchRequested(val);
-    }, 500)(value);
+    this.debounceSuggestionsFetch(value);
   }
 
   handleClearSelectSuggestion = () => {

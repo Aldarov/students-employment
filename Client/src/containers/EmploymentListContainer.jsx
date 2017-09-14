@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
       { name: 'eduForm', title: 'Форма обучения' },
     ],
     pageSize: state.employment.list.info.limit,
-    currentPage: state.employment.list.info.page - 1,
+    currentPage: state.employment.list.info.page,
     totalCount: state.employment.list.info.totalRecord,
     loading: state.fetching,
     searchPlaceholder: 'Для поиска введите значения через пробел',
@@ -24,12 +24,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-const pageSize = 15;
+const pageSize = 14;
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onChangeTitle: () => dispatch(changeTitle('Трудоустройство')),
-    onLoadData: (page) => dispatch(getEmploymentList({ limit: pageSize, page: page + 1 })),
+    onLoadData: ({...args}) => dispatch(getEmploymentList({ limit: pageSize, page: args.page, sorting: args.sorting })),
     onSuggestionsFetchRequested: (value) => dispatch(getSearchSuggestions({ limit: 7, search: value })),
     onSuggestionsClearRequested: () => dispatch(clearSearchSuggestions()),
     onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit: pageSize, page: 1, id: value }))

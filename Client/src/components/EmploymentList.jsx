@@ -6,19 +6,30 @@ import Autocomplete from './common/Autocomplete';
 import Loading from './common/Loading';
 
 export default class EmploymentList extends Component {
+  state = { sorting: [] }
+
   componentWillMount() {
     this.props.onChangeTitle();
-    this.props.onLoadData();
+    this.props.onLoadData({ sorting: this.state.sorting });
   }
 
   changeCurrentPage = (currentPage) => {
     if (currentPage != this.props.currentPage )
-      this.props.onLoadData(currentPage);
+      this.props.onLoadData({ page: currentPage, sorting: this.state.sorting });
   }
 
   handleClearSelectSuggestion = () => {
     this.props.onSuggestionsClearRequested();
-    this.props.onLoadData();
+    this.props.onLoadData({ sorting: this.state.sorting });
+  }
+
+  changeSorting = (sorting) => {
+    this.setState({ sorting: sorting });
+    this.props.onLoadData({ page: this.props.currentPage, sorting });
+  }
+
+  commitChanges = () => {
+
   }
 
   render() {
@@ -44,6 +55,13 @@ export default class EmploymentList extends Component {
           currentPage={currentPage}
           totalCount={totalCount}
           changeCurrentPage={this.changeCurrentPage}
+          allowSorting
+          sorting={this.state.sorting}
+          changeSorting={this.changeSorting}
+          allowAdding
+          allowEditing
+          allowDeleting
+          commitChanges={this.commitChanges}
         />
         {loading && <Loading />}
       </div>

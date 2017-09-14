@@ -35,7 +35,7 @@ namespace Server.Infrastructure
 
     public class QueryArgsBase : IPaginationInfo, ISortInfo, IEmbedInfo, IFullTextSearchInfo
     {
-        public int _page { get; set; } = 1;
+        public int _page { get; set; } = 0;
         public int _limit { get; set; } = 0;
         public string _sort { get; set; }
         public string _order { get; set; }
@@ -73,7 +73,7 @@ namespace Server.Infrastructure
             if (pagination._limit > 0)
             {
                 res = source
-                        .Skip((pagination._page - 1) * pagination._limit)
+                        .Skip((pagination._page) * pagination._limit)
                         .Take(pagination._limit);
             }
             return res;
@@ -88,7 +88,7 @@ namespace Server.Infrastructure
             {
                 count_rec = source.Count();
                 query = source
-                        .Skip((pagination._page - 1) * pagination._limit)
+                        .Skip((pagination._page) * pagination._limit)
                         .Take(pagination._limit);
             }
             result.Data = query;

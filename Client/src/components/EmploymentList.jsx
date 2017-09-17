@@ -6,26 +6,9 @@ import Autocomplete from './common/Autocomplete';
 import Loading from './common/Loading';
 
 export default class EmploymentList extends Component {
-  state = { sorting: [] }
-
   componentWillMount() {
     this.props.onChangeTitle();
-    this.props.onLoadData({ sorting: this.state.sorting });
-  }
-
-  changeCurrentPage = (currentPage) => {
-    if (currentPage != this.props.currentPage )
-      this.props.onLoadData({ page: currentPage, sorting: this.state.sorting });
-  }
-
-  handleClearSelectSuggestion = () => {
-    this.props.onSuggestionsClearRequested();
-    this.props.onLoadData({ sorting: this.state.sorting });
-  }
-
-  changeSorting = (sorting) => {
-    this.setState({ sorting: sorting });
-    this.props.onLoadData({ page: this.props.currentPage, sorting });
+    this.props.onLoadData();
   }
 
   commitChanges = () => {
@@ -34,8 +17,10 @@ export default class EmploymentList extends Component {
 
   render() {
     const {
-      searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested, onSuggestionsClearRequested, onSuggestionSelected,
-      data, columns, pageSize, currentPage, totalCount, loading,
+      searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested,
+      onSuggestionsClearRequested, onSuggestionSelected,
+      onChangePage, onChangeSorting, onClearSelectSuggestion,
+      data, columns, pageSize, currentPage, totalCount, loading, sorting
     } = this.props;
 
     return (
@@ -46,7 +31,7 @@ export default class EmploymentList extends Component {
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           onSuggestionSelected={onSuggestionSelected}
-          onClearSelectSuggestion={this.handleClearSelectSuggestion}
+          onClearSelectSuggestion={onClearSelectSuggestion}
         />
         <List
           data={data}
@@ -54,10 +39,10 @@ export default class EmploymentList extends Component {
           pageSize={pageSize}
           currentPage={currentPage}
           totalCount={totalCount}
-          changeCurrentPage={this.changeCurrentPage}
+          changeCurrentPage={onChangePage}
           allowSorting
-          sorting={this.state.sorting}
-          changeSorting={this.changeSorting}
+          sorting={sorting}
+          changeSorting={onChangeSorting}
           allowAdding
           allowEditing
           allowDeleting
@@ -78,6 +63,7 @@ EmploymentList.propTypes = {
   pageSize: PropTypes.number,
   currentPage: PropTypes.number,
   totalCount: PropTypes.number,
+  sorting: PropTypes.array,
 
   loading: PropTypes.bool,
 
@@ -86,4 +72,7 @@ EmploymentList.propTypes = {
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,
   onSuggestionSelected: PropTypes.func,
+  onChangeSorting: PropTypes.func,
+  onChangePage: PropTypes.func,
+  onClearSelectSuggestion: PropTypes.func,
 };

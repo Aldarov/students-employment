@@ -1,5 +1,6 @@
 import {
-  GET_EMPLOYMENT_LIST, GET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS, SET_EMPLOYMENT_LIST_SORTING
+  GET_EMPLOYMENT_LIST, SET_EMPLOYMENT_LIST_SORTING,
+  GET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
 } from '../actions';
 
 const defaultData = {
@@ -22,24 +23,7 @@ export default function reducer(state = defaultData, action) {
       }
     };
   }
-  case GET_EMPLOYMENT_SUGGESTIONS: {
-    return {
-      ...state,
-      list: {
-        ...state.list,
-        searchSuggestions: action.data
-      }
-    };
-  }
-  case CLEAR_EMPLOYMENT_SUGGESTIONS:
-    return {
-      ...state,
-      list: {
-        ...state.list,
-        searchSuggestions: []
-      }
-    };
-  case SET_EMPLOYMENT_LIST_SORTING:
+  case SET_EMPLOYMENT_LIST_SORTING: {
     return {
       ...state,
       list: {
@@ -50,6 +34,28 @@ export default function reducer(state = defaultData, action) {
         }
       }
     };
+  }
+
+  case GET_EMPLOYMENT_SUGGESTIONS: {
+    const suggestions = action.data.map((item)=> ({ id: item.id, text: item.id + ', ' +
+      item.faculty + ', ' + item.speciality + ', ' + item.entranceYear + ', ' + item.eduForm }));
+    return {
+      ...state,
+      list: {
+        ...state.list,
+        searchSuggestions: suggestions
+      }
+    };
+  }
+  case CLEAR_EMPLOYMENT_SUGGESTIONS: {
+    return {
+      ...state,
+      list: {
+        ...state.list,
+        searchSuggestions: []
+      }
+    };
+  }
   default:
     return state;
   }

@@ -1,12 +1,16 @@
-import { connect } from 'react-redux';
+import { connectAdvanced } from 'react-redux';
 import EmploymentList from '../Components/EmploymentList';
 import {
-  changeTitle, getEmploymentList,
+  changeTitle,
+  getEmploymentList,
   getSearchSuggestions, clearSearchSuggestions
 } from '../actions';
 
-const mapStateToProps = (state) => {
-  return {
+export default connectAdvanced((dispatch) => (state, ownProps) => {
+  const pageSize = 14;
+  const { limit, page, totalRecord, sorting } = state.employment.list.info;
+
+  const newState = {
     data: state.employment.list.data,
     columns: [
       { name: 'id', title: 'Код' },
@@ -15,30 +19,29 @@ const mapStateToProps = (state) => {
       { name: 'entranceYear', title: 'Год поступления' },
       { name: 'eduForm', title: 'Форма обучения' },
     ],
-    pageSize: state.employment.list.info.limit,
-    currentPage: state.employment.list.info.page,
-    totalCount: state.employment.list.info.totalRecord,
+    pageSize: limit,
+    currentPage: page,
+    totalCount: totalRecord,
+    sorting: sorting,
     loading: state.fetching,
     searchPlaceholder: 'Для поиска введите значения через пробел',
     searchSuggestions: state.employment.list.searchSuggestions,
   };
-};
 
-const pageSize = 14;
-
-const mapDispatchToProps = (dispatch) => {
-  return {
+  const events = {
     onChangeTitle: () => dispatch(changeTitle('Трудоустройство')),
-    onLoadData: ({...args}) => dispatch(getEmploymentList({ limit: pageSize, page: args.page, sorting: args.sorting })),
+    onLoadData: () => dispatch(getEmploymentList({ limit: pageSize, page })),
+    onChangeSorting: (newSorting) => dispatch(getEmploymentList({ limit: pageSize, page, sorting: newSorting })),
+    onChangePage: (newPage) => {
+      if (newPage != page )
+        dispatch(getEmploymentList({ limit: pageSize, page: newPage, sorting }));
+    },
     onSuggestionsFetchRequested: (value) => dispatch(getSearchSuggestions({ limit: 7, search: value })),
     onSuggestionsClearRequested: () => dispatch(clearSearchSuggestions()),
-    onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit: pageSize, page: 1, id: value }))
+    onClearSelectSuggestion: () => dispatch(getEmploymentList({ limit: pageSize, page, sorting })),
+    onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit: pageSize, id: value }))
   };
-};
 
-const EmploymentListContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EmploymentList);
+  return { ...newState, ...ownProps, ...events };
+})(EmploymentList);
 
-export default EmploymentListContainer;

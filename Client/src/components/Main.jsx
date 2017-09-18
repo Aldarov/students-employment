@@ -102,12 +102,12 @@ class Main extends Component {
   };
 
   handleRedirectToEmployment = () => {
-    this.props.history.push('employment');
+    this.props.onRedirectToEmployment();
     this.setState({ open: false });
   };
 
   handleRedirectToOrganization = () => {
-    this.props.history.push('organization');
+    this.props.onRedirectToOrganization();
     this.setState({ open: false });
   };
 
@@ -175,7 +175,8 @@ class Main extends Component {
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
   title: PropTypes.string,
-  history: PropTypes.object,
+  onRedirectToEmployment: PropTypes.func,
+  onRedirectToOrganization: PropTypes.func,
 };
 
 export default withStyles(styles)(Main);

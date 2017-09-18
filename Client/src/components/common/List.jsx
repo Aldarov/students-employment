@@ -20,6 +20,12 @@ import {
 
 
 class List extends Component {
+  state = {
+    editingRows: [],
+    addedRows: [],
+    deletedRows: {},
+  };
+
   commandTemplates = {
     add: (onClick, allowAdding) => (
       <div style={{ textAlign: 'center' }}>
@@ -54,6 +60,19 @@ class List extends Component {
     ),
   };
 
+  onEditingRowsChange = editingRows => {
+    console.log(editingRows);
+    this.setState({ editingRows });
+  };
+  onAddedRowsChange = addedRows => {
+    console.log(addedRows);
+    this.setState({ addedRows });
+  };
+  onDeletedRowsChange = deletedRows => {
+    console.log(deletedRows);
+    this.setState({ deletedRows });
+  }
+
   render() {
     const {
       data, columns, pageSize, currentPage, totalCount, changeCurrentPage,
@@ -76,6 +95,9 @@ class List extends Component {
             onSortingChange={changeSorting}
           />
           <EditingState
+            onEditingRowsChange={this.onEditingRowsChange}
+            onAddedRowsChange={this.onAddedRowsChange}
+            onDeletedRowsChange={this.onDeletedRowsChange}
             onCommitChanges={commitChanges}
           />
           <TableView />
@@ -86,11 +108,15 @@ class List extends Component {
               allowAdding={allowAdding}
               allowEditing={allowEditing}
               allowDeleting={allowDeleting}
-              commandTemplate={({ executeCommand, id }) => {
+              commandTemplate={({executeCommand, id }) => {
                 const template = this.commandTemplates[id];
                 if (template) {
                   const allowAdding = true;
                   const onClick = (e) => {
+                    console.log(id);
+                    executeCommand = (arg) => {
+                      console.log(arg);
+                    };
                     executeCommand();
                     e.stopPropagation();
                   };

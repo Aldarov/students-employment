@@ -7,10 +7,9 @@ import {
 } from '../actions';
 
 export default connectAdvanced((dispatch) => (state, ownProps) => {
-  const pageSize = 14;
   const { limit, page, totalRecord, sorting } = state.employment.list.info;
 
-  const newState = {
+  const props = {
     data: state.employment.list.data,
     columns: [
       { name: 'id', title: 'Код' },
@@ -28,20 +27,32 @@ export default connectAdvanced((dispatch) => (state, ownProps) => {
     searchSuggestions: state.employment.list.searchSuggestions,
   };
 
-  const events = {
+  const methods = {
     onChangeTitle: () => dispatch(changeTitle('Трудоустройство')),
-    onLoadData: () => dispatch(getEmploymentList({ limit: pageSize, page })),
-    onChangeSorting: (newSorting) => dispatch(getEmploymentList({ limit: pageSize, page, sorting: newSorting })),
+    onLoadData: () => dispatch(getEmploymentList({ limit, page })),
+    onChangeSorting: (newSorting) => dispatch(getEmploymentList({ limit, page, sorting: newSorting })),
     onChangePage: (newPage) => {
       if (newPage != page )
-        dispatch(getEmploymentList({ limit: pageSize, page: newPage, sorting }));
+        dispatch(getEmploymentList({ limit, page: newPage, sorting }));
     },
     onSuggestionsFetchRequested: (value) => dispatch(getSearchSuggestions({ limit: 7, search: value })),
     onSuggestionsClearRequested: () => dispatch(clearSearchSuggestions()),
-    onClearSelectSuggestion: () => dispatch(getEmploymentList({ limit: pageSize, page, sorting })),
-    onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit: pageSize, id: value }))
+    onClearSelectSuggestion: () => dispatch(getEmploymentList({ limit, page, sorting })),
+    onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit, id: value })),
+    onCommitChanges: ({ ...args }) => {
+      // console.log(args);
+      // if (args.added) {
+      //   console.log(args.added);
+      // }
+      // if (args.changed) {
+      //   console.log(args.changed);
+      // }
+      // if (args.deleted) {
+      //   console.log(args.deleted);
+      // }
+    },
   };
 
-  return { ...newState, ...ownProps, ...events };
+  return { ...props, ...methods, ...ownProps };
 })(EmploymentList);
 

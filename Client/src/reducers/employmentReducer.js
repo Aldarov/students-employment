@@ -6,7 +6,7 @@ import {
 const defaultData = {
   list: {
     data : [],
-    info: { limit: 0, page: 0, totalRecord: 0, sorting: [] },
+    info: { limit: 14, page: 0, totalRecord: 0, sorting: [] },
     searchSuggestions: []
   }
 };

@@ -1,24 +1,24 @@
-import { connect } from 'react-redux';
+import { connectAdvanced } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import AuthHOC from './AuthHOC';
 import Main from '../Components/Main';
 
-const mapStateToProps = (state) => {
-  return {
-    title: state.header.title
-  };
-};
+export default AuthHOC(withRouter(
+  connectAdvanced((dispatch) => (state, ownProps) => {
+    const props = {
+      title: state.header.title
+    };
 
-const mapDispatchToProps = () => {
-  return {
-  };
-};
+    const methods = {
+      onRedirectToEmployment: () => {
+        ownProps.history.push('employment');
+      },
+      onRedirectToOrganization: () => {
+        ownProps.history.push('organization');
+      }
+    };
 
-const MainContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Main);
-
-
-export default AuthHOC(withRouter(MainContainer));
+    return { ...props, ...methods, ...ownProps };
+  })(Main)
+));

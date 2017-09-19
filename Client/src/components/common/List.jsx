@@ -8,8 +8,6 @@ import {
 
 import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/Edit';
-import SaveIcon from 'material-ui-icons/Save';
-import CancelIcon from 'material-ui-icons/Cancel';
 
 import {
   PagingState, SortingState, EditingState
@@ -20,12 +18,6 @@ import {
 
 
 class List extends Component {
-  state = {
-    editingRows: [],
-    addedRows: [],
-    deletedRows: {},
-  };
-
   commandTemplates = {
     add: (onClick, allowAdding) => (
       <div style={{ textAlign: 'center' }}>
@@ -48,42 +40,34 @@ class List extends Component {
         <DeleteIcon />
       </IconButton>
     ),
-    commit: onClick => (
-      <IconButton onClick={onClick}>
-        <SaveIcon />
-      </IconButton>
-    ),
-    cancel: onClick => (
-      <IconButton color="accent" onClick={onClick}>
-        <CancelIcon />
-      </IconButton>
-    ),
   };
 
   onEditingRowsChange = editingRows => {
-    console.log(editingRows);
-    this.setState({ editingRows });
+    this.props.doAction({ type: 'editing', row: this.props.data[editingRows[editingRows.length-1]] });
   };
-  onAddedRowsChange = addedRows => {
-    console.log(addedRows);
-    this.setState({ addedRows });
+
+  onAddedRowsChange = () => {
+    this.props.doAction({ type: 'adding' });
   };
-  onDeletedRowsChange = deletedRows => {
-    console.log(deletedRows);
-    this.setState({ deletedRows });
+
+  onCommitChanges = ({deleted}) => {
+    if (deleted) {
+      this.props.doAction({ type: 'deleting', row: this.props.data[deleted[deleted.length-1]] });
+    }
   }
 
   render() {
     const {
       data, columns, pageSize, currentPage, totalCount, changeCurrentPage,
       allowSorting, sorting, changeSorting,
-      allowAdding, allowEditing, allowDeleting, commitChanges
+      allowAdding, allowEditing, allowDeleting,
     } = this.props;
     return (
       <div>
         <Grid
           rows={data}
-          columns={columns}>
+          columns={columns}
+        >
           <PagingState
             currentPage={currentPage}
             onCurrentPageChange={changeCurrentPage}
@@ -97,8 +81,7 @@ class List extends Component {
           <EditingState
             onEditingRowsChange={this.onEditingRowsChange}
             onAddedRowsChange={this.onAddedRowsChange}
-            onDeletedRowsChange={this.onDeletedRowsChange}
-            onCommitChanges={commitChanges}
+            onCommitChanges={this.onCommitChanges}
           />
           <TableView />
           <TableHeaderRow allowSorting={allowSorting} />
@@ -113,10 +96,6 @@ class List extends Component {
                 if (template) {
                   const allowAdding = true;
                   const onClick = (e) => {
-                    console.log(id);
-                    executeCommand = (arg) => {
-                      console.log(arg);
-                    };
                     executeCommand();
                     e.stopPropagation();
                   };
@@ -148,7 +127,7 @@ List.propTypes = {
   allowAdding: PropTypes.bool,
   allowEditing: PropTypes.bool,
   allowDeleting: PropTypes.bool,
-  commitChanges: PropTypes.func,
+  doAction: PropTypes.func,
 };
 
 export default List;

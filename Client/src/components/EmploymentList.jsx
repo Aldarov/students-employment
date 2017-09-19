@@ -15,7 +15,7 @@ export default class EmploymentList extends Component {
     const {
       searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested,
       onSuggestionsClearRequested, onSuggestionSelected,
-      onChangePage, onChangeSorting, onClearSelectSuggestion, onCommitChanges,
+      onChangePage, onChangeSorting, onClearSelectSuggestion, onDoAction,
       data, columns, pageSize, currentPage, totalCount, loading, sorting
     } = this.props;
 
@@ -42,7 +42,7 @@ export default class EmploymentList extends Component {
           allowAdding
           allowEditing
           allowDeleting
-          commitChanges={onCommitChanges}
+          doAction={onDoAction}
         />
         {loading && <Loading />}
       </div>
@@ -71,5 +71,5 @@ EmploymentList.propTypes = {
   onChangeSorting: PropTypes.func,
   onChangePage: PropTypes.func,
   onClearSelectSuggestion: PropTypes.func,
-  onCommitChanges: PropTypes.func,
+  onDoAction: PropTypes.func,
 };

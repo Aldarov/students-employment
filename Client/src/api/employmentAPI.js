@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-export function apiGetEmployment({page, limit, sorting, search, ...filters}) {
-  let url = 'api/placements?';
+const startUrl = 'api/placements';
+
+export function apiGetEmploymentList({page, limit, sorting, search, ...filters}) {
+  let url = startUrl + '?';
   if (limit) {
     url = url + '_limit=' + limit + '&';
   }
@@ -32,6 +34,14 @@ export function apiGetEmployment({page, limit, sorting, search, ...filters}) {
   }
 
   url = url.slice(0,-1);
+  return axios.get(url)
+    .then(response => {
+      return response;
+    });
+}
+
+export function apiGetEmploymentById(id) {
+  let url = startUrl + `/${id}`;
   return axios.get(url)
     .then(response => {
       return response;

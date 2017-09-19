@@ -1,13 +1,20 @@
-import React, { Component } from 'react';
+import { connectAdvanced } from 'react-redux';
+import Employment from '../components/Employment';
+import {
+  changeTitle, getEmploymentById,
+} from '../actions';
 
-class EmploymentContainer extends Component {
-  render() {
-    return (
-      <div>
-        Edit employment document
-      </div>
-    );
-  }
-}
+export default connectAdvanced( dispatch => (state, ownProps) => {
+  const { id } = ownProps.match.params;
+  const props = {
+    loading: state.fetching,
 
-export default EmploymentContainer;
+  };
+
+  const methods = {
+    onLoadData: () => dispatch(getEmploymentById(id)),
+    onChangeTitle: () => dispatch(changeTitle(`Трудоустройство № ${id}`)),
+  };
+
+  return { ...props, ...methods, ...ownProps };
+})(Employment);

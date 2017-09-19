@@ -1,13 +1,18 @@
 import {
   GET_EMPLOYMENT_LIST, SET_EMPLOYMENT_LIST_SORTING,
   GET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
+  GET_EMPLOYMENT_BY_ID,
 } from '../actions';
 
 const defaultData = {
   list: {
-    data : [],
+    data: [],
     info: { limit: 14, page: 0, totalRecord: 0, sorting: [] },
     searchSuggestions: []
+  },
+  edit: {
+    data: {},
+    help: {}
   }
 };
 export default function reducer(state = defaultData, action) {
@@ -35,7 +40,6 @@ export default function reducer(state = defaultData, action) {
       }
     };
   }
-
   case GET_EMPLOYMENT_SUGGESTIONS: {
     const suggestions = action.data.map((item)=> ({ id: item.id, text: item.id + ', ' +
       item.faculty + ', ' + item.speciality + ', ' + item.entranceYear + ', ' + item.eduForm }));
@@ -53,6 +57,15 @@ export default function reducer(state = defaultData, action) {
       list: {
         ...state.list,
         searchSuggestions: []
+      }
+    };
+  }
+  case GET_EMPLOYMENT_BY_ID: {
+    return {
+      ...state,
+      edit: {
+        ...state.edit,
+        data: action.data,
       }
     };
   }

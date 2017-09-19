@@ -164,7 +164,7 @@ class Main extends Component {
           <main className={classNames(classes.content, this.state.open && classes.contentShift)}>
             <Route exact path="/" component={EmploymentListContainer}/>
             <Route exact path="/employment" component={EmploymentListContainer}/>
-            <Route path="/employment/:id" component={EmploymentContainer}/>
+            <Route exact path="/employment/:id" component={EmploymentContainer}/>
             <Route exact path="/organization" component={OrganizationListContainer}/>
           </main>
         </div>

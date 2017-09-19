@@ -6,7 +6,7 @@ import {
   getSearchSuggestions, clearSearchSuggestions
 } from '../actions';
 
-export default connectAdvanced((dispatch) => (state, ownProps) => {
+export default connectAdvanced( dispatch => (state, ownProps) => {
   const { limit, page, totalRecord, sorting } = state.employment.list.info;
 
   const props = {
@@ -39,17 +39,22 @@ export default connectAdvanced((dispatch) => (state, ownProps) => {
     onSuggestionsClearRequested: () => dispatch(clearSearchSuggestions()),
     onClearSelectSuggestion: () => dispatch(getEmploymentList({ limit, page, sorting })),
     onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit, id: value })),
-    onCommitChanges: ({ ...args }) => {
-      // console.log(args);
-      // if (args.added) {
-      //   console.log(args.added);
-      // }
-      // if (args.changed) {
-      //   console.log(args.changed);
-      // }
-      // if (args.deleted) {
-      //   console.log(args.deleted);
-      // }
+    onDoAction: (args) => {
+      switch (args.type) {
+      case 'adding': {
+
+        break;
+      }
+      case 'editing': {
+        ownProps.history.push(`/employment/${args.row.id}`);
+        break;
+      }
+      case 'deleting': {
+
+        break;
+      }
+      default: break;
+      }
     },
   };
 

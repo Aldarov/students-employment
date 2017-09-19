@@ -7,6 +7,6 @@ export { CHANGE_TITLE, changeTitle } from './headerActions';
 export {
   GET_EMPLOYMENT_LIST, GET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
   SET_EMPLOYMENT_LIST_SORTING,
-  getEmploymentList,
-  getSearchSuggestions, clearSearchSuggestions
+  getEmploymentList, getSearchSuggestions, clearSearchSuggestions,
+  getEmploymentById, GET_EMPLOYMENT_BY_ID,
 } from './employmentActions';

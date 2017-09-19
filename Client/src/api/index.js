@@ -1,5 +1,5 @@
 export { apiLogin, apiLogout, apiIsAuth, apiSetRequestHeader } from './authApi';
-export { apiGetEmployment } from './employmentApi';
+export { apiGetEmploymentList, apiGetEmploymentById } from './employmentApi';
 
 import axios from 'axios';
 import { apiRefreshToken } from './authApi';

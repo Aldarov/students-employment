@@ -8,7 +8,7 @@
     "restore:server": "cd server && dotnet restore",
     "start:client": "cd client && yarn start",
     "start:server": "cd server && dotnet run watch",
-    "start": "concurrently \"yarn start:server\" \"yarn start:client\""
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\""
   },
   "author": "Alex Aldarov",
   "license": "MIT",

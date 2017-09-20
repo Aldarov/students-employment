@@ -12,7 +12,7 @@ namespace Server.Models.University
         public int FacultyId { get; set; }
         public string Faculty { get; set; }
         [Key]
-        public int SpecialityId { get; set; }
+        public int? SpecialityId { get; set; }
         public string Speciality { get; set; }
     }
 }

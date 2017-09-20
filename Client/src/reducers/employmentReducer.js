@@ -11,7 +11,13 @@ const defaultData = {
     searchSuggestions: []
   },
   edit: {
-    data: {},
+    data: {
+      id: null,
+      specialityId: null,
+      entranceYear: null,
+      eduFormId: null,
+      pgContractStuffs: []
+    },
     help: {}
   }
 };

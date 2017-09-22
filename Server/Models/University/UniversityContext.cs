@@ -37,12 +37,16 @@ namespace Server.Models.University
                 entity.Property(e => e.EntrTypeId).HasColumnName("entr_type_id");
                 entity.Property(e => e.EntrType).HasColumnName("entr_type");
                 entity.Property(e => e.Phone).HasColumnName("phone");
+                entity.Property(e => e.StateId).HasColumnName("state_id");
+                entity.Property(e => e.State).HasColumnName("state");
+                entity.Property(e => e.SpecialityId).HasColumnName("speciality_id");
+                entity.Property(e => e.EducationFormId).HasColumnName("education_form_id");
+                entity.Property(e => e.EntranceYear).HasColumnName("entrance_year");
             });
 
             modelBuilder.Entity<Placement>(entity =>
             {
-                entity.ToTable("v_pg_placements");
-                entity.Property(e => e.Id).HasColumnName("placement_id");
+                entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.FacultyId).HasColumnName("faculty_id");
                 entity.Property(e => e.Faculty).HasColumnName("faculty");
                 entity.Property(e => e.SpecialityId).HasColumnName("speciality_id");

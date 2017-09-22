@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using Auth;
-using Server.Models.Auth;
+using Server.Models.University;
 using Microsoft.EntityFrameworkCore;
 
 namespace Server.Controllers
@@ -14,28 +12,32 @@ namespace Server.Controllers
     public class AccountController : Controller
     {
 
-        private AuthContext db;
+        private UniversityContext db;
         private IJwt jwt;
-        public AccountController(AuthContext context, IJwt token)
+        public AccountController(UniversityContext context, IJwt token)
         {
             db = context;
             jwt = token;
         }
 
         [HttpPost("api/login")]
-        public IActionResult Login([FromBody]User user)
+        public IActionResult Login([FromBody]AuthProps props)
         {
-            if (user.Login == null || user.Password == null)
+            if (props.EmploymentId == null)
             {
-                return BadRequest("Не задано имя пользователя или пароль.");
+                return BadRequest();
             }
 
-            var identity = jwt.GetIdentity(user.Login, user.Password);
+            // if (identity == null)
+            // {
+            //     return BadRequest("Пользователь не авторизован в личном кабинете");
+            // }
 
-            if (identity == null)
-            {
-                return BadRequest("Неверное имя пользователя или пароль.");
-            }
+            var claims = new List<Claim>
+                {
+                    new Claim("EmploymentId", props.EmploymentId.ToString())
+                };
+            ClaimsIdentity identity = new ClaimsIdentity(claims, "Token");
 
             var response = jwt.GetToken(identity);
 

@@ -6,7 +6,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Auth;
-using Server.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 using Server.Models.University;
 using Microsoft.AspNetCore.Authorization;
@@ -28,11 +27,13 @@ namespace Server.Controllers
         public JsonResult Get(QueryArgsBase args)
         {
             var res = db.Placements
+                .FromSql<Placement>("select * from dbo.pg_placements({0})", 4498)
                 .Search("select * from dbo.pg_search_placements({0})", args)
                 .Filter(Request.Query.ToList())
                 .Sort(args)
                 .AsNoTracking()
                 .PaginateResult(args);
+            var cl = HttpContext.User.Claims.Where(x => x.Type == "EmploymentId").FirstOrDefault().Value;
             return Json(res);
         }
 

@@ -4,11 +4,11 @@ import { REQUEST_START, REQUEST_END } from './fetchingActions';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
-export function login(login, password) {
+export function login(employmentId) {
   return dispatch => {
     dispatch({ type: REQUEST_START });
 
-    return apiLogin(login, password)
+    return apiLogin(employmentId)
       .then(() => {
         dispatch({ type: LOGIN });
         dispatch({ type: REQUEST_END });

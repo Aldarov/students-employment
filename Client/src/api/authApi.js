@@ -13,8 +13,9 @@ export function apiSetRequestHeader(access_token) {
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 }
 
-export function apiLogin(login, password) {
-  return axios.post('api/login', { login, password })
+export function apiLogin(employmentId) {
+  console.log(employmentId);
+  return axios.post('api/login', {employmentId})
     .then(response => {
       const token = response.data;
       apiSetToken(token.access_token, token.refresh_token);

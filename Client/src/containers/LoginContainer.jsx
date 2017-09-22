@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connectAdvanced } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
@@ -7,6 +7,10 @@ import { login } from '../actions';
 import Login from '../components/Login';
 
 class LoginContainer extends Component {
+  componentWillMount(){
+    this.props.onLogin(4498);
+  }
+
   handleLogin(values) {
     const login = values ? values.login : '';
     const password = values ? values.password : '';
@@ -45,17 +49,14 @@ LoginContainer.propTypes = {
   onLogin: PropTypes.func.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
+export default connectAdvanced( dispatch => (state, ownProps) => {
+  const props = {
     isAuth: state.isAuth
   };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onLogin: (l, p) => dispatch(login(l, p))
+  const methods = {
+    onLogin: (employmentID) => dispatch(login(employmentID))
   };
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
-
+  return { ...props, ...methods, ...ownProps };
+})(LoginContainer);

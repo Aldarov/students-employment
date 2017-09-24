@@ -5,7 +5,12 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Auth;
 using Server.Models.University;
+using Server.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
+using System.Xml.Linq;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace Server.Controllers
 {
@@ -20,28 +25,44 @@ namespace Server.Controllers
             jwt = token;
         }
 
-        [HttpPost("api/login")]
-        public IActionResult Login([FromBody]AuthProps props)
+        private ClaimsIdentity GetClaimsIdentity(string employmentId) 
         {
-            if (props.EmploymentId == null)
+            var claims = new List<Claim>
+                {
+                    new Claim("EmploymentId", employmentId)
+                };
+            ClaimsIdentity identity = new ClaimsIdentity(claims, "Token");
+            return identity;
+        }
+
+        [HttpPost("api/login")]
+        public async Task<ActionResult> Login([FromBody]AuthProps props)
+        {
+            string sessionId = props != null ? props.SessionId : null;
+            if (sessionId == null)
             {
                 return BadRequest();
             }
 
-            // if (identity == null)
-            // {
-            //     return BadRequest("Пользователь не авторизован в личном кабинете");
-            // }
-
-            var claims = new List<Claim>
+            Http­Client  client = new Http­Client ();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
+            var response = client.GetAsync("http://my.bsu.ru/auth.php?id=" + sessionId).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var stringAuth = await response.Content.ReadAsStringAsync();   
+                XDocument xdoc = XDocument.Parse(stringAuth);
+                XElement res = xdoc.Descendants("result").FirstOrDefault();
+                if (res != null)
                 {
-                    new Claim("EmploymentId", props.EmploymentId.ToString())
-                };
-            ClaimsIdentity identity = new ClaimsIdentity(claims, "Token");
-
-            var response = jwt.GetToken(identity);
-
-            return Ok(response);
+                    string state = res.Attributes().Where(q => q.Name == "state").Select(q => q.Value).FirstOrDefault();
+                    if (state == "1")
+                    {
+                        var identity = GetClaimsIdentity(props.EmploymentId);
+                        return Ok(jwt.GetToken(identity));
+                    }
+                }
+            }
+            return BadRequest("Пользователь не авторизован в личном кабинете");
         }
 
         [HttpPost("api/token")]
@@ -55,7 +76,11 @@ namespace Server.Controllers
 
             try
             {
-                Token newToken = jwt.RefreshToken(refresh_token);
+                ClaimsPrincipal principal = jwt.DecodeRefreshToken(refresh_token);
+                string employmentId = principal.FindFirst("EmploymentId").Value;
+
+                var identity = GetClaimsIdentity(employmentId);
+                Token newToken = jwt.GetToken(identity);
                 return Ok(newToken);
             }
             catch (Exception)

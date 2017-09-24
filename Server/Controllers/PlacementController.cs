@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Server.Models.University;
 using Microsoft.AspNetCore.Authorization;
 using Server.Infrastructure;
+using Server.Services;
 
 namespace Server.Controllers
 {
@@ -18,22 +19,26 @@ namespace Server.Controllers
     public class PlacementsController : Controller
     {
         private UniversityContext db;
-        public PlacementsController(UniversityContext context)
+        private int employmentId;
+        public PlacementsController(UniversityContext context, IClaimsProps claimsProps)
         {
-            db = context;
+            this.db = context;
+            this.employmentId = claimsProps.GetEmploymentId();
         }
 
         [HttpGet()]
         public JsonResult Get(QueryArgsBase args)
         {
-            var res = db.Placements
-                .FromSql<Placement>("select * from dbo.pg_placements({0})", 4498)
-                .Search("select * from dbo.pg_search_placements({0})", args)
-                .Filter(Request.Query.ToList())
+            IQueryable<Placement> query = db.Placements.AsQueryable();
+            if (args.q == null)
+                query = query.FromSql<Placement>("select * from dbo.pg_placements({0})", employmentId);
+            else
+                query = query.FromSql<Placement>("select * from dbo.pg_search_placements({0}, {1})", employmentId, args.q);
+                
+            var res = query.Filter(Request.Query.ToList())
                 .Sort(args)
                 .AsNoTracking()
                 .PaginateResult(args);
-            var cl = HttpContext.User.Claims.Where(x => x.Type == "EmploymentId").FirstOrDefault().Value;
             return Json(res);
         }
 

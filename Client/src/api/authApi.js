@@ -14,7 +14,6 @@ export function apiSetRequestHeader(access_token) {
 }
 
 export function apiLogin(employmentId) {
-  console.log(employmentId);
   return axios.post('api/login', {employmentId})
     .then(response => {
       const token = response.data;

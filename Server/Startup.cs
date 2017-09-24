@@ -9,10 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Server.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Server.Models.University;
+using Microsoft.AspNetCore.Http;
+using Server.Services;
 
 namespace Server
 {
@@ -37,15 +38,13 @@ namespace Server
             // Add framework services.
             services.AddMvc();
 
-            services.AddDbContext<AuthContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-            );
-
             services.AddDbContext<UniversityContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("UniversityConnection"))
             );
             
             services.AddSingleton<IJwt, Jwt>();            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IClaimsProps, ClaimsProps>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

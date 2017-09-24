@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using Server.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -12,12 +11,10 @@ namespace Auth
     public class Jwt : IJwt
     {
         private readonly string REFRESH_TOKEN = "refresh_token";
-        private readonly AuthContext db;
         private readonly SigningCredentials signingCredentials;
 
-        public Jwt(AuthContext context)
+        public Jwt()
         {
-            db = context;
             signingCredentials = new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(),
                 SecurityAlgorithms.HmacSha256Signature);
         }
@@ -34,7 +31,7 @@ namespace Auth
             return token;
         }
 
-        public Token RefreshToken(string encodedToken)
+        public ClaimsPrincipal DecodeRefreshToken(string encodedToken)
         {
             var handler = new JwtSecurityTokenHandler();
 
@@ -62,36 +59,7 @@ namespace Auth
                 throw;
             }
 
-            string user = principal.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string role = principal.FindFirst(ClaimTypes.Role).Value;
-
-            Token token = GetToken(GetIdentityByRole(user, role));
-
-            return token;
-        }
-
-        public ClaimsIdentity GetIdentity(string login, string password)
-        {
-            User user = db.Users.Include(x => x.Role).FirstOrDefault(x => x.Login == login && x.Password == password);
-            if (user != null)
-            {
-                return GetIdentityByRole(user.Login, user.Role.Name);
-            }
-
-            // если пользователь не найден
-            return null;
-        }
-
-        private ClaimsIdentity GetIdentityByRole(string login, string role)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, login),
-                new Claim(ClaimTypes.Role, role)
-            };
-            ClaimsIdentity claimsIdentity =
-                new ClaimsIdentity(claims, "Token", ClaimTypes.NameIdentifier, ClaimTypes.Role);
-            return claimsIdentity;
+            return principal;
         }
 
         private string CreateToken(ClaimsIdentity identity, DateTime expiryDate, string audience)

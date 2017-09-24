@@ -5,7 +5,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Auth;
-using Server.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 using Server.Models.University;
 using Microsoft.AspNetCore.Authorization;

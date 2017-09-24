@@ -8,7 +8,7 @@ import Login from '../components/Login';
 
 class LoginContainer extends Component {
   componentWillMount(){
-    this.props.onLogin(4498);
+    this.props.onLogin('595a8aace032ab10526801e5b73edb96');
   }
 
   handleLogin(values) {

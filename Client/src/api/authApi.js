@@ -13,10 +13,11 @@ export function apiSetRequestHeader(access_token) {
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 }
 
-export function apiLogin(employmentId) {
-  return axios.post('api/login', {employmentId})
+export function apiLogin(args) {
+  return axios.post('api/login', args)
     .then(response => {
       const token = response.data;
+      console.log('apilogin',token);
       apiSetToken(token.access_token, token.refresh_token);
       return token;
     });
@@ -32,6 +33,7 @@ export function apiRefreshToken() {
 }
 
 export function apiLogout() {
+  console.log('apilogout');
   sessionStorage.removeItem('access_token');
   sessionStorage.removeItem('refresh_token');
   apiSetRequestHeader();
@@ -39,6 +41,7 @@ export function apiLogout() {
 
 export function apiIsAuth() {
   const token = sessionStorage.getItem('access_token');
+  console.log(token);
   if (token != 'undefined' && token) {
     return true;
   } else {

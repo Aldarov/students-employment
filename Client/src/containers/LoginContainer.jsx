@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { connectAdvanced } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import qs from 'query-string';
 
 import { login } from '../actions';
 import Login from '../components/Login';
 
 class LoginContainer extends Component {
   componentWillMount(){
-    this.props.onLogin('595a8aace032ab10526801e5b73edb96');
+    this.props.onLogin();
   }
 
   handleLogin(values) {
@@ -50,12 +51,13 @@ LoginContainer.propTypes = {
 };
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
+  const {emp_id: employmentId, id: sessionId} = qs.parse(ownProps.location.search);
   const props = {
     isAuth: state.isAuth
   };
 
   const methods = {
-    onLogin: (employmentID) => dispatch(login(employmentID))
+    onLogin: () => dispatch(login({employmentId, sessionId}))
   };
 
   return { ...props, ...methods, ...ownProps };

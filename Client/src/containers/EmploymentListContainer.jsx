@@ -1,4 +1,5 @@
 import { connectAdvanced } from 'react-redux';
+
 import EmploymentList from '../Components/EmploymentList';
 import {
   changeTitle,

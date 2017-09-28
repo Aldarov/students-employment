@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Auth;
-using Server.Models.University;
 using Server.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http;
@@ -17,11 +16,9 @@ namespace Server.Controllers
     public class AccountController : Controller
     {
 
-        private UniversityContext db;
         private IJwt jwt;
-        public AccountController(UniversityContext context, IJwt token)
+        public AccountController(IJwt token)
         {
-            db = context;
             jwt = token;
         }
 
@@ -76,7 +73,7 @@ namespace Server.Controllers
 
             try
             {
-                ClaimsPrincipal principal = jwt.DecodeRefreshToken(refresh_token);
+                ClaimsPrincipal principal = jwt.DecodeToken(refresh_token);
                 string employmentId = principal.FindFirst("EmploymentId").Value;
 
                 var identity = GetClaimsIdentity(employmentId);

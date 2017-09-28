@@ -26,12 +26,11 @@ namespace Auth
                     token_type = "Bearer",
                     access_token = CreateNewToken(identity),
                     refresh_token = CreateRefreshToken(identity),
-                    user_name = identity.Name
                 };
             return token;
         }
 
-        public ClaimsPrincipal DecodeRefreshToken(string encodedToken)
+        public ClaimsPrincipal DecodeToken(string encodedToken)
         {
             var handler = new JwtSecurityTokenHandler();
 

@@ -82,17 +82,18 @@ namespace Server.Infrastructure
         public static PaginateResult<T> PaginateResult<T>(this IQueryable<T> source, IPaginationInfo pagination)
         {
             PaginateResult<T> result = new PaginateResult<T>();
-            int count_rec = 0;
+            int count_rec = source.Count();
+            int page = 0;
             IQueryable<T> query = source;
             if (pagination._limit > 0)
             {
-                count_rec = source.Count();
+                page = pagination._page;
                 query = source
                         .Skip((pagination._page) * pagination._limit)
                         .Take(pagination._limit);
             }
-            result.Data = query;
-            result.Info = new PaginateInfo() { Page = pagination._page, Limit = pagination._limit, TotalRecord = count_rec };
+            result.Data = query.ToList();
+            result.Info = new PaginateInfo() { Limit = pagination._limit, Page = page, TotalRecord = count_rec };
             
             return result;
         }
@@ -132,13 +133,6 @@ namespace Server.Infrastructure
                 return query;
             }
             return source;
-        }
-
-        public static List<T> ConvertFilter<T>(List<string> filter)
-        {
-            return filter
-                .Select(x => (T)Convert.ChangeType(x, typeof(T)))
-                .ToList();
         }
 
         public static IQueryable<T> Filter<T>(this IQueryable<T> source, List<KeyValuePair<string, StringValues>> queryStrings)

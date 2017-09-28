@@ -23,17 +23,17 @@ namespace Server.Controllers
         public PlacementsController(UniversityContext context, IClaimsProps claimsProps)
         {
             this.db = context;
-            this.employmentId = claimsProps.GetEmploymentId();
+            this.employmentId = 4498;//claimsProps.GetEmploymentId();
         }
 
         [HttpGet()]
         public JsonResult Get(QueryArgsBase args)
         {
             IQueryable<Placement> query = db.Placements.AsQueryable();
-            if (args.q == null)
-                query = query.FromSql<Placement>("select * from dbo.pg_placements({0})", employmentId);
-            else
+            if (args.q != null)
                 query = query.FromSql<Placement>("select * from dbo.pg_search_placements({0}, {1})", employmentId, args.q);
+            else
+                query = query.FromSql<Placement>("select * from dbo.pg_placements({0})", employmentId);
                 
             var res = query.Filter(Request.Query.ToList())
                 .Sort(args)

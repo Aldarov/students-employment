@@ -13,11 +13,11 @@ namespace Auth
         Token GetToken(ClaimsIdentity identity);
 
         /// <summary>
-        /// Расшифровка refresh_token.
+        /// Функция расшифровки токена.
         ///
         /// </summary>
-        /// <param name="encodedToken">Закодированный refresh_token.</param>
+        /// <param name="encodedToken">Закодированный токен.</param>
         /// <returns>Возвращает объект ClaimsPrincipal. </returns>
-        ClaimsPrincipal DecodeRefreshToken(string encodedToken);
+        ClaimsPrincipal DecodeToken(string encodedToken);
     }
 }

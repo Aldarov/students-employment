@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Server.Infrastructure
@@ -11,7 +12,7 @@ namespace Server.Infrastructure
 
     public class PaginateResult<T> 
     {
-        public IQueryable<T> Data { get; set; }
+        public IEnumerable<T> Data { get; set; }
         public PaginateInfo Info { get; set; }
     }
 }

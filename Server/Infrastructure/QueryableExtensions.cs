@@ -45,6 +45,13 @@ namespace Server.Infrastructure
 
     public static class QueryableExtensions
     {
+        public static List<T> ConvertFilter<T>(List<string> filter)
+        {
+            return filter
+                .Select(x => (T)Convert.ChangeType(x, typeof(T)))
+                .ToList();
+        }        
+
         private static Expression<Func<T, object>> ExpressionForSort<T>(string propertyName)
         {
             var parameter = Expression.Parameter(typeof(T));

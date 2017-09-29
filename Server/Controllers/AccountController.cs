@@ -59,7 +59,7 @@ namespace Server.Controllers
                     }
                 }
             }
-            return BadRequest("Пользователь не авторизован в личном кабинете");
+            return Unauthorized();
         }
 
         [HttpPost("api/token")]

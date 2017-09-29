@@ -23,7 +23,7 @@ namespace Server.Controllers
         public PlacementsController(UniversityContext context, IClaimsProps claimsProps)
         {
             this.db = context;
-            this.employmentId = 4498;//claimsProps.GetEmploymentId();
+            this.employmentId = claimsProps.GetEmploymentId();
         }
 
         [HttpGet()]

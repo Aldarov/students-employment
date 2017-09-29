@@ -15,22 +15,18 @@ namespace Server.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class SpecialityController : Controller
+    public class EduFormsController : Controller
     {
         private UniversityContext db;
-        private int employmentId;
-        public SpecialityController(UniversityContext context, IClaimsProps claimsProps)
+        public EduFormsController(UniversityContext context)
         {
             db = context;
-            this.employmentId = claimsProps.GetEmploymentId();
         }
 
         [HttpGet()]
         public IActionResult Get(QueryArgsBase args)
         {
-            IQueryable<Speciality> query = db.Specialities;
-            var res = db.Specialities
-                .FromSql<Speciality>("select speciality_id, speciality from dbo.pg_access_to_specialities({0})", employmentId)
+            var res = db.EducationForms
                 .Sort(args)
                 .AsNoTracking()
                 .ToList();

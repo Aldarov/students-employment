@@ -11,7 +11,7 @@ const styles = () => ({
     left: 0,
     width: '100%',
     height: '100%',
-    background: 'rgba(0, 0, 0, 0.1)',
+    // background: 'rgba(0, 0, 0, 0.1)',
   },
   'loadingIconMui': {
     position: 'absolute',

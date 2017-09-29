@@ -23,9 +23,16 @@ namespace Server.Models.University
         public virtual DbSet<Structure> Structures { get; set; }
         public virtual DbSet<Placement> Placements { get; set; }
         public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<Speciality> Specialities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Speciality>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("speciality_id");
+                entity.Property(e => e.Name).HasColumnName("speciality");
+            });
+
             modelBuilder.Entity<Student>(entity =>
             {
                 entity.ToTable("v_pg_students");
@@ -97,25 +104,25 @@ namespace Server.Models.University
             {
                 entity.ToTable("juridical_persons");
                 entity.Property(e => e.Id).HasColumnName("id");
-                entity.Property(e => e.AgreementDate)
-                    .HasColumnName("agreement_date")
-                    .HasColumnType("datetime");
-                entity.Property(e => e.Inn)
-                    .HasColumnName("INN")
-                    .HasColumnType("varchar(12)");
-                entity.Property(e => e.Kpp)
-                    .HasColumnName("KPP")
-                    .HasColumnType("varchar(10)");
+                // entity.Property(e => e.AgreementDate)
+                //     .HasColumnName("agreement_date")
+                //     .HasColumnType("datetime");
+                // entity.Property(e => e.Inn)
+                //     .HasColumnName("INN")
+                //     .HasColumnType("varchar(12)");
+                // entity.Property(e => e.Kpp)
+                //     .HasColumnName("KPP")
+                //     .HasColumnType("varchar(10)");
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
                     .HasColumnType("varchar(256)");
-                entity.Property(e => e.Person)
-                    .HasColumnName("person")
-                    .HasColumnType("varchar(max)");
-                entity.Property(e => e.PostCode)
-                    .HasColumnName("post_code")
-                    .HasColumnType("varchar(6)");
+                // entity.Property(e => e.Person)
+                //     .HasColumnName("person")
+                //     .HasColumnType("varchar(max)");
+                // entity.Property(e => e.PostCode)
+                //     .HasColumnName("post_code")
+                //     .HasColumnType("varchar(6)");
                 entity.Property(e => e.RegistrationCase)
                     .HasColumnName("registration_case")
                     .HasColumnType("varchar(5)")
@@ -134,11 +141,11 @@ namespace Server.Models.University
                 entity.Property(e => e.RegistrationRegionId).HasColumnName("registration_region_id");
                 entity.Property(e => e.RegistrationSettlementId).HasColumnName("registration_settlement_id");
                 entity.Property(e => e.RegistrationStreetId).HasColumnName("registration_street_id");
-                entity.Property(e => e.SchoolId).HasColumnName("school_id");
-                entity.Property(e => e.ShortName)
-                    .HasColumnName("short_name")
-                    .HasColumnType("varchar(256)");
-                entity.Property(e => e.WorkPlaceTypeId).HasColumnName("work_place_type_id");
+                // entity.Property(e => e.SchoolId).HasColumnName("school_id");
+                // entity.Property(e => e.ShortName)
+                //     .HasColumnName("short_name")
+                //     .HasColumnType("varchar(256)");
+                // entity.Property(e => e.WorkPlaceTypeId).HasColumnName("work_place_type_id");
                 entity.HasOne(d => d.RegistrationCity)
                     .WithMany(p => p.JuridicalPersonsRegistrationCity)
                     .HasForeignKey(d => d.RegistrationCityId)
@@ -230,11 +237,11 @@ namespace Server.Models.University
                 entity.Property(e => e.NumberContract)
                     .HasColumnName("number_contract")
                     .HasMaxLength(20);
-                entity.HasOne(d => d.JuridicalPerson)
-                    .WithMany(p => p.PgContractInfos)
-                    .HasForeignKey(d => d.JuridicalPersonId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_pg_contract_info_juridical_persons");
+                // entity.HasOne(d => d.JuridicalPerson)
+                //     .WithMany(p => p.PgContractInfos)
+                //     .HasForeignKey(d => d.JuridicalPersonId)
+                //     .OnDelete(DeleteBehavior.Restrict)
+                //     .HasConstraintName("FK_pg_contract_info_juridical_persons");
             });
 
             modelBuilder.Entity<PgContractStuff>(entity =>
@@ -296,14 +303,14 @@ namespace Server.Models.University
                     .HasMaxLength(150);
                 entity.Property(e => e.SchoolId).HasColumnName("school_id");
                 entity.Property(e => e.StudentId).HasColumnName("student_id");
-                entity.HasOne(d => d.JuridicalPerson)
-                    .WithMany(p => p.PgGraduateWorkplaces)
-                    .HasForeignKey(d => d.JuridicalPersonId)
-                    .HasConstraintName("FK_pg_graduate_workplace_juridical_persons");
-                entity.HasOne(d => d.School)
-                    .WithMany(p => p.PgGraduateWorkplaces)
-                    .HasForeignKey(d => d.SchoolId)
-                    .HasConstraintName("FK_pg_graduate_workplace_schools");
+                // entity.HasOne(d => d.JuridicalPerson)
+                //     .WithMany(p => p.PgGraduateWorkplaces)
+                //     .HasForeignKey(d => d.JuridicalPersonId)
+                //     .HasConstraintName("FK_pg_graduate_workplace_juridical_persons");
+                // entity.HasOne(d => d.School)
+                //     .WithMany(p => p.PgGraduateWorkplaces)
+                //     .HasForeignKey(d => d.SchoolId)
+                //     .HasConstraintName("FK_pg_graduate_workplace_schools");
             });
 
             modelBuilder.Entity<PgHeader>(entity =>
@@ -350,50 +357,50 @@ namespace Server.Models.University
             modelBuilder.Entity<School>(entity =>
             {
                 entity.ToTable("schools");
-                entity.HasIndex(e => new { e.Name, e.Id })
-                    .HasName("_dta_index_schools_5_1083202959__K1_2");
-                entity.HasIndex(e => new { e.SchoolRegionId, e.Id })
-                    .HasName("_dta_index_schools_5_1083202959__K1_6");
                 entity.Property(e => e.Id).HasColumnName("id");
-                entity.Property(e => e.CityDistrictId).HasColumnName("city_district_id");
-                entity.Property(e => e.InstId).HasColumnName("inst_id");
-                entity.Property(e => e.KindOu)
-                    .HasColumnName("kind_ou")
-                    .HasColumnType("char(4)");
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("varchar(255)");
-                entity.Property(e => e.SchoolCityId).HasColumnName("school_city_id");
-                entity.Property(e => e.SchoolCountryId).HasColumnName("school_country_id");
-                entity.Property(e => e.SchoolDistrictId).HasColumnName("school_district_id");
-                entity.Property(e => e.SchoolRegionId).HasColumnName("school_region_id");
-                entity.Property(e => e.SchoolSettlementId).HasColumnName("school_settlement_id");
-                entity.Property(e => e.ShortName)
-                    .HasColumnName("short_name")
-                    .HasColumnType("varchar(150)");
-                entity.Property(e => e.TypeId)
-                    .HasColumnName("type_id")
-                    .HasDefaultValueSql("14");
-                entity.HasOne(d => d.SchoolCity)
-                    .WithMany(p => p.SchoolsCity)
-                    .HasForeignKey(d => d.SchoolCityId)
-                    .HasConstraintName("FK_schools_kladr2");
-                entity.HasOne(d => d.SchoolDistrict)
-                    .WithMany(p => p.SchoolsDistrict)
-                    .HasForeignKey(d => d.SchoolDistrictId)
-                    .HasConstraintName("FK_schools_kladr1");
-                entity.HasOne(d => d.SchoolRegion)
-                    .WithMany(p => p.SchoolsRegion)
-                    .HasForeignKey(d => d.SchoolRegionId)
-                    .HasConstraintName("FK_schools_kladr");
-                entity.HasOne(d => d.SchoolSettlement)
-                    .WithMany(p => p.SchoolsSettlement)
-                    .HasForeignKey(d => d.SchoolSettlementId)
-                    .HasConstraintName("FK_schools_kladr3");
-                entity.HasOne(d => d.Country)
-                    .WithMany(p => p.Schools)
-                    .HasForeignKey(d => d.SchoolCountryId)
-                    .HasConstraintName("FK_schools_countries");                    
+                // entity.HasIndex(e => new { e.Name, e.Id })
+                //     .HasName("_dta_index_schools_5_1083202959__K1_2");
+                // entity.HasIndex(e => new { e.SchoolRegionId, e.Id })
+                //     .HasName("_dta_index_schools_5_1083202959__K1_6");
+                // entity.Property(e => e.CityDistrictId).HasColumnName("city_district_id");
+                // entity.Property(e => e.InstId).HasColumnName("inst_id");
+                // entity.Property(e => e.KindOu)
+                //     .HasColumnName("kind_ou")
+                //     .HasColumnType("char(4)");
+                // entity.Property(e => e.SchoolCityId).HasColumnName("school_city_id");
+                // entity.Property(e => e.SchoolCountryId).HasColumnName("school_country_id");
+                // entity.Property(e => e.SchoolDistrictId).HasColumnName("school_district_id");
+                // entity.Property(e => e.SchoolRegionId).HasColumnName("school_region_id");
+                // entity.Property(e => e.SchoolSettlementId).HasColumnName("school_settlement_id");
+                // entity.Property(e => e.ShortName)
+                //     .HasColumnName("short_name")
+                //     .HasColumnType("varchar(150)");
+                // entity.Property(e => e.TypeId)
+                //     .HasColumnName("type_id")
+                //     .HasDefaultValueSql("14");
+                // entity.HasOne(d => d.SchoolCity)
+                //     .WithMany(p => p.SchoolsCity)
+                //     .HasForeignKey(d => d.SchoolCityId)
+                //     .HasConstraintName("FK_schools_kladr2");
+                // entity.HasOne(d => d.SchoolDistrict)
+                //     .WithMany(p => p.SchoolsDistrict)
+                //     .HasForeignKey(d => d.SchoolDistrictId)
+                //     .HasConstraintName("FK_schools_kladr1");
+                // entity.HasOne(d => d.SchoolRegion)
+                //     .WithMany(p => p.SchoolsRegion)
+                //     .HasForeignKey(d => d.SchoolRegionId)
+                //     .HasConstraintName("FK_schools_kladr");
+                // entity.HasOne(d => d.SchoolSettlement)
+                //     .WithMany(p => p.SchoolsSettlement)
+                //     .HasForeignKey(d => d.SchoolSettlementId)
+                //     .HasConstraintName("FK_schools_kladr3");
+                // entity.HasOne(d => d.Country)
+                //     .WithMany(p => p.Schools)
+                //     .HasForeignKey(d => d.SchoolCountryId)
+                //     .HasConstraintName("FK_schools_countries");                    
             });
 
             modelBuilder.Entity<Street>(entity =>

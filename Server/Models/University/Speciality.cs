@@ -1,8 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-class Speciality
+namespace Server.Models.University
 {
-    [Key]
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public class Speciality
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }

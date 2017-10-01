@@ -15,11 +15,11 @@ namespace Server.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class SpecialityController : Controller
+    public class SpecialitiesController : Controller
     {
         private UniversityContext db;
         private int employmentId;
-        public SpecialityController(UniversityContext context, IClaimsProps claimsProps)
+        public SpecialitiesController(UniversityContext context, IClaimsProps claimsProps)
         {
             db = context;
             this.employmentId = claimsProps.GetEmploymentId();

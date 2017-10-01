@@ -11,10 +11,10 @@ namespace Server.Models.University
             JuridicalPersonsRegistrationDistrict = new HashSet<JuridicalPerson>();
             JuridicalPersonsRegistrationRegion = new HashSet<JuridicalPerson>();
             JuridicalPersonsRegistrationSettlement = new HashSet<JuridicalPerson>();
-            SchoolsCity = new HashSet<School>();
-            SchoolsDistrict = new HashSet<School>();
-            SchoolsRegion = new HashSet<School>();
-            SchoolsSettlement = new HashSet<School>();
+            // SchoolsCity = new HashSet<School>();
+            // SchoolsDistrict = new HashSet<School>();
+            // SchoolsRegion = new HashSet<School>();
+            // SchoolsSettlement = new HashSet<School>();
             Streets = new HashSet<Street>();
         }
 
@@ -35,10 +35,10 @@ namespace Server.Models.University
         public virtual ICollection<JuridicalPerson> JuridicalPersonsRegistrationDistrict { get; set; }
         public virtual ICollection<JuridicalPerson> JuridicalPersonsRegistrationRegion { get; set; }
         public virtual ICollection<JuridicalPerson> JuridicalPersonsRegistrationSettlement { get; set; }
-        public virtual ICollection<School> SchoolsCity { get; set; }
-        public virtual ICollection<School> SchoolsDistrict { get; set; }
-        public virtual ICollection<School> SchoolsRegion { get; set; }
-        public virtual ICollection<School> SchoolsSettlement { get; set; }
+        // public virtual ICollection<School> SchoolsCity { get; set; }
+        // public virtual ICollection<School> SchoolsDistrict { get; set; }
+        // public virtual ICollection<School> SchoolsRegion { get; set; }
+        // public virtual ICollection<School> SchoolsSettlement { get; set; }
         public virtual ICollection<Street> Streets { get; set; }
     }
 }

@@ -104,6 +104,10 @@ namespace Server.Models.University
             {
                 entity.ToTable("juridical_persons");
                 entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(256)");
                 // entity.Property(e => e.AgreementDate)
                 //     .HasColumnName("agreement_date")
                 //     .HasColumnType("datetime");
@@ -113,10 +117,6 @@ namespace Server.Models.University
                 // entity.Property(e => e.Kpp)
                 //     .HasColumnName("KPP")
                 //     .HasColumnType("varchar(10)");
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(256)");
                 // entity.Property(e => e.Person)
                 //     .HasColumnName("person")
                 //     .HasColumnType("varchar(max)");

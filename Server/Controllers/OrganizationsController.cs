@@ -13,10 +13,10 @@ namespace Server.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class SchoolsController : Controller
+    public class OrganizationsController : Controller
     {
         private UniversityContext db;
-        public SchoolsController(UniversityContext context)
+        public OrganizationsController(UniversityContext context)
         {
             db = context;
         }
@@ -24,7 +24,7 @@ namespace Server.Controllers
         [HttpGet()]
         public IActionResult Get(QueryArgsBase args)
         {
-            IQueryable<School> query = db.Schools.AsQueryable();
+            IQueryable<JuridicalPerson> query = db.JuridicalPersons.AsQueryable();
             if (args.q != null)
                 query = query.Where(x => x.Name.Contains(args.q));
             var res = query

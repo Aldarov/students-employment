@@ -8,7 +8,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const { id } = ownProps.match.params;
   const props = {
     loading: state.fetching,
-
+    specilities: state.specilities
   };
 
   const methods = {

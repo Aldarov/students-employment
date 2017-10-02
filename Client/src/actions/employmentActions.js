@@ -26,9 +26,7 @@ export function getSearchSuggestions(params) {
 }
 
 export function clearSearchSuggestions() {
-  return dispatch => {
-    dispatch({ type: CLEAR_EMPLOYMENT_SUGGESTIONS });
-  };
+  return dispatch => dispatch({ type: CLEAR_EMPLOYMENT_SUGGESTIONS });
 }
 
 export function getEmploymentById(id) {

@@ -10,3 +10,5 @@ export {
   getEmploymentList, getSearchSuggestions, clearSearchSuggestions,
   getEmploymentById, GET_EMPLOYMENT_BY_ID,
 } from './employmentActions';
+
+export { LOAD_SPECIALITIES, loadSpecialities } from './dictionariesActions';

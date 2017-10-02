@@ -64,7 +64,5 @@ Login.propTypes = {
 };
 
 export default {
-  ReduxForm: reduxForm({
-    form: 'Login'
-  })(Login)
+  ReduxForm: reduxForm({ form: 'Login' })(Login)
 };

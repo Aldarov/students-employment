@@ -3,9 +3,10 @@ import { withRouter } from 'react-router';
 
 import AuthHOC from './AuthHOC';
 import Main from '../Components/Main';
+import { loadSpecialities } from '../actions/dictionariesActions';
 
 export default AuthHOC(withRouter(
-  connectAdvanced(() => (state, ownProps) => {
+  connectAdvanced(dispatch => (state, ownProps) => {
     const props = {
       title: state.header.title
     };
@@ -16,7 +17,10 @@ export default AuthHOC(withRouter(
       },
       onRedirectToOrganization: () => {
         ownProps.history.push('/organization');
-      }
+      },
+      onLoadData: () => {
+        dispatch(loadSpecialities());
+      },
     };
 
     return { ...props, ...methods, ...ownProps };

@@ -34,16 +34,9 @@ export function apiGetEmploymentList({page, limit, sorting, search, ...filters})
   }
 
   url = url.slice(0,-1);
-  return axios.get(url)
-    .then(response => {
-      return response;
-    });
+  return axios.get(url).then(response => response);
 }
 
 export function apiGetEmploymentById(id) {
-  let url = startUrl + `/${id}`;
-  return axios.get(url)
-    .then(response => {
-      return response;
-    });
+  return axios.get(startUrl + `/${id}`).then(response => response);
 }

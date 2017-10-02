@@ -89,6 +89,10 @@ const styles = theme => ({
 });
 
 class Main extends Component {
+  componentWillMount(){
+    this.props.onLoadData();
+  }
+
   state = {
     open: false
   };
@@ -177,6 +181,7 @@ Main.propTypes = {
   title: PropTypes.string,
   onRedirectToEmployment: PropTypes.func,
   onRedirectToOrganization: PropTypes.func,
+  onLoadData: PropTypes.func,
 };
 
 export default withStyles(styles)(Main);

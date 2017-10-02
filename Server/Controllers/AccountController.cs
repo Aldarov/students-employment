@@ -80,9 +80,9 @@ namespace Server.Controllers
                 Token newToken = jwt.GetToken(identity);
                 return Ok(newToken);
             }
-            catch (Exception)
+            catch 
             {
-                return BadRequest();
+                throw new Exception("Invalid refresh token");
             }
         }
 

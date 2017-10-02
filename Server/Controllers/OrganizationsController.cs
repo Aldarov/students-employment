@@ -24,7 +24,7 @@ namespace Server.Controllers
         [HttpGet()]
         public IActionResult Get(QueryArgsBase args)
         {
-            IQueryable<JuridicalPerson> query = db.JuridicalPersons.AsQueryable();
+            IQueryable<Organization> query = db.Organizations.AsQueryable();
             if (args.q != null)
                 query = query.Where(x => x.Name.Contains(args.q));
             var res = query

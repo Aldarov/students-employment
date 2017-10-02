@@ -24,6 +24,7 @@ namespace Server.Models.University
         public virtual DbSet<Placement> Placements { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Speciality> Specialities { get; set; }
+        public virtual DbSet<Organization> Organizations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +33,14 @@ namespace Server.Models.University
                 entity.Property(e => e.Id).HasColumnName("speciality_id");
                 entity.Property(e => e.Name).HasColumnName("speciality");
             });
+
+            modelBuilder.Entity<Organization>(entity =>
+            {
+                entity.ToTable("v_juridical_persons_address");
+                entity.Property(e => e.Id).HasColumnName("juridical_person_id");
+                entity.Property(e => e.Name).HasColumnName("juridical_person");
+                entity.Property(e => e.Address).HasColumnName("reg_address");
+            });            
 
             modelBuilder.Entity<Student>(entity =>
             {

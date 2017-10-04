@@ -17,15 +17,16 @@ const renderSelectField = ({
   classes,
   meta: { touched, error },
   children,
+  currentValue,
   ...custom
 }) => {
-  console.log(input, custom);
   return <FormControl className={classes && classes.formControl} error={touched && error}>
     <InputLabel htmlFor="speciality">Специальность</InputLabel>
     <Select
       {...input}
       onChange={(event, index, value) => input.onChange(value)}
       {...custom}
+      value={currentValue}
     >
       {children}
     </Select>
@@ -38,6 +39,7 @@ renderSelectField.propTypes = {
   input: PropTypes.object,
   meta: PropTypes.object,
   children: PropTypes.array,
+  currentValue: PropTypes.any,
 };
 
 const styles = theme => ({
@@ -61,18 +63,23 @@ class Employment extends Component {
     this.props.onChangeTitle();
   }
 
+  handleChangeSpeciality = event => {
+    console.log('handleChangeSpeciality', this.props.data.specialityId, event.target.value);
+    this.props.data.specialityId = event.target.value;
+
+  };
+
   render() {
     const { classes, loading, onSubmit, pristine, submitting, data, specilities } = this.props;
-    // console.log(specilities);
     return (
       <div>
         <form onSubmit={onSubmit}>
-          {/* onChange={this.handleChange('age')} */}
           <Field
             name="speciality"
             component={renderSelectField}
-            value={data.specialityId || 0}
+            currentValue={data.specialityId || 0}
             classes={classes}
+            onChange={this.handleChangeSpeciality}
           >
             {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
           </Field>
@@ -81,8 +88,8 @@ class Employment extends Component {
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="speciality">Специальность</InputLabel>
             <Select
-              value={data.specialityId || 0}
-              input={<Input id="speciality"/>}
+              input={<Input id="age-native-simple" value={data.specialityId || 0}/>}
+              onChange={this.handleChangeSpeciality}
             >
               {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
             </Select>

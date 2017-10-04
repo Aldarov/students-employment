@@ -12,14 +12,46 @@ import { withStyles } from 'material-ui/styles';
 
 import Loading from './common/Loading';
 
+const renderSelectField = ({
+  input,
+  classes,
+  meta: { touched, error },
+  children,
+  ...custom
+}) => {
+  console.log(input, custom);
+  return <FormControl className={classes && classes.formControl} error={touched && error}>
+    <InputLabel htmlFor="speciality">Специальность</InputLabel>
+    <Select
+      {...input}
+      onChange={(event, index, value) => input.onChange(value)}
+      {...custom}
+    >
+      {children}
+    </Select>
+    <FormHelperText>{touched && error}</FormHelperText>
+  </FormControl>;
+};
+
+renderSelectField.propTypes = {
+  classes: PropTypes.object,
+  input: PropTypes.object,
+  meta: PropTypes.object,
+  children: PropTypes.array,
+};
+
 const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
+  block: {
+    display: 'block',
+    margin: theme.spacing.unit,
+  },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120,
+    minWidth: 300,
   },
 });
 
@@ -30,35 +62,34 @@ class Employment extends Component {
   }
 
   render() {
-    const { classes, loading, onSubmit, pristine, submitting, specilities } = this.props;
+    const { classes, loading, onSubmit, pristine, submitting, data, specilities } = this.props;
+    // console.log(specilities);
     return (
       <div>
         <form onSubmit={onSubmit}>
-          {/* <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="age-simple">Age</InputLabel>
-            <Select
-              value={this.state.age}
-              onChange={this.handleChange('age')}
-              input={<Input id="age-simple" />}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl> */}
-
+          {/* onChange={this.handleChange('age')} */}
           <Field
-            name="login"
-            component={TextField}
-            placeholder="Введите логин"
-            label="Логин"
-            margin="normal"
-          />
+            name="speciality"
+            component={renderSelectField}
+            value={data.specialityId || 0}
+            classes={classes}
+          >
+            {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+          </Field>
+          <br/>
+
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="speciality">Специальность</InputLabel>
+            <Select
+              value={data.specialityId || 0}
+              input={<Input id="speciality"/>}
+            >
+              {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+            </Select>
+          </FormControl>
 
           <Button
+            className={classes.block}
             type="submit"
             raised
             color="primary"
@@ -81,6 +112,7 @@ Employment.propTypes = {
   onSubmit: PropTypes.func,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
+  data: PropTypes.object,
   specilities: PropTypes.array,
 };
 

@@ -4,7 +4,7 @@ import EmploymentList from '../Components/EmploymentList';
 import {
   changeTitle,
   getEmploymentList,
-  getSearchSuggestions, clearSearchSuggestions
+  getEmploymentSuggestions, clearEmploymentSuggestions,
 } from '../actions';
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
@@ -36,10 +36,12 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       if (newPage != page )
         dispatch(getEmploymentList({ limit, page: newPage, sorting }));
     },
-    onSuggestionsFetchRequested: (value) => dispatch(getSearchSuggestions({ limit: 7, search: value })),
-    onSuggestionsClearRequested: () => dispatch(clearSearchSuggestions()),
-    onClearSelectSuggestion: () => dispatch(getEmploymentList({ limit, page, sorting })),
+
+    onSuggestionsFetchRequested: (value) => dispatch(getEmploymentSuggestions({ limit: 7, search: value })),
+    onSuggestionsClearRequested: () => dispatch(clearEmploymentSuggestions()),
     onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit, id: value })),
+    onClearSuggestionSelected: () => dispatch(getEmploymentList({ limit, page, sorting })),
+
     onDoAction: (args) => {
       switch (args.type) {
       case 'adding': {

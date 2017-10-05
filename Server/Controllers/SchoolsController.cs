@@ -29,6 +29,7 @@ namespace Server.Controllers
                 query = query.Where(x => x.Name.Contains(args.q));
             var res = query
                 .Sort(args)
+                .AsNoTracking()
                 .PaginateResult(args);
 
             return Json(res);

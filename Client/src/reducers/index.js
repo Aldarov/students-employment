@@ -5,7 +5,7 @@ import fetchingReducer from './fetchingReducer';
 import authReducer from './authReducer';
 import headerReducer from './headerReducer';
 import employmentReducer from './employmentReducer';
-import specialitiesReducer from './specialitiesReducer';
+import dictionariesReducer from './dictionariesReducer';
 
 const reducer = combineReducers({
   fetching: fetchingReducer,
@@ -13,7 +13,7 @@ const reducer = combineReducers({
   form: formReducer,
   header: headerReducer,
   employment: employmentReducer,
-  specialities: specialitiesReducer
+  dictionaries: dictionariesReducer
 });
 
 export default reducer;

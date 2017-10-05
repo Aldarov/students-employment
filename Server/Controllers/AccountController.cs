@@ -82,7 +82,7 @@ namespace Server.Controllers
             }
             catch 
             {
-                throw new Exception("Invalid refresh token");
+                return StatusCode(403, Json("Invalid refresh token"));
             }
         }
 

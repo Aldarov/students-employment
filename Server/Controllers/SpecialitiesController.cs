@@ -28,12 +28,15 @@ namespace Server.Controllers
         [HttpGet()]
         public IActionResult Get(QueryArgsBase args)
         {
-            IQueryable<Speciality> query = db.Specialities;
-            var res = db.Specialities
-                .FromSql<Speciality>("select speciality_id, speciality from dbo.pg_access_to_specialities({0})", employmentId)
+            IQueryable<Speciality> query = db.Specialities
+                .FromSql<Speciality>("select speciality_id, speciality from dbo.pg_access_to_specialities({0})", employmentId);
+            if (args.q != null)
+                query = query.Where(x => x.Name.Contains(args.q));
+
+            var res = query                
                 .Sort(args)
                 .AsNoTracking()
-                .ToList();
+                .PaginateResult(args);
             return Ok(res);
         }
     }

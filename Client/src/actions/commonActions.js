@@ -1,5 +1,7 @@
 import { REQUEST_START, REQUEST_END } from './fetchingActions';
 
+import { logout } from './authActions';
+
 export const commonAction = (dispatch, apiFunc, actions) => {
   dispatch({ type: REQUEST_START });
   return apiFunc
@@ -9,6 +11,8 @@ export const commonAction = (dispatch, apiFunc, actions) => {
     })
     .catch(error => {
       dispatch({ type: REQUEST_END });
-      console.log(error);
+      if (error.status == 403) {
+        dispatch(logout());
+      }
     });
 };

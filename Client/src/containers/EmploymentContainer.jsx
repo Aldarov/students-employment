@@ -1,7 +1,7 @@
 import { connectAdvanced } from 'react-redux';
 import Employment from '../components/Employment';
 import {
-  changeTitle, getEmploymentById,
+  changeTitle, getEmploymentById, setEmploymentById
 } from '../actions';
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
@@ -15,6 +15,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
   const methods = {
     onLoadData: () => dispatch(getEmploymentById(id)),
+    onSetData: data => dispatch(setEmploymentById(data)),
     onChangeTitle: () => dispatch(changeTitle(`Трудоустройство № ${id}`)),
   };
 

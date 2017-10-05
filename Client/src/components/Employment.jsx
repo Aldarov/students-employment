@@ -2,58 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import Button from 'material-ui/Button';
-import { TextField,  } from '@gfpacheco/redux-form-material-ui';
 import { MenuItem } from 'material-ui/Menu';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import Input, { InputLabel } from 'material-ui/Input';
-import Select from 'material-ui/Select';
-
 import { withStyles } from 'material-ui/styles';
 
+import RenderSelect from './common/RenderSelect';
+import Autocomplete from './common/Autocomplete';
 import Loading from './common/Loading';
-
-const renderSelectField = ({
-  input,
-  classes,
-  meta: { touched, error },
-  children,
-  currentValue,
-  ...custom
-}) => {
-  return <FormControl className={classes && classes.formControl} error={touched && error}>
-    <InputLabel htmlFor="speciality">Специальность</InputLabel>
-    <Select
-      {...input}
-      onChange={(event, index, value) => input.onChange(value)}
-      {...custom}
-      value={currentValue}
-    >
-      {children}
-    </Select>
-    <FormHelperText>{touched && error}</FormHelperText>
-  </FormControl>;
-};
-
-renderSelectField.propTypes = {
-  classes: PropTypes.object,
-  input: PropTypes.object,
-  meta: PropTypes.object,
-  children: PropTypes.array,
-  currentValue: PropTypes.any,
-};
 
 const styles = theme => ({
   container: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
   },
   block: {
-    display: 'block',
-    margin: theme.spacing.unit,
+    display: 'block'
   },
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 300,
+    display: 'block'
   },
 });
 
@@ -64,37 +31,46 @@ class Employment extends Component {
   }
 
   handleChangeSpeciality = event => {
-    console.log('handleChangeSpeciality', this.props.data.specialityId, event.target.value);
-    this.props.data.specialityId = event.target.value;
-
+    const { data, onSetData } = this.props;
+    data.specialityId = event.target.value;
+    onSetData(data);
   };
 
   render() {
     const { classes, loading, onSubmit, pristine, submitting, data, specilities } = this.props;
     return (
       <div>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} >
+          {/* <Autocomplete
+            placeholder="Специальность"
+            suggestions={specilities}
+            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={onSuggestionsClearRequested}
+            onSuggestionSelected={onSuggestionSelected}
+            onClearSelectSuggestion={onClearSelectSuggestion}
+          /> */}
+
           <Field
             name="speciality"
-            component={renderSelectField}
-            currentValue={data.specialityId || 0}
+            component={RenderSelect}
+            caption="Специальность"
             classes={classes}
+            currentValue={data.specialityId || 0}
             onChange={this.handleChangeSpeciality}
           >
             {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
           </Field>
-          <br/>
 
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="speciality">Специальность</InputLabel>
-            <Select
-              input={<Input id="age-native-simple" value={data.specialityId || 0}/>}
-              onChange={this.handleChangeSpeciality}
-            >
-              {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-            </Select>
-          </FormControl>
-
+          <Field
+            name="speciality"
+            component={RenderSelect}
+            caption="Специальность"
+            classes={classes}
+            currentValue={data.specialityId || 0}
+            onChange={this.handleChangeSpeciality}
+          >
+            {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+          </Field>
           <Button
             className={classes.block}
             type="submit"
@@ -115,6 +91,7 @@ Employment.propTypes = {
   classes: PropTypes.object,
   loading: PropTypes.bool,
   onLoadData: PropTypes.func,
+  onSetData: PropTypes.func,
   onChangeTitle: PropTypes.func,
   onSubmit: PropTypes.func,
   pristine: PropTypes.bool,

@@ -15,7 +15,7 @@ export default class EmploymentList extends Component {
     const {
       searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested,
       onSuggestionsClearRequested, onSuggestionSelected,
-      onChangePage, onChangeSorting, onClearSelectSuggestion, onDoAction,
+      onChangePage, onChangeSorting, onClearSuggestionSelected, onDoAction,
       data, columns, pageSize, currentPage, totalCount, loading, sorting
     } = this.props;
 
@@ -27,7 +27,7 @@ export default class EmploymentList extends Component {
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           onSuggestionSelected={onSuggestionSelected}
-          onClearSelectSuggestion={onClearSelectSuggestion}
+          onClearSuggestionSelected={onClearSuggestionSelected}
         />
         <List
           data={data}
@@ -70,6 +70,6 @@ EmploymentList.propTypes = {
   onSuggestionSelected: PropTypes.func,
   onChangeSorting: PropTypes.func,
   onChangePage: PropTypes.func,
-  onClearSelectSuggestion: PropTypes.func,
+  onClearSuggestionSelected: PropTypes.func,
   onDoAction: PropTypes.func,
 };

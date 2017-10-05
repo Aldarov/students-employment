@@ -18,14 +18,14 @@ export function getEmploymentList(params) {
     );
 }
 
-export function getSearchSuggestions(params) {
+export function getEmploymentSuggestions(params) {
   return dispatch =>
     commonAction(dispatch, apiGetEmploymentList(params),
       res => dispatch({ type: GET_EMPLOYMENT_SUGGESTIONS, data: res.data.data })
     );
 }
 
-export function clearSearchSuggestions() {
+export function clearEmploymentSuggestions() {
   return dispatch => dispatch({ type: CLEAR_EMPLOYMENT_SUGGESTIONS });
 }
 
@@ -34,4 +34,8 @@ export function getEmploymentById(id) {
     commonAction(dispatch, apiGetEmploymentById(id),
       res => dispatch({ type: GET_EMPLOYMENT_BY_ID, data: res.data })
     );
+}
+
+export function setEmploymentById(data) {
+  return dispatch => dispatch({ type: GET_EMPLOYMENT_BY_ID, data: data });
 }

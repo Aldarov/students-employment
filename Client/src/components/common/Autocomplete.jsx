@@ -126,8 +126,8 @@ class Autocomplete extends React.Component {
     this.debounceSuggestionsFetch(value);
   }
 
-  handleClearSelectSuggestion = () => {
-    this.props.onClearSelectSuggestion();
+  handleClearSuggestionSelected = () => {
+    this.props.onClearSuggestionSelected();
     this.setState({ value: '', inputDisable: false });
   }
 
@@ -154,7 +154,7 @@ class Autocomplete extends React.Component {
           placeholder,
           value: this.state.value,
           onChange: this.handleChange,
-          onClearSelectSuggestion: this.handleClearSelectSuggestion,
+          onClearSelectSuggestion: this.handleClearSuggestionSelected,
           inputDisable: this.state.inputDisable
         }}
         getSuggestionValue={this.handleGetSuggestionValue}
@@ -172,7 +172,7 @@ Autocomplete.propTypes = {
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,
   onSuggestionSelected: PropTypes.func,
-  onClearSelectSuggestion: PropTypes.func,
+  onClearSuggestionSelected: PropTypes.func,
 };
 
 export default withStyles(styles)(Autocomplete);

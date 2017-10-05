@@ -6,9 +6,12 @@ export { CHANGE_TITLE, changeTitle } from './headerActions';
 
 export {
   GET_EMPLOYMENT_LIST, GET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
-  SET_EMPLOYMENT_LIST_SORTING,
-  getEmploymentList, getSearchSuggestions, clearSearchSuggestions,
-  getEmploymentById, GET_EMPLOYMENT_BY_ID,
+  SET_EMPLOYMENT_LIST_SORTING, GET_EMPLOYMENT_BY_ID,
+  getEmploymentList, getEmploymentSuggestions, clearEmploymentSuggestions,
+  getEmploymentById, setEmploymentById
 } from './employmentActions';
 
-export { LOAD_SPECIALITIES, loadSpecialities } from './dictionariesActions';
+export {
+  GET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS,
+  getSpecialitiesSuggestion, clearSpecialitiesSuggestion
+} from './dictionariesActions';

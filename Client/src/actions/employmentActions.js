@@ -1,5 +1,6 @@
 import { apiGetEmploymentList, apiGetEmploymentById } from '../api';
 import { commonAction } from './commonActions';
+import { getSpecialitiesSuggestion } from './dictionariesActions';
 
 export const GET_EMPLOYMENT_LIST = 'GET_EMPLOYMENT_LIST';
 export const GET_EMPLOYMENT_SUGGESTIONS = 'GET_EMPLOYMENT_SUGGESTIONS';
@@ -32,7 +33,12 @@ export function clearEmploymentSuggestions() {
 export function getEmploymentById(id) {
   return dispatch =>
     commonAction(dispatch, apiGetEmploymentById(id),
-      res => dispatch({ type: GET_EMPLOYMENT_BY_ID, data: res.data })
+      res => {
+        dispatch({ type: GET_EMPLOYMENT_BY_ID, data: res.data });
+        commonAction(dispatch, dispatch(getSpecialitiesSuggestion({ id: res.data.specialityId })), (spec) => {
+          console.log(spec);
+        });
+      }
     );
 }
 

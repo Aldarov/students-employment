@@ -16,13 +16,17 @@ export default function getUrl({startUrl, page, limit, sorting, search, ...filte
     let sort = '';
     let order = '';
     sorting.forEach(function(el) {
-      sort = sort + el.columnName + ',';
-      order = order + el.direction + ',';
+      sort = el.columnName && sort + el.columnName + ',';
+      order = el.direction && order + el.direction + ',';
     }, this);
-    sort = sort.slice(0,-1);
-    order = order.slice(0,-1);
-    if (sort || order)
-      url = url + '_sort=' + sort + '&' + '_order=' + order + '&';
+    sort = sort && sort.slice(0,-1);
+    order = order && order.slice(0,-1);
+    if (sort) {
+      url = url + '_sort=' + sort + '&';
+    }
+    if (order) {
+      url = url + '_order=' + order + '&';
+    }
   }
 
   if (filters.id) {

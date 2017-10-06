@@ -1,7 +1,8 @@
 import { connectAdvanced } from 'react-redux';
 import Employment from '../components/Employment';
 import {
-  changeTitle, getEmploymentById, setEmploymentById
+  changeTitle, getEmploymentById, setEmploymentById,
+  getSpecialitiesSuggestion, clearSpecialitiesSuggestion
 } from '../actions';
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
@@ -10,13 +11,15 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const props = {
     loading: state.fetching,
     data: state.employment.edit.data,
-    specilities: state.specialities
+    specilities: state.dictionaries.specialities
   };
 
   const methods = {
     onLoadData: () => dispatch(getEmploymentById(id)),
     onSetData: data => dispatch(setEmploymentById(data)),
     onChangeTitle: () => dispatch(changeTitle(`Трудоустройство № ${id}`)),
+    onGetSpecilitySuggestions: (value) => dispatch(getSpecialitiesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+    onClearSpecilitySuggestions: () => dispatch(clearSpecialitiesSuggestion()),
   };
 
   return { ...props, ...methods, ...ownProps };

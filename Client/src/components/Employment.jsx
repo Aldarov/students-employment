@@ -19,9 +19,13 @@ const styles = theme => ({
   },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 300,
+    minWidth: 400,
     display: 'block'
   },
+  autocomplete: {
+    minWidth: 400,
+    width: 500,
+  }
 });
 
 class Employment extends Component {
@@ -36,19 +40,31 @@ class Employment extends Component {
     onSetData(data);
   };
 
+  handleSpecialitySuggestionSelected = value => {
+    const { data, onSetData } = this.props;
+    data.specialityId = value || null;
+    onSetData(data);
+  };
+
   render() {
-    const { classes, loading, onSubmit, pristine, submitting, data, specilities } = this.props;
+    const {
+      classes, loading, onSubmit, pristine, submitting, data,
+      specilities, onGetSpecilitySuggestions, onClearSpecilitySuggestions,
+    } = this.props;
     return (
       <div>
         <form onSubmit={onSubmit} >
-          {/* <Autocomplete
+          <Autocomplete
+            value={data.speciality}
+            onChangeValue={this.handleSpecialitySuggestionSelected}
+            style={classes.autocomplete}
             placeholder="Специальность"
             suggestions={specilities}
-            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={onSuggestionsClearRequested}
-            onSuggestionSelected={onSuggestionSelected}
-            onClearSelectSuggestion={onClearSelectSuggestion}
-          /> */}
+            onSuggestionsFetchRequested={onGetSpecilitySuggestions}
+            onSuggestionsClearRequested={onClearSpecilitySuggestions}
+            onSuggestionSelected={this.handleSpecialitySuggestionSelected}
+            onClearSuggestionSelected={this.handleSpecialitySuggestionSelected}
+          />
 
           <Field
             name="speciality"
@@ -98,6 +114,10 @@ Employment.propTypes = {
   submitting: PropTypes.bool,
   data: PropTypes.object,
   specilities: PropTypes.array,
+  onGetSpecilitySuggestions: PropTypes.func,
+  onClearSpecilitySuggestions: PropTypes.func,
+  // onSpecialitySuggestionSelected: PropTypes.func,
+  // onSpecialitySuggestionClear: PropTypes.func,
 };
 
 export default reduxForm({ form: 'Employment' })(withStyles(styles)(Employment));

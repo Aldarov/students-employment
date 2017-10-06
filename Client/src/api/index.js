@@ -1,6 +1,6 @@
 export { apiLogin, apiLogout, apiIsAuth, apiSetRequestHeader } from './authApi';
 export { apiGetEmploymentList, apiGetEmploymentById } from './employmentApi';
-export { apiLoadSpecialities } from './dictionariesApi';
+export { apiGetSpecialities } from './dictionariesApi';
 
 import axios from 'axios';
 import { apiRefreshToken } from './authApi';

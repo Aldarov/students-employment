@@ -10,12 +10,13 @@ import ClearIcon from 'material-ui-icons/Clear';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 function renderInput(inputProps) {
-  const { classes, home, value, ref, onClearSelectSuggestion, inputDisable, ...other } = inputProps;
+  const { classes, style, home, value, ref, onClearSelectSuggestion, inputDisable, ...other } = inputProps;
 
   return (
-    <div className={classes.renderInput}>
+    <div className={classNames(classes.renderInput, style)}>
       <TextField
         disabled={inputDisable}
         autoFocus={home}
@@ -37,19 +38,19 @@ function renderInput(inputProps) {
 }
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.text, query);
-  const parts = parse(suggestion.text, matches);
+  const matches = match(suggestion.name, query);
+  const parts = parse(suggestion.name, matches);
 
   return (
     <MenuItem selected={isHighlighted} component="div">
       <div>
         {parts.map((part, index) => {
           return part.highlight ? (
-            <span key={index} style={{ fontWeight: 300 }}>
+            <span key={index} style={{ fontWeight: 700 }}>
               {part.text}
             </span>
           ) : (
-            <strong key={index} style={{ fontWeight: 500 }}>
+            <strong key={index} style={{ fontWeight: 'normal' }}>
               {part.text}
             </strong>
           );
@@ -96,15 +97,15 @@ const styles = theme => ({
   },
   renderInput: {
     display: 'flex',
-    width: '75%'
   }
 });
 
 class Autocomplete extends React.Component {
-  state = { value: '', inputDisable: false };
+  state = {value: '', inputDisable: false };
 
   handleChange = (event, { newValue }) => {
-    this.setState({ value: newValue });
+    this.props.onChangeValue(newValue);
+    // this.setState({ value: newValue });
   };
 
   handleSuggestionSelected = (event, {suggestion}) => {
@@ -115,7 +116,7 @@ class Autocomplete extends React.Component {
   }
 
   handleGetSuggestionValue = (suggestion) => {
-    return suggestion.text;
+    return suggestion.name;
   }
 
   debounceSuggestionsFetch = _.debounce((val) => {
@@ -128,12 +129,13 @@ class Autocomplete extends React.Component {
 
   handleClearSuggestionSelected = () => {
     this.props.onClearSuggestionSelected();
-    this.setState({ value: '', inputDisable: false });
+    // this.setState({ value: '', inputDisable: false });
+    this.setState({ inputDisable: false });
   }
 
   render() {
     const {
-      classes, placeholder, suggestions, onSuggestionsClearRequested
+      classes, value, style, placeholder, suggestions, onSuggestionsClearRequested
     } = this.props;
     return (
       <Autosuggest
@@ -151,8 +153,9 @@ class Autocomplete extends React.Component {
         inputProps={{
           autoFocus: true,
           classes,
+          style,
           placeholder,
-          value: this.state.value,
+          value: value,
           onChange: this.handleChange,
           onClearSelectSuggestion: this.handleClearSuggestionSelected,
           inputDisable: this.state.inputDisable
@@ -166,9 +169,12 @@ class Autocomplete extends React.Component {
 }
 
 Autocomplete.propTypes = {
+  value: PropTypes.string,
+  onChangeValue: PropTypes.func,
+  style: PropTypes.string,
   classes: PropTypes.object.isRequired,
   placeholder: PropTypes.string,
-  suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, text: <text> }
+  suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,
   onSuggestionSelected: PropTypes.func,

@@ -33,7 +33,8 @@ namespace Server.Controllers
             if (args.q != null)
                 query = query.Where(x => x.Name.Contains(args.q));
 
-            var res = query                
+            var res = query
+                .Filter(Request.Query.ToList())
                 .Sort(args)
                 .AsNoTracking()
                 .PaginateResult(args);

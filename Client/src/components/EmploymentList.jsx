@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
 
 import List from './common/List';
 import Autocomplete from './common/Autocomplete';
 import Loading from './common/Loading';
 
-export default class EmploymentList extends Component {
+const styles = () => ({
+  autocomplete: {
+    width: '75%'
+  }
+});
+
+class EmploymentList extends Component {
+  state = { suggestionValue: '' };
+
   componentWillMount() {
     this.props.onChangeTitle();
     this.props.onLoadData();
+  }
+
+  handleChangeValue = (newValue) => {
+    this.setState({ suggestionValue: newValue });
   }
 
   render() {
@@ -16,12 +29,15 @@ export default class EmploymentList extends Component {
       searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested,
       onSuggestionsClearRequested, onSuggestionSelected,
       onChangePage, onChangeSorting, onClearSuggestionSelected, onDoAction,
-      data, columns, pageSize, currentPage, totalCount, loading, sorting
+      data, columns, pageSize, currentPage, totalCount, loading, sorting, classes
     } = this.props;
 
     return (
       <div>
         <Autocomplete
+          value={this.state.suggestionValue}
+          onChangeValue={this.handleChangeValue}
+          style={classes.autocomplete}
           placeholder={searchPlaceholder}
           suggestions={searchSuggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -51,6 +67,7 @@ export default class EmploymentList extends Component {
 }
 
 EmploymentList.propTypes = {
+  classes: PropTypes.object,
   onChangeTitle: PropTypes.func,
   onLoadData: PropTypes.func,
 
@@ -73,3 +90,5 @@ EmploymentList.propTypes = {
   onClearSuggestionSelected: PropTypes.func,
   onDoAction: PropTypes.func,
 };
+
+export default withStyles(styles)(EmploymentList);

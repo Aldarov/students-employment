@@ -11,7 +11,7 @@ export default function reducer(state = defaultData, action) {
   case GET_SPECIALITIES_SUGGESTIONS:
     return {
       ...state,
-      specialities: action.data
+      specialities: action.data.data
     };
   case CLEAR_SPECIALITIES_SUGGESTIONS:
     return {

@@ -13,13 +13,13 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 function renderInput(inputProps) {
-  const { classes, style, home, value, ref, onClearSelectSuggestion, inputDisable, ...other } = inputProps;
+  const { classes, autoFocus, value, ref, onClearSelectSuggestion, inputDisable, ...other } = inputProps;
 
   return (
-    <div className={classNames(classes.renderInput, style)}>
+    <div className={classes.renderInput}>
       <TextField
         disabled={inputDisable}
-        autoFocus={home}
+        autoFocus={autoFocus}
         className={classes.textField}
         value={value}
         inputRef={ref}
@@ -101,17 +101,27 @@ const styles = theme => ({
 });
 
 class Autocomplete extends React.Component {
-  state = {value: '', inputDisable: false };
+  state = { value: '', firstReceiveProps: true, inputDisable: false };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.initValue && this.state.firstReceiveProps) {
+      this.setState({ value: nextProps.initValue, inputDisable: true, firstReceiveProps: false });
+      document.getElementsByTagName('body')[0].focus();
+    }
+  }
 
   handleChange = (event, { newValue }) => {
-    this.props.onChangeValue(newValue);
-    // this.setState({ value: newValue });
+    this.setState({ value: newValue });
   };
 
   handleSuggestionSelected = (event, {suggestion}) => {
     if (suggestion && suggestion.id) {
       this.setState({ inputDisable: true });
-      this.props.onSuggestionSelected(suggestion.id);
+      this.props.onSuggestionSelected({
+        target: {
+          value: suggestion.id
+        }
+      });
     }
   }
 
@@ -129,18 +139,18 @@ class Autocomplete extends React.Component {
 
   handleClearSuggestionSelected = () => {
     this.props.onClearSuggestionSelected();
-    // this.setState({ value: '', inputDisable: false });
-    this.setState({ inputDisable: false });
+    this.setState({ value: '', inputDisable: false });
   }
 
   render() {
     const {
-      classes, value, style, placeholder, suggestions, onSuggestionsClearRequested
+      id, classes, style, placeholder, suggestions, onSuggestionsClearRequested
     } = this.props;
     return (
       <Autosuggest
+        id={id}
         theme={{
-          container: classes.container,
+          container: classNames(classes.container, style),
           suggestionsContainerOpen: classes.suggestionsContainerOpen,
           suggestionsList: classes.suggestionsList,
           suggestion: classes.suggestion,
@@ -151,11 +161,11 @@ class Autocomplete extends React.Component {
         renderSuggestionsContainer={renderSuggestionsContainer}
         renderSuggestion={renderSuggestion}
         inputProps={{
-          autoFocus: true,
+          id,
+          autoFocus: false,
           classes,
-          style,
           placeholder,
-          value: value,
+          value: this.state.value,
           onChange: this.handleChange,
           onClearSelectSuggestion: this.handleClearSuggestionSelected,
           inputDisable: this.state.inputDisable
@@ -169,9 +179,8 @@ class Autocomplete extends React.Component {
 }
 
 Autocomplete.propTypes = {
-  value: PropTypes.string,
-  onChangeValue: PropTypes.func,
   style: PropTypes.string,
+  initValue: PropTypes.string,
   classes: PropTypes.object.isRequired,
   placeholder: PropTypes.string,
   suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
@@ -179,6 +188,8 @@ Autocomplete.propTypes = {
   onSuggestionsClearRequested: PropTypes.func,
   onSuggestionSelected: PropTypes.func,
   onClearSuggestionSelected: PropTypes.func,
+  onSetValue: PropTypes.func,
+  id: PropTypes.string,
 };
 
 export default withStyles(styles)(Autocomplete);

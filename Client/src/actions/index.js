@@ -7,11 +7,12 @@ export { CHANGE_TITLE, changeTitle } from './headerActions';
 export {
   GET_EMPLOYMENT_LIST, GET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
   SET_EMPLOYMENT_LIST_SORTING, GET_EMPLOYMENT_BY_ID,
+  GET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS,
+
   getEmploymentList, getEmploymentSuggestions, clearEmploymentSuggestions,
-  getEmploymentById, setEmploymentById
+  getEmploymentById, setEmploymentById,
+  getSpecialitiesSuggestion, clearSpecialitiesSuggestion
 } from './employmentActions';
 
 export {
-  GET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS,
-  getSpecialitiesSuggestion, clearSpecialitiesSuggestion
 } from './dictionariesActions';

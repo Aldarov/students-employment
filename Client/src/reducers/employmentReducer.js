@@ -2,6 +2,7 @@ import {
   GET_EMPLOYMENT_LIST, SET_EMPLOYMENT_LIST_SORTING,
   GET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
   GET_EMPLOYMENT_BY_ID,
+  GET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS
 } from '../actions';
 
 const defaultData = {
@@ -18,7 +19,7 @@ const defaultData = {
       eduFormId: null,
       pgContractStuffs: []
     },
-    help: {}
+    specialitySuggestions: []
   }
 };
 export default function reducer(state = defaultData, action) {
@@ -75,6 +76,23 @@ export default function reducer(state = defaultData, action) {
       }
     };
   }
+  case GET_SPECIALITIES_SUGGESTIONS: {
+    return {
+      ...state,
+      edit: {
+        ...state.edit,
+        specialitySuggestions: action.data
+      }
+    };
+  }
+  case CLEAR_SPECIALITIES_SUGGESTIONS:
+    return {
+      ...state,
+      edit: {
+        ...state.edit,
+        specialitySuggestions: []
+      }
+    };
   default:
     return state;
   }

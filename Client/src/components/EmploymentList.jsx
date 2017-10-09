@@ -13,37 +13,33 @@ const styles = () => ({
 });
 
 class EmploymentList extends Component {
-  state = { suggestionValue: '' };
-
   componentWillMount() {
     this.props.onChangeTitle();
     this.props.onLoadData();
   }
 
-  handleChangeValue = (newValue) => {
-    this.setState({ suggestionValue: newValue });
+  handleClearSuggestionSelected = () => {
+    this.props.onClearSuggestionSelected();
   }
 
   render() {
     const {
       searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested,
       onSuggestionsClearRequested, onSuggestionSelected,
-      onChangePage, onChangeSorting, onClearSuggestionSelected, onDoAction,
+      onChangePage, onChangeSorting, onDoAction,
       data, columns, pageSize, currentPage, totalCount, loading, sorting, classes
     } = this.props;
 
     return (
       <div>
         <Autocomplete
-          value={this.state.suggestionValue}
-          onChangeValue={this.handleChangeValue}
           style={classes.autocomplete}
           placeholder={searchPlaceholder}
           suggestions={searchSuggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           onSuggestionSelected={onSuggestionSelected}
-          onClearSuggestionSelected={onClearSuggestionSelected}
+          onClearSuggestionSelected={this.handleClearSuggestionSelected}
         />
         <List
           data={data}

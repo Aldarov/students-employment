@@ -11,7 +11,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const props = {
     loading: state.fetching,
     data: state.employment.edit.data,
-    specilities: state.dictionaries.specialities
+    specilities: state.employment.edit.specialitySuggestions
   };
 
   const methods = {

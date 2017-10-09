@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import Button from 'material-ui/Button';
-import { MenuItem } from 'material-ui/Menu';
 import { withStyles } from 'material-ui/styles';
 
+import Button from 'material-ui/Button';
+import TextField from 'material-ui/TextField';
 import RenderSelect from './common/RenderSelect';
+import { MenuItem } from 'material-ui/Menu';
 import Autocomplete from './common/Autocomplete';
 import Loading from './common/Loading';
+// import { FormControl, FormHelperText } from 'material-ui/Form';
+// import { InputLabel } from 'material-ui/Input';
 
 const styles = theme => ({
   container: {
@@ -24,8 +27,14 @@ const styles = theme => ({
   },
   autocomplete: {
     minWidth: 400,
-    width: 500,
-  }
+    width: 700,
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    minWidth: 200,
+    width: 200,
+  },
 });
 
 class Employment extends Component {
@@ -46,6 +55,30 @@ class Employment extends Component {
     onSetData(data);
   };
 
+  handleChange = name => event => {
+    console.log(event);
+    const { data, onSetData } = this.props;
+    const value = event.target.value || null;
+    console.log(value);
+
+    switch (name) {
+    case 'specialityId': {
+      data.specialityId = value;
+      break;
+    }
+    case 'entraceYear': {
+      data.entraceYear = value;
+      break;
+    }
+    }
+
+    onSetData(data);
+
+    // this.setState({
+    //   [name]: event.target.value,
+    // });
+  };
+
   render() {
     const {
       classes, loading, onSubmit, pristine, submitting, data,
@@ -55,15 +88,25 @@ class Employment extends Component {
       <div>
         <form onSubmit={onSubmit} >
           <Autocomplete
-            value={data.speciality}
-            onChangeValue={this.handleSpecialitySuggestionSelected}
+            id='speciality_id'
             style={classes.autocomplete}
+            initValue={data.speciality}
             placeholder="Специальность"
             suggestions={specilities}
             onSuggestionsFetchRequested={onGetSpecilitySuggestions}
             onSuggestionsClearRequested={onClearSpecilitySuggestions}
-            onSuggestionSelected={this.handleSpecialitySuggestionSelected}
+            onSuggestionSelected={this.handleChange('specialityId')}
             onClearSuggestionSelected={this.handleSpecialitySuggestionSelected}
+          />
+
+          <TextField
+            error
+            id="entraceYear"
+            label="Год начала обучения"
+            className={classes.textField}
+            margin="normal"
+            value={data.entraceYear || 0}
+            onChange={this.handleChange('entraceYear')}
           />
 
           <Field
@@ -77,16 +120,6 @@ class Employment extends Component {
             {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
           </Field>
 
-          <Field
-            name="speciality"
-            component={RenderSelect}
-            caption="Специальность"
-            classes={classes}
-            currentValue={data.specialityId || 0}
-            onChange={this.handleChangeSpeciality}
-          >
-            {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-          </Field>
           <Button
             className={classes.block}
             type="submit"

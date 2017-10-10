@@ -2,7 +2,7 @@ import { connectAdvanced } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import AuthHOC from './AuthHOC';
-import Main from '../Components/Main';
+import Main from '../components/Main';
 // import { loadSpecialities } from '../actions/dictionariesActions';
 
 export default AuthHOC(withRouter(

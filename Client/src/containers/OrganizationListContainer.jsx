@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import OrganizationList from '../Components/OrganizationList';
+import OrganizationList from '../components/OrganizationList';
 import { changeTitle } from '../actions';
 
 const mapStateToProps = () => {

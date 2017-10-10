@@ -7,10 +7,11 @@ import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import RenderSelect from './common/RenderSelect';
 import { MenuItem } from 'material-ui/Menu';
-import Autocomplete from './common/Autocomplete';
-import Loading from './common/Loading';
 // import { FormControl, FormHelperText } from 'material-ui/Form';
 // import { InputLabel } from 'material-ui/Input';
+
+import Autocomplete from './common/Autocomplete';
+import Loading from './common/Loading';
 
 const styles = theme => ({
   container: {
@@ -62,14 +63,14 @@ class Employment extends Component {
     console.log(value);
 
     switch (name) {
-    case 'specialityId': {
-      data.specialityId = value;
-      break;
-    }
-    case 'entraceYear': {
-      data.entraceYear = value;
-      break;
-    }
+      case 'specialityId': {
+        data.specialityId = value;
+        break;
+      }
+      case 'entraceYear': {
+        data.entraceYear = value;
+        break;
+      }
     }
 
     onSetData(data);
@@ -89,6 +90,7 @@ class Employment extends Component {
         <form onSubmit={onSubmit} >
           <Autocomplete
             id='speciality_id'
+            label='Год начала обучения'
             style={classes.autocomplete}
             initValue={data.speciality}
             placeholder="Специальность"
@@ -100,12 +102,13 @@ class Employment extends Component {
           />
 
           <TextField
-            error
-            id="entraceYear"
             label="Год начала обучения"
+            placeholder="Введите год"
             className={classes.textField}
             margin="normal"
-            value={data.entraceYear || 0}
+            type="number"
+            value={data.entraceYear || null}
+            helperText={'ошибка'}
             onChange={this.handleChange('entraceYear')}
           />
 

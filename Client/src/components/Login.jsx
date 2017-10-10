@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import Button from 'material-ui/Button';
-import { TextField } from '@gfpacheco/redux-form-material-ui';
+// import { TextField } from '@gfpacheco/redux-form-material-ui';
 import './Login.scss';
 
 class Login extends React.Component {
@@ -20,7 +20,7 @@ class Login extends React.Component {
               Вход в систему
             </h3>
 
-            <Field
+            {/* <Field
               name="login"
               component={TextField}
               placeholder="Введите логин"
@@ -34,7 +34,7 @@ class Login extends React.Component {
               placeholder="Введите пароль"
               label="Пароль"
               margin="normal"
-            /><br/>
+            /><br/> */}
 
             <Button
               type="submit"

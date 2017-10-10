@@ -1,6 +1,6 @@
 import { connectAdvanced } from 'react-redux';
 
-import EmploymentList from '../Components/EmploymentList';
+import EmploymentList from '../components/EmploymentList';
 import {
   changeTitle,
   getEmploymentList,
@@ -44,19 +44,19 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
     onDoAction: (args) => {
       switch (args.type) {
-      case 'adding': {
+        case 'adding': {
 
-        break;
-      }
-      case 'editing': {
-        ownProps.history.push(`/employment/${args.row.id}`);
-        break;
-      }
-      case 'deleting': {
+          break;
+        }
+        case 'editing': {
+          ownProps.history.push(`/employment/${args.row.id}`);
+          break;
+        }
+        case 'deleting': {
 
-        break;
-      }
-      default: break;
+          break;
+        }
+        default: break;
       }
     },
   };

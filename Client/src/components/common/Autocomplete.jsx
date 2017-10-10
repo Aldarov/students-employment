@@ -13,22 +13,21 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 function renderInput(inputProps) {
-  const { classes, autoFocus, value, ref, onClearSelectSuggestion, inputDisable, ...other } = inputProps;
+  const { classes, value, ref, onClearSelectSuggestion, inputDisable, ...other } = inputProps;
 
   return (
     <div className={classes.renderInput}>
       <TextField
         disabled={inputDisable}
-        autoFocus={autoFocus}
         className={classes.textField}
         value={value}
         inputRef={ref}
         InputProps={{
           classes: {
             input: classes.input,
-          },
-          ...other,
+          }
         }}
+        {...other}
       />
       <IconButton disabled={!value} onClick={onClearSelectSuggestion} >
         <ClearIcon />
@@ -144,7 +143,7 @@ class Autocomplete extends React.Component {
 
   render() {
     const {
-      id, classes, style, placeholder, suggestions, onSuggestionsClearRequested
+      id, classes, style, suggestions, onSuggestionsClearRequested, ...other
     } = this.props;
     return (
       <Autosuggest
@@ -164,11 +163,11 @@ class Autocomplete extends React.Component {
           id,
           autoFocus: false,
           classes,
-          placeholder,
           value: this.state.value,
           onChange: this.handleChange,
           onClearSelectSuggestion: this.handleClearSuggestionSelected,
-          inputDisable: this.state.inputDisable
+          inputDisable: this.state.inputDisable,
+          ...other
         }}
         getSuggestionValue={this.handleGetSuggestionValue}
         onSuggestionSelected={this.handleSuggestionSelected}
@@ -182,7 +181,6 @@ Autocomplete.propTypes = {
   style: PropTypes.string,
   initValue: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  placeholder: PropTypes.string,
   suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,

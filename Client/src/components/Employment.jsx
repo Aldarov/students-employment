@@ -6,9 +6,9 @@ import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import RenderSelect from './common/RenderSelect';
+import renderTextField from './common/RenderTextField';
+
 import { MenuItem } from 'material-ui/Menu';
-// import { FormControl, FormHelperText } from 'material-ui/Form';
-// import { InputLabel } from 'material-ui/Input';
 
 import Autocomplete from './common/Autocomplete';
 import Loading from './common/Loading';
@@ -18,8 +18,9 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  block: {
-    display: 'block'
+  button: {
+    display: 'block',
+    marginLeft: theme.spacing.unit,
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -29,12 +30,14 @@ const styles = theme => ({
   autocomplete: {
     minWidth: 400,
     width: 700,
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
   },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    minWidth: 200,
-    width: 200,
+    minWidth: 300,
+    width: 300,
   },
 });
 
@@ -57,27 +60,9 @@ class Employment extends Component {
   };
 
   handleChange = name => event => {
-    console.log(event);
     const { data, onSetData } = this.props;
-    const value = event.target.value || null;
-    console.log(value);
-
-    switch (name) {
-      case 'specialityId': {
-        data.specialityId = value;
-        break;
-      }
-      case 'entraceYear': {
-        data.entraceYear = value;
-        break;
-      }
-    }
-
+    data[name] = event.target.value || null;
     onSetData(data);
-
-    // this.setState({
-    //   [name]: event.target.value,
-    // });
   };
 
   render() {
@@ -85,15 +70,22 @@ class Employment extends Component {
       classes, loading, onSubmit, pristine, submitting, data,
       specilities, onGetSpecilitySuggestions, onClearSpecilitySuggestions,
     } = this.props;
+    console.log('initialValues', this.props.initialValues);
+
     return (
       <div>
         <form onSubmit={onSubmit} >
           <Autocomplete
             id='speciality_id'
-            label='Год начала обучения'
-            style={classes.autocomplete}
             initValue={data.speciality}
-            placeholder="Специальность"
+            inputProps={{
+              error: false,
+              helperText: 'ошибка',
+              label: 'Специальность',
+              placeholder: 'введите наименование или код специальности',
+              margin:'normal',
+              className: classes.autocomplete,
+            }}
             suggestions={specilities}
             onSuggestionsFetchRequested={onGetSpecilitySuggestions}
             onSuggestionsClearRequested={onClearSpecilitySuggestions}
@@ -101,13 +93,24 @@ class Employment extends Component {
             onClearSuggestionSelected={this.handleSpecialitySuggestionSelected}
           />
 
+          <Field
+            name="entraceYear"
+            component={renderTextField}
+            label="Год начала обучения"
+            placeholder="введите год начала обучения"
+            className={classes.textField}
+            margin="normal"
+            helperText={'ошибка'}
+            onChange={this.handleChange('entraceYear')}
+          />
+
           <TextField
             label="Год начала обучения"
-            placeholder="Введите год"
+            placeholder="введите год начала обучения"
             className={classes.textField}
             margin="normal"
             type="number"
-            value={data.entraceYear || null}
+            value={data.entraceYear || ''}
             helperText={'ошибка'}
             onChange={this.handleChange('entraceYear')}
           />
@@ -124,7 +127,7 @@ class Employment extends Component {
           </Field>
 
           <Button
-            className={classes.block}
+            className={classes.button}
             type="submit"
             raised
             color="primary"
@@ -149,6 +152,7 @@ Employment.propTypes = {
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
   data: PropTypes.object,
+  initialValues: PropTypes.object,
   specilities: PropTypes.array,
   onGetSpecilitySuggestions: PropTypes.func,
   onClearSpecilitySuggestions: PropTypes.func,

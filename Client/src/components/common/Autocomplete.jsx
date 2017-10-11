@@ -10,23 +10,17 @@ import ClearIcon from 'material-ui-icons/Clear';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import _ from 'lodash';
-import classNames from 'classnames';
 
 function renderInput(inputProps) {
-  const { classes, value, ref, onClearSelectSuggestion, inputDisable, ...other } = inputProps;
-
+  const { classes, value, ref, onClearSelectSuggestion, inputDisable, error, helperText, ...other } = inputProps;
   return (
-    <div className={classes.renderInput}>
+    <div >
       <TextField
-        disabled={inputDisable}
-        className={classes.textField}
-        value={value}
+        error={error}
+        helperText={error && helperText}
         inputRef={ref}
-        InputProps={{
-          classes: {
-            input: classes.input,
-          }
-        }}
+        disabled={inputDisable}
+        value={value || ''}
         {...other}
       />
       <IconButton disabled={!value} onClick={onClearSelectSuggestion} >
@@ -73,7 +67,6 @@ const styles = theme => ({
   container: {
     flexGrow: 1,
     position: 'relative',
-    margin: 5,
   },
   suggestionsContainerOpen: {
     position: 'absolute',
@@ -96,6 +89,9 @@ const styles = theme => ({
   },
   renderInput: {
     display: 'flex',
+  },
+  clearIcon:{
+    alignSelf: 'center'
   }
 });
 
@@ -105,7 +101,6 @@ class Autocomplete extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.initValue && this.state.firstReceiveProps) {
       this.setState({ value: nextProps.initValue, inputDisable: true, firstReceiveProps: false });
-      document.getElementsByTagName('body')[0].focus();
     }
   }
 
@@ -143,13 +138,13 @@ class Autocomplete extends React.Component {
 
   render() {
     const {
-      id, classes, style, suggestions, onSuggestionsClearRequested, ...other
+      id, classes, suggestions, onSuggestionsClearRequested, inputProps: {...inputProps}
     } = this.props;
     return (
       <Autosuggest
         id={id}
         theme={{
-          container: classNames(classes.container, style),
+          container: classes.container,
           suggestionsContainerOpen: classes.suggestionsContainerOpen,
           suggestionsList: classes.suggestionsList,
           suggestion: classes.suggestion,
@@ -160,14 +155,13 @@ class Autocomplete extends React.Component {
         renderSuggestionsContainer={renderSuggestionsContainer}
         renderSuggestion={renderSuggestion}
         inputProps={{
-          id,
           autoFocus: false,
           classes,
           value: this.state.value,
           onChange: this.handleChange,
           onClearSelectSuggestion: this.handleClearSuggestionSelected,
           inputDisable: this.state.inputDisable,
-          ...other
+          ...inputProps
         }}
         getSuggestionValue={this.handleGetSuggestionValue}
         onSuggestionSelected={this.handleSuggestionSelected}
@@ -178,7 +172,7 @@ class Autocomplete extends React.Component {
 }
 
 Autocomplete.propTypes = {
-  style: PropTypes.string,
+  inputProps: PropTypes.object,
   initValue: PropTypes.string,
   classes: PropTypes.object.isRequired,
   suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }

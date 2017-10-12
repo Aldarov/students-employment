@@ -138,7 +138,7 @@ class Autocomplete extends React.Component {
 
   render() {
     const {
-      id, classes, suggestions, onSuggestionsClearRequested, inputProps: {...inputProps}
+      id, value, classes, suggestions, onSuggestionsClearRequested, inputProps: {...inputProps}
     } = this.props;
     return (
       <Autosuggest
@@ -174,6 +174,7 @@ class Autocomplete extends React.Component {
 Autocomplete.propTypes = {
   inputProps: PropTypes.object,
   initValue: PropTypes.string,
+  value: PropTypes.string,
   classes: PropTypes.object.isRequired,
   suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
   onSuggestionsFetchRequested: PropTypes.func,

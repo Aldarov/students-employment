@@ -5,12 +5,15 @@ import fetchingReducer from './fetchingReducer';
 import authReducer from './authReducer';
 import headerReducer from './headerReducer';
 import employmentReducer from './employmentReducer';
+import formEmploymentReducer from './formEmploymentReducer';
 import dictionariesReducer from './dictionariesReducer';
 
 const reducer = combineReducers({
   fetching: fetchingReducer,
   isAuth: authReducer,
-  form: formReducer,
+  form: formReducer.plugin({
+    employment: formEmploymentReducer
+  }),
   header: headerReducer,
   employment: employmentReducer,
   dictionaries: dictionariesReducer

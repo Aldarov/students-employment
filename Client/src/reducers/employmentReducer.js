@@ -1,7 +1,7 @@
 import {
   GET_EMPLOYMENT_LIST, SET_EMPLOYMENT_LIST_SORTING,
   GET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
-  GET_EMPLOYMENT_BY_ID,
+  // GET_EMPLOYMENT_BY_ID,
   GET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS
 } from '../actions';
 
@@ -12,13 +12,13 @@ const defaultData = {
     searchSuggestions: []
   },
   edit: {
-    data: {
-      id: null,
-      specialityId: null,
-      entranceYear: null,
-      eduFormId: null,
-      pgContractStuffs: []
-    },
+    // data: {
+    //   id: null,
+    //   specialityId: null,
+    //   entraceYear: null,
+    //   eduFormId: null,
+    //   pgContractStuffs: []
+    // },
     specialitySuggestions: []
   }
 };
@@ -67,15 +67,15 @@ export default function reducer(state = defaultData, action) {
         }
       };
     }
-    case GET_EMPLOYMENT_BY_ID: {
-      return {
-        ...state,
-        edit: {
-          ...state.edit,
-          data: action.data,
-        }
-      };
-    }
+    // case GET_EMPLOYMENT_BY_ID: {
+    //   return {
+    //     ...state,
+    //     edit: {
+    //       ...state.edit,
+    //       data: action.data,
+    //     }
+    //   };
+    // }
     case GET_SPECIALITIES_SUGGESTIONS: {
       return {
         ...state,

@@ -7,10 +7,9 @@ export default function renderTextField ({
   meta: { touched, error },
   ...custom
 }) {
-  console.log({...custom}, {...input});
   return (
     <TextField
-      error={touched && error}
+      error={touched && Boolean(error)}
       helperText={touched && error}
       {...input}
       {...custom}

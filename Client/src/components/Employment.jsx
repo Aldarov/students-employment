@@ -39,6 +39,15 @@ const styles = theme => ({
     minWidth: 300,
     width: 300,
   },
+  error: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    marginTop: 8,
+    marginBottom: 16,
+    color: 'red',
+    fontWeight: 600,
+    display: 'block'
+  }
 });
 
 class Employment extends Component {
@@ -67,15 +76,14 @@ class Employment extends Component {
 
   render() {
     const {
-      classes, loading, onSubmit, pristine, submitting, data,
+      classes, error, loading, handleSubmit, pristine, submitting, data,
       specilities, onGetSpecilitySuggestions, onClearSpecilitySuggestions,
     } = this.props;
-    console.log('initialValues', this.props.initialValues);
 
     return (
       <div>
-        <form onSubmit={onSubmit} >
-          <Autocomplete
+        <form onSubmit={handleSubmit} >
+          {/* <Autocomplete
             id='speciality_id'
             initValue={data.speciality}
             inputProps={{
@@ -91,31 +99,29 @@ class Employment extends Component {
             onSuggestionsClearRequested={onClearSpecilitySuggestions}
             onSuggestionSelected={this.handleChange('specialityId')}
             onClearSuggestionSelected={this.handleSpecialitySuggestionSelected}
-          />
+          /> */}
 
           <Field
-            name="entraceYear"
+            name='entraceYear'
             component={renderTextField}
-            label="Год начала обучения"
-            placeholder="введите год начала обучения"
+            label='Год начала обучения'
+            placeholder='введите год начала обучения'
             className={classes.textField}
-            margin="normal"
-            helperText={'ошибка'}
-            onChange={this.handleChange('entraceYear')}
+            type='search'
+            margin='normal'
           />
 
-          <TextField
+          {/* <TextField
             label="Год начала обучения"
             placeholder="введите год начала обучения"
             className={classes.textField}
             margin="normal"
             type="number"
-            value={data.entraceYear || ''}
             helperText={'ошибка'}
             onChange={this.handleChange('entraceYear')}
-          />
+          /> */}
 
-          <Field
+          {/* <Field
             name="speciality"
             component={RenderSelect}
             caption="Специальность"
@@ -124,7 +130,9 @@ class Employment extends Component {
             onChange={this.handleChangeSpeciality}
           >
             {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-          </Field>
+          </Field> */}
+
+          {error && <strong className={classes.error}>{error}</strong>}
 
           <Button
             className={classes.button}
@@ -135,6 +143,7 @@ class Employment extends Component {
           >
             Сохранить
           </Button>
+
         </form>
         {loading && <Loading />}
       </div>
@@ -144,11 +153,12 @@ class Employment extends Component {
 
 Employment.propTypes = {
   classes: PropTypes.object,
+  error: PropTypes.string,
   loading: PropTypes.bool,
   onLoadData: PropTypes.func,
   onSetData: PropTypes.func,
   onChangeTitle: PropTypes.func,
-  onSubmit: PropTypes.func,
+  handleSubmit: PropTypes.func,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
   data: PropTypes.object,
@@ -160,4 +170,6 @@ Employment.propTypes = {
   // onSpecialitySuggestionClear: PropTypes.func,
 };
 
-export default reduxForm({ form: 'Employment' })(withStyles(styles)(Employment));
+export default reduxForm({
+  form: 'employment',
+})(withStyles(styles)(Employment));

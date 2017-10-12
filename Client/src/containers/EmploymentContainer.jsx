@@ -1,4 +1,6 @@
 import { connectAdvanced } from 'react-redux';
+import { SubmissionError } from 'redux-form';
+
 import Employment from '../components/Employment';
 import {
   changeTitle, getEmploymentById, setEmploymentById,
@@ -21,6 +23,24 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     onChangeTitle: () => dispatch(changeTitle(`Трудоустройство № ${id}`)),
     onGetSpecilitySuggestions: (value) => dispatch(getSpecialitiesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearSpecilitySuggestions: () => dispatch(clearSpecialitiesSuggestion()),
+    onSubmit: (values) => {
+      console.log('onSubmit', values);
+      throw new SubmissionError({
+        entraceYear: 'Ошибка заполнения',
+        _error: 'Общая ошибка формы!!'
+      });
+    },
+    validate: (values) => {
+      const errors = {};
+      const requiredFields = [ 'entraceYear' ];
+      requiredFields.forEach(field => {
+        if (!values[field]) {
+          errors[field] = 'Заполните данное поле';
+        }
+      });
+
+      return errors;
+    }
   };
 
   return { ...props, ...methods, ...ownProps };

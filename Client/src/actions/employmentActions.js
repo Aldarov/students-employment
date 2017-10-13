@@ -64,3 +64,34 @@ export function getSpecialitiesSuggestion(params) {
 export function clearSpecialitiesSuggestion() {
   return dispatch => dispatch({ type: CLEAR_SPECIALITIES_SUGGESTIONS });
 }
+
+export function clearSpecialitySelectedSuggestion() {
+  return dispatch => {
+    dispatch({
+      type: '@@redux-form/CHANGE',
+      meta: {
+        form: 'employment',
+        field: 'speciality',
+        touch: false,
+        persistentSubmitErrors: false
+      },
+      payload: ''
+    });
+  };
+}
+
+export function specialitySelected(data) {
+  console.log('specialitySelected', data);
+  return dispatch => {
+    dispatch({
+      type: '@@redux-form/BLUR',
+      meta: {
+        form: 'employment',
+        field: 'speciality',
+        touch: true,
+        active: false
+      },
+      payload: data.name
+    });
+  };
+}

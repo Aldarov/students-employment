@@ -20,5 +20,4 @@ export default function renderTextField ({
 renderTextField.propTypes = {
   input: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
-  children: PropTypes.array,
 };

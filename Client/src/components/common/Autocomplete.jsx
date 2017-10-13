@@ -12,7 +12,7 @@ import parse from 'autosuggest-highlight/parse';
 import _ from 'lodash';
 
 function renderInput(inputProps) {
-  const { classes, value, ref, onClearSelectSuggestion, inputDisable, error, helperText, ...other } = inputProps;
+  const { value, ref, onClearSelectSuggestion, inputDisable, error, helperText, ...other } = inputProps;
   return (
     <div >
       <TextField
@@ -96,11 +96,11 @@ const styles = theme => ({
 });
 
 class Autocomplete extends React.Component {
-  state = { value: '', firstReceiveProps: true, inputDisable: false };
+  state = { firstReceiveProps: true, inputDisable: false };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.initValue && this.state.firstReceiveProps) {
-      this.setState({ value: nextProps.initValue, inputDisable: true, firstReceiveProps: false });
+    if (nextProps.inputProps.value && this.state.firstReceiveProps) {
+      this.setState({ inputDisable: true, firstReceiveProps: false });
     }
   }
 
@@ -110,12 +110,8 @@ class Autocomplete extends React.Component {
 
   handleSuggestionSelected = (event, {suggestion}) => {
     if (suggestion && suggestion.id) {
-      this.setState({ inputDisable: true });
-      this.props.onSuggestionSelected({
-        target: {
-          value: suggestion.id
-        }
-      });
+      // this.setState({ inputDisable: true });
+      this.props.onSuggestionSelected(suggestion);
     }
   }
 
@@ -131,14 +127,14 @@ class Autocomplete extends React.Component {
     this.debounceSuggestionsFetch(value);
   }
 
-  handleClearSuggestionSelected = () => {
-    this.props.onClearSuggestionSelected();
-    this.setState({ value: '', inputDisable: false });
+  handleClearSelectSuggestion = () => {
+    this.props.onClearSelectedSuggestion();
+    this.setState({ inputDisable: false });
   }
 
   render() {
     const {
-      id, value, classes, suggestions, onSuggestionsClearRequested, inputProps: {...inputProps}
+      id, classes, suggestions, onSuggestionsClearRequested, inputProps: {...inputProps}
     } = this.props;
     return (
       <Autosuggest
@@ -150,39 +146,38 @@ class Autocomplete extends React.Component {
           suggestion: classes.suggestion,
         }}
         renderInputComponent={renderInput}
-        suggestions={suggestions}
-        onSuggestionsClearRequested={onSuggestionsClearRequested}
         renderSuggestionsContainer={renderSuggestionsContainer}
         renderSuggestion={renderSuggestion}
+        getSuggestionValue={this.handleGetSuggestionValue}
         inputProps={{
-          autoFocus: false,
-          classes,
           value: this.state.value,
           onChange: this.handleChange,
-          onClearSelectSuggestion: this.handleClearSuggestionSelected,
+          onClearSelectSuggestion: this.handleClearSelectSuggestion,
           inputDisable: this.state.inputDisable,
           ...inputProps
         }}
-        getSuggestionValue={this.handleGetSuggestionValue}
-        onSuggestionSelected={this.handleSuggestionSelected}
+        suggestions={suggestions}
         onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
+        onSuggestionsClearRequested={onSuggestionsClearRequested}
+        onSuggestionSelected={this.handleSuggestionSelected}
       />
     );
   }
 }
 
 Autocomplete.propTypes = {
+  id: PropTypes.string,
   inputProps: PropTypes.object,
-  initValue: PropTypes.string,
   value: PropTypes.string,
   classes: PropTypes.object.isRequired,
+
   suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
+
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,
+
   onSuggestionSelected: PropTypes.func,
-  onClearSuggestionSelected: PropTypes.func,
-  onSetValue: PropTypes.func,
-  id: PropTypes.string,
+  onClearSelectedSuggestion: PropTypes.func,
 };
 
 export default withStyles(styles)(Autocomplete);

@@ -39,7 +39,7 @@ class EmploymentList extends Component {
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           onSuggestionSelected={onSuggestionSelected}
-          onClearSuggestionSelected={this.handleClearSuggestionSelected}
+          onClearSelectedSuggestion={this.handleClearSuggestionSelected}
         />
         <List
           data={data}

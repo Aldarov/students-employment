@@ -11,7 +11,7 @@ export {
 
   getEmploymentList, getEmploymentSuggestions, clearEmploymentSuggestions,
   getEmploymentById, setEmploymentById,
-  getSpecialitiesSuggestion, clearSpecialitiesSuggestion
+  getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected
 } from './employmentActions';
 
 export {

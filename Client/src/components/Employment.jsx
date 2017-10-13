@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import { withStyles } from 'material-ui/styles';
 
+import { withStyles } from 'material-ui/styles';
+import { MenuItem } from 'material-ui/Menu';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import RenderSelect from './common/RenderSelect';
-import renderTextField from './common/RenderTextField';
-
-import { MenuItem } from 'material-ui/Menu';
 
 import Autocomplete from './common/Autocomplete';
 import Loading from './common/Loading';
+import RenderSelect from './common/RenderSelect';
+import RenderTextField from './common/RenderTextField';
+import RenderAutocomplete from './common/RenderAutocomplete';
 
 const styles = theme => ({
   container: {
@@ -56,28 +56,34 @@ class Employment extends Component {
     this.props.onChangeTitle();
   }
 
-  handleChangeSpeciality = event => {
-    const { data, onSetData } = this.props;
-    data.specialityId = event.target.value;
-    onSetData(data);
+  // handleChangeSpeciality = event => {
+  //   const { data, onSetData } = this.props;
+  //   data.specialityId = event.target.value;
+  //   onSetData(data);
+  // };
+
+  // handleSpecialitySuggestionSelected = value => {
+  //   const { data, onSetData } = this.props;
+  //   data.specialityId = value || null;
+  //   onSetData(data);
+  // };
+
+  handleSpecialityChange = name => event => {
+    // const { data, onSetData } = this.props;
+    // data[name] = event.target.value || null;
+    // onSetData(data);
   };
 
-  handleSpecialitySuggestionSelected = value => {
-    const { data, onSetData } = this.props;
-    data.specialityId = value || null;
-    onSetData(data);
-  };
-
-  handleChange = name => event => {
-    const { data, onSetData } = this.props;
-    data[name] = event.target.value || null;
-    onSetData(data);
-  };
+  handleClearSpecilitySuggestions = () => {
+    // const { , onSetData } = this.props;
+    // data[name] = event.target.value || null;
+    // onSetData(data);
+  }
 
   render() {
     const {
-      classes, error, loading, handleSubmit, pristine, submitting, data,
-      specilities, onGetSpecilitySuggestions, onClearSpecilitySuggestions,
+      classes, error, loading, handleSubmit, pristine, submitting,
+      specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
     } = this.props;
 
     return (
@@ -85,29 +91,46 @@ class Employment extends Component {
         <form onSubmit={handleSubmit} >
           {/* <Autocomplete
             id='speciality_id'
-            initValue={data.speciality}
+            value={'спец'}
             inputProps={{
+              autoFocus: false,
               error: false,
               helperText: 'ошибка',
               label: 'Специальность',
               placeholder: 'введите наименование или код специальности',
-              margin:'normal',
+              margin: 'normal',
               className: classes.autocomplete,
             }}
             suggestions={specilities}
             onSuggestionsFetchRequested={onGetSpecilitySuggestions}
             onSuggestionsClearRequested={onClearSpecilitySuggestions}
             onSuggestionSelected={this.handleChange('specialityId')}
-            onClearSuggestionSelected={this.handleSpecialitySuggestionSelected}
-          /> */}
+            onClearSuggestionSelected={this.handleChange('specialityId')}
+          />
+        */}
+          <Field
+            name='speciality'
+            component={RenderAutocomplete}
+
+            autoFocus={false}
+            label='Специальность'
+            placeholder='выберите специальность'
+            className={classes.textField}
+            margin='normal'
+
+            suggestions={specialities}
+            onSuggestionsFetchRequested={onGetSpecialitySuggestions}
+            onSuggestionsClearRequested={onClearSpecialitySuggestions}
+            onSuggestionSelected={onSpecialitySelected}
+            onClearSelectedSuggestion={onClearSpecialitySelectedSuggestion}
+          />
 
           <Field
             name='entraceYear'
-            component={renderTextField}
+            component={RenderTextField}
             label='Год начала обучения'
             placeholder='введите год начала обучения'
             className={classes.textField}
-            type='search'
             margin='normal'
           />
 
@@ -161,13 +184,12 @@ Employment.propTypes = {
   handleSubmit: PropTypes.func,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
-  data: PropTypes.object,
-  initialValues: PropTypes.object,
-  specilities: PropTypes.array,
-  onGetSpecilitySuggestions: PropTypes.func,
-  onClearSpecilitySuggestions: PropTypes.func,
-  // onSpecialitySuggestionSelected: PropTypes.func,
-  // onSpecialitySuggestionClear: PropTypes.func,
+
+  specialities: PropTypes.array,
+  onGetSpecialitySuggestions: PropTypes.func,
+  onClearSpecialitySuggestions: PropTypes.func,
+  onClearSpecialitySelectedSuggestion: PropTypes.func,
+  onSpecialitySelected: PropTypes.func,
 };
 
 export default reduxForm({

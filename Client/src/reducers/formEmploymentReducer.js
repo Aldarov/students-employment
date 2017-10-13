@@ -7,7 +7,7 @@ export default function reducer(state = {}, action) {
     case GET_EMPLOYMENT_BY_ID: {
       return {
         ...state,
-        values: action.data
+        initialValues: action.data
       };
     }
     default:

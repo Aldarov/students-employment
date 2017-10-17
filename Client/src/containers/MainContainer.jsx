@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 
 import AuthHOC from './AuthHOC';
 import Main from '../components/Main';
-// import { loadSpecialities } from '../actions/dictionariesActions';
+import { getEduForms } from '../actions/dictionariesActions';
 
 export default AuthHOC(withRouter(
   connectAdvanced(dispatch => (state, ownProps) => {
@@ -19,7 +19,7 @@ export default AuthHOC(withRouter(
         ownProps.history.push('/organization');
       },
       onLoadData: () => {
-        // dispatch(loadSpecialities());
+        dispatch(getEduForms());
       },
     };
 

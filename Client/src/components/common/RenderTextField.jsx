@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 export default function renderTextField ({
   input,
   meta: { touched, error },
+  children,
   ...custom
 }) {
   return (
@@ -13,11 +14,14 @@ export default function renderTextField ({
       helperText={touched && error}
       {...input}
       {...custom}
-    />
+    >
+      {children}
+    </TextField>
   );
 }
 
 renderTextField.propTypes = {
   input: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
+  children: PropTypes.array,
 };

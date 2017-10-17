@@ -19,7 +19,7 @@ const styles = theme => ({
     flexDirection: 'column',
   },
   button: {
-    display: 'block',
+    marginTop: 10,
     marginLeft: theme.spacing.unit,
   },
   formControl: {
@@ -84,78 +84,65 @@ class Employment extends Component {
     const {
       classes, error, loading, handleSubmit, pristine, submitting,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
+      eduForms
     } = this.props;
 
     return (
       <div>
         <form onSubmit={handleSubmit} >
-          {/* <Autocomplete
-            id='speciality_id'
-            value={'спец'}
-            inputProps={{
-              autoFocus: false,
-              error: false,
-              helperText: 'ошибка',
-              label: 'Специальность',
-              placeholder: 'введите наименование или код специальности',
-              margin: 'normal',
-              className: classes.autocomplete,
-            }}
-            suggestions={specilities}
-            onSuggestionsFetchRequested={onGetSpecilitySuggestions}
-            onSuggestionsClearRequested={onClearSpecilitySuggestions}
-            onSuggestionSelected={this.handleChange('specialityId')}
-            onClearSuggestionSelected={this.handleChange('specialityId')}
-          />
-        */}
-          <Field
-            name='speciality'
-            component={RenderAutocomplete}
+          <div className={classes.container}>
+            <Field
+              name='speciality'
+              component={RenderAutocomplete}
 
-            autoFocus={false}
-            label='Специальность'
-            placeholder='выберите специальность'
-            className={classes.textField}
-            margin='normal'
+              autoFocus={false}
+              label='Специальность'
+              placeholder='выберите специальность'
+              className={classes.autocomplete}
+              margin='normal'
 
-            suggestions={specialities}
-            onSuggestionsFetchRequested={onGetSpecialitySuggestions}
-            onSuggestionsClearRequested={onClearSpecialitySuggestions}
-            onSuggestionSelected={onSpecialitySelected}
-            onClearSelectedSuggestion={onClearSpecialitySelectedSuggestion}
-          />
+              suggestions={specialities}
+              onSuggestionsFetchRequested={onGetSpecialitySuggestions}
+              onSuggestionsClearRequested={onClearSpecialitySuggestions}
+              onSuggestionSelected={onSpecialitySelected}
+              onClearSelectedSuggestion={onClearSpecialitySelectedSuggestion}
+            />
 
-          <Field
-            name='entraceYear'
-            component={RenderTextField}
-            label='Год начала обучения'
-            placeholder='введите год начала обучения'
-            className={classes.textField}
-            margin='normal'
-          />
+            <Field
+              name='entraceYear'
+              component={RenderTextField}
+              label='Год начала обучения'
+              placeholder='введите год начала обучения'
+              className={classes.textField}
+              margin='normal'
+            />
 
-          {/* <TextField
-            label="Год начала обучения"
-            placeholder="введите год начала обучения"
-            className={classes.textField}
-            margin="normal"
-            type="number"
-            helperText={'ошибка'}
-            onChange={this.handleChange('entraceYear')}
-          /> */}
+            <Field
+              name='eduFormId'
+              select
+              component={RenderTextField}
+              label='Форма обучения'
+              placeholder='выберите форму обучения'
+              className={classes.textField}
+              margin='normal'
+            >
+              {eduForms && eduForms.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+            </Field>
 
-          {/* <Field
-            name="speciality"
-            component={RenderSelect}
-            caption="Специальность"
-            classes={classes}
-            currentValue={data.specialityId || 0}
-            onChange={this.handleChangeSpeciality}
-          >
-            {specilities && specilities.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-          </Field> */}
+            <Field
+              name='docDate'
+              component={RenderTextField}
+              label='Дата документа'
+              type="date"
+              className={classes.textField}
+              margin='normal'
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
 
-          {error && <strong className={classes.error}>{error}</strong>}
+            {error && <strong className={classes.error}>{error}</strong>}
+          </div>
 
           <Button
             className={classes.button}
@@ -190,6 +177,8 @@ Employment.propTypes = {
   onClearSpecialitySuggestions: PropTypes.func,
   onClearSpecialitySelectedSuggestion: PropTypes.func,
   onSpecialitySelected: PropTypes.func,
+
+  eduForms: PropTypes.array,
 };
 
 export default reduxForm({

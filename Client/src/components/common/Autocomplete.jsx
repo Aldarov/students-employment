@@ -110,7 +110,7 @@ class Autocomplete extends React.Component {
 
   handleSuggestionSelected = (event, {suggestion}) => {
     if (suggestion && suggestion.id) {
-      // this.setState({ inputDisable: true });
+      this.setState({ inputDisable: true });
       this.props.onSuggestionSelected(suggestion);
     }
   }

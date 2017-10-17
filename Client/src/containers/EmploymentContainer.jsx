@@ -13,7 +13,8 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const props = {
     loading: state.fetching,
     initialValues: state.form.employment.initialValues,
-    specialities: state.employment.edit.specialitySuggestions
+    specialities: state.employment.edit.specialitySuggestions,
+    eduForms: state.dictionaries.eduForms
   };
 
   const methods = {

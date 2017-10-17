@@ -32,7 +32,7 @@ class EmploymentList extends Component {
 
     return (
       <div>
-        <Autocomplete
+        {/* <Autocomplete
           style={classes.autocomplete}
           placeholder={searchPlaceholder}
           suggestions={searchSuggestions}
@@ -40,7 +40,7 @@ class EmploymentList extends Component {
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           onSuggestionSelected={onSuggestionSelected}
           onClearSelectedSuggestion={this.handleClearSuggestionSelected}
-        />
+        /> */}
         <List
           data={data}
           columns={columns}

@@ -7,7 +7,7 @@ import './Login.scss';
 
 class Login extends React.Component {
   render() {
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit } = this.props;
 
     return (
       <div className="Login">
@@ -36,20 +36,20 @@ class Login extends React.Component {
               margin="normal"
             /><br/> */}
 
-            <Button
+            {/* <Button
               type="submit"
               raised
               color="primary"
               disabled={pristine || submitting}
             >
               Войти
-            </Button>
+            </Button> */}
           </form>
-          <img
+          {/* <img
             className="Login__image"
             src={require('../assets/images/desk.png')}
             alt="login image"
-          />
+          /> */}
         </div>
       </div>
     );

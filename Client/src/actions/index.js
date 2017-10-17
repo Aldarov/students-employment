@@ -11,8 +11,10 @@ export {
 
   getEmploymentList, getEmploymentSuggestions, clearEmploymentSuggestions,
   getEmploymentById, setEmploymentById,
-  getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected
+  getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected,
+  eduFormSelected
 } from './employmentActions';
 
 export {
+  GET_EDU_FORMS, getEduForms
 } from './dictionariesActions';

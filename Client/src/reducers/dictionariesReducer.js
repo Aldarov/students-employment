@@ -1,4 +1,4 @@
-import {  } from '../actions';
+import { GET_EDU_FORMS } from '../actions';
 
 const defaultData = {
   // specialities: [],
@@ -8,17 +8,12 @@ const defaultData = {
 
 export default function reducer(state = defaultData, action) {
   switch (action.type) {
-    // case GET_SPECIALITIES_SUGGESTIONS:
-    //   return {
-    //     ...state,
-    //     specialities: action.data.data
-    //   };
-    // case CLEAR_SPECIALITIES_SUGGESTIONS:
-    //   return {
-    //     ...state,
-    //     specialities: []
-    //   };
-
+    case GET_EDU_FORMS: {
+      return {
+        ...state,
+        eduForms: action.data
+      };
+    }
     default:
       return state;
   }

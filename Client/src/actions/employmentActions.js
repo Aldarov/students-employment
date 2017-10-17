@@ -81,7 +81,6 @@ export function clearSpecialitySelectedSuggestion() {
 }
 
 export function specialitySelected(data) {
-  console.log('specialitySelected', data);
   return dispatch => {
     dispatch({
       type: '@@redux-form/BLUR',

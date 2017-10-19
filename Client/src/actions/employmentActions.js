@@ -83,7 +83,7 @@ export function clearSpecialitySelectedSuggestion() {
 export function specialitySelected(data) {
   return dispatch => {
     dispatch({
-      type: '@@redux-form/BLUR',
+      type: '@@redux-form/CHANGE',
       meta: {
         form: 'employment',
         field: 'speciality',
@@ -91,6 +91,14 @@ export function specialitySelected(data) {
         active: false
       },
       payload: data.name
+    });
+    dispatch({
+      type: '@@redux-form/CHANGE',
+      meta: {
+        form: 'employment',
+        field: 'specialityId',
+      },
+      payload: data.id
     });
   };
 }

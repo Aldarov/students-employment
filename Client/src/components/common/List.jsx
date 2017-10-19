@@ -10,7 +10,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/Edit';
 
 import {
-  PagingState, SortingState, EditingState
+  PagingState, SortingState, EditingState, TableColumnResizing,
 } from '@devexpress/dx-react-grid';
 import {
   Grid, TableView, TableHeaderRow, PagingPanel, TableEditColumn
@@ -60,7 +60,7 @@ class List extends Component {
     const {
       data, columns, pageSize, currentPage, totalCount, changeCurrentPage,
       allowSorting, sorting, changeSorting,
-      allowAdding, allowEditing, allowDeleting,
+      allowAdding, allowEditing, allowDeleting, defaultColumnWidths
     } = this.props;
     return (
       <div>
@@ -84,7 +84,8 @@ class List extends Component {
             onCommitChanges={this.onCommitChanges}
           />
           <TableView />
-          <TableHeaderRow allowSorting={allowSorting} />
+          <TableColumnResizing defaultColumnWidths={defaultColumnWidths}/>
+          <TableHeaderRow allowSorting={allowSorting} allowResizing/>
           <PagingPanel />
           { (allowAdding || allowEditing || allowDeleting) &&
             <TableEditColumn
@@ -128,6 +129,7 @@ List.propTypes = {
   allowEditing: PropTypes.bool,
   allowDeleting: PropTypes.bool,
   doAction: PropTypes.func,
+  defaultColumnWidths: PropTypes.object,
 };
 
 export default List;

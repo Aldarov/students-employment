@@ -19,6 +19,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       { name: 'entranceYear', title: 'Год поступления' },
       { name: 'eduForm', title: 'Форма обучения' },
     ],
+    listColumnWidths: { id: 100, faculty: 100, speciality: 700, entranceYear: 200, eduForm: 120},
     pageSize: limit,
     currentPage: page,
     totalCount: totalRecord,

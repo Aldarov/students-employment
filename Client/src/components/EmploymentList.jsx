@@ -27,7 +27,7 @@ class EmploymentList extends Component {
       searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested,
       onSuggestionsClearRequested, onSuggestionSelected,
       onChangePage, onChangeSorting, onDoAction,
-      data, columns, pageSize, currentPage, totalCount, loading, sorting, classes
+      listColumnWidths, data, columns, pageSize, currentPage, totalCount, loading, sorting, classes
     } = this.props;
 
     return (
@@ -55,6 +55,7 @@ class EmploymentList extends Component {
           allowEditing
           allowDeleting
           doAction={onDoAction}
+          defaultColumnWidths={listColumnWidths}
         />
         {loading && <Loading />}
       </div>
@@ -73,6 +74,7 @@ EmploymentList.propTypes = {
   currentPage: PropTypes.number,
   totalCount: PropTypes.number,
   sorting: PropTypes.array,
+  listColumnWidths: PropTypes.object,
 
   loading: PropTypes.bool,
 

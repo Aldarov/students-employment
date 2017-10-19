@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-
 import { withStyles } from 'material-ui/styles';
 import { MenuItem } from 'material-ui/Menu';
 import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
 
-import Autocomplete from './common/Autocomplete';
 import Loading from './common/Loading';
-import RenderSelect from './common/RenderSelect';
 import RenderTextField from './common/RenderTextField';
 import RenderAutocomplete from './common/RenderAutocomplete';
+import RenderDatePicker from './common/RenderDatePicker';
+import List from './common/List';
 
 const styles = theme => ({
   container: {
@@ -19,7 +17,7 @@ const styles = theme => ({
     flexDirection: 'column',
   },
   button: {
-    marginTop: 10,
+    marginTop: theme.spacing.unit,
     marginLeft: theme.spacing.unit,
   },
   formControl: {
@@ -30,20 +28,15 @@ const styles = theme => ({
   autocomplete: {
     minWidth: 400,
     width: 700,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    margin: theme.spacing.unit,
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    margin: theme.spacing.unit,
     minWidth: 300,
     width: 300,
   },
   error: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginTop: 8,
-    marginBottom: 16,
+    margin: theme.spacing.unit,
     color: 'red',
     fontWeight: 600,
     display: 'block'
@@ -56,35 +49,12 @@ class Employment extends Component {
     this.props.onChangeTitle();
   }
 
-  // handleChangeSpeciality = event => {
-  //   const { data, onSetData } = this.props;
-  //   data.specialityId = event.target.value;
-  //   onSetData(data);
-  // };
-
-  // handleSpecialitySuggestionSelected = value => {
-  //   const { data, onSetData } = this.props;
-  //   data.specialityId = value || null;
-  //   onSetData(data);
-  // };
-
-  handleSpecialityChange = name => event => {
-    // const { data, onSetData } = this.props;
-    // data[name] = event.target.value || null;
-    // onSetData(data);
-  };
-
-  handleClearSpecilitySuggestions = () => {
-    // const { , onSetData } = this.props;
-    // data[name] = event.target.value || null;
-    // onSetData(data);
-  }
-
   render() {
     const {
       classes, error, loading, handleSubmit, pristine, submitting,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
-      eduForms
+      eduForms,
+      students, columnsStudents, listColumnWidthsStudents, onDoActionStudents
     } = this.props;
 
     return (
@@ -99,7 +69,6 @@ class Employment extends Component {
               label='Специальность'
               placeholder='выберите специальность'
               className={classes.autocomplete}
-              margin='normal'
 
               suggestions={specialities}
               onSuggestionsFetchRequested={onGetSpecialitySuggestions}
@@ -114,7 +83,6 @@ class Employment extends Component {
               label='Год начала обучения'
               placeholder='введите год начала обучения'
               className={classes.textField}
-              margin='normal'
             />
 
             <Field
@@ -124,25 +92,35 @@ class Employment extends Component {
               label='Форма обучения'
               placeholder='выберите форму обучения'
               className={classes.textField}
-              margin='normal'
             >
               {eduForms && eduForms.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
             </Field>
 
             <Field
               name='docDate'
-              component={RenderTextField}
-              label='Дата документа'
-              type="date"
+              component={RenderDatePicker}
               className={classes.textField}
-              margin='normal'
-              InputLabelProps={{
-                shrink: true,
-              }}
+              floatingLabelText='Дата документа'
+              hintText="Дата документа"
             />
 
             {error && <strong className={classes.error}>{error}</strong>}
           </div>
+
+          <List
+            data={students}
+            columns={columnsStudents}
+            defaultColumnWidths={listColumnWidthsStudents}
+            allowAdding
+            allowEditing
+            allowDeleting
+            doAction={onDoActionStudents}
+          />
+          {/*
+            allowSorting
+            sorting={sorting}
+            changeSorting={onChangeSorting}
+          */}
 
           <Button
             className={classes.button}
@@ -179,8 +157,13 @@ Employment.propTypes = {
   onSpecialitySelected: PropTypes.func,
 
   eduForms: PropTypes.array,
+
+  students: PropTypes.array,
+  columnsStudents: PropTypes.array,
+  listColumnWidthsStudents: PropTypes.object,
+  onDoActionStudents: PropTypes.func,
 };
 
 export default reduxForm({
-  form: 'employment',
+  form: 'employment'
 })(withStyles(styles)(Employment));

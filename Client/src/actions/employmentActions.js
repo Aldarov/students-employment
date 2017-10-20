@@ -31,17 +31,37 @@ export function clearEmploymentSuggestions() {
   return dispatch => dispatch({ type: CLEAR_EMPLOYMENT_SUGGESTIONS });
 }
 
+const getStudents = (pgContractStuffs) => {
+  return pgContractStuffs.map(function(item) {
+    return {
+      fullName: item.students.fullName,
+      regAddress: item.students.regAddress,
+      finance: item.students.finance,
+      entrType: item.students.entrType,
+      phone: item.students.phone,
+      direction: item.directionType.name || '',
+      distribution: item.distributionType.name || ''
+    };
+  });
+};
+
 export function getEmploymentById(id) {
+  console.log('getEmploymentById', id);
   return dispatch =>
     commonAction(dispatch, apiGetEmploymentById(id),
       res => {
         commonAction(dispatch, apiGetSpecialities({ id: res.data.specialityId }),
           spec => {
             let result = res.data;
+            const speciality = (spec.data.data[0] && spec.data.data[0].name) || '';
+            console.log('getEmploymentById1', result, speciality);
 
-            if (spec.data.data[0]) {
-              result = { ...result, speciality: spec.data.data[0].name };
-            }
+            // const stud = {students: getStudents(result.pgContractStuffs)};
+            // console.log('students: ', stud);
+
+            result = { ...result, speciality };
+            console.log('getEmploymentById2', result);
+
             dispatch({ type: GET_EMPLOYMENT_BY_ID, data: result });
           }
         );

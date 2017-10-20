@@ -11,13 +11,6 @@ const defaultData = {
     searchSuggestions: []
   },
   edit: {
-    // data: {
-    //   id: null,
-    //   specialityId: null,
-    //   entraceYear: null,
-    //   eduFormId: null,
-    //   pgContractStuffs: []
-    // },
     specialitySuggestions: []
   }
 };

@@ -51,12 +51,11 @@ class Employment extends Component {
 
   render() {
     const {
-      classes, error, loading, handleSubmit, pristine, submitting,
+      classes, error, loading, handleSubmit, pristine, submitting, eduForms,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
-      eduForms,
       students, columnsStudents, listColumnWidthsStudents, onDoActionStudents
     } = this.props;
-
+    console.log('render', students);
     return (
       <div>
         <form onSubmit={handleSubmit} >
@@ -149,14 +148,13 @@ Employment.propTypes = {
   handleSubmit: PropTypes.func,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
+  eduForms: PropTypes.array,
 
   specialities: PropTypes.array,
   onGetSpecialitySuggestions: PropTypes.func,
   onClearSpecialitySuggestions: PropTypes.func,
   onClearSpecialitySelectedSuggestion: PropTypes.func,
   onSpecialitySelected: PropTypes.func,
-
-  eduForms: PropTypes.array,
 
   students: PropTypes.array,
   columnsStudents: PropTypes.array,

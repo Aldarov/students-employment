@@ -32,21 +32,28 @@ export function clearEmploymentSuggestions() {
 }
 
 const getStudents = (pgContractStuffs) => {
-  return pgContractStuffs.map(function(item) {
+  return pgContractStuffs ? pgContractStuffs.map(function(item) {
     return {
-      fullName: item.students.fullName,
-      regAddress: item.students.regAddress,
-      finance: item.students.finance,
-      entrType: item.students.entrType,
-      phone: item.students.phone,
-      direction: item.directionType.name || '',
-      distribution: item.distributionType.name || ''
+      fullName: item.student.fullName,
+      regAddress: item.student.regAddress,
+      finance: item.student.finance,
+      entrType: item.student.entrType,
+      phone: item.student.phone,
+      direction: (
+        item.directionType.name +
+        (item.directionOrganization ? ', ' + item.directionOrganization.name : '') +
+        (item.directionSchool ? ', ' + item.directionSchool.name : '')
+      ) || '',
+      distribution: (
+        item.distributionType.name +
+        (item.distributionOrganization ? ', ' + item.distributionOrganization.name : '') +
+        (item.distributionSchool ? ', ' + item.distributionSchool.name : '')
+      ) || ''
     };
-  });
+  }) : [];
 };
 
 export function getEmploymentById(id) {
-  console.log('getEmploymentById', id);
   return dispatch =>
     commonAction(dispatch, apiGetEmploymentById(id),
       res => {
@@ -54,14 +61,8 @@ export function getEmploymentById(id) {
           spec => {
             let result = res.data;
             const speciality = (spec.data.data[0] && spec.data.data[0].name) || '';
-            console.log('getEmploymentById1', result, speciality);
-
-            // const stud = {students: getStudents(result.pgContractStuffs)};
-            // console.log('students: ', stud);
-
-            result = { ...result, speciality };
-            console.log('getEmploymentById2', result);
-
+            const students = getStudents(result.pgContractStuffs);
+            result = { ...result, speciality, students };
             dispatch({ type: GET_EMPLOYMENT_BY_ID, data: result });
           }
         );

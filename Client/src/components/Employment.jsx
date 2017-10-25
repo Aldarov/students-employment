@@ -55,7 +55,6 @@ class Employment extends Component {
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
       students, columnsStudents, listColumnWidthsStudents, onDoActionStudents
     } = this.props;
-    console.log('render', students);
     return (
       <div>
         <form onSubmit={handleSubmit} >

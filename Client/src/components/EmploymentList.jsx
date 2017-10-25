@@ -6,41 +6,56 @@ import List from './common/List';
 import Autocomplete from './common/Autocomplete';
 import Loading from './common/Loading';
 
-const styles = () => ({
+const styles = theme => ({
   autocomplete: {
-    width: '75%'
+    width: '75%',
+    margin: theme.spacing.unit,
   }
 });
 
 class EmploymentList extends Component {
+  state = {
+    searchValue: ''
+  };
+
   componentWillMount() {
     this.props.onChangeTitle();
     this.props.onLoadData();
   }
 
   handleClearSuggestionSelected = () => {
+    this.setState({ searchValue: '' });
     this.props.onClearSuggestionSelected();
+  }
+
+  handleChangeSearchValue = (event) => {
+    this.setState({ searchValue: event.target ? event.target.value : '' });
   }
 
   render() {
     const {
-      searchPlaceholder, searchSuggestions, onSuggestionsFetchRequested,
-      onSuggestionsClearRequested, onSuggestionSelected,
+      searchSuggestions, onSuggestionsFetchRequested,
+      onSuggestionsClearRequested, onSuggestionSelected, onClearSuggestionSelected,
       onChangePage, onChangeSorting, onDoAction,
       listColumnWidths, data, columns, pageSize, currentPage, totalCount, loading, sorting, classes
     } = this.props;
 
     return (
       <div>
-        {/* <Autocomplete
-          style={classes.autocomplete}
-          placeholder={searchPlaceholder}
+        <Autocomplete
+          inputProps={{
+            autoFocus: false,
+            label: 'Поиск',
+            placeholder: 'Для поиска введите значения через пробел',
+            className: classes.autocomplete
+          }}
           suggestions={searchSuggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           onSuggestionSelected={onSuggestionSelected}
-          onClearSelectedSuggestion={this.handleClearSuggestionSelected}
-        /> */}
+          onClearSelectedSuggestion={onClearSuggestionSelected}
+        />
+
         <List
           data={data}
           columns={columns}
@@ -78,7 +93,6 @@ EmploymentList.propTypes = {
 
   loading: PropTypes.bool,
 
-  searchPlaceholder: PropTypes.string,
   searchSuggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,

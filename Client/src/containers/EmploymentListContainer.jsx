@@ -25,7 +25,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     totalCount: totalRecord,
     sorting: sorting,
     loading: state.fetching,
-    searchPlaceholder: 'Для поиска введите значения через пробел',
     searchSuggestions: state.employment.list.searchSuggestions,
   };
 
@@ -40,7 +39,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
     onSuggestionsFetchRequested: (value) => dispatch(getEmploymentSuggestions({ limit: 7, search: value })),
     onSuggestionsClearRequested: () => dispatch(clearEmploymentSuggestions()),
-    onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit, id: value })),
+    onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit, id: value? value.id : null})),
     onClearSuggestionSelected: () => dispatch(getEmploymentList({ limit, page, sorting })),
 
     onDoAction: (args) => {

@@ -96,10 +96,10 @@ const styles = theme => ({
 });
 
 class Autocomplete extends React.Component {
-  state = { firstReceiveProps: true, inputDisable: false };
+  state = { value: '', firstReceiveProps: true, inputDisable: false };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.inputProps.value && this.state.firstReceiveProps) {
+    if (nextProps.inputProps && nextProps.inputProps.value && this.state.firstReceiveProps) {
       this.setState({ inputDisable: true, firstReceiveProps: false });
     }
   }
@@ -110,8 +110,8 @@ class Autocomplete extends React.Component {
 
   handleSuggestionSelected = (event, {suggestion}) => {
     if (suggestion && suggestion.id) {
-      this.setState({ inputDisable: true });
       this.props.onSuggestionSelected(suggestion);
+      this.setState({value: suggestion.name, inputDisable: true });
     }
   }
 
@@ -129,7 +129,7 @@ class Autocomplete extends React.Component {
 
   handleClearSelectSuggestion = () => {
     this.props.onClearSelectedSuggestion();
-    this.setState({ inputDisable: false });
+    this.setState({ value: '', inputDisable: false });
   }
 
   render() {

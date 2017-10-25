@@ -1,21 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import {
-  Button,
-  IconButton,
-} from 'material-ui';
-
+import { Button, IconButton } from 'material-ui';
 import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/Edit';
-
-import {
-  PagingState, SortingState, EditingState, TableColumnResizing,
-} from '@devexpress/dx-react-grid';
-import {
-  Grid, TableView, TableHeaderRow, PagingPanel, TableEditColumn
-} from '@devexpress/dx-react-grid-material-ui';
-
+import { PagingState, SortingState, EditingState, TableColumnResizing } from '@devexpress/dx-react-grid';
+import { Grid, TableView, TableHeaderRow, PagingPanel, TableEditColumn } from '@devexpress/dx-react-grid-material-ui';
+import ListTableCellTemplate from './ListTableCellTemplate';
 
 class List extends Component {
   commandTemplates = {
@@ -56,6 +46,19 @@ class List extends Component {
     }
   }
 
+  tableCellTemplate = ({
+    column, value, style,
+  }) => {
+    return (
+      <ListTableCellTemplate
+        style={{...style}}
+        column={column}
+      >
+        {value}
+      </ListTableCellTemplate>
+    );
+  };
+
   render() {
     const {
       data, columns, pageSize, currentPage, totalCount, changeCurrentPage,
@@ -68,12 +71,6 @@ class List extends Component {
           rows={data}
           columns={columns}
         >
-          <PagingState
-            currentPage={currentPage}
-            onCurrentPageChange={changeCurrentPage}
-            pageSize={pageSize}
-            totalCount={totalCount}
-          />
           <SortingState
             sorting={sorting}
             onSortingChange={changeSorting}
@@ -83,10 +80,16 @@ class List extends Component {
             onAddedRowsChange={this.onAddedRowsChange}
             onCommitChanges={this.onCommitChanges}
           />
-          <TableView />
+          <TableView tableCellTemplate={this.tableCellTemplate}/>
           <TableColumnResizing defaultColumnWidths={defaultColumnWidths}/>
           <TableHeaderRow allowSorting={allowSorting} allowResizing/>
-          <PagingPanel />
+          <PagingState
+            currentPage={currentPage}
+            onCurrentPageChange={changeCurrentPage}
+            pageSize={pageSize}
+            totalCount={totalCount}
+          />
+          { totalCount && <PagingPanel /> }
           { (allowAdding || allowEditing || allowDeleting) &&
             <TableEditColumn
               allowAdding={allowAdding}

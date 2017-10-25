@@ -28,7 +28,6 @@ export default function getUrl({startUrl, page, limit, sorting, search, ...filte
       url = url + '_order=' + order + '&';
     }
   }
-
   if (filters.id) {
     url = url + 'id=' + filters.id + '&';
   }

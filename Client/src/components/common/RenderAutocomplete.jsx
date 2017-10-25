@@ -12,7 +12,6 @@ export default function renderAutocomplete ({
   meta: { touched, error },
   ...custom
 }) {
-  // console.log('renderAutocomplete',{...custom}, {...input});
   return (
     <Autocomplete
       inputProps={{

@@ -7,20 +7,6 @@ import {
   getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected
 } from '../actions';
 
-// const getStudents = (pgContractStuffs) => {
-//   return pgContractStuffs.map((item) => {
-//     return {
-//       fullName: item.students.fullName,
-//       regAddress: item.students.regAddress,
-//       finance: item.students.,
-//       entrType: 150,
-//       phone: 100,
-//       direction: 300,
-//       distribution: 300
-//     };
-//   });
-// };
-
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const { id } = ownProps.match.params;
 
@@ -29,7 +15,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     initialValues: state.form.employment.initialValues,
     specialities: state.employment.edit.specialitySuggestions,
     eduForms: state.dictionaries.eduForms,
-    students: state.form.employment.students || [],
+    students: (state.form.employment.values && state.form.employment.values.students) || [],
     columnsStudents: [
       { name: 'fullName', title: 'ФИО' },
       { name: 'regAddress', title: 'Адрес регистрации' },
@@ -39,7 +25,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       { name: 'direction', title: 'Распределен' },
       { name: 'distribution', title: 'Трудоустроен' },
     ],
-    listColumnWidthsStudents: { fullName: 200, regAddress: 300, finance: 100, entrType: 150, phone: 100, direction: 300, distribution: 300 }
+    listColumnWidthsStudents: { fullName: 250, regAddress: 300, finance: 120, entrType: 150, phone: 150, direction: 250, distribution: 250 }
   };
 
   // {
@@ -85,11 +71,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   //     }
   //   }
   // }
-
-  // students: PropTypes.array,
-  // columnsStudents: PropTypes.array,
-  // listColumnWidthsStudents: PropTypes.object,
-  // onDoActionStudents: PropTypes.func,
 
   const methods = {
     onLoadData: () => dispatch(getEmploymentById(id)),

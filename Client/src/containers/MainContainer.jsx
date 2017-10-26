@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 
 import AuthHOC from './AuthHOC';
 import Main from '../components/Main';
-import { getEduForms } from '../actions/dictionariesActions';
+import { getEduForms, getDirectionTypes, getDistributionTypes } from '../actions/dictionariesActions';
 
 export default AuthHOC(withRouter(
   connectAdvanced(dispatch => (state, ownProps) => {
@@ -20,6 +20,8 @@ export default AuthHOC(withRouter(
       },
       onLoadData: () => {
         dispatch(getEduForms());
+        dispatch(getDirectionTypes());
+        dispatch(getDistributionTypes());
       },
     };
 

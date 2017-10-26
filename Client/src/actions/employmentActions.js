@@ -31,6 +31,50 @@ export function clearEmploymentSuggestions() {
   return dispatch => dispatch({ type: CLEAR_EMPLOYMENT_SUGGESTIONS });
 }
 
+// {
+//   '0': {
+//     id: 9482,
+//     studentId: 19801,
+//     pgHeaderId: 7,
+//     directionTypeId: 1,
+//     directionOrganizationId: null,
+//     distributionTypeId: 11,
+//     distributionOrganizationId: null,
+//     directionSchoolId: null,
+//     distributionSchoolId: null,
+//     jobOnSpeciality: null,
+//     directionType: {
+//       id: 1,
+//       name: 'Уход за ребенком',
+//       pgKindId: 1
+//     },
+//     distributionType: {
+//       id: 11,
+//       name: 'Не трудоустроен (не состоит на учете в центрах занятости)',
+//       pgKindId: 2
+//     },
+//     directionOrganization: null,
+//     distributionOrganization: null,
+//     directionSchool: null,
+//     distributionSchool: null,
+//     student: {
+//       studentId: 19801,
+//       fullName: 'Цыренова Стелла Алексеевна',
+//       regAddress: 'Россия, Бурятия Респ, Окинский р-н, с. Орлик, ул. Телевизионная, д. 33, кв. 2',
+//       financeId: 2,
+//       finance: 'договор',
+//       entrTypeId: 1,
+//       entrType: 'общие основания',
+//       phone: '',
+//       stateId: 2,
+//       state: 'окончил',
+//       specialityId: 93,
+//       educationFormId: 1,
+//       entranceYear: 2009
+//     }
+//   }
+// }
+
 const getStudents = (pgContractStuffs) => {
   return pgContractStuffs ? pgContractStuffs.map(function(item) {
     return {
@@ -39,16 +83,29 @@ const getStudents = (pgContractStuffs) => {
       finance: item.student.finance,
       entrType: item.student.entrType,
       phone: item.student.phone,
-      direction: (
-        item.directionType.name +
-        (item.directionOrganization ? ', ' + item.directionOrganization.name : '') +
-        (item.directionSchool ? ', ' + item.directionSchool.name : '')
-      ) || '',
-      distribution: (
-        item.distributionType.name +
-        (item.distributionOrganization ? ', ' + item.distributionOrganization.name : '') +
-        (item.distributionSchool ? ', ' + item.distributionSchool.name : '')
-      ) || ''
+      direction: {
+        pgContractStuffsId: item.id,
+        directionTypeId: item.directionType && item.directionType.id,
+        directionOrganizationId: item.directionOrganization && item.directionOrganization.id,
+        directionSchoolId: item.directionSchool && item.directionSchool.id,
+        text: (
+          item.directionType.name +
+          (item.directionOrganization ? ', ' + item.directionOrganization.name : '') +
+          (item.directionSchool ? ', ' + item.directionSchool.name : '')
+        ) || ''
+      },
+      distribution: {
+        pgContractStuffsId: item.id,
+        distributionTypeId: item.distributionType && item.distributionType.id,
+        distributionOrganizationId: item.distributionOrganization && item.distributionOrganization.id,
+        distributionSchoolId: item.distributionSchool && item.distributionSchool.id,
+        jobOnSpeciality: item.jobOnSpeciality,
+        text: (
+          item.distributionType.name +
+          (item.distributionOrganization ? ', ' + item.distributionOrganization.name : '') +
+          (item.distributionSchool ? ', ' + item.distributionSchool.name : '')
+        ) || ''
+      }
     };
   }) : [];
 };

@@ -16,5 +16,6 @@ export {
 } from './employmentActions';
 
 export {
-  GET_EDU_FORMS, getEduForms
+  GET_EDU_FORMS, GET_DIRECTION_TYPES, GET_DISTRIBUTION_TYPES,
+  getEduForms, getDirectionTypes, getDistributionTypes
 } from './dictionariesActions';

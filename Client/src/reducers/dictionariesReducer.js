@@ -1,9 +1,11 @@
-import { GET_EDU_FORMS } from '../actions';
+import {
+  GET_EDU_FORMS, GET_DIRECTION_TYPES, GET_DISTRIBUTION_TYPES
+} from '../actions';
 
 const defaultData = {
-  // specialities: [],
-  // schools: [],
   eduForms: [],
+  directionTypes: [],
+  distributionTypes: []
 };
 
 export default function reducer(state = defaultData, action) {
@@ -12,6 +14,18 @@ export default function reducer(state = defaultData, action) {
       return {
         ...state,
         eduForms: action.data
+      };
+    }
+    case GET_DIRECTION_TYPES: {
+      return {
+        ...state,
+        directionTypes: action.data
+      };
+    }
+    case GET_DISTRIBUTION_TYPES: {
+      return {
+        ...state,
+        distributionTypes: action.data
       };
     }
     default:

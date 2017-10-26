@@ -28,50 +28,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     listColumnWidthsStudents: { fullName: 250, regAddress: 300, finance: 120, entrType: 150, phone: 150, direction: 250, distribution: 250 }
   };
 
-  // {
-  //   '0': {
-  //     id: 9482,
-  //     studentId: 19801,
-  //     pgHeaderId: 7,
-  //     directionTypeId: 1,
-  //     directionOrganizationId: null,
-  //     distributionTypeId: 11,
-  //     distributionOrganizationId: null,
-  //     directionSchoolId: null,
-  //     distributionSchoolId: null,
-  //     jobOnSpeciality: null,
-  //     directionType: {
-  //       id: 1,
-  //       name: 'Уход за ребенком',
-  //       pgKindId: 1
-  //     },
-  //     distributionType: {
-  //       id: 11,
-  //       name: 'Не трудоустроен (не состоит на учете в центрах занятости)',
-  //       pgKindId: 2
-  //     },
-  //     directionOrganization: null,
-  //     distributionOrganization: null,
-  //     directionSchool: null,
-  //     distributionSchool: null,
-  //     student: {
-  //       studentId: 19801,
-  //       fullName: 'Цыренова Стелла Алексеевна',
-  //       regAddress: 'Россия, Бурятия Респ, Окинский р-н, с. Орлик, ул. Телевизионная, д. 33, кв. 2',
-  //       financeId: 2,
-  //       finance: 'договор',
-  //       entrTypeId: 1,
-  //       entrType: 'общие основания',
-  //       phone: '',
-  //       stateId: 2,
-  //       state: 'окончил',
-  //       specialityId: 93,
-  //       educationFormId: 1,
-  //       entranceYear: 2009
-  //     }
-  //   }
-  // }
-
   const methods = {
     onLoadData: () => dispatch(getEmploymentById(id)),
     onSetData: data => dispatch(setEmploymentById(data)),
@@ -81,6 +37,23 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     onClearSpecialitySuggestions: () => dispatch(clearSpecialitiesSuggestion()),
     onClearSpecialitySelectedSuggestion: () => dispatch(clearSpecialitySelectedSuggestion()),
     onSpecialitySelected: (data) => dispatch(specialitySelected(data)),
+    onDoActionStudents: (args) => {
+      console.log('onDoActionStudents', args);
+      switch (args.type) {
+        case 'adding': {
+          break;
+        }
+        case 'editing': {
+
+          break;
+        }
+        case 'deleting': {
+
+          break;
+        }
+        default: break;
+      }
+    },
     onSubmit: (values) => {
       console.log('onSubmit', values);
       throw new SubmissionError({

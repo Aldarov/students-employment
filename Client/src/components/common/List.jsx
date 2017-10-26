@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import { Button, IconButton } from 'material-ui';
 import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/Edit';
-import { PagingState, SortingState, EditingState, TableColumnResizing } from '@devexpress/dx-react-grid';
-import { Grid, TableView, TableHeaderRow, PagingPanel, TableEditColumn } from '@devexpress/dx-react-grid-material-ui';
+import {
+  PagingState, SortingState, EditingState, TableColumnResizing
+} from '@devexpress/dx-react-grid';
+import {
+  Grid, TableView, TableHeaderRow, TableEditRow, TableEditColumn, PagingPanel,
+} from '@devexpress/dx-react-grid-material-ui';
 import ListTableCellTemplate from './ListTableCellTemplate';
 
 class List extends Component {
@@ -63,7 +67,8 @@ class List extends Component {
     const {
       data, columns, pageSize, currentPage, totalCount, changeCurrentPage,
       allowSorting, sorting, changeSorting,
-      allowAdding, allowEditing, allowDeleting, defaultColumnWidths
+      allowAdding, allowEditing, allowDeleting, defaultColumnWidths,
+      editCellTemplate, tableCellTemplate
     } = this.props;
     return (
       <div>
@@ -80,9 +85,15 @@ class List extends Component {
             onAddedRowsChange={this.onAddedRowsChange}
             onCommitChanges={this.onCommitChanges}
           />
-          <TableView tableCellTemplate={this.tableCellTemplate}/>
+          <TableView tableCellTemplate={tableCellTemplate || this.tableCellTemplate}/>
           <TableColumnResizing defaultColumnWidths={defaultColumnWidths}/>
           <TableHeaderRow allowSorting={allowSorting} allowResizing/>
+          {
+            editCellTemplate &&
+            <TableEditRow
+              editCellTemplate={editCellTemplate}
+            />
+          }
           <PagingState
             currentPage={currentPage}
             onCurrentPageChange={changeCurrentPage}
@@ -121,18 +132,24 @@ class List extends Component {
 List.propTypes = {
   data: PropTypes.array,
   columns: PropTypes.array,
+  defaultColumnWidths: PropTypes.object,
+
   pageSize: PropTypes.number,
   currentPage: PropTypes.number,
   totalCount: PropTypes.number,
   changeCurrentPage: PropTypes.func,
+
   allowSorting: PropTypes.bool,
   sorting: PropTypes.array,
   changeSorting: PropTypes.func,
+
   allowAdding: PropTypes.bool,
   allowEditing: PropTypes.bool,
   allowDeleting: PropTypes.bool,
   doAction: PropTypes.func,
-  defaultColumnWidths: PropTypes.object,
+
+  editCellTemplate: PropTypes.func,
+  tableCellTemplate: PropTypes.func,
 };
 
 export default List;

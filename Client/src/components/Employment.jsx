@@ -10,6 +10,8 @@ import RenderTextField from './common/RenderTextField';
 import RenderAutocomplete from './common/RenderAutocomplete';
 import RenderDatePicker from './common/RenderDatePicker';
 import List from './common/List';
+import ListTableCellTemplate from './common/ListTableCellTemplate';
+import DirectionEdit from './DirectionEdit';
 
 const styles = theme => ({
   container: {
@@ -48,6 +50,33 @@ class Employment extends Component {
     this.props.onLoadData();
     this.props.onChangeTitle();
   }
+
+  studentEditCellTemplate = ({ column, value, style, onValueChange }) => {
+    return (
+      <ListTableCellTemplate
+        column={column}
+        style={{...style}}
+      >
+        {
+          column.name == 'direction' ? <DirectionEdit data={value}/>  :
+            column.name == 'distribution' ? value.text + ' - distribution' : value
+        }
+      </ListTableCellTemplate>
+    );
+  };
+
+  studentTableCellTemplate = ({
+    column, value, style,
+  }) => {
+    return (
+      <ListTableCellTemplate
+        style={{...style}}
+        column={column}
+      >
+        { (column.name == 'direction') || (column.name == 'distribution') ? value.text : value}
+      </ListTableCellTemplate>
+    );
+  };
 
   render() {
     const {
@@ -113,6 +142,8 @@ class Employment extends Component {
             allowEditing
             allowDeleting
             doAction={onDoActionStudents}
+            editCellTemplate={this.studentEditCellTemplate}
+            tableCellTemplate={this.studentTableCellTemplate}
           />
           {/*
             allowSorting

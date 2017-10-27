@@ -118,8 +118,8 @@ export function getEmploymentById(id) {
           spec => {
             let result = res.data;
             const speciality = (spec.data.data[0] && spec.data.data[0].name) || '';
-            const students = getStudents(result.pgContractStuffs);
-            result = { ...result, speciality, students };
+            // const students = getStudents(result.pgContractStuffs);
+            result = { ...result, speciality };
             dispatch({ type: GET_EMPLOYMENT_BY_ID, data: result });
           }
         );

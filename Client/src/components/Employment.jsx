@@ -51,29 +51,69 @@ class Employment extends Component {
     this.props.onChangeTitle();
   }
 
-  studentEditCellTemplate = ({ column, value, style, onValueChange }) => {
+  getCellData = (column, row) => {
+    const directionType = this.props.directionTypes.filter((item) => (item.id == row.directionTypeId))[0].name;
+    switch (column.name) {
+      case 'fullName': return row.student.fullName;
+      case 'regAddress': return row.student.regAddress;
+      case 'finance': return row.student.finance;
+      case 'entrType': return row.student.entrType;
+      case 'phone': return row.student.phone;
+      case 'direction':
+        return (
+          directionType +
+          (row.directionOrganization ? ', ' + row.directionOrganization.name : '') +
+          (row.directionSchool ? ', ' + row.directionSchool.name : '')
+        ) || '';
+      case 'distribution':
+        return (
+          row.distributionType.name +
+          (row.distributionOrganization ? ', ' + row.distributionOrganization.name : '') +
+          (row.distributionSchool ? ', ' + row.distributionSchool.name : '')
+        ) || '';
+      default:
+        break;
+    }
+  }
+
+  studentEditCellTemplate = (args) => {
+    const { style, column, row, tableRow: {rowId} } = args;
     return (
       <ListTableCellTemplate
         column={column}
         style={{...style}}
       >
         {
-          column.name == 'direction' ? <DirectionEdit data={value}/>  :
-            column.name == 'distribution' ? value.text + ' - distribution' : value
+          column.name == 'direction'
+            ?
+            <Field
+              name={'pgContractStuffs['+rowId+'].directionTypeId'}
+              select
+              component={RenderTextField}
+              label='Тип распределения'
+              placeholder='Выберите тип распределения'
+            >
+              {this.props.directionTypes && this.props.directionTypes.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+            </Field>
+            :
+            column.name == 'distribution'
+              ?
+              ''
+              :
+              this.getCellData(column, row)
         }
       </ListTableCellTemplate>
     );
   };
 
-  studentTableCellTemplate = ({
-    column, value, style,
-  }) => {
+  studentTableCellTemplate = (args) => {
+    const { column, row, style } = args;
     return (
       <ListTableCellTemplate
         style={{...style}}
         column={column}
       >
-        { (column.name == 'direction') || (column.name == 'distribution') ? value.text : value}
+        {this.getCellData(column, row)}
       </ListTableCellTemplate>
     );
   };
@@ -190,6 +230,9 @@ Employment.propTypes = {
   columnsStudents: PropTypes.array,
   listColumnWidthsStudents: PropTypes.object,
   onDoActionStudents: PropTypes.func,
+
+  directionTypes: PropTypes.array,
+  distributionTypes: PropTypes.array,
 };
 
 export default reduxForm({

@@ -4,7 +4,7 @@ import { SubmissionError } from 'redux-form';
 import Employment from '../components/Employment';
 import {
   changeTitle, getEmploymentById, setEmploymentById,
-  getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected
+  getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected,
 } from '../actions';
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
@@ -13,9 +13,15 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const props = {
     loading: state.fetching,
     initialValues: state.form.employment.initialValues,
+    values: state.form.employment.values,
     specialities: state.employment.edit.specialitySuggestions,
     eduForms: state.dictionaries.eduForms,
-    students: (state.form.employment.values && state.form.employment.values.students) || [],
+
+    students: state.form.employment.values && state.form.employment.values.pgContractStuffs || [],
+    // (state.form.employment.values && state.form.employment.values.students) || [],
+
+    directionTypes: state.dictionaries.directionTypes,
+    distributionTypes: state.dictionaries.distributionTypes,
     columnsStudents: [
       { name: 'fullName', title: 'ФИО' },
       { name: 'regAddress', title: 'Адрес регистрации' },

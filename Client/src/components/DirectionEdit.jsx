@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import TextField from 'material-ui/TextField';
+import { MenuItem } from 'material-ui/Menu';
 
 export default class DirectionEdit extends Component {
   render() {
-    const { data } = this.props;
-    console.log('DirectionEdit', data);
+    const { value, items, ...other } = this.props;
     return (
-      <div>
-        {data.text} !!!!!!!!!!!!!!
-      </div>
+      <TextField
+        select
+        value={value}
+        {...other}
+      >
+        {items && items.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+      </TextField>
     );
   }
 }
 
 DirectionEdit.propTypes = {
-  data: PropTypes.object,
+  value: PropTypes.any,
+  items: PropTypes.array,
 };

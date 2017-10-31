@@ -69,7 +69,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
     validate: (values) => {
       const errors = {};
-      const requiredFields = [ 'entraceYear', 'docDate' ];
+      const requiredFields = [ 'entraceYear', 'docDate', 'speciality' ];
       requiredFields.forEach(field => {
         if (!values[field]) {
           errors[field] = 'Заполните данное поле';

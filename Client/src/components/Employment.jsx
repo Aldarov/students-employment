@@ -18,7 +18,10 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  button: {
+  marginLeft: {
+    marginLeft: theme.spacing.unit,
+  },
+  marginTopLeft: {
     marginTop: theme.spacing.unit,
     marginLeft: theme.spacing.unit,
   },
@@ -86,15 +89,10 @@ class Employment extends Component {
         {
           column.name == 'direction'
             ?
-            <Field
-              name={'pgContractStuffs['+rowId+'].directionTypeId'}
-              select
-              component={RenderTextField}
-              label='Тип распределения'
-              placeholder='Выберите тип распределения'
-            >
-              {this.props.directionTypes && this.props.directionTypes.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-            </Field>
+            <DirectionEdit
+              rowId={rowId}
+              directionTypes={this.props.directionTypes}
+            />
             :
             column.name == 'distribution'
               ?
@@ -184,6 +182,7 @@ class Employment extends Component {
             doAction={onDoActionStudents}
             editCellTemplate={this.studentEditCellTemplate}
             tableCellTemplate={this.studentTableCellTemplate}
+            className={classes.marginLeft}
           />
           {/*
             allowSorting
@@ -192,7 +191,7 @@ class Employment extends Component {
           */}
 
           <Button
-            className={classes.button}
+            className={classes.marginTopLeft}
             type="submit"
             raised
             color="primary"

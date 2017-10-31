@@ -10,7 +10,10 @@ const styles = theme => ({
   autocomplete: {
     width: '75%',
     margin: theme.spacing.unit,
-  }
+  },
+  marginLeft: {
+    marginLeft: theme.spacing.unit,
+  },
 });
 
 class EmploymentList extends Component {
@@ -47,8 +50,8 @@ class EmploymentList extends Component {
             autoFocus: false,
             label: 'Поиск',
             placeholder: 'Для поиска введите значения через пробел',
-            className: classes.autocomplete
           }}
+          className={classes.autocomplete}
           suggestions={searchSuggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
@@ -71,6 +74,7 @@ class EmploymentList extends Component {
           allowDeleting
           doAction={onDoAction}
           defaultColumnWidths={listColumnWidths}
+          className={classes.marginLeft}
         />
         {loading && <Loading />}
       </div>

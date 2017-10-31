@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
-import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import { MenuItem } from 'material-ui/Menu';
+import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
+
+import { FormControl, FormHelperText } from 'material-ui/Form';
+
 import { withStyles } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
 import ClearIcon from 'material-ui-icons/Clear';
@@ -12,21 +15,36 @@ import parse from 'autosuggest-highlight/parse';
 import _ from 'lodash';
 
 function renderInput(inputProps) {
-  const { value, ref, onClearSelectSuggestion, inputDisable, error, helperText, ...other } = inputProps;
+  const {
+    className, value, onChange, ref, label,
+    error, helperText,
+    onClearSelectSuggestion, inputDisable,
+    ...other
+  } = inputProps;
+
   return (
-    <div >
-      <TextField
-        error={error}
-        helperText={error && helperText}
-        inputRef={ref}
+    <FormControl className={className}>
+      <InputLabel>{label}</InputLabel>
+      <Input
+        type='select'
         disabled={inputDisable}
+        error={error}
+        inputRef={ref}
         value={value || ''}
+        onChange={onChange}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              onClick={onClearSelectSuggestion}
+            >
+              <ClearIcon />
+            </IconButton>
+          </InputAdornment>
+        }
         {...other}
       />
-      <IconButton disabled={!value} onClick={onClearSelectSuggestion} >
-        <ClearIcon />
-      </IconButton>
-    </div>
+      {error && <FormHelperText>{helperText}</FormHelperText>}
+    </FormControl>
   );
 }
 
@@ -70,8 +88,7 @@ const styles = theme => ({
   },
   suggestionsContainerOpen: {
     position: 'absolute',
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit,
     left: 0,
     right: 0,
     zIndex: 999999
@@ -134,33 +151,36 @@ class Autocomplete extends React.Component {
 
   render() {
     const {
-      id, classes, suggestions, onSuggestionsClearRequested, inputProps: {...inputProps}
+      id, classes, className, suggestions, onSuggestionsClearRequested, inputProps: {...inputProps}
     } = this.props;
     return (
-      <Autosuggest
-        id={id}
-        theme={{
-          container: classes.container,
-          suggestionsContainerOpen: classes.suggestionsContainerOpen,
-          suggestionsList: classes.suggestionsList,
-          suggestion: classes.suggestion,
-        }}
-        renderInputComponent={renderInput}
-        renderSuggestionsContainer={renderSuggestionsContainer}
-        renderSuggestion={renderSuggestion}
-        getSuggestionValue={this.handleGetSuggestionValue}
-        inputProps={{
-          value: this.state.value,
-          onChange: this.handleChange,
-          onClearSelectSuggestion: this.handleClearSelectSuggestion,
-          inputDisable: this.state.inputDisable,
-          ...inputProps
-        }}
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
-        onSuggestionsClearRequested={onSuggestionsClearRequested}
-        onSuggestionSelected={this.handleSuggestionSelected}
-      />
+      <div className={className}>
+        <Autosuggest
+
+          id={id}
+          theme={{
+            container: classes.container,
+            suggestionsContainerOpen: classes.suggestionsContainerOpen,
+            suggestionsList: classes.suggestionsList,
+            suggestion: classes.suggestion,
+          }}
+          renderInputComponent={renderInput}
+          renderSuggestionsContainer={renderSuggestionsContainer}
+          renderSuggestion={renderSuggestion}
+          getSuggestionValue={this.handleGetSuggestionValue}
+          inputProps={{
+            value: this.state.value,
+            onChange: this.handleChange,
+            onClearSelectSuggestion: this.handleClearSelectSuggestion,
+            inputDisable: this.state.inputDisable,
+            ...inputProps
+          }}
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          onSuggestionSelected={this.handleSuggestionSelected}
+        />
+      </div>
     );
   }
 }
@@ -170,6 +190,7 @@ Autocomplete.propTypes = {
   inputProps: PropTypes.object,
   value: PropTypes.string,
   classes: PropTypes.object.isRequired,
+  className: PropTypes.string,
 
   suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
 

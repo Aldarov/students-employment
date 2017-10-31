@@ -136,7 +136,6 @@ class Main extends Component {
             </Toolbar>
           </AppBar>
           <Drawer
-            type="persistent"
             classes={{
               paper: classes.drawerPaper,
             }}

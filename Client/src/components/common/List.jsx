@@ -9,7 +9,6 @@ import {
 import {
   Grid, TableView, TableHeaderRow, TableEditRow, TableEditColumn, PagingPanel, TableRowDetail
 } from '@devexpress/dx-react-grid-material-ui';
-import ListTableCellTemplate from './ListTableCellTemplate';
 
 class List extends Component {
   commandTemplates = {
@@ -50,19 +49,6 @@ class List extends Component {
     }
   }
 
-  tableCellTemplate = ({
-    column, value, style,
-  }) => {
-    return (
-      <ListTableCellTemplate
-        style={{...style}}
-        column={column}
-      >
-        {value}
-      </ListTableCellTemplate>
-    );
-  };
-
   render() {
     const {
       data, columns, pageSize, currentPage, totalCount, changeCurrentPage,
@@ -85,7 +71,11 @@ class List extends Component {
             onAddedRowsChange={this.onAddedRowsChange}
             onCommitChanges={this.onCommitChanges}
           />
-          <TableView tableCellTemplate={tableCellTemplate || this.tableCellTemplate}/>
+          {
+            tableCellTemplate ?
+              <TableView tableCellTemplate={tableCellTemplate}/> :
+              <TableView/>
+          }
           <TableColumnResizing defaultColumnWidths={defaultColumnWidths}/>
           <TableHeaderRow allowSorting={allowSorting} allowResizing/>
           {

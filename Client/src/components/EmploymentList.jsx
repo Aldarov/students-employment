@@ -8,8 +8,8 @@ import Loading from './common/Loading';
 
 const styles = theme => ({
   autocomplete: {
-    width: '75%',
-    margin: theme.spacing.unit,
+    width: 700,
+    marginBottom: theme.spacing.unit,
   },
   marginLeft: {
     marginLeft: theme.spacing.unit,
@@ -48,10 +48,10 @@ class EmploymentList extends Component {
         <Autocomplete
           inputProps={{
             autoFocus: false,
+            className: classes.autocomplete,
             label: 'Поиск',
             placeholder: 'Для поиска введите значения через пробел',
           }}
-          className={classes.autocomplete}
           suggestions={searchSuggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
@@ -74,7 +74,6 @@ class EmploymentList extends Component {
           allowDeleting
           doAction={onDoAction}
           defaultColumnWidths={listColumnWidths}
-          className={classes.marginLeft}
         />
         {loading && <Loading />}
       </div>

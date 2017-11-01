@@ -46,11 +46,8 @@ namespace Server.Controllers
         public PgHeader Get(int id)
         {
             var res = db.PgHeaders
-                .Include(x => x.EduForm)
-                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DirectionType)
                 .Include(x => x.PgContractStuffs).ThenInclude(x => x.DirectionOrganization)
                 .Include(x => x.PgContractStuffs).ThenInclude(x => x.DirectionSchool)
-                .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionType)
                 .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionOrganization)
                 .Include(x => x.PgContractStuffs).ThenInclude(x => x.DistributionSchool)
                 .Include(x => x.PgContractStuffs).ThenInclude(x => x.Student)

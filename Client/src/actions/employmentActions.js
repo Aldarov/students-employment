@@ -31,41 +31,6 @@ export function clearEmploymentSuggestions() {
   return dispatch => dispatch({ type: CLEAR_EMPLOYMENT_SUGGESTIONS });
 }
 
-// const getStudents = (pgContractStuffs) => {
-//   return pgContractStuffs ? pgContractStuffs.map(function(item) {
-//     return {
-//       fullName: item.student.fullName,
-//       regAddress: item.student.regAddress,
-//       finance: item.student.finance,
-//       entrType: item.student.entrType,
-//       phone: item.student.phone,
-//       direction: {
-//         pgContractStuffsId: item.id,
-//         directionTypeId: item.directionType && item.directionType.id,
-//         directionOrganizationId: item.directionOrganization && item.directionOrganization.id,
-//         directionSchoolId: item.directionSchool && item.directionSchool.id,
-//         text: (
-//           item.directionType.name +
-//           (item.directionOrganization ? ', ' + item.directionOrganization.name : '') +
-//           (item.directionSchool ? ', ' + item.directionSchool.name : '')
-//         ) || ''
-//       },
-//       distribution: {
-//         pgContractStuffsId: item.id,
-//         distributionTypeId: item.distributionType && item.distributionType.id,
-//         distributionOrganizationId: item.distributionOrganization && item.distributionOrganization.id,
-//         distributionSchoolId: item.distributionSchool && item.distributionSchool.id,
-//         jobOnSpeciality: item.jobOnSpeciality,
-//         text: (
-//           item.distributionType.name +
-//           (item.distributionOrganization ? ', ' + item.distributionOrganization.name : '') +
-//           (item.distributionSchool ? ', ' + item.distributionSchool.name : '')
-//         ) || ''
-//       }
-//     };
-//   }) : [];
-// };
-
 export function getEmploymentById(id) {
   return dispatch =>
     commonAction(dispatch, apiGetEmploymentById(id),
@@ -109,6 +74,14 @@ export function clearSpecialitySelectedSuggestion() {
         persistentSubmitErrors: false
       },
       payload: ''
+    });
+    dispatch({
+      type: '@@redux-form/CHANGE',
+      meta: {
+        form: 'employment',
+        field: 'specialityId',
+      },
+      payload: null
     });
   };
 }

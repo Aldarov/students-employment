@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Server.Models.University
 {
@@ -15,6 +16,7 @@ namespace Server.Models.University
         public int EntraceYear { get; set; }
         public int EduFormId { get; set; }
         public DateTime DocDate { get; set; }
+        [JsonIgnore]
         public virtual EducationForm EduForm { get; set; }
         public virtual ICollection<PgContractStuff> PgContractStuffs { get; set; }
     }

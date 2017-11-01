@@ -55,7 +55,8 @@ class Employment extends Component {
   }
 
   getCellData = (column, row) => {
-    const directionType = this.props.directionTypes.filter((item) => (item.id == row.directionTypeId))[0].name;
+    const directionType = this.props.directionTypes.filter((item) => (item.id == row.directionTypeId))[0];
+    const distributionType = this.props.distributionTypes.filter((item) => (item.id == row.distributionTypeId))[0];
     switch (column.name) {
       case 'fullName': return row.student.fullName;
       case 'regAddress': return row.student.regAddress;
@@ -64,13 +65,13 @@ class Employment extends Component {
       case 'phone': return row.student.phone;
       case 'direction':
         return (
-          directionType +
+          directionType && directionType.name +
           (row.directionOrganization ? ', ' + row.directionOrganization.name : '') +
           (row.directionSchool ? ', ' + row.directionSchool.name : '')
         ) || '';
       case 'distribution':
         return (
-          row.distributionType.name +
+          distributionType && distributionType.name +
           (row.distributionOrganization ? ', ' + row.distributionOrganization.name : '') +
           (row.distributionSchool ? ', ' + row.distributionSchool.name : '')
         ) || '';

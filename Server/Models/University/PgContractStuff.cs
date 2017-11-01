@@ -20,11 +20,17 @@ namespace Server.Models.University
 
         [JsonIgnore]
         public virtual PgHeader PgHeader { get; set; }
+        [JsonIgnore]
         public virtual PgType DirectionType { get; set; }
+        [JsonIgnore]
         public virtual PgType DistributionType { get; set; }
+        [JsonIgnore]
         public virtual JuridicalPerson DirectionOrganization { get; set; }
+        [JsonIgnore]
         public virtual JuridicalPerson DistributionOrganization { get; set; }
+        [JsonIgnore]
         public virtual School DirectionSchool { get; set; }
+        [JsonIgnore]
         public virtual School DistributionSchool { get; set; }
         [NotMapped]
         public virtual Student Student { get; set; }

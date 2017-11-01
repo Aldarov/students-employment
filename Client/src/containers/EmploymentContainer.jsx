@@ -18,8 +18,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     eduForms: state.dictionaries.eduForms,
 
     students: state.form.employment.values && state.form.employment.values.pgContractStuffs || [],
-    // (state.form.employment.values && state.form.employment.values.students) || [],
-
     directionTypes: state.dictionaries.directionTypes,
     distributionTypes: state.dictionaries.distributionTypes,
     columnsStudents: [

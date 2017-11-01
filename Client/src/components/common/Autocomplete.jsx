@@ -88,7 +88,6 @@ const styles = theme => ({
   },
   suggestionsContainerOpen: {
     position: 'absolute',
-    marginLeft: theme.spacing.unit,
     left: 0,
     right: 0,
     zIndex: 999999
@@ -101,7 +100,7 @@ const styles = theme => ({
     padding: 0,
     listStyleType: 'none',
   },
-  textField: {
+  root: {
     width: '100%',
   },
   renderInput: {
@@ -160,6 +159,7 @@ class Autocomplete extends React.Component {
           id={id}
           theme={{
             container: classes.container,
+            root: classes.root,
             suggestionsContainerOpen: classes.suggestionsContainerOpen,
             suggestionsList: classes.suggestionsList,
             suggestion: classes.suggestion,

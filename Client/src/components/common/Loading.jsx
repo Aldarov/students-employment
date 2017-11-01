@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { CircularProgress } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
-// import './Loading.scss';
 
 const styles = () => ({
   'loadingShadingMui': {

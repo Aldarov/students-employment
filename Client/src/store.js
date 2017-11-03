@@ -1,15 +1,15 @@
 import { createStore, applyMiddleware } from 'redux';
 
-import promise from 'redux-promise';
 import thunk from 'redux-thunk';
 import { composeWithDevTools  } from 'redux-devtools-extension';
+import { errorHandler } from './middlewares';
 
 import reducers from './reducers';
 
 export function getStore() {
   const middleware = applyMiddleware(
-    promise,
-    thunk
+    errorHandler,
+    thunk,
   );
 
   if (process.env.NODE_ENV === 'development') {

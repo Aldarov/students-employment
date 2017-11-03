@@ -1,4 +1,4 @@
-export { REQUEST_START, REQUEST_END } from './fetchingActions';
+export { REQUEST_START, REQUEST_END, fetchingAction } from './fetchingActions';
 
 export { LOGIN, LOGOUT, login, logout, checkAuth } from './authActions';
 
@@ -10,7 +10,7 @@ export {
   GET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS,
 
   getEmploymentList, getEmploymentSuggestions, clearEmploymentSuggestions,
-  getEmploymentById, setEmploymentById,
+  getEmploymentById,
   getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected,
   eduFormSelected
 } from './employmentActions';

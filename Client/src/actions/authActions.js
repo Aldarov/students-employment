@@ -1,17 +1,17 @@
 import { apiLogin, apiLogout, apiIsAuth, apiSetRequestHeader } from '../api';
-import { commonAction } from './commonActions';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
 export function login(args) {
-  return dispatch => commonAction(dispatch, apiLogin(args), () => dispatch({ type: LOGIN }));
+  // return dispatch => commonAction(dispatch, apiLogin(args), () => dispatch({ type: LOGIN }));
+  return dispatch => apiLogin(args).then(() => dispatch({ type: LOGIN }));
 }
 
 export function logout() {
   return dispatch => {
     apiLogout();
-    return dispatch({ type: LOGOUT });
+    dispatch({ type: LOGOUT });
   };
 }
 

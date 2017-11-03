@@ -1,5 +1,5 @@
 import { apiGetEmploymentList, apiGetEmploymentById, apiGetSpecialities } from '../api';
-import { commonAction } from './commonActions';
+import { fetchingAction } from './fetchingActions';
 
 export const GET_EMPLOYMENT_LIST = 'GET_EMPLOYMENT_LIST';
 export const GET_EMPLOYMENT_SUGGESTIONS = 'GET_EMPLOYMENT_SUGGESTIONS';
@@ -10,21 +10,19 @@ export const GET_SPECIALITIES_SUGGESTIONS = 'GET_SPECIALITIES_SUGGESTIONS';
 export const CLEAR_SPECIALITIES_SUGGESTIONS = 'CLEAR_SPECIALITIES_SUGGESTIONS';
 
 export function getEmploymentList(params) {
-  return dispatch =>
-    commonAction(dispatch, apiGetEmploymentList(params),
-      res => {
-        dispatch({ type: GET_EMPLOYMENT_LIST, data: res.data });
-        if (params.sorting)
-          dispatch({ type: SET_EMPLOYMENT_LIST_SORTING, data: params.sorting });
-      }
-    );
+  return dispatch => fetchingAction(dispatch,
+    apiGetEmploymentList(params).then(res => {
+      dispatch({ type: GET_EMPLOYMENT_LIST, data: res.data });
+      if (params.sorting)
+        dispatch({ type: SET_EMPLOYMENT_LIST_SORTING, data: params.sorting });
+    })
+  );
 }
 
 export function getEmploymentSuggestions(params) {
-  return dispatch =>
-    commonAction(dispatch, apiGetEmploymentList(params),
-      res => dispatch({ type: GET_EMPLOYMENT_SUGGESTIONS, data: res.data.data })
-    );
+  return dispatch => apiGetEmploymentList(params).then(res =>
+    dispatch({ type: GET_EMPLOYMENT_SUGGESTIONS, data: res.data.data })
+  );
 }
 
 export function clearEmploymentSuggestions() {
@@ -32,31 +30,24 @@ export function clearEmploymentSuggestions() {
 }
 
 export function getEmploymentById(id) {
-  return dispatch =>
-    commonAction(dispatch, apiGetEmploymentById(id),
-      res => {
-        commonAction(dispatch, apiGetSpecialities({ id: res.data.specialityId }),
-          spec => {
+  return dispatch => fetchingAction(dispatch,
+    apiGetEmploymentById(id)
+      .then(res =>
+        apiGetSpecialities({ id: res.data.specialityId })
+          .then(spec => {
             let result = res.data;
             const speciality = (spec.data.data[0] && spec.data.data[0].name) || '';
             result = { ...result, speciality };
             dispatch({ type: GET_EMPLOYMENT_BY_ID, data: result });
-          }
-        );
-
-      }
-    );
-}
-
-export function setEmploymentById(data) {
-  return dispatch => dispatch({ type: GET_EMPLOYMENT_BY_ID, data: data });
+          })
+      )
+  );
 }
 
 export function getSpecialitiesSuggestion(params) {
-  return dispatch =>
-    commonAction(dispatch, apiGetSpecialities(params),
-      res => dispatch({ type: GET_SPECIALITIES_SUGGESTIONS, data: res.data.data })
-    );
+  return dispatch => apiGetSpecialities(params).then(res =>
+    dispatch({ type: GET_SPECIALITIES_SUGGESTIONS, data: res.data.data })
+  );
 }
 
 export function clearSpecialitiesSuggestion() {

@@ -4,10 +4,12 @@ import { Button, IconButton } from 'material-ui';
 import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/Edit';
 import {
-  PagingState, SortingState, EditingState, TableColumnResizing, RowDetailState,
+  PagingState, SortingState, EditingState, TableColumnResizing,
+  // RowDetailState,
 } from '@devexpress/dx-react-grid';
 import {
-  Grid, TableView, TableHeaderRow, TableEditRow, TableEditColumn, PagingPanel, TableRowDetail
+  Grid, TableView, TableHeaderRow, TableEditRow, TableEditColumn, PagingPanel,
+  // TableRowDetail,
 } from '@devexpress/dx-react-grid-material-ui';
 
 class List extends Component {

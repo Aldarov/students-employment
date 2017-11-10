@@ -81,7 +81,7 @@ function renderSuggestionsContainer(options) {
   );
 }
 
-const styles = theme => ({
+const styles = () => ({
   container: {
     flexGrow: 1,
     position: 'relative',

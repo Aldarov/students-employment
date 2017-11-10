@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, Field } from 'redux-form';
+import { Field } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import { MenuItem } from 'material-ui/Menu';
-import Button from 'material-ui/Button';
 
 import Loading from './common/Loading';
 import RenderTextField from './common/RenderTextField';
@@ -18,12 +17,9 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  marginLeft: {
+  marginLeftRight: {
     marginLeft: theme.spacing.unit,
-  },
-  marginTopLeft: {
-    marginTop: theme.spacing.unit,
-    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -31,8 +27,11 @@ const styles = theme => ({
     display: 'block'
   },
   autocomplete: {
-    minWidth: 400,
-    width: 700,
+    minWidth: 300,
+    width: 350,
+    [theme.breakpoints.up('sm')]: {
+      width: 600,
+    },
     margin: theme.spacing.unit,
   },
   textField: {
@@ -95,11 +94,7 @@ class Employment extends Component {
               directionTypes={this.props.directionTypes}
             />
             :
-            column.name == 'distribution'
-              ?
-              ''
-              :
-              this.getCellData(column, row)
+            column.name == 'distribution' ? '' : this.getCellData(column, row)
         }
       </ListTableCellTemplate>
     );
@@ -119,7 +114,7 @@ class Employment extends Component {
 
   render() {
     const {
-      classes, error, loading, handleSubmit, pristine, submitting, eduForms,
+      classes, error, loading, handleSubmit, eduForms,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
       students, columnsStudents, listColumnWidthsStudents, onDoActionStudents
     } = this.props;
@@ -183,7 +178,7 @@ class Employment extends Component {
             doAction={onDoActionStudents}
             editCellTemplate={this.studentEditCellTemplate}
             tableCellTemplate={this.studentTableCellTemplate}
-            className={classes.marginLeft}
+            className={classes.marginLeftRight}
           />
           {/*
             allowSorting
@@ -191,7 +186,7 @@ class Employment extends Component {
             changeSorting={onChangeSorting}
           */}
 
-          <Button
+          {/* <Button
             className={classes.marginTopLeft}
             type="submit"
             raised
@@ -199,8 +194,7 @@ class Employment extends Component {
             disabled={pristine || submitting}
           >
             Сохранить
-          </Button>
-
+          </Button> */}
         </form>
         {loading && <Loading />}
       </div>
@@ -216,8 +210,6 @@ Employment.propTypes = {
   onSetData: PropTypes.func,
   onChangeTitle: PropTypes.func,
   handleSubmit: PropTypes.func,
-  pristine: PropTypes.bool,
-  submitting: PropTypes.bool,
   eduForms: PropTypes.array,
 
   specialities: PropTypes.array,
@@ -235,6 +227,4 @@ Employment.propTypes = {
   distributionTypes: PropTypes.array,
 };
 
-export default reduxForm({
-  form: 'employment'
-})(withStyles(styles)(Employment));
+export default withStyles(styles)(Employment);

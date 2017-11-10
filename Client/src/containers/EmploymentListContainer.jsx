@@ -30,7 +30,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
   const methods = {
     onChangeTitle: () => dispatch(changeTitle('Трудоустройство')),
-    onLoadData: () => dispatch(getEmploymentList({ limit, page })),
+    onLoadData: () => dispatch(getEmploymentList({ limit, page, sorting })),
     onChangeSorting: (newSorting) => dispatch(getEmploymentList({ limit, page, sorting: newSorting })),
     onChangePage: (newPage) => {
       if (newPage != page )

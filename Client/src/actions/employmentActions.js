@@ -1,11 +1,11 @@
+import { fetchingAction } from './';
 import { apiGetEmploymentList, apiGetEmploymentById, apiGetSpecialities } from '../api';
-import { fetchingAction } from './fetchingActions';
+import { initialize } from 'redux-form';
 
 export const GET_EMPLOYMENT_LIST = 'GET_EMPLOYMENT_LIST';
 export const GET_EMPLOYMENT_SUGGESTIONS = 'GET_EMPLOYMENT_SUGGESTIONS';
 export const CLEAR_EMPLOYMENT_SUGGESTIONS = 'CLEAR_EMPLOYMENT_SUGGESTIONS';
 export const SET_EMPLOYMENT_LIST_SORTING = 'SET_EMPLOYMENT_LIST_SORTING';
-export const GET_EMPLOYMENT_BY_ID = 'GET_EMPLOYMENT_BY_ID';
 export const GET_SPECIALITIES_SUGGESTIONS = 'GET_SPECIALITIES_SUGGESTIONS';
 export const CLEAR_SPECIALITIES_SUGGESTIONS = 'CLEAR_SPECIALITIES_SUGGESTIONS';
 
@@ -20,28 +20,29 @@ export function getEmploymentList(params) {
 }
 
 export function getEmploymentSuggestions(params) {
-  return dispatch => apiGetEmploymentList(params).then(res =>
-    dispatch({ type: GET_EMPLOYMENT_SUGGESTIONS, data: res.data.data })
-  );
+  return dispatch => apiGetEmploymentList(params)
+    .then(res =>
+      dispatch({ type: GET_EMPLOYMENT_SUGGESTIONS, data: res.data.data })
+    );
 }
 
 export function clearEmploymentSuggestions() {
   return dispatch => dispatch({ type: CLEAR_EMPLOYMENT_SUGGESTIONS });
 }
 
-export function getEmploymentById(id) {
-  return dispatch => fetchingAction(dispatch,
-    apiGetEmploymentById(id)
-      .then(res =>
-        apiGetSpecialities({ id: res.data.specialityId })
-          .then(spec => {
-            let result = res.data;
-            const speciality = (spec.data.data[0] && spec.data.data[0].name) || '';
-            result = { ...result, speciality };
-            dispatch({ type: GET_EMPLOYMENT_BY_ID, data: result });
-          })
+export function initEmploymentForm(formName, id) {
+  return dispatch => {
+    fetchingAction(dispatch,
+      apiGetEmploymentById(id).then(res =>
+        apiGetSpecialities({ id: res.data.specialityId }).then(spec => {
+          let result = res.data;
+          const speciality = (spec.data.data[0] && spec.data.data[0].name) || '';
+          result = { ...result, speciality };
+          dispatch(initialize(formName, result));
+        })
       )
-  );
+    );
+  };
 }
 
 export function getSpecialitiesSuggestion(params) {

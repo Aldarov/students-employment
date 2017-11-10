@@ -7,7 +7,7 @@ import {
 const defaultData = {
   list: {
     data: [],
-    info: { limit: 14, page: 0, totalRecord: 0, sorting: [] },
+    info: { limit: 10, page: 0, totalRecord: 0, sorting: [] },
     searchSuggestions: []
   },
   edit: {

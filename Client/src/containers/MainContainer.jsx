@@ -1,14 +1,26 @@
 import { connectAdvanced } from 'react-redux';
 import { withRouter } from 'react-router';
+import { submit, reset, isPristine, isSubmitting } from 'redux-form';
 
 import AuthHOC from './AuthHOC';
 import Main from '../components/Main';
-import { getEduForms, getDirectionTypes, getDistributionTypes } from '../actions/dictionariesActions';
+import {
+  getEduForms, getDirectionTypes, getDistributionTypes,
+  openLeftColumn, closeLeftColumn,
+} from '../actions';
 
 export default AuthHOC(withRouter(
   connectAdvanced(dispatch => (state, ownProps) => {
+    const currentForm = state.header.currentForm;
+    const pristine = isPristine(currentForm)(state);
+    const submitting = isSubmitting(currentForm)(state);
+
     const props = {
-      title: state.header.title
+      title: state.header.title,
+      openColumn: state.header.openColumn,
+      formName: currentForm,
+      pristine,
+      submitting
     };
 
     const methods = {
@@ -23,6 +35,16 @@ export default AuthHOC(withRouter(
         dispatch(getDirectionTypes());
         dispatch(getDistributionTypes());
       },
+      onOpenLeftColumn: () => dispatch(openLeftColumn()),
+      onCloseLeftColumn: () => dispatch(closeLeftColumn()),
+      onSave: () => (currentForm ? () => dispatch(submit(currentForm)) : null),
+      onReturn: () => (currentForm ?
+        () => {
+          dispatch(reset(currentForm));
+          ownProps.history.push('/employment');
+        } :
+        null
+      ),
     };
 
     return { ...props, ...methods, ...ownProps };

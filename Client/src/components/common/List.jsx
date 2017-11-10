@@ -61,7 +61,7 @@ class List extends Component {
     return (
       <div className={className}>
         <Grid
-          rows={data}
+          rows={data || []}
           columns={columns}
         >
           <SortingState

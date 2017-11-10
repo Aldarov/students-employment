@@ -1,23 +1,24 @@
 import { connectAdvanced } from 'react-redux';
-import { SubmissionError } from 'redux-form';
+import { SubmissionError, reduxForm, getFormValues } from 'redux-form';
 
 import Employment from '../components/Employment';
 import {
-  changeTitle, getEmploymentById, setEmploymentById,
+  changeTitle, initEmploymentForm,
   getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected,
 } from '../actions';
 
+const formName = 'employment';
+
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const { id } = ownProps.match.params;
+  const formValues = getFormValues(formName)(state);
 
   const props = {
     loading: state.fetching,
-    initialValues: state.form.employment.initialValues,
-    values: state.form.employment.values,
     specialities: state.employment.edit.specialitySuggestions,
     eduForms: state.dictionaries.eduForms,
 
-    students: state.form.employment.values && state.form.employment.values.pgContractStuffs || [],
+    students: formValues && formValues.pgContractStuffs,
     directionTypes: state.dictionaries.directionTypes,
     distributionTypes: state.dictionaries.distributionTypes,
     columnsStudents: [
@@ -33,9 +34,8 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   };
 
   const methods = {
-    onLoadData: () => dispatch(getEmploymentById(id)),
-    onSetData: data => dispatch(setEmploymentById(data)),
-    onChangeTitle: () => dispatch(changeTitle(`Трудоустройство № ${id}`)),
+    onLoadData: () => dispatch(initEmploymentForm(formName, id)),
+    onChangeTitle: () => dispatch(changeTitle(`Трудоустройство № ${id}`, formName)),
 
     onGetSpecialitySuggestions: (value) => dispatch(getSpecialitiesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearSpecialitySuggestions: () => dispatch(clearSpecialitiesSuggestion()),
@@ -79,4 +79,8 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   };
 
   return { ...props, ...methods, ...ownProps };
-})(Employment);
+})(
+  reduxForm({
+    form: formName
+  })(Employment)
+);

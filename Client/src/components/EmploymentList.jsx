@@ -8,7 +8,10 @@ import Loading from './common/Loading';
 
 const styles = theme => ({
   autocomplete: {
-    width: 700,
+    width: 600,
+    [theme.breakpoints.down('sm')]: {
+      width: 350,
+    },
     marginBottom: theme.spacing.unit,
   },
   marginLeft: {
@@ -50,7 +53,7 @@ class EmploymentList extends Component {
             autoFocus: false,
             className: classes.autocomplete,
             label: 'Поиск',
-            placeholder: 'Для поиска введите значения через пробел',
+            placeholder: 'Введите значения через пробел',
           }}
           suggestions={searchSuggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}

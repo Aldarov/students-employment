@@ -5,14 +5,9 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-
-import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import DescriptionIcon from 'material-ui-icons/Description';
 import AccountBalanceIcon from 'material-ui-icons/AccountBalance';
@@ -20,6 +15,8 @@ import AccountBalanceIcon from 'material-ui-icons/AccountBalance';
 import EmploymentListContainer from '../containers/EmploymentListContainer';
 import EmploymentContainer from '../containers/EmploymentContainer';
 import OrganizationListContainer from '../containers/OrganizationListContainer';
+import Header from './Header';
+import QuestionDialog from './common/dialogs/QuestionDialog';
 
 const drawerWidth = 240;
 
@@ -53,6 +50,9 @@ const styles = theme => ({
   menuButton: {
     marginLeft: 12,
     marginRight: 20,
+  },
+  flex: {
+    flex: 1,
   },
   hide: {
     display: 'none',
@@ -93,57 +93,40 @@ class Main extends Component {
     this.props.onLoadData();
   }
 
-  state = {
-    open: false
-  };
-
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
-
   handleRedirectToEmployment = () => {
     this.props.onRedirectToEmployment();
-    this.setState({ open: false });
+    this.props.onCloseLeftColumn();
   };
 
   handleRedirectToOrganization = () => {
     this.props.onRedirectToOrganization();
-    this.setState({ open: false });
+    this.props.onCloseLeftColumn();
   };
 
   render() {
-    const { classes, title } = this.props;
+    const { classes, title, onOpenLeftColumn, onCloseLeftColumn, openColumn, onReturn, onSave, pristine, submitting } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
-          <AppBar className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
-            <Toolbar disableGutters={!this.state.open}>
-              <IconButton
-                color="contrast"
-                aria-label="open drawer"
-                onClick={this.handleDrawerOpen}
-                className={classNames(classes.menuButton, this.state.open && classes.hide)}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography type="title" color="inherit" noWrap>
-                {title}
-              </Typography>
-            </Toolbar>
-          </AppBar>
+          <Header
+            classes={classes}
+            openColumn={openColumn}
+            title={title}
+            onOpenLeftColumn={onOpenLeftColumn}
+            onReturn={onReturn()}
+            onSave={onSave()}
+            pristine={pristine}
+            submitting={submitting}
+          />
           <Drawer
             classes={{
               paper: classes.drawerPaper,
             }}
-            open={this.state.open}
+            open={openColumn}
           >
             <div className={classes.drawerInner}>
               <div className={classes.drawerHeader}>
-                <IconButton onClick={this.handleDrawerClose}>
+                <IconButton onClick={onCloseLeftColumn}>
                   <ChevronLeftIcon />
                 </IconButton>
               </div>
@@ -164,12 +147,18 @@ class Main extends Component {
               </List>
             </div>
           </Drawer>
-          <main className={classNames(classes.content, this.state.open && classes.contentShift)}>
+          <main className={classNames(classes.content, openColumn && classes.contentShift)}>
             <Route exact path="/" component={EmploymentListContainer}/>
             <Route exact path="/employment" component={EmploymentListContainer}/>
-            <Route exact path="/employment/:id" component={EmploymentContainer}/>
+            <Route exact path="/employment/:id" component={EmploymentContainer} />
             <Route exact path="/organization" component={OrganizationListContainer}/>
           </main>
+          <QuestionDialog
+            open={false}
+            contentText={''}
+            onYes={this.handleDialogYes}
+            onNo={this.handleDialogNo}
+          />
         </div>
       </div>
     );
@@ -181,6 +170,13 @@ Main.propTypes = {
   onRedirectToEmployment: PropTypes.func,
   onRedirectToOrganization: PropTypes.func,
   onLoadData: PropTypes.func,
+  onOpenLeftColumn: PropTypes.func,
+  onCloseLeftColumn: PropTypes.func,
+  openColumn: PropTypes.bool,
+  onReturn: PropTypes.func,
+  onSave: PropTypes.func,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
 };
 
 export default withStyles(styles)(Main);

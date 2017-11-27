@@ -104,7 +104,11 @@ class Main extends Component {
   };
 
   render() {
-    const { classes, title, onOpenLeftColumn, onCloseLeftColumn, openColumn, onReturn, onSave, pristine, submitting } = this.props;
+    const {
+      classes, title, onOpenLeftColumn, onCloseLeftColumn, openColumn,
+      onReturn, onSave, pristine, submitting,
+      dialog, onDialogYes, onDialogNo,
+    } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
@@ -154,10 +158,10 @@ class Main extends Component {
             <Route exact path="/organization" component={OrganizationListContainer}/>
           </main>
           <QuestionDialog
-            open={false}
-            contentText={''}
-            onYes={this.handleDialogYes}
-            onNo={this.handleDialogNo}
+            open={dialog.dialogOpen}
+            contentText={dialog.dialogText}
+            onYes={onDialogYes}
+            onNo={onDialogNo}
           />
         </div>
       </div>
@@ -177,6 +181,9 @@ Main.propTypes = {
   onSave: PropTypes.func,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
+  dialog: PropTypes.object,
+  onDialogYes: PropTypes.func,
+  onDialogNo: PropTypes.func,
 };
 
 export default withStyles(styles)(Main);

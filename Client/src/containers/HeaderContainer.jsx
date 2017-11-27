@@ -2,7 +2,7 @@ import { connectAdvanced } from 'react-redux';
 
 import Header from '../components/Header';
 
-export default connectAdvanced( dispatch => (state, ownProps) => {
+export default connectAdvanced( () => (state, ownProps) => {
   const props = {
 
   };

@@ -22,3 +22,8 @@ export {
   GET_EDU_FORMS, GET_DIRECTION_TYPES, GET_DISTRIBUTION_TYPES,
   getEduForms, getDirectionTypes, getDistributionTypes
 } from './dictionariesActions';
+
+export {
+  DIALOG_QUESTION_CLOSE, DIALOG_QUESTION_OPEN,
+  openQuestionDialog, closeQuestionDialog
+} from './dialogActions';

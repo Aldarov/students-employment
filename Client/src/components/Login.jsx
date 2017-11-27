@@ -60,7 +60,7 @@ Login.propTypes = {
   handleSubmit: PropTypes.func,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
-  reset: PropTypes.func
+  reset: PropTypes.func,
 };
 
 export default {

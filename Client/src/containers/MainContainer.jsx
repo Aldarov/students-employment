@@ -6,8 +6,10 @@ import AuthHOC from './AuthHOC';
 import Main from '../components/Main';
 import {
   getEduForms, getDirectionTypes, getDistributionTypes,
-  openLeftColumn, closeLeftColumn,
+  openLeftColumn, closeLeftColumn, openQuestionDialog, closeQuestionDialog,
 } from '../actions';
+
+const DIALOG_TYPE_RETURN_FROM_EMPLOYMENT = 'DIALOG_TYPE_RETURN_FROM_EMPLOYMENT';
 
 export default AuthHOC(withRouter(
   connectAdvanced(dispatch => (state, ownProps) => {
@@ -20,7 +22,8 @@ export default AuthHOC(withRouter(
       openColumn: state.header.openColumn,
       formName: currentForm,
       pristine,
-      submitting
+      submitting,
+      dialog: state.dialog
     };
 
     const methods = {
@@ -40,13 +43,27 @@ export default AuthHOC(withRouter(
       onSave: () => (currentForm ? () => dispatch(submit(currentForm)) : null),
       onReturn: () => (currentForm ?
         () => {
-          dispatch(reset(currentForm));
-          ownProps.history.push('/employment');
+          dispatch(openQuestionDialog(true, 'Сохранить изменные данные?', DIALOG_TYPE_RETURN_FROM_EMPLOYMENT));
         } :
         null
       ),
+      onDialogYes: () => {
+        if (state.dialog.dialogType === DIALOG_TYPE_RETURN_FROM_EMPLOYMENT) {
+          console.log('err', dispatch(submit(currentForm)));
+          dispatch(closeQuestionDialog());
+          // ownProps.history.push('/employment');
+        }
+      },
+      onDialogNo: () => {
+        if (state.dialog.dialogType === DIALOG_TYPE_RETURN_FROM_EMPLOYMENT) {
+          dispatch(reset(currentForm));
+          dispatch(closeQuestionDialog());
+          ownProps.history.push('/employment');
+        }
+      }
     };
 
     return { ...props, ...methods, ...ownProps };
   })(Main)
 ));
+

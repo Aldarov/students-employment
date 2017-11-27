@@ -4,10 +4,10 @@ import getUrl from './configUrl';
 const startUrl = 'api/placements';
 
 export function apiGetEmploymentList({...args}) {
-  let url = getUrl({startUrl, ...args});
-  return axios.get(url).then(response => response);
+  const url = getUrl({startUrl, ...args});
+  return axios.get(url);
 }
 
 export function apiGetEmploymentById(id) {
-  return axios.get(startUrl + `/${id}`).then(response => response);
+  return axios.get(startUrl + `/${id}`);
 }

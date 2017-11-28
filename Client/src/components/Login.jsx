@@ -1,68 +1,34 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
-// import Button from 'material-ui/Button';
-// import { TextField } from '@gfpacheco/redux-form-material-ui';
-import './Login.scss';
 
 class Login extends React.Component {
+  componentWillMount(){
+    this.props.onLogin();
+  }
+
   render() {
-    const { handleSubmit } = this.props;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
 
     return (
-      <div className="Login">
-        <div className="Login__banner">
-          <form
-            className="Login__form"
-            onSubmit={handleSubmit}
-          >
-            <h3>
-              Вход в систему
-            </h3>
-
-            {/* <Field
-              name="login"
-              component={TextField}
-              placeholder="Введите логин"
-              label="Логин"
-              margin="normal"
-            />
-            <Field
-              name="password"
-              component={TextField}
-              type="password"
-              placeholder="Введите пароль"
-              label="Пароль"
-              margin="normal"
-            /><br/> */}
-
-            {/* <Button
-              type="submit"
-              raised
-              color="primary"
-              disabled={pristine || submitting}
-            >
-              Войти
-            </Button> */}
-          </form>
-          {/* <img
-            className="Login__image"
-            src={require('../assets/images/desk.png')}
-            alt="login image"
-          /> */}
+      this.props.isAuth
+        ?
+        <Redirect to={from}/>
+        :
+        <div style={{
+          margin: '30px auto',
+          textAlign: 'center'
+        }}>
+          Для доступа к сайту авторизуйтесь в <a href="http://my.bsu.ru/pg.php">личном кабинете</a>.
         </div>
-      </div>
     );
   }
 }
 
 Login.propTypes = {
-  handleSubmit: PropTypes.func,
-  pristine: PropTypes.bool,
-  submitting: PropTypes.bool,
-  reset: PropTypes.func,
+  onLogin: PropTypes.func,
+  location: PropTypes.object,
+  isAuth: PropTypes.bool
 };
 
-export default {
-  ReduxForm: reduxForm({ form: 'Login' })(Login)
-};
+export default Login;

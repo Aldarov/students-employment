@@ -25,12 +25,7 @@ export default (ChildComponent) => {
     };
   }
 
-  function mapDispatchToProps() {
-    return {
-    };
-  }
-
-  return connect(mapStateToProps, mapDispatchToProps)(AuthHOC);
+  return connect(mapStateToProps)(AuthHOC);
 };
 
 

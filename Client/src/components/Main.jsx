@@ -4,19 +4,13 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
-import Drawer from 'material-ui/Drawer';
-import IconButton from 'material-ui/IconButton';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
-import DescriptionIcon from 'material-ui-icons/Description';
-import AccountBalanceIcon from 'material-ui-icons/AccountBalance';
 
 import EmploymentListContainer from '../containers/EmploymentListContainer';
 import EmploymentContainer from '../containers/EmploymentContainer';
 import OrganizationListContainer from '../containers/OrganizationListContainer';
 import Header from './Header';
 import QuestionDialog from './common/dialogs/QuestionDialog';
+import Sidebar from './Sidebar';
 
 const drawerWidth = 240;
 
@@ -93,21 +87,11 @@ class Main extends Component {
     this.props.onLoadData();
   }
 
-  handleRedirectToEmployment = () => {
-    this.props.onRedirectToEmployment();
-    this.props.onCloseLeftColumn();
-  };
-
-  handleRedirectToOrganization = () => {
-    this.props.onRedirectToOrganization();
-    this.props.onCloseLeftColumn();
-  };
-
   render() {
     const {
       classes, title, onOpenLeftColumn, onCloseLeftColumn, openColumn,
       onReturn, onSave, pristine, submitting,
-      dialog, onDialogYes, onDialogNo,
+      dialog, onDialogYes, onDialogNo, onRedirectToEmployment, onRedirectToOrganization
     } = this.props;
     return (
       <div className={classes.root}>
@@ -117,40 +101,19 @@ class Main extends Component {
             openColumn={openColumn}
             title={title}
             onOpenLeftColumn={onOpenLeftColumn}
-            onReturn={onReturn()}
-            onSave={onSave()}
+            onReturn={onReturn}
+            onSave={onSave}
             pristine={pristine}
             submitting={submitting}
+            iconName={'MenuIcon'}
           />
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            open={openColumn}
-          >
-            <div className={classes.drawerInner}>
-              <div className={classes.drawerHeader}>
-                <IconButton onClick={onCloseLeftColumn}>
-                  <ChevronLeftIcon />
-                </IconButton>
-              </div>
-              <Divider />
-              <List>
-                <ListItem button onClick={this.handleRedirectToEmployment}>
-                  <ListItemIcon>
-                    <DescriptionIcon />
-                  </ListItemIcon>
-                  <ListItemText inset primary="Трудоустройство" />
-                </ListItem>
-                <ListItem button onClick={this.handleRedirectToOrganization}>
-                  <ListItemIcon>
-                    <AccountBalanceIcon />
-                  </ListItemIcon>
-                  <ListItemText inset primary="Организации" />
-                </ListItem>
-              </List>
-            </div>
-          </Drawer>
+          <Sidebar
+            classes={classes}
+            openColumn={openColumn}
+            onCloseLeftColumn={onCloseLeftColumn}
+            onRedirectToEmployment={onRedirectToEmployment}
+            onRedirectToOrganization={onRedirectToOrganization}
+          />
           <main className={classNames(classes.content, openColumn && classes.contentShift)}>
             <Route exact path="/" component={EmploymentListContainer}/>
             <Route exact path="/employment" component={EmploymentListContainer}/>

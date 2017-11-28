@@ -40,23 +40,24 @@ export default AuthHOC(withRouter(
       },
       onOpenLeftColumn: () => dispatch(openLeftColumn()),
       onCloseLeftColumn: () => dispatch(closeLeftColumn()),
-      onSave: () => (currentForm ? () => dispatch(submit(currentForm)) : null),
-      onReturn: () => (currentForm ?
-        () => {
+      onSave: () => currentForm && dispatch(submit(currentForm)),
+      onReturn: () => {
+        if (!pristine) {
           dispatch(openQuestionDialog(true, 'Сохранить изменные данные?', DIALOG_TYPE_RETURN_FROM_EMPLOYMENT));
-        } :
-        null
-      ),
+        } else {
+          ownProps.history.push('/employment');
+        }
+      },
       onDialogYes: () => {
         if (state.dialog.dialogType === DIALOG_TYPE_RETURN_FROM_EMPLOYMENT) {
-          console.log('err', dispatch(submit(currentForm)));
+          currentForm && dispatch(submit(currentForm));
           dispatch(closeQuestionDialog());
           // ownProps.history.push('/employment');
         }
       },
       onDialogNo: () => {
         if (state.dialog.dialogType === DIALOG_TYPE_RETURN_FROM_EMPLOYMENT) {
-          dispatch(reset(currentForm));
+          currentForm && dispatch(reset(currentForm));
           dispatch(closeQuestionDialog());
           ownProps.history.push('/employment');
         }

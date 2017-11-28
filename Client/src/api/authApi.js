@@ -24,8 +24,7 @@ export function apiRefreshToken() {
     .then(token => {
       apiSetToken(token.access_token, token.refresh_token);
       return token;
-    })
-    .catch(() => apiLogout());
+    });
 }
 
 export function apiLogout() {

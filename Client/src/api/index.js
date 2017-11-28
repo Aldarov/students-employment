@@ -21,6 +21,7 @@ axios.interceptors.response.use(
           return axios(prev_req);
         });
     }
-    return Promise.reject(error.response.data);
+    console.log('interceptors', error.response);
+    return Promise.reject(error.response);
   }
 );

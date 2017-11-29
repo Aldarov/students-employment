@@ -12,6 +12,7 @@ const formName = 'employment';
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const { id } = ownProps.match.params;
   const formValues = getFormValues(formName)(state);
+  ownProps.onHeaderLeftButtonClick(() => console.log('emp left click', ));
 
   const props = {
     loading: state.fetching,

@@ -38,7 +38,7 @@ export default AuthHOC(withRouter(
         dispatch(getDirectionTypes());
         dispatch(getDistributionTypes());
       },
-      onOpenLeftColumn: () => dispatch(openLeftColumn()),
+      // onOpenLeftColumn: () => dispatch(openLeftColumn()),
       onCloseLeftColumn: () => dispatch(closeLeftColumn()),
       onSave: () => currentForm && dispatch(submit(currentForm)),
       onReturn: () => {

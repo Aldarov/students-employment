@@ -5,14 +5,16 @@ import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-
-import MenuIcon from 'material-ui-icons/Menu';
-import ArrowBack from 'material-ui-icons/ArrowBack';
-import Close from 'material-ui-icons/Close';
+import * as Icons from 'material-ui-icons';
 
 export default function Header(params) {
-  const { classes, title, openColumn, onReturn, onOpenLeftColumn, onClose, onSave, pristine, submitting, iconName } = params;
-  const Icon = iconName;
+  const {
+    classes, openColumn,
+    headerProps: { onLeftButtonClick, leftButtonIconName, onRightButtonClick, rightButtonDisabled, title }
+  } = params;
+
+  console.log('header', this.props.headerProps);
+  const Icon = Icons[leftButtonIconName];
 
   return (
     <AppBar className={classNames(classes.appBar, openColumn && classes.appBarShift)}>
@@ -20,26 +22,21 @@ export default function Header(params) {
         <IconButton
           color="contrast"
           aria-label="open drawer"
-          onClick={onReturn || onClose || onOpenLeftColumn}
+          onClick={onLeftButtonClick}
           className={classNames(classes.menuButton, openColumn && classes.hide)}
         >
           <Icon />
-          {
-            // (onReturn && <ArrowBack/>) ||
-            // (onClose && <Close/>) ||
-            // (onOpenLeftColumn && <MenuIcon/>)
-          }
         </IconButton>
         <Typography type="title" color="inherit" noWrap className={classes.flex}>
           {title}
         </Typography>
         {
-          onSave &&
+          onRightButtonClick &&
           <Button
             className={classes.menuButton}
             color="contrast"
-            onClick={onSave}
-            disabled={pristine || submitting}
+            onClick={onRightButtonClick}
+            disabled={rightButtonDisabled}
           >
             Сохранить
           </Button>

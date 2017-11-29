@@ -1,21 +1,18 @@
-import { connect } from 'react-redux';
+import { connectAdvanced } from 'react-redux';
 import OrganizationList from '../components/OrganizationList';
-import { changeTitle } from '../actions';
+import { changeTitle, openLeftColumn } from '../actions';
 
-const mapStateToProps = () => {
-  return {
+export default connectAdvanced( dispatch => (state, ownProps) => {
+  ownProps.onHeaderLeftButtonClick(() => dispatch(openLeftColumn()));
+
+  const props = {
+
   };
-};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+  const methods = {
     onChangeTitle: (title) => dispatch(changeTitle(title))
+
   };
-};
 
-const OrganizationListContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OrganizationList);
-
-export default OrganizationListContainer;
+  return { ...props, ...methods, ...ownProps };
+})(OrganizationList);

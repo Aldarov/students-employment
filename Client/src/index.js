@@ -5,9 +5,11 @@ import MuiThemeProvider from 'material-ui-prev/styles/MuiThemeProvider';
 
 import { getStore} from './store';
 import { checkAuth } from './actions';
+import { initAxios } from './api';
 import App from './App';
 
 const store = getStore();
+initAxios(store);
 store.dispatch(checkAuth());
 
 ReactDOM.render(

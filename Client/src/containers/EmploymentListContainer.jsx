@@ -4,11 +4,21 @@ import EmploymentList from '../components/EmploymentList';
 import {
   changeTitle,
   getEmploymentList,
-  getEmploymentSuggestions, clearEmploymentSuggestions,
+  getEmploymentSuggestions,
+  clearEmploymentSuggestions,
+  openLeftColumn
 } from '../actions';
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const { limit, page, totalRecord, sorting } = state.employment.list.info;
+
+  ownProps.onInitHeader({
+    onLeftButtonClick: () => dispatch(openLeftColumn),
+    leftButtonIconName: 'Menu',
+    // onRightButtonClick,
+    // rightButtonDisabled,
+    title: 'sds1w'
+  });
 
   const props = {
     data: state.employment.list.data,

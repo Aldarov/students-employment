@@ -1,15 +1,9 @@
 // import Alert from 'react-s-alert';
-import { logout } from '../actions';
 
-export const errorHandler = store => next => action => {
+export const errorHandler = () => next => action => {
   const res = next(action);
   if (res && (typeof res.catch === 'function')) {
-    return res.catch(error => {
-      if (error.status === 403) {
-        store.dispatch(logout());
-      }
-      console.log('error: ', error.data);
-
+    return res.catch(() => {
       // if (error && error.messages) {
       //   let msg = '';
       //   error.messages['*'].forEach(el => {

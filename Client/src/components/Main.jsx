@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -11,6 +10,7 @@ import OrganizationListContainer from '../containers/OrganizationListContainer';
 import Header from './Header';
 import QuestionDialog from './common/dialogs/QuestionDialog';
 import Sidebar from './Sidebar';
+import RouteWithProps from './common/RouteWithProps';
 
 const drawerWidth = 240;
 
@@ -89,8 +89,8 @@ class Main extends Component {
 
   render() {
     const {
-      classes, title, onOpenLeftColumn, onCloseLeftColumn, openColumn,
-      onReturn, onSave, pristine, submitting,
+      classes, onCloseLeftColumn, openColumn,
+      // title, onReturn, onSave, pristine, submitting,
       dialog, onDialogYes, onDialogNo, onRedirectToEmployment, onRedirectToOrganization
     } = this.props;
     return (
@@ -99,13 +99,15 @@ class Main extends Component {
           <Header
             classes={classes}
             openColumn={openColumn}
-            title={title}
-            onOpenLeftColumn={onOpenLeftColumn}
-            onReturn={onReturn}
-            onSave={onSave}
-            pristine={pristine}
-            submitting={submitting}
-            iconName={'MenuIcon'}
+            headerProps={this.headerProps}
+
+            // title={title}
+            // iconName={'Menu'}
+            // onLeftButtonClick={this.handleHeaderLeftButtonClick}
+            // onReturn={onReturn}
+            // onSave={onSave}
+            // pristine={pristine}
+            // submitting={submitting}
           />
           <Sidebar
             classes={classes}
@@ -115,10 +117,30 @@ class Main extends Component {
             onRedirectToOrganization={onRedirectToOrganization}
           />
           <main className={classNames(classes.content, openColumn && classes.contentShift)}>
-            <Route exact path="/" component={EmploymentListContainer}/>
-            <Route exact path="/employment" component={EmploymentListContainer}/>
-            <Route exact path="/employment/:id" component={EmploymentContainer} />
-            <Route exact path="/organization" component={OrganizationListContainer}/>
+            <RouteWithProps exact path="/"
+              component={EmploymentListContainer}
+              componentProps={{
+                onInitHeader: props => this.headerProps = props
+              }}
+            />
+            <RouteWithProps exact path="/employment"
+              component={EmploymentListContainer}
+              componentProps={{
+                onHeaderLeftButtonClick: click => this.handleHeaderLeftButtonClick = click
+              }}
+            />
+            <RouteWithProps exact path="/employment/:id"
+              component={EmploymentContainer}
+              componentProps={{
+                onHeaderLeftButtonClick: click => this.handleHeaderLeftButtonClick = click
+              }}
+            />
+            <RouteWithProps exact path="/organization"
+              component={OrganizationListContainer}
+              componentProps={{
+                onHeaderLeftButtonClick: click => this.handleHeaderLeftButtonClick = click
+              }}
+            />
           </main>
           <QuestionDialog
             open={dialog.dialogOpen}

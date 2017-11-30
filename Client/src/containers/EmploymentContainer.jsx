@@ -1,10 +1,13 @@
 import { connectAdvanced } from 'react-redux';
-import { SubmissionError, reduxForm, getFormValues } from 'redux-form';
+import {
+  SubmissionError, reduxForm, getFormValues, submit, isPristine, isSubmitting,
+} from 'redux-form';
 
 import Employment from '../components/Employment';
 import {
-  changeTitle, initEmploymentForm,
+  initEmploymentForm,
   getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected,
+  openQuestionDialog, closeQuestionDialog,
 } from '../actions';
 
 const formName = 'employment';
@@ -12,7 +15,37 @@ const formName = 'employment';
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const { id } = ownProps.match.params;
   const formValues = getFormValues(formName)(state);
-  ownProps.onHeaderLeftButtonClick(() => console.log('emp left click', ));
+  const pristine = isPristine(formName)(state);
+  const submitting = isSubmitting(formName)(state);
+
+  ownProps.onInitHeader({
+    onLeftButtonClick: () => {
+      if (!pristine) {
+        ownProps.onInitDialog({
+          contentText: 'Сохранить изменные данные?',
+          onYes: () => {
+            dispatch(closeQuestionDialog());
+            dispatch(submit(formName));
+            // console.log('sub', valid);
+            // if (valid) {
+            //   ownProps.history.push('/employment');
+            // }
+          },
+          onNo: () => {
+            dispatch(closeQuestionDialog());
+            ownProps.history.push('/employment');
+          }
+        });
+        dispatch(openQuestionDialog());
+      } else {
+        ownProps.history.push('/employment');
+      }
+    },
+    leftButtonIconName: 'ArrowBack',
+    onRightButtonClick: () => dispatch(submit(formName)),
+    rightButtonDisabled: pristine || submitting,
+    title: `Трудоустройство № ${id}`
+  });
 
   const props = {
     loading: state.fetching,
@@ -35,8 +68,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   };
 
   const methods = {
-    onLoadData: () => dispatch(initEmploymentForm(formName, id)),
-    onChangeTitle: () => dispatch(changeTitle(`Трудоустройство № ${id}`, formName)),
+    onLoadData: () => {
+      dispatch(initEmploymentForm(formName, id));
+    },
 
     onGetSpecialitySuggestions: (value) => dispatch(getSpecialitiesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearSpecialitySuggestions: () => dispatch(clearSpecialitiesSuggestion()),

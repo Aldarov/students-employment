@@ -25,7 +25,6 @@ class EmploymentList extends Component {
   };
 
   componentWillMount() {
-    this.props.onChangeTitle();
     this.props.onLoadData();
   }
 
@@ -86,7 +85,6 @@ class EmploymentList extends Component {
 
 EmploymentList.propTypes = {
   classes: PropTypes.object,
-  onChangeTitle: PropTypes.func,
   onLoadData: PropTypes.func,
 
   data: PropTypes.array,

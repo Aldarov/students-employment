@@ -83,15 +83,20 @@ const styles = theme => ({
 });
 
 class Main extends Component {
-  componentWillMount(){
+  componentWillMount() {
     this.props.onLoadData();
+  }
+
+  childProps = {
+    onInitHeader: props => this.headerProps = props,
+    onInitDialog: props => this.dialogProps = props
   }
 
   render() {
     const {
       classes, onCloseLeftColumn, openColumn,
-      // title, onReturn, onSave, pristine, submitting,
-      dialog, onDialogYes, onDialogNo, onRedirectToEmployment, onRedirectToOrganization
+      onRedirectToEmployment, onRedirectToOrganization,
+      dialog
     } = this.props;
     return (
       <div className={classes.root}>
@@ -100,14 +105,6 @@ class Main extends Component {
             classes={classes}
             openColumn={openColumn}
             headerProps={this.headerProps}
-
-            // title={title}
-            // iconName={'Menu'}
-            // onLeftButtonClick={this.handleHeaderLeftButtonClick}
-            // onReturn={onReturn}
-            // onSave={onSave}
-            // pristine={pristine}
-            // submitting={submitting}
           />
           <Sidebar
             classes={classes}
@@ -119,34 +116,27 @@ class Main extends Component {
           <main className={classNames(classes.content, openColumn && classes.contentShift)}>
             <RouteWithProps exact path="/"
               component={EmploymentListContainer}
-              componentProps={{
-                onInitHeader: props => this.headerProps = props
-              }}
+              componentProps={this.childProps}
             />
             <RouteWithProps exact path="/employment"
               component={EmploymentListContainer}
-              componentProps={{
-                onHeaderLeftButtonClick: click => this.handleHeaderLeftButtonClick = click
-              }}
+              componentProps={this.childProps}
             />
             <RouteWithProps exact path="/employment/:id"
               component={EmploymentContainer}
-              componentProps={{
-                onHeaderLeftButtonClick: click => this.handleHeaderLeftButtonClick = click
-              }}
+              componentProps={this.childProps}
             />
             <RouteWithProps exact path="/organization"
               component={OrganizationListContainer}
-              componentProps={{
-                onHeaderLeftButtonClick: click => this.handleHeaderLeftButtonClick = click
-              }}
+              componentProps={this.childProps}
             />
           </main>
           <QuestionDialog
             open={dialog.dialogOpen}
-            contentText={dialog.dialogText}
-            onYes={onDialogYes}
-            onNo={onDialogNo}
+            dialogProps={this.dialogProps}
+            // contentText={dialog.dialogText}
+            // onYes={onDialogYes}
+            // onNo={onDialogNo}
           />
         </div>
       </div>
@@ -155,17 +145,12 @@ class Main extends Component {
 }
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
-  title: PropTypes.string,
   onRedirectToEmployment: PropTypes.func,
   onRedirectToOrganization: PropTypes.func,
   onLoadData: PropTypes.func,
-  onOpenLeftColumn: PropTypes.func,
   onCloseLeftColumn: PropTypes.func,
   openColumn: PropTypes.bool,
-  onReturn: PropTypes.func,
-  onSave: PropTypes.func,
-  pristine: PropTypes.bool,
-  submitting: PropTypes.bool,
+
   dialog: PropTypes.object,
   onDialogYes: PropTypes.func,
   onDialogNo: PropTypes.func,

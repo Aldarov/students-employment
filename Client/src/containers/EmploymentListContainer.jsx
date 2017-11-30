@@ -2,7 +2,6 @@ import { connectAdvanced } from 'react-redux';
 
 import EmploymentList from '../components/EmploymentList';
 import {
-  changeTitle,
   getEmploymentList,
   getEmploymentSuggestions,
   clearEmploymentSuggestions,
@@ -13,11 +12,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const { limit, page, totalRecord, sorting } = state.employment.list.info;
 
   ownProps.onInitHeader({
-    onLeftButtonClick: () => dispatch(openLeftColumn),
+    onLeftButtonClick: () => dispatch(openLeftColumn()),
     leftButtonIconName: 'Menu',
-    // onRightButtonClick,
-    // rightButtonDisabled,
-    title: 'sds1w'
+    title: 'Трудоустройство'
   });
 
   const props = {
@@ -39,7 +36,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   };
 
   const methods = {
-    onChangeTitle: () => dispatch(changeTitle('Трудоустройство')),
     onLoadData: () => dispatch(getEmploymentList({ limit, page, sorting })),
     onChangeSorting: (newSorting) => dispatch(getEmploymentList({ limit, page, sorting: newSorting })),
     onChangePage: (newPage) => {

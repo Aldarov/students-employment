@@ -14,7 +14,8 @@ function Transition(props) {
 }
 
 export default function QuestionDialog(params) {
-  const { open, title, contentText, onYes, onNo } = params;
+  const { open, dialogProps } = params;
+  const { title, contentText, onYes, onNo } = dialogProps || {};
   return (
     <Dialog
       open={open}

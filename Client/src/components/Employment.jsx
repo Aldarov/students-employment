@@ -50,7 +50,6 @@ const styles = theme => ({
 class Employment extends Component {
   componentWillMount() {
     this.props.onLoadData();
-    this.props.onChangeTitle();
   }
 
   getCellData = (column, row) => {

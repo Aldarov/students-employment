@@ -10,11 +10,11 @@ import * as Icons from 'material-ui-icons';
 export default function Header(params) {
   const {
     classes, openColumn,
-    headerProps: { onLeftButtonClick, leftButtonIconName, onRightButtonClick, rightButtonDisabled, title }
+    headerProps
   } = params;
 
-  console.log('header', this.props.headerProps);
-  const Icon = Icons[leftButtonIconName];
+  const { onLeftButtonClick, leftButtonIconName, onRightButtonClick, rightButtonDisabled, title } = headerProps || {};
+  const Icon = leftButtonIconName && Icons[leftButtonIconName];
 
   return (
     <AppBar className={classNames(classes.appBar, openColumn && classes.appBarShift)}>
@@ -25,7 +25,7 @@ export default function Header(params) {
           onClick={onLeftButtonClick}
           className={classNames(classes.menuButton, openColumn && classes.hide)}
         >
-          <Icon />
+          {Icon && <Icon />}
         </IconButton>
         <Typography type="title" color="inherit" noWrap className={classes.flex}>
           {title}

@@ -4,8 +4,6 @@ import {
 
 const defaultData = {
   dialogOpen: false,
-  dialogText: '',
-  dialogType: ''
 };
 
 export default function reducer(state = defaultData, action) {
@@ -13,11 +11,14 @@ export default function reducer(state = defaultData, action) {
     case DIALOG_QUESTION_OPEN: {
       return {
         ...state,
-        ...action.data
+        dialogOpen: true
       };
     }
     case DIALOG_QUESTION_CLOSE: {
-      return defaultData;
+      return {
+        ...state,
+        dialogOpen: false
+      };
     }
     default:
       return state;

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 export default class OrganizationList extends Component {
 
   componentWillMount() {
-    this.props.onChangeTitle('Список организаций');
   }
 
   render() {

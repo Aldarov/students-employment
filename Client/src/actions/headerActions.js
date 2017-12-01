@@ -1,15 +1,10 @@
-export const CHANGE_TITLE = 'CHANGE_TITLE';
-export const OPEN_LEFT_COLUMN = 'OPEN_LEFT_COLUMN';
-export const CLOSE_LEFT_COLUMN = 'CLOSE_LEFT_COLUMN';
+export const OPEN_SIDEBAR = 'OPEN_SIDEBAR';
+export const CLOSE_SIDEBAR = 'CLOSE_SIDEBAR';
 
-export function changeTitle(title, formName) {
-  return dispatch => dispatch({ type: CHANGE_TITLE, data: {title, formName} });
+export function openSidebar() {
+  return dispatch => dispatch({ type: OPEN_SIDEBAR });
 }
 
-export function openLeftColumn() {
-  return dispatch => dispatch({ type: OPEN_LEFT_COLUMN });
-}
-
-export function closeLeftColumn() {
-  return dispatch => dispatch({ type: CLOSE_LEFT_COLUMN });
+export function closeSidebar() {
+  return dispatch => dispatch({ type: CLOSE_SIDEBAR });
 }

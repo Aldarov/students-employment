@@ -2,9 +2,9 @@ export { REQUEST_START, REQUEST_END, fetchingAction } from './fetchingActions';
 
 export { LOGIN, LOGOUT, login, logout, checkAuth } from './authActions';
 
-export { CHANGE_TITLE, changeTitle,
-  OPEN_LEFT_COLUMN, CLOSE_LEFT_COLUMN, openLeftColumn, closeLeftColumn,
-  SET_REDUX_FORM_NAME, setReduxFormName
+export {
+  OPEN_SIDEBAR, CLOSE_SIDEBAR,
+  openSidebar, closeSidebar,
 } from './headerActions';
 
 export {

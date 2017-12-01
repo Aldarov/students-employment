@@ -5,14 +5,14 @@ import {
   getEmploymentList,
   getEmploymentSuggestions,
   clearEmploymentSuggestions,
-  openLeftColumn
+  openSidebar
 } from '../actions';
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const { limit, page, totalRecord, sorting } = state.employment.list.info;
 
   ownProps.onInitHeader({
-    onLeftButtonClick: () => dispatch(openLeftColumn()),
+    onLeftButtonClick: () => dispatch(openSidebar()),
     leftButtonIconName: 'Menu',
     title: 'Трудоустройство'
   });

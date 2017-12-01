@@ -94,26 +94,23 @@ class Main extends Component {
 
   render() {
     const {
-      classes, onCloseLeftColumn, openColumn,
-      onRedirectToEmployment, onRedirectToOrganization,
-      dialog
+      classes, onCloseSidebar, openedSidebar, onRedirect, dialogOpen
     } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
           <Header
             classes={classes}
-            openColumn={openColumn}
+            openedSidebar={openedSidebar}
             headerProps={this.headerProps}
           />
           <Sidebar
             classes={classes}
-            openColumn={openColumn}
-            onCloseLeftColumn={onCloseLeftColumn}
-            onRedirectToEmployment={onRedirectToEmployment}
-            onRedirectToOrganization={onRedirectToOrganization}
+            open={openedSidebar}
+            onClose={onCloseSidebar}
+            onRedirect={onRedirect}
           />
-          <main className={classNames(classes.content, openColumn && classes.contentShift)}>
+          <main className={classNames(classes.content, openedSidebar && classes.contentShift)}>
             <RouteWithProps exact path="/"
               component={EmploymentListContainer}
               componentProps={this.childProps}
@@ -132,11 +129,8 @@ class Main extends Component {
             />
           </main>
           <QuestionDialog
-            open={dialog.dialogOpen}
+            open={dialogOpen}
             dialogProps={this.dialogProps}
-            // contentText={dialog.dialogText}
-            // onYes={onDialogYes}
-            // onNo={onDialogNo}
           />
         </div>
       </div>
@@ -145,15 +139,12 @@ class Main extends Component {
 }
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
-  onRedirectToEmployment: PropTypes.func,
-  onRedirectToOrganization: PropTypes.func,
+  onRedirect: PropTypes.func,
   onLoadData: PropTypes.func,
-  onCloseLeftColumn: PropTypes.func,
-  openColumn: PropTypes.bool,
+  onCloseSidebar: PropTypes.func,
+  openedSidebar: PropTypes.bool,
 
-  dialog: PropTypes.object,
-  onDialogYes: PropTypes.func,
-  onDialogNo: PropTypes.func,
+  dialogOpen: PropTypes.bool,
 };
 
 export default withStyles(styles)(Main);

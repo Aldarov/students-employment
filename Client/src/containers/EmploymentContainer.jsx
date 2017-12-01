@@ -11,6 +11,7 @@ import {
 } from '../actions';
 
 const formName = 'employment';
+let successSubmit = null;
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const { id } = ownProps.match.params;
@@ -22,14 +23,14 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     onLeftButtonClick: () => {
       if (!pristine) {
         ownProps.onInitDialog({
-          contentText: 'Сохранить изменные данные?',
+          contentText: 'Сохранить измененные данные?',
           onYes: () => {
+            successSubmit = () => {
+              ownProps.history.push('/employment');
+              successSubmit = null;
+            };
             dispatch(closeQuestionDialog());
             dispatch(submit(formName));
-            // console.log('sub', valid);
-            // if (valid) {
-            //   ownProps.history.push('/employment');
-            // }
           },
           onNo: () => {
             dispatch(closeQuestionDialog());
@@ -95,6 +96,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
     onSubmit: (values) => {
       console.log('onSubmit', values);
+      // successSubmit && successSubmit();
       throw new SubmissionError({
         entraceYear: 'Ошибка заполнения',
         _error: 'Общая ошибка формы!!'

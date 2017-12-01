@@ -9,21 +9,20 @@ import * as Icons from 'material-ui-icons';
 
 export default function Header(params) {
   const {
-    classes, openColumn,
-    headerProps
+    classes, openedSidebar, headerProps
   } = params;
 
   const { onLeftButtonClick, leftButtonIconName, onRightButtonClick, rightButtonDisabled, title } = headerProps || {};
   const Icon = leftButtonIconName && Icons[leftButtonIconName];
 
   return (
-    <AppBar className={classNames(classes.appBar, openColumn && classes.appBarShift)}>
-      <Toolbar disableGutters={!openColumn}>
+    <AppBar className={classNames(classes.appBar, openedSidebar && classes.appBarShift)}>
+      <Toolbar disableGutters={!openedSidebar}>
         <IconButton
           color="contrast"
           aria-label="open drawer"
           onClick={onLeftButtonClick}
-          className={classNames(classes.menuButton, openColumn && classes.hide)}
+          className={classNames(classes.menuButton, openedSidebar && classes.hide)}
         >
           {Icon && <Icon />}
         </IconButton>

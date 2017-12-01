@@ -1,16 +1,19 @@
 import { connectAdvanced } from 'react-redux';
 import OrganizationList from '../components/OrganizationList';
-import { changeTitle, openLeftColumn } from '../actions';
+import { openSidebar } from '../actions';
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
-  ownProps.onHeaderLeftButtonClick(() => dispatch(openLeftColumn()));
+  ownProps.onInitHeader({
+    onLeftButtonClick: () => dispatch(openSidebar()),
+    leftButtonIconName: 'Menu',
+    title: 'Организации'
+  });
 
   const props = {
 
   };
 
   const methods = {
-    onChangeTitle: (title) => dispatch(changeTitle(title))
 
   };
 

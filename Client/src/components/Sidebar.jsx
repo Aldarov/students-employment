@@ -10,41 +10,31 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import AccountBalanceIcon from 'material-ui-icons/AccountBalance';
 
 class Sidebar extends Component {
-  handleRedirectToEmployment = () => {
-    this.props.onRedirectToEmployment();
-    this.props.onCloseLeftColumn();
-  };
-
-  handleRedirectToOrganization = () => {
-    this.props.onRedirectToOrganization();
-    this.props.onCloseLeftColumn();
-  };
-
   render () {
-    const { openColumn, onCloseLeftColumn, classes } = this.props;
+    const { open, onClose, classes, onRedirect } = this.props;
 
     return (
       <Drawer
         classes={{
           paper: classes.drawerPaper,
         }}
-        open={openColumn}
+        open={open}
       >
         <div className={classes.drawerInner}>
           <div className={classes.drawerHeader}>
-            <IconButton onClick={onCloseLeftColumn}>
+            <IconButton onClick={onClose}>
               <ChevronLeftIcon />
             </IconButton>
           </div>
           <Divider />
           <List>
-            <ListItem button onClick={this.handleRedirectToEmployment}>
+            <ListItem button onClick={onRedirect('/employment')}>
               <ListItemIcon>
                 <DescriptionIcon />
               </ListItemIcon>
               <ListItemText inset primary="Трудоустройство" />
             </ListItem>
-            <ListItem button onClick={this.handleRedirectToOrganization}>
+            <ListItem button onClick={onRedirect('/organization')}>
               <ListItemIcon>
                 <AccountBalanceIcon />
               </ListItemIcon>
@@ -58,11 +48,10 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  openColumn: PropTypes.bool,
-  onCloseLeftColumn: PropTypes.func,
+  open: PropTypes.bool,
+  onClose: PropTypes.func,
   classes: PropTypes.object,
-  onRedirectToEmployment: PropTypes.func,
-  onRedirectToOrganization: PropTypes.func
+  onRedirect: PropTypes.func,
 };
 
 export default Sidebar;

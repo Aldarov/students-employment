@@ -21,10 +21,11 @@ export default class renderDatePicker extends Component {
         okLabel="Ок"
         cancelLabel="Отмена"
         errorText={touched && Boolean(error) && error}
-
-        value={input.value ? new Date(input.value) : {}}
+        // value={input.value ? new Date(input.value) : {}}
+        // value={input.value ? new Date(input.value) : {}}
         onChange={this.onChange}
-        onFocus={input.onFocus}
+        // onFocus={input.onFocus}
+        {...input}
         {...custom}
       />
     );

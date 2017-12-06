@@ -11,6 +11,7 @@ import RenderDatePicker from './common/RenderDatePicker';
 import List from './common/List';
 import ListTableCellTemplate from './common/ListTableCellTemplate';
 import DirectionEdit from './DirectionEdit';
+import EmploymentEdit from './EmploymentEdit';
 
 const styles = theme => ({
   container: {
@@ -89,7 +90,7 @@ class Employment extends Component {
           column.name == 'direction'
             ?
             <DirectionEdit
-              rowId={rowId}
+              tableRow={rowId}
               directionTypes={this.props.directionTypes}
             />
             :
@@ -175,27 +176,19 @@ class Employment extends Component {
             allowEditing
             allowDeleting
             doAction={onDoActionStudents}
-            editCellTemplate={this.studentEditCellTemplate}
+            // editCellTemplate={this.studentEditCellTemplate}
             tableCellTemplate={this.studentTableCellTemplate}
             className={classes.marginLeftRight}
           />
-          {/*
-            allowSorting
-            sorting={sorting}
-            changeSorting={onChangeSorting}
-          */}
-
-          {/* <Button
-            className={classes.marginTopLeft}
-            type="submit"
-            raised
-            color="primary"
-            disabled={pristine || submitting}
-          >
-            Сохранить
-          </Button> */}
         </form>
         {loading && <Loading />}
+        <EmploymentEdit
+          open={employmentEdit.opened}
+          title={employmentEdit.title}
+          onClose,
+          tableRow,
+          directionTypes
+        />
       </div>
     );
   }

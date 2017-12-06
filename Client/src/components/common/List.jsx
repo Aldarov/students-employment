@@ -38,7 +38,8 @@ class List extends Component {
   };
 
   onEditingRowsChange = editingRows => {
-    this.props.doAction({ type: 'editing', row: this.props.data[editingRows[editingRows.length-1]] });
+    const tableRow = editingRows[editingRows.length-1];
+    this.props.doAction({ type: 'editing', tableRow, row: this.props.data[tableRow] });
   };
 
   onAddedRowsChange = () => {
@@ -47,7 +48,8 @@ class List extends Component {
 
   onCommitChanges = ({deleted}) => {
     if (deleted) {
-      this.props.doAction({ type: 'deleting', row: this.props.data[deleted[deleted.length-1]] });
+      const tableRow = deleted[deleted.length-1];
+      this.props.doAction({ type: 'deleting', tableRow, row: this.props.data[tableRow] });
     }
   }
 

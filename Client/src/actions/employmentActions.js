@@ -39,8 +39,7 @@ export function initEmploymentForm(formName, id) {
           apiGetSpecialities({ id: res.specialityId })
             .then(spec => {
               const speciality = (spec.data[0] && spec.data[0].name) || '';
-              const result = { ...res, speciality, docDate: new Date(res.docDate) };
-              console.log('date', res.docDate, new Date(res.docDate));
+              const result = { ...res, speciality };
               dispatch(initialize(formName, result));
             })
         )
@@ -57,50 +56,4 @@ export function getSpecialitiesSuggestion(params) {
 
 export function clearSpecialitiesSuggestion() {
   return dispatch => dispatch({ type: CLEAR_SPECIALITIES_SUGGESTIONS });
-}
-
-export function clearSpecialitySelectedSuggestion() {
-  return dispatch => {
-    dispatch({
-      type: '@@redux-form/CHANGE',
-      meta: {
-        form: 'employment',
-        field: 'speciality',
-        touch: false,
-        persistentSubmitErrors: false
-      },
-      payload: ''
-    });
-    dispatch({
-      type: '@@redux-form/CHANGE',
-      meta: {
-        form: 'employment',
-        field: 'specialityId',
-      },
-      payload: null
-    });
-  };
-}
-
-export function specialitySelected(data) {
-  return dispatch => {
-    dispatch({
-      type: '@@redux-form/CHANGE',
-      meta: {
-        form: 'employment',
-        field: 'speciality',
-        touch: true,
-        active: false
-      },
-      payload: data.name
-    });
-    dispatch({
-      type: '@@redux-form/CHANGE',
-      meta: {
-        form: 'employment',
-        field: 'specialityId',
-      },
-      payload: data.id
-    });
-  };
 }

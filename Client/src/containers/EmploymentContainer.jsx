@@ -1,12 +1,12 @@
 import { connectAdvanced } from 'react-redux';
 import {
-  SubmissionError, reduxForm, getFormValues, submit, isPristine, isSubmitting,
+  SubmissionError, reduxForm, getFormValues, submit, isPristine, isSubmitting, change
 } from 'redux-form';
 
 import Employment from '../components/Employment';
 import {
   initEmploymentForm,
-  getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected,
+  getSpecialitiesSuggestion, clearSpecialitiesSuggestion,
   openQuestionDialog, closeQuestionDialog,
 } from '../actions';
 
@@ -75,8 +75,14 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
     onGetSpecialitySuggestions: (value) => dispatch(getSpecialitiesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearSpecialitySuggestions: () => dispatch(clearSpecialitiesSuggestion()),
-    onClearSpecialitySelectedSuggestion: () => dispatch(clearSpecialitySelectedSuggestion()),
-    onSpecialitySelected: (data) => dispatch(specialitySelected(data)),
+    onClearSpecialitySelectedSuggestion: () => {
+      dispatch(change(formName, 'speciality', ''));
+      dispatch(change(formName, 'specialityId', null));
+    },
+    onSpecialitySelected: (data) => {
+      dispatch(change(formName, 'speciality', data.name));
+      dispatch(change(formName, 'specialityId', data.id));
+    },
     onDoActionStudents: (args) => {
       console.log('onDoActionStudents', args);
       switch (args.type) {
@@ -91,7 +97,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
           break;
         }
-        default: break;
       }
     },
     onSubmit: (values) => {

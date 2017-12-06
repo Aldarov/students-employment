@@ -14,8 +14,7 @@ export {
 
   getEmploymentList, getEmploymentSuggestions, clearEmploymentSuggestions,
   initEmploymentForm,
-  getSpecialitiesSuggestion, clearSpecialitiesSuggestion, clearSpecialitySelectedSuggestion, specialitySelected,
-  eduFormSelected
+  getSpecialitiesSuggestion, clearSpecialitiesSuggestion,
 } from './employmentActions';
 
 export {

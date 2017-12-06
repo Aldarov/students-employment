@@ -8,7 +8,8 @@ import moment from 'moment';
 
 export default class renderDatePicker extends Component {
   onChange = (event, date) => {
-    this.props.input.onChange(moment(date).format('YYYY-MM-DD'));
+    this.props.input.onChange(moment(date).format('YYYY-MM-DDT00:00:00.000'));
+    this.props.input.onBlur();
   }
 
   render() {
@@ -21,11 +22,9 @@ export default class renderDatePicker extends Component {
         okLabel="Ок"
         cancelLabel="Отмена"
         errorText={touched && Boolean(error) && error}
-        // value={input.value ? new Date(input.value) : {}}
-        // value={input.value ? new Date(input.value) : {}}
+        value={input.value ? new Date(input.value) : {}}
         onChange={this.onChange}
-        // onFocus={input.onFocus}
-        {...input}
+        onFocus={input.onFocus}
         {...custom}
       />
     );

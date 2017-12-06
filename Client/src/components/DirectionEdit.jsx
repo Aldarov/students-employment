@@ -15,11 +15,11 @@ const styles = theme => ({
 
 class DirectionEdit extends Component {
   render() {
-    const { classes, rowId, directionTypes } = this.props;
+    const { classes, tableRow, directionTypes } = this.props;
     return (
       <div>
         <Field
-          name={'pgContractStuffs['+rowId+'].directionTypeId'}
+          name={'pgContractStuffs['+tableRow+'].directionTypeId'}
           select
           component={RenderTextField}
           label='Тип распределения'
@@ -35,7 +35,7 @@ class DirectionEdit extends Component {
 
 DirectionEdit.propTypes = {
   classes: PropTypes.object,
-  rowId: PropTypes.number.isRequired,
+  tableRow: PropTypes.number.isRequired,
   directionTypes: PropTypes.array.isRequired,
 };
 

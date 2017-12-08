@@ -8,17 +8,26 @@ export {
 } from './headerActions';
 
 export {
-  GET_EMPLOYMENT_LIST, GET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
-  SET_EMPLOYMENT_LIST_SORTING, GET_EMPLOYMENT_BY_ID,
-  GET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS,
+  SET_EMPLOYMENT_LIST, SET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
+  SET_EMPLOYMENT_LIST_SORTING, SET_EMPLOYMENT_BY_ID,
+  SET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS,
+  SET_EMPLOYMENT_CONTRACT,
 
   getEmploymentList, getEmploymentSuggestions, clearEmploymentSuggestions,
   initEmploymentForm,
   getSpecialitiesSuggestion, clearSpecialitiesSuggestion,
+
+  openEmploymentContract, closeEmploymentContract,
+
+  SET_SCHOOLS_SUGGESTIONS, getSchoolsSuggestion,
+  CLEAR_SCHOOLS_SUGGESTIONS, clearSchoolsSuggestion,
+
+  SET_ORGANIZATIONS_SUGGESTIONS, CLEAR_ORGANIZATIONS_SUGGESTIONS,
+  getOrganizationsSuggestion, clearOrganizationsSuggestion,
 } from './employmentActions';
 
 export {
-  GET_EDU_FORMS, GET_DIRECTION_TYPES, GET_DISTRIBUTION_TYPES,
+  SET_EDU_FORMS, SET_DIRECTION_TYPES, SET_DISTRIBUTION_TYPES,
   getEduForms, getDirectionTypes, getDistributionTypes
 } from './dictionariesActions';
 

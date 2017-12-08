@@ -15,3 +15,8 @@ export function apiGetPgTypes(id) {
   const url = getUrl({startUrl: 'api/pgtypes/' + id});
   return axios.get(url);
 }
+
+export function apiGetSchools({...args}) {
+  const url = getUrl({startUrl: 'api/schools', ...args});
+  return axios.get(url);
+}

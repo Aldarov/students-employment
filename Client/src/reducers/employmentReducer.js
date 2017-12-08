@@ -1,7 +1,9 @@
 import {
-  GET_EMPLOYMENT_LIST, SET_EMPLOYMENT_LIST_SORTING,
-  GET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
-  GET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS
+  SET_EMPLOYMENT_LIST, SET_EMPLOYMENT_LIST_SORTING,
+  SET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
+  SET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS,
+  SET_EMPLOYMENT_CONTRACT, SET_SCHOOLS_SUGGESTIONS, CLEAR_SCHOOLS_SUGGESTIONS,
+  SET_ORGANIZATIONS_SUGGESTIONS, CLEAR_ORGANIZATIONS_SUGGESTIONS
 } from '../actions';
 
 const defaultData = {
@@ -11,12 +13,15 @@ const defaultData = {
     searchSuggestions: []
   },
   edit: {
-    specialitySuggestions: []
+    specialitySuggestions: [],
+    currentContract: null,
+    schoolsSuggestions: [],
+    organizationsSuggestions: []
   }
 };
 export default function reducer(state = defaultData, action) {
   switch (action.type) {
-    case GET_EMPLOYMENT_LIST: {
+    case SET_EMPLOYMENT_LIST: {
       const { data, info } = action.data;
       return {
         ...state,
@@ -39,7 +44,7 @@ export default function reducer(state = defaultData, action) {
         }
       };
     }
-    case GET_EMPLOYMENT_SUGGESTIONS: {
+    case SET_EMPLOYMENT_SUGGESTIONS: {
       const suggestions = action.data.map((item)=> ({ id: item.id, name: item.id + ', ' +
         item.faculty + ', ' + item.speciality + ', ' + item.entranceYear + ', ' + item.eduForm }));
       return {
@@ -59,7 +64,7 @@ export default function reducer(state = defaultData, action) {
         }
       };
     }
-    case GET_SPECIALITIES_SUGGESTIONS: {
+    case SET_SPECIALITIES_SUGGESTIONS: {
       return {
         ...state,
         edit: {
@@ -74,6 +79,46 @@ export default function reducer(state = defaultData, action) {
         edit: {
           ...state.edit,
           specialitySuggestions: []
+        }
+      };
+    case SET_EMPLOYMENT_CONTRACT:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          currentContract: action.data
+        }
+      };
+    case SET_SCHOOLS_SUGGESTIONS:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          schoolsSuggestions: action.data
+        }
+      };
+    case CLEAR_SCHOOLS_SUGGESTIONS:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          schoolsSuggestions: []
+        }
+      };
+    case SET_ORGANIZATIONS_SUGGESTIONS:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          organizationsSuggestions: action.data
+        }
+      };
+    case CLEAR_ORGANIZATIONS_SUGGESTIONS:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          organizationsSuggestions: []
         }
       };
     default:

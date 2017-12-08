@@ -1,5 +1,5 @@
 import {
-  GET_EDU_FORMS, GET_DIRECTION_TYPES, GET_DISTRIBUTION_TYPES
+  SET_EDU_FORMS, SET_DIRECTION_TYPES, SET_DISTRIBUTION_TYPES
 } from '../actions';
 
 const defaultData = {
@@ -10,19 +10,19 @@ const defaultData = {
 
 export default function reducer(state = defaultData, action) {
   switch (action.type) {
-    case GET_EDU_FORMS: {
+    case SET_EDU_FORMS: {
       return {
         ...state,
         eduForms: action.data
       };
     }
-    case GET_DIRECTION_TYPES: {
+    case SET_DIRECTION_TYPES: {
       return {
         ...state,
         directionTypes: action.data
       };
     }
-    case GET_DISTRIBUTION_TYPES: {
+    case SET_DISTRIBUTION_TYPES: {
       return {
         ...state,
         distributionTypes: action.data

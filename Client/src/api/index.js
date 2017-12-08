@@ -1,6 +1,8 @@
 export { apiLogin, apiLogout, apiIsAuth, apiSetRequestHeader } from './authApi';
 export { apiGetEmploymentList, apiGetEmploymentById } from './employmentApi';
-export { apiGetSpecialities, apiGetEduForms, apiGetPgTypes } from './dictionariesApi';
+export { apiGetSpecialities, apiGetEduForms, apiGetPgTypes, apiGetSchools } from './dictionariesApi';
+export { apiGetOrganizations } from './organizationApi';
+
 import { logout } from '../actions';
 
 import axios from 'axios';

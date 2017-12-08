@@ -8,6 +8,9 @@ import {
   initEmploymentForm,
   getSpecialitiesSuggestion, clearSpecialitiesSuggestion,
   openQuestionDialog, closeQuestionDialog,
+  openEmploymentContract, closeEmploymentContract,
+  getSchoolsSuggestion, clearSchoolsSuggestion,
+  getOrganizationsSuggestion, clearOrganizationsSuggestion
 } from '../actions';
 
 const formName = 'employment';
@@ -65,7 +68,10 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       { name: 'direction', title: 'Распределен' },
       { name: 'distribution', title: 'Трудоустроен' },
     ],
-    listColumnWidthsStudents: { fullName: 250, regAddress: 300, finance: 120, entrType: 150, phone: 150, direction: 250, distribution: 250 }
+    listColumnWidthsStudents: { fullName: 250, regAddress: 300, finance: 120, entrType: 150, phone: 150, direction: 250, distribution: 250 },
+    contract: state.employment.edit.currentContract,
+    schoolsSuggestions: state.employment.edit.schoolsSuggestions,
+    organizationsSuggestions: state.employment.edit.organizationsSuggestions
   };
 
   const methods = {
@@ -73,16 +79,46 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(initEmploymentForm(formName, id));
     },
 
-    onGetSpecialitySuggestions: (value) => dispatch(getSpecialitiesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+    onGetSpecialitySuggestions: value => dispatch(getSpecialitiesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearSpecialitySuggestions: () => dispatch(clearSpecialitiesSuggestion()),
     onClearSpecialitySelectedSuggestion: () => {
       dispatch(change(formName, 'speciality', ''));
       dispatch(change(formName, 'specialityId', null));
     },
-    onSpecialitySelected: (data) => {
+    onSpecialitySelected: data => {
       dispatch(change(formName, 'speciality', data.name));
       dispatch(change(formName, 'specialityId', data.id));
     },
+
+    onCloseContract: () => dispatch(closeEmploymentContract()),
+
+    onChangeContractDirectionType: newId => {
+
+    },
+
+    onGetSchoolsSuggestions: value => dispatch(getSchoolsSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+    onClearSchoolsSuggestions: () => dispatch(clearSchoolsSuggestion()),
+
+    onSchoolSelected: (row, type) => data => {
+      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', data.name));
+      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolId', data.id));
+    },
+    onClearSchoolSelected: (row, type) => () => {
+      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
+      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolId', null));
+    },
+
+    onGetOrganizationsSuggestions: value => dispatch(getOrganizationsSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+    onClearOrganizationsSuggestions: () => dispatch(clearOrganizationsSuggestion()),
+    onOrganizationSelected: (row, type) => data => {
+      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationName', data.name));
+      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationId', data.id));
+    },
+    onClearOrganizationSelected: (row, type) => () => {
+      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationName', ''));
+      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationId', null));
+    },
+
     onDoActionStudents: (args) => {
       console.log('onDoActionStudents', args);
       switch (args.type) {
@@ -90,7 +126,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           break;
         }
         case 'editing': {
-
+          dispatch(openEmploymentContract(args.row.student.fullName, args.tableRow));
           break;
         }
         case 'deleting': {

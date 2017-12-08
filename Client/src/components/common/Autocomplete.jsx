@@ -155,7 +155,6 @@ class Autocomplete extends React.Component {
     return (
       <div className={className}>
         <Autosuggest
-
           id={id}
           theme={{
             container: classes.container,

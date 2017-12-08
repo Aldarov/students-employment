@@ -11,34 +11,27 @@ import RenderDatePicker from './common/RenderDatePicker';
 import List from './common/List';
 import ListTableCellTemplate from './common/ListTableCellTemplate';
 import DirectionEdit from './DirectionEdit';
-import EmploymentEdit from './EmploymentEdit';
+import Contract from './Contract';
 
 const styles = theme => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-  },
-  marginLeftRight: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-  },
-  formControl: {
     margin: theme.spacing.unit,
-    minWidth: 400,
-    display: 'block'
   },
   autocomplete: {
-    minWidth: 300,
-    width: 350,
+    marginTop: theme.spacing.unit,
+    width: 300,
     [theme.breakpoints.up('sm')]: {
       width: 600,
     },
-    margin: theme.spacing.unit,
   },
   textField: {
-    margin: theme.spacing.unit,
-    minWidth: 300,
+    marginTop: theme.spacing.unit,
     width: 300,
+    [theme.breakpoints.up('sm')]: {
+      width: 400,
+    },
   },
   error: {
     margin: theme.spacing.unit,
@@ -57,22 +50,22 @@ class Employment extends Component {
     const directionType = this.props.directionTypes.filter((item) => (item.id == row.directionTypeId))[0];
     const distributionType = this.props.distributionTypes.filter((item) => (item.id == row.distributionTypeId))[0];
     switch (column.name) {
-      case 'fullName': return row.student.fullName;
-      case 'regAddress': return row.student.regAddress;
-      case 'finance': return row.student.finance;
-      case 'entrType': return row.student.entrType;
-      case 'phone': return row.student.phone;
+      case 'fullName': return (row.student && row.student.fullName);
+      case 'regAddress': return (row.student && row.student.regAddress);
+      case 'finance': return (row.student && row.student.finance);
+      case 'entrType': return (row.student && row.student.entrType);
+      case 'phone': return (row.student && row.student.phone);
       case 'direction':
         return (
           directionType && directionType.name +
-          (row.directionOrganization ? ', ' + row.directionOrganization.name : '') +
-          (row.directionSchool ? ', ' + row.directionSchool.name : '')
+          (row.directionOrganizationName ? ', ' + row.directionOrganizationName : '') +
+          (row.directionSchoolName ? ', ' + row.directionSchoolName : '')
         ) || '';
       case 'distribution':
         return (
           distributionType && distributionType.name +
-          (row.distributionOrganization ? ', ' + row.distributionOrganization.name : '') +
-          (row.distributionSchool ? ', ' + row.distributionSchool.name : '')
+          (row.distributionOrganizationName ? ', ' + row.distributionOrganizationName : '') +
+          (row.distributionSchoolName ? ', ' + row.distributionSchoolName : '')
         ) || '';
       default:
         break;
@@ -116,7 +109,10 @@ class Employment extends Component {
     const {
       classes, error, loading, handleSubmit, eduForms,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
-      students, columnsStudents, listColumnWidthsStudents, onDoActionStudents
+      students, columnsStudents, listColumnWidthsStudents, onDoActionStudents, directionTypes,
+      contract, onCloseContract, onChangeContractDirectionType,
+      schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
+      organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
     } = this.props;
     return (
       <div>
@@ -178,17 +174,31 @@ class Employment extends Component {
             doAction={onDoActionStudents}
             // editCellTemplate={this.studentEditCellTemplate}
             tableCellTemplate={this.studentTableCellTemplate}
-            className={classes.marginLeftRight}
           />
         </form>
         {loading && <Loading />}
-        <EmploymentEdit
-          open={employmentEdit.opened}
-          title={employmentEdit.title}
-          onClose,
-          tableRow,
-          directionTypes
+        { contract &&
+        <Contract
+          open={contract.opened}
+          title={contract.title}
+          tableRow={contract.tableRow}
+          onClose={onCloseContract}
+          directionTypes={directionTypes}
+          onChangeDirectionType={onChangeContractDirectionType}
+
+          schoolsSuggestions={schoolsSuggestions}
+          onGetSchoolsSuggestions={onGetSchoolsSuggestions}
+          onClearSchoolsSuggestions={onClearSchoolsSuggestions}
+          onSchoolSelected={onSchoolSelected}
+          onClearSchoolSelected={onClearSchoolSelected}
+
+          organizationsSuggestions={organizationsSuggestions}
+          onGetOrganizationsSuggestions={onGetOrganizationsSuggestions}
+          onClearOrganizationsSuggestions={onClearOrganizationsSuggestions}
+          onOrganizationSelected={onOrganizationSelected}
+          onClearOrganizationSelected={onClearOrganizationSelected}
         />
+        }
       </div>
     );
   }
@@ -217,6 +227,22 @@ Employment.propTypes = {
 
   directionTypes: PropTypes.array,
   distributionTypes: PropTypes.array,
+
+  contract: PropTypes.object,
+  onCloseContract: PropTypes.func,
+  onChangeContractDirectionType: PropTypes.func,
+
+  schoolsSuggestions: PropTypes.array,
+  onGetSchoolsSuggestions: PropTypes.func,
+  onClearSchoolsSuggestions: PropTypes.func,
+  onSchoolSelected: PropTypes.func,
+  onClearSchoolSelected: PropTypes.func,
+
+  organizationsSuggestions: PropTypes.array,
+  onGetOrganizationsSuggestions: PropTypes.func,
+  onClearOrganizationsSuggestions: PropTypes.func,
+  onOrganizationSelected: PropTypes.func,
+  onClearOrganizationSelected: PropTypes.func,
 };
 
 export default withStyles(styles)(Employment);

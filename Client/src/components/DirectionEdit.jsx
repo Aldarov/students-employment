@@ -24,9 +24,53 @@ const styles = theme => ({
 });
 
 class DirectionEdit extends Component {
+  state = {
+    showSchool: false,
+    showOrganization: false
+  };
+
+  componentWillMount() {
+    this.handleChangeType(9);
+  }
+
+  handleChangeType = value => {
+    const { onClearSchoolSelected, onClearOrganizationSelected, tableRow, directionType } = this.props;
+    // const value = event.target.value;
+    let schoolTypeId;
+    let organizationTypeId;
+    if (directionType === 'direction') {
+      schoolTypeId = 8;
+      organizationTypeId = 9;
+    } else {
+      schoolTypeId = 17;
+      organizationTypeId = 18;
+    }
+
+    if (value === schoolTypeId) {
+      this.setState({
+        showSchool: true,
+        showOrganization: false
+      });
+      onClearOrganizationSelected(tableRow, directionType)();
+    } else if (value === organizationTypeId) {
+      this.setState({
+        showSchool: false,
+        showOrganization: true
+      });
+      onClearSchoolSelected(tableRow, directionType)();
+    } else {
+      this.setState({
+        showSchool: false,
+        showOrganization: false
+      });
+      onClearSchoolSelected(tableRow, directionType)();
+      onClearOrganizationSelected(tableRow, directionType)();
+    }
+  };
+
   render() {
-    const { classes, tableRow, directionType, showSchool, showOrganization,
-      types, onChangeType,
+    const { classes, tableRow, directionType,
+      types,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
     } = this.props;
@@ -39,13 +83,13 @@ class DirectionEdit extends Component {
           component={RenderTextField}
           label={directionType==='direction' ? 'Тип распределения': 'Тип трудоустройства'}
           className={classes.field}
-          onChange={event => onChangeType(event.target.value)}
+          onChange={event => this.handleChangeType(event.target.value)}
         >
           {types && types.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
         </Field>
 
         {
-          showSchool &&
+          this.state.showSchool &&
           <Field
             name={'pgContractStuffs['+tableRow+'].'+directionType+'SchoolName'}
             component={RenderAutocomplete}
@@ -62,7 +106,7 @@ class DirectionEdit extends Component {
           />
         }
         {
-          showOrganization &&
+          this.state.showOrganization &&
           <Field
             name={'pgContractStuffs['+tableRow+'].'+directionType+'OrganizationName'}
             component={RenderAutocomplete}
@@ -89,7 +133,6 @@ DirectionEdit.propTypes = {
   directionType: PropTypes.string,
 
   types: PropTypes.array,
-  onChangeType: PropTypes.func,
 
   schoolsSuggestions: PropTypes.array,
   onGetSchoolsSuggestions: PropTypes.func,
@@ -102,9 +145,6 @@ DirectionEdit.propTypes = {
   onClearOrganizationsSuggestions: PropTypes.func,
   onOrganizationSelected: PropTypes.func,
   onClearOrganizationSelected: PropTypes.func,
-
-  showSchool: PropTypes.bool,
-  showOrganization: PropTypes.bool,
 };
 
 export default withStyles(styles)(DirectionEdit);

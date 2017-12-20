@@ -63,7 +63,7 @@ export function clearSpecialitiesSuggestion() {
   return dispatch => dispatch({ type: CLEAR_SPECIALITIES_SUGGESTIONS });
 }
 
-export function openEmploymentContract(title, tableRow) {
+export function openEmploymentContract(title, tableRow, ) {
   return dispatch => dispatch({ type: SET_EMPLOYMENT_CONTRACT, data: { title, tableRow, opened: true } });
 }
 

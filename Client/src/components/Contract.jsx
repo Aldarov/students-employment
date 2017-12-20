@@ -54,7 +54,7 @@ class Contract extends Component {
   render () {
     const {
       classes, open, title, onClose,
-      tableRow, directionTypes, onChangeDirectionType,
+      tableRow, directionTypes,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
     } = this.props;
@@ -83,7 +83,6 @@ class Contract extends Component {
             showSchool
             // showOrganization
             types={directionTypes}
-            onChangeType={onChangeDirectionType}
             schoolsSuggestions={schoolsSuggestions}
             onGetSchoolsSuggestions={onGetSchoolsSuggestions}
             onClearSchoolsSuggestions={onClearSchoolsSuggestions}
@@ -95,48 +94,50 @@ class Contract extends Component {
             onOrganizationSelected={onOrganizationSelected}
             onClearOrganizationSelected={onClearOrganizationSelected}
           />
-          <div className={classes.horizontal}>
-            <Field
-              name={'pgContractStuffs['+tableRow+'].directionTypeId'}
-              select
-              component={RenderTextField}
-              label='Выберите тип распределения'
-              className={classes.field}
-              onChange={event => onChangeDirectionType(event.target.value)}
-            >
-              {directionTypes && directionTypes.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-            </Field>
+          {
+          // <div className={classes.horizontal}>
+          //   <Field
+          //     name={'pgContractStuffs['+tableRow+'].directionTypeId'}
+          //     select
+          //     component={RenderTextField}
+          //     label='Выберите тип распределения'
+          //     className={classes.field}
+          //     onChange={event => onChangeDirectionType(event.target.value)}
+          //   >
+          //     {directionTypes && directionTypes.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+          //   </Field>
 
-            <Field
-              name={'pgContractStuffs['+tableRow+'].directionSchoolName'}
-              component={RenderAutocomplete}
+          //   <Field
+          //     name={'pgContractStuffs['+tableRow+'].directionSchoolName'}
+          //     component={RenderAutocomplete}
 
-              autoFocus={false}
-              label='Выберите образ-ное учреждение'
-              className={classes.field}
+          //     autoFocus={false}
+          //     label='Выберите образ-ное учреждение'
+          //     className={classes.field}
 
-              suggestions={schoolsSuggestions}
-              onSuggestionsFetchRequested={onGetSchoolsSuggestions}
-              onSuggestionsClearRequested={onClearSchoolsSuggestions}
-              onSuggestionSelected={onSchoolSelected(tableRow, 'direction')}
-              onClearSelectedSuggestion={onClearSchoolSelected(tableRow, 'direction')}
-            />
+          //     suggestions={schoolsSuggestions}
+          //     onSuggestionsFetchRequested={onGetSchoolsSuggestions}
+          //     onSuggestionsClearRequested={onClearSchoolsSuggestions}
+          //     onSuggestionSelected={onSchoolSelected(tableRow, 'direction')}
+          //     onClearSelectedSuggestion={onClearSchoolSelected(tableRow, 'direction')}
+          //   />
 
-            <Field
-              name={'pgContractStuffs['+tableRow+'].directionOrganizationName'}
-              component={RenderAutocomplete}
+          //   <Field
+          //     name={'pgContractStuffs['+tableRow+'].directionOrganizationName'}
+          //     component={RenderAutocomplete}
 
-              autoFocus={false}
-              label='Выберите подразделение'
-              className={classes.field}
+          //     autoFocus={false}
+          //     label='Выберите подразделение'
+          //     className={classes.field}
 
-              suggestions={organizationsSuggestions}
-              onSuggestionsFetchRequested={onGetOrganizationsSuggestions}
-              onSuggestionsClearRequested={onClearOrganizationsSuggestions}
-              onSuggestionSelected={onOrganizationSelected(tableRow, 'direction')}
-              onClearSelectedSuggestion={onClearOrganizationSelected(tableRow, 'direction')}
-            />
-          </div>
+          //     suggestions={organizationsSuggestions}
+          //     onSuggestionsFetchRequested={onGetOrganizationsSuggestions}
+          //     onSuggestionsClearRequested={onClearOrganizationsSuggestions}
+          //     onSuggestionSelected={onOrganizationSelected(tableRow, 'direction')}
+          //     onClearSelectedSuggestion={onClearOrganizationSelected(tableRow, 'direction')}
+          //   />
+          // </div>
+          }
         </div>
       </Dialog>
     );
@@ -151,7 +152,6 @@ Contract.propTypes = {
   tableRow: PropTypes.number,
 
   directionTypes: PropTypes.array,
-  onChangeDirectionType: PropTypes.func,
 
   schoolsSuggestions: PropTypes.array,
   onGetSchoolsSuggestions: PropTypes.func,

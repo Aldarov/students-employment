@@ -86,7 +86,10 @@ export default function reducer(state = defaultData, action) {
         ...state,
         edit: {
           ...state.edit,
-          currentContract: action.data
+          currentContract: {
+            ...state.edit.currentContract,
+            ...action.data
+          }
         }
       };
     case SET_SCHOOLS_SUGGESTIONS:

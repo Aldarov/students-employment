@@ -112,13 +112,17 @@ const styles = () => ({
 });
 
 class Autocomplete extends React.Component {
-  state = { value: '', firstReceiveProps: true, inputDisable: false };
+  state = {
+    value: '',
+    inputDisable: false,
+    // firstReceiveProps: true,
+  };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.inputProps && nextProps.inputProps.value && this.state.firstReceiveProps) {
-      this.setState({ inputDisable: true, firstReceiveProps: false });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.inputProps && nextProps.inputProps.value && this.state.firstReceiveProps) {
+  //     this.setState({ firstReceiveProps: false, inputDisable: true });
+  //   }
+  // }
 
   handleChange = (event, { newValue }) => {
     this.setState({ value: newValue });

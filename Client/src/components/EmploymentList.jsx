@@ -20,21 +20,8 @@ const styles = theme => ({
 });
 
 class EmploymentList extends Component {
-  state = {
-    searchValue: ''
-  };
-
   componentWillMount() {
     this.props.onLoadData();
-  }
-
-  handleClearSuggestionSelected = () => {
-    this.setState({ searchValue: '' });
-    this.props.onClearSuggestionSelected();
-  }
-
-  handleChangeSearchValue = (event) => {
-    this.setState({ searchValue: event.target ? event.target.value : '' });
   }
 
   render() {

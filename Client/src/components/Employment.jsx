@@ -110,7 +110,7 @@ class Employment extends Component {
       classes, error, loading, handleSubmit, eduForms,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
       students, columnsStudents, listColumnWidthsStudents, onDoActionStudents, directionTypes,
-      contract, onCloseContract, onChangeContractDirectionType,
+      contract, onCloseContract,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
     } = this.props;
@@ -184,7 +184,6 @@ class Employment extends Component {
           tableRow={contract.tableRow}
           onClose={onCloseContract}
           directionTypes={directionTypes}
-          onChangeDirectionType={onChangeContractDirectionType}
 
           schoolsSuggestions={schoolsSuggestions}
           onGetSchoolsSuggestions={onGetSchoolsSuggestions}
@@ -230,7 +229,6 @@ Employment.propTypes = {
 
   contract: PropTypes.object,
   onCloseContract: PropTypes.func,
-  onChangeContractDirectionType: PropTypes.func,
 
   schoolsSuggestions: PropTypes.array,
   onGetSchoolsSuggestions: PropTypes.func,

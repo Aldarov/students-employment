@@ -92,18 +92,14 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
     onCloseContract: () => dispatch(closeEmploymentContract()),
 
-    onChangeContractDirectionType: newId => {
-
-    },
-
     onGetSchoolsSuggestions: value => dispatch(getSchoolsSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearSchoolsSuggestions: () => dispatch(clearSchoolsSuggestion()),
-
     onSchoolSelected: (row, type) => data => {
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', data.name));
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolId', data.id));
     },
     onClearSchoolSelected: (row, type) => () => {
+      console.log('clear school', row, type);
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolId', null));
     },
@@ -115,6 +111,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationId', data.id));
     },
     onClearOrganizationSelected: (row, type) => () => {
+      console.log('clear org', row, type);
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationName', ''));
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationId', null));
     },

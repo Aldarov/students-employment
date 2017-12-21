@@ -63,12 +63,57 @@ export function clearSpecialitiesSuggestion() {
   return dispatch => dispatch({ type: CLEAR_SPECIALITIES_SUGGESTIONS });
 }
 
-export function openEmploymentContract(title, tableRow, ) {
-  return dispatch => dispatch({ type: SET_EMPLOYMENT_CONTRACT, data: { title, tableRow, opened: true } });
+export function openEmploymentContract(title, tableRow,
+  showDirectionSchools, showDirectionOrganizations, showDistributionSchools, showDistributionOrganizations ) {
+  return dispatch => dispatch({ type: SET_EMPLOYMENT_CONTRACT,
+    data: { title, tableRow, opened: true,
+      showDirectionSchools, showDirectionOrganizations, showDistributionSchools, showDistributionOrganizations
+    }
+  });
 }
 
 export function closeEmploymentContract() {
-  return dispatch => dispatch({ type: SET_EMPLOYMENT_CONTRACT, data: { title: '', tableRow: null, opened: false } });
+  return dispatch => dispatch({ type: SET_EMPLOYMENT_CONTRACT,
+    data: { title: '', tableRow: null, opened: false,
+      showDirectionSchools: false, showDirectionOrganizations: false, showDistributionSchools: false, showDistributionOrganizations: false
+    }
+  });
+}
+
+export function showDirectionOrganizations(type) {
+  return dispatch => {
+    let data;
+    if (type === 'school') {
+      data = { showDirectionSchools: true, showDirectionOrganizations: false };
+    } else {
+      data = { showDirectionSchools: false, showDirectionOrganizations: true };
+    }
+
+    return dispatch({ type: SET_EMPLOYMENT_CONTRACT,
+      data: {
+        ...data,
+        showDistributionSchools: false, showDistributionOrganizations: false
+      }
+    });
+  };
+}
+
+export function showDistributionOrganizations(type) {
+  return dispatch => {
+    let data;
+    if (type === 'school') {
+      data = { showDistributionSchools: true, showDistributionOrganizations: false };
+    } else {
+      data = { showDistributionSchools: false, showDistributionOrganizations: true };
+    }
+
+    return dispatch({ type: SET_EMPLOYMENT_CONTRACT,
+      data: {
+        ...data,
+        showDirectionSchools: false, showDirectionOrganizations: false
+      }
+    });
+  };
 }
 
 export function getSchoolsSuggestion(params) {

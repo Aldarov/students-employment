@@ -99,7 +99,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolId', data.id));
     },
     onClearSchoolSelected: (row, type) => () => {
-      console.log('clear school', row, type);
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolId', null));
     },
@@ -111,19 +110,25 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationId', data.id));
     },
     onClearOrganizationSelected: (row, type) => () => {
-      console.log('clear org', row, type);
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationName', ''));
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationId', null));
     },
 
     onDoActionStudents: (args) => {
-      console.log('onDoActionStudents', args);
       switch (args.type) {
         case 'adding': {
           break;
         }
         case 'editing': {
-          dispatch(openEmploymentContract(args.row.student.fullName, args.tableRow));
+          const {
+            directionSchoolId, directionOrganizationId,
+            distributionSchoolId, distributionOrganizationId
+          } = formValues.pgContractStuffs[args.tableRow];
+
+          dispatch(openEmploymentContract(args.row.student.fullName, args.tableRow,
+            Boolean(directionSchoolId), Boolean(directionOrganizationId),
+            Boolean(distributionSchoolId), Boolean(distributionOrganizationId)
+          ));
           break;
         }
         case 'deleting': {

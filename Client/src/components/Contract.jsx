@@ -8,11 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
-import { MenuItem } from 'material-ui/Menu';
-import { Field } from 'redux-form';
 
-import RenderTextField from './common/RenderTextField';
-import RenderAutocomplete from './common/RenderAutocomplete';
 import DirectionEdit from './DirectionEdit';
 
 function Transition(props) {
@@ -53,16 +49,21 @@ const styles = theme => ({
 class Contract extends Component {
   render () {
     const {
-      classes, open, title, onClose,
-      tableRow, directionTypes,
+      classes,
+      onClose,
+      data,
+      directionTypes, distributionTypes,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
     } = this.props;
+    const { opened, title, tableRow,
+      showDirectionSchools, showDirectionOrganizations, showDistributionSchools, showDistributionOrganizations
+    } = data;
 
     return (
       <Dialog
         fullScreen
-        open={open}
+        open={opened}
         onRequestClose={onClose}
         transition={Transition}
       >
@@ -80,8 +81,8 @@ class Contract extends Component {
           <DirectionEdit
             tableRow={tableRow}
             directionType='direction'
-            showSchool
-            // showOrganization
+            showSchool={showDirectionSchools}
+            showOrganization={showDirectionOrganizations}
             types={directionTypes}
             schoolsSuggestions={schoolsSuggestions}
             onGetSchoolsSuggestions={onGetSchoolsSuggestions}
@@ -94,50 +95,23 @@ class Contract extends Component {
             onOrganizationSelected={onOrganizationSelected}
             onClearOrganizationSelected={onClearOrganizationSelected}
           />
-          {
-          // <div className={classes.horizontal}>
-          //   <Field
-          //     name={'pgContractStuffs['+tableRow+'].directionTypeId'}
-          //     select
-          //     component={RenderTextField}
-          //     label='Выберите тип распределения'
-          //     className={classes.field}
-          //     onChange={event => onChangeDirectionType(event.target.value)}
-          //   >
-          //     {directionTypes && directionTypes.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-          //   </Field>
-
-          //   <Field
-          //     name={'pgContractStuffs['+tableRow+'].directionSchoolName'}
-          //     component={RenderAutocomplete}
-
-          //     autoFocus={false}
-          //     label='Выберите образ-ное учреждение'
-          //     className={classes.field}
-
-          //     suggestions={schoolsSuggestions}
-          //     onSuggestionsFetchRequested={onGetSchoolsSuggestions}
-          //     onSuggestionsClearRequested={onClearSchoolsSuggestions}
-          //     onSuggestionSelected={onSchoolSelected(tableRow, 'direction')}
-          //     onClearSelectedSuggestion={onClearSchoolSelected(tableRow, 'direction')}
-          //   />
-
-          //   <Field
-          //     name={'pgContractStuffs['+tableRow+'].directionOrganizationName'}
-          //     component={RenderAutocomplete}
-
-          //     autoFocus={false}
-          //     label='Выберите подразделение'
-          //     className={classes.field}
-
-          //     suggestions={organizationsSuggestions}
-          //     onSuggestionsFetchRequested={onGetOrganizationsSuggestions}
-          //     onSuggestionsClearRequested={onClearOrganizationsSuggestions}
-          //     onSuggestionSelected={onOrganizationSelected(tableRow, 'direction')}
-          //     onClearSelectedSuggestion={onClearOrganizationSelected(tableRow, 'direction')}
-          //   />
-          // </div>
-          }
+          <DirectionEdit
+            tableRow={tableRow}
+            directionType='distribution'
+            showSchool={showDistributionSchools}
+            showOrganization={showDistributionOrganizations}
+            types={distributionTypes}
+            schoolsSuggestions={schoolsSuggestions}
+            onGetSchoolsSuggestions={onGetSchoolsSuggestions}
+            onClearSchoolsSuggestions={onClearSchoolsSuggestions}
+            onSchoolSelected={onSchoolSelected}
+            onClearSchoolSelected={onClearSchoolSelected}
+            organizationsSuggestions={organizationsSuggestions}
+            onGetOrganizationsSuggestions={onGetOrganizationsSuggestions}
+            onClearOrganizationsSuggestions={onClearOrganizationsSuggestions}
+            onOrganizationSelected={onOrganizationSelected}
+            onClearOrganizationSelected={onClearOrganizationSelected}
+          />
         </div>
       </Dialog>
     );
@@ -146,12 +120,11 @@ class Contract extends Component {
 
 Contract.propTypes = {
   classes: PropTypes.object,
-  open: PropTypes.bool,
-  title: PropTypes.string,
+  data: PropTypes.object,
   onClose: PropTypes.func,
-  tableRow: PropTypes.number,
 
   directionTypes: PropTypes.array,
+  distributionTypes: PropTypes.array,
 
   schoolsSuggestions: PropTypes.array,
   onGetSchoolsSuggestions: PropTypes.func,

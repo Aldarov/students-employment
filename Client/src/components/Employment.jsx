@@ -109,7 +109,7 @@ class Employment extends Component {
     const {
       classes, error, loading, handleSubmit, eduForms,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
-      students, columnsStudents, listColumnWidthsStudents, onDoActionStudents, directionTypes,
+      students, columnsStudents, listColumnWidthsStudents, onDoActionStudents, directionTypes, distributionTypes,
       contract, onCloseContract,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
@@ -179,11 +179,13 @@ class Employment extends Component {
         {loading && <Loading />}
         { contract &&
         <Contract
+          data={contract}
           open={contract.opened}
           title={contract.title}
           tableRow={contract.tableRow}
           onClose={onCloseContract}
           directionTypes={directionTypes}
+          distributionTypes={distributionTypes}
 
           schoolsSuggestions={schoolsSuggestions}
           onGetSchoolsSuggestions={onGetSchoolsSuggestions}

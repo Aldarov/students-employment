@@ -10,11 +10,13 @@ import {
   openQuestionDialog, closeQuestionDialog,
   openEmploymentContract, closeEmploymentContract,
   getSchoolsSuggestion, clearSchoolsSuggestion,
-  getOrganizationsSuggestion, clearOrganizationsSuggestion
+  getOrganizationsSuggestion, clearOrganizationsSuggestion,
+  showDirectionOrganizations, showDistributionOrganizations,
+  hideDirectionOrganizations, hideDistributionOrganizations,
 } from '../actions';
 
 const formName = 'employment';
-let successSubmit = null;
+let successSubmit;
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const { id } = ownProps.match.params;
@@ -48,8 +50,18 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     leftButtonIconName: 'ArrowBack',
     onRightButtonClick: () => dispatch(submit(formName)),
     rightButtonDisabled: pristine || submitting,
-    title: `Трудоустройство № ${id}`
+    title: `Документ № ${id}`
   });
+
+  const handleClearSchoolSelected = (row, type) => {
+    dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
+    dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolId', null));
+  };
+
+  const handleClearOrganizationSelected = (row, type) => {
+    dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationName', ''));
+    dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationId', null));
+  };
 
   const props = {
     loading: state.fetching,
@@ -98,10 +110,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', data.name));
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolId', data.id));
     },
-    onClearSchoolSelected: (row, type) => () => {
-      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
-      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolId', null));
-    },
+    onClearSchoolSelected: (row, type) => () => handleClearSchoolSelected(row, type),
 
     onGetOrganizationsSuggestions: value => dispatch(getOrganizationsSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearOrganizationsSuggestions: () => dispatch(clearOrganizationsSuggestion()),
@@ -109,9 +118,36 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationName', data.name));
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationId', data.id));
     },
-    onClearOrganizationSelected: (row, type) => () => {
-      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationName', ''));
-      dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationId', null));
+    onClearOrganizationSelected: (row, type) => () => handleClearOrganizationSelected(row, type),
+
+    onChangeContractDirectionType: (value, tableRow, directionType) => {
+      let schoolTypeId;
+      let organizationTypeId;
+      if (directionType === 'direction') {
+        schoolTypeId = 8;
+        organizationTypeId = 9;
+      } else {
+        schoolTypeId = 17;
+        organizationTypeId = 18;
+      }
+
+      if (value === schoolTypeId) {
+        directionType === 'direction' ?
+          dispatch(showDirectionOrganizations('school')) :
+          dispatch(showDistributionOrganizations('school'));
+        handleClearOrganizationSelected(tableRow, directionType);
+      } else if (value === organizationTypeId) {
+        directionType === 'direction' ?
+          dispatch(showDirectionOrganizations('organization')) :
+          dispatch(showDistributionOrganizations('organization'));
+        handleClearSchoolSelected(tableRow, directionType);
+      } else {
+        directionType === 'direction' ?
+          dispatch(hideDirectionOrganizations()) :
+          dispatch(hideDistributionOrganizations());
+        handleClearSchoolSelected(tableRow, directionType);
+        handleClearOrganizationSelected(tableRow, directionType);
+      }
     },
 
     onDoActionStudents: (args) => {
@@ -120,14 +156,16 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           break;
         }
         case 'editing': {
-          const {
-            directionSchoolId, directionOrganizationId,
-            distributionSchoolId, distributionOrganizationId
-          } = formValues.pgContractStuffs[args.tableRow];
+          const { directionTypeId, distributionTypeId } = formValues.pgContractStuffs[args.tableRow];
+
+          const showDirectionSchool = (directionTypeId === 8);
+          const showDirectionOrganization = (directionTypeId === 9);
+          const showDistributionSchool = (distributionTypeId === 17);
+          const showDistributionOrganization = (distributionTypeId === 18);
 
           dispatch(openEmploymentContract(args.row.student.fullName, args.tableRow,
-            Boolean(directionSchoolId), Boolean(directionOrganizationId),
-            Boolean(distributionSchoolId), Boolean(distributionOrganizationId)
+            showDirectionSchool, showDirectionOrganization,
+            showDistributionSchool, showDistributionOrganization
           ));
           break;
         }
@@ -137,15 +175,15 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         }
       }
     },
-    onSubmit: (values) => {
+    onSubmit: values => {
       console.log('onSubmit', values);
-      // successSubmit && successSubmit();
+      successSubmit && successSubmit();
       throw new SubmissionError({
         entraceYear: 'Ошибка заполнения',
         _error: 'Общая ошибка формы!!'
       });
     },
-    validate: (values) => {
+    validate: values => {
       const errors = {};
       const requiredFields = [ 'entraceYear', 'docDate', 'speciality' ];
       requiredFields.forEach(field => {

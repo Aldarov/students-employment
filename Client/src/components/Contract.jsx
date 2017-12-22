@@ -55,6 +55,7 @@ class Contract extends Component {
       directionTypes, distributionTypes,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
+      onChangeContractDirectionType,
     } = this.props;
     const { opened, title, tableRow,
       showDirectionSchools, showDirectionOrganizations, showDistributionSchools, showDistributionOrganizations
@@ -94,6 +95,7 @@ class Contract extends Component {
             onClearOrganizationsSuggestions={onClearOrganizationsSuggestions}
             onOrganizationSelected={onOrganizationSelected}
             onClearOrganizationSelected={onClearOrganizationSelected}
+            onChangeDirectionType={onChangeContractDirectionType}
           />
           <DirectionEdit
             tableRow={tableRow}
@@ -111,6 +113,7 @@ class Contract extends Component {
             onClearOrganizationsSuggestions={onClearOrganizationsSuggestions}
             onOrganizationSelected={onOrganizationSelected}
             onClearOrganizationSelected={onClearOrganizationSelected}
+            onChangeDirectionType={onChangeContractDirectionType}
           />
         </div>
       </Dialog>
@@ -137,6 +140,8 @@ Contract.propTypes = {
   onClearOrganizationsSuggestions: PropTypes.func,
   onOrganizationSelected: PropTypes.func,
   onClearOrganizationSelected: PropTypes.func,
+
+  onChangeContractDirectionType: PropTypes.func
 };
 
 export default withStyles(styles)(Contract);

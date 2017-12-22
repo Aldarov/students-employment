@@ -89,12 +89,7 @@ export function showDirectionOrganizations(type) {
       data = { showDirectionSchools: false, showDirectionOrganizations: true };
     }
 
-    return dispatch({ type: SET_EMPLOYMENT_CONTRACT,
-      data: {
-        ...data,
-        showDistributionSchools: false, showDistributionOrganizations: false
-      }
-    });
+    return dispatch({ type: SET_EMPLOYMENT_CONTRACT, data });
   };
 }
 
@@ -107,13 +102,20 @@ export function showDistributionOrganizations(type) {
       data = { showDistributionSchools: false, showDistributionOrganizations: true };
     }
 
-    return dispatch({ type: SET_EMPLOYMENT_CONTRACT,
-      data: {
-        ...data,
-        showDirectionSchools: false, showDirectionOrganizations: false
-      }
-    });
+    return dispatch({ type: SET_EMPLOYMENT_CONTRACT, data });
   };
+}
+
+export function hideDirectionOrganizations() {
+  return dispatch => dispatch({ type: SET_EMPLOYMENT_CONTRACT,
+    data: { showDirectionSchools: false, showDirectionOrganizations: false }
+  });
+}
+
+export function hideDistributionOrganizations() {
+  return dispatch => dispatch({ type: SET_EMPLOYMENT_CONTRACT,
+    data: { showDistributionSchools: false, showDistributionOrganizations: false }
+  });
 }
 
 export function getSchoolsSuggestion(params) {

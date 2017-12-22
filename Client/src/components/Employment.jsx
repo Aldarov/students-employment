@@ -113,6 +113,7 @@ class Employment extends Component {
       contract, onCloseContract,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
+      onChangeContractDirectionType
     } = this.props;
     return (
       <div>
@@ -198,6 +199,8 @@ class Employment extends Component {
           onClearOrganizationsSuggestions={onClearOrganizationsSuggestions}
           onOrganizationSelected={onOrganizationSelected}
           onClearOrganizationSelected={onClearOrganizationSelected}
+
+          onChangeContractDirectionType={onChangeContractDirectionType}
         />
         }
       </div>
@@ -243,6 +246,8 @@ Employment.propTypes = {
   onClearOrganizationsSuggestions: PropTypes.func,
   onOrganizationSelected: PropTypes.func,
   onClearOrganizationSelected: PropTypes.func,
+
+  onChangeContractDirectionType: PropTypes.func
 };
 
 export default withStyles(styles)(Employment);

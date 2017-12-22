@@ -24,7 +24,7 @@ export {
 
   SET_ORGANIZATIONS_SUGGESTIONS, CLEAR_ORGANIZATIONS_SUGGESTIONS,
   getOrganizationsSuggestion, clearOrganizationsSuggestion,
-  showDirectionOrganizations, showDistributionOrganizations
+  showDirectionOrganizations, showDistributionOrganizations, hideDirectionOrganizations, hideDistributionOrganizations,
 } from './employmentActions';
 
 export {

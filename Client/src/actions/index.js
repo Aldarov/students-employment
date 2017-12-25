@@ -14,7 +14,7 @@ export {
   SET_EMPLOYMENT_CONTRACT,
 
   getEmploymentList, getEmploymentSuggestions, clearEmploymentSuggestions,
-  initEmploymentForm,
+  initEmploymentForm, saveEmployment,
   getSpecialitiesSuggestion, clearSpecialitiesSuggestion,
 
   openEmploymentContract, closeEmploymentContract,

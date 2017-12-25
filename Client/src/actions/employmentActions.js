@@ -1,5 +1,5 @@
 import { fetchingAction } from './';
-import { apiGetEmploymentList, apiGetEmploymentById, apiGetSpecialities, apiGetSchools, apiGetOrganizations } from '../api';
+import { apiGetEmploymentList, apiGetEmploymentById, apiGetSpecialities, apiGetSchools, apiGetOrganizations, apiPostEmployment } from '../api';
 import { initialize } from 'redux-form';
 
 export const SET_EMPLOYMENT_LIST = 'SET_EMPLOYMENT_LIST';
@@ -49,6 +49,12 @@ export function initEmploymentForm(formName, id) {
             })
         )
     );
+  };
+}
+
+export function saveEmployment(data, callback) {
+  return dispatch => {
+    fetchingAction(dispatch, apiPostEmployment(data).then(() => callback()));
   };
 }
 

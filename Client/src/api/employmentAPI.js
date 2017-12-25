@@ -11,3 +11,7 @@ export function apiGetEmploymentList({...args}) {
 export function apiGetEmploymentById(id) {
   return axios.get(startUrl + `/${id}`);
 }
+
+export function apiPostEmployment(data) {
+  return axios.post(startUrl, data);
+}

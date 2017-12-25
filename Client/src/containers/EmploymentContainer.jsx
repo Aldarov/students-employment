@@ -13,6 +13,7 @@ import {
   getOrganizationsSuggestion, clearOrganizationsSuggestion,
   showDirectionOrganizations, showDistributionOrganizations,
   hideDirectionOrganizations, hideDistributionOrganizations,
+  saveEmployment
 } from '../actions';
 
 const formName = 'employment';
@@ -170,18 +171,28 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           break;
         }
         case 'deleting': {
-
+          ownProps.onInitDialog({
+            contentText: 'Удалить данную запись?',
+            onYes: () => {
+              dispatch(closeQuestionDialog());
+            },
+            onNo: () => {
+              dispatch(closeQuestionDialog());
+            }
+          });
+          dispatch(openQuestionDialog());
           break;
         }
       }
     },
     onSubmit: values => {
-      console.log('onSubmit', values);
-      successSubmit && successSubmit();
-      throw new SubmissionError({
-        entraceYear: 'Ошибка заполнения',
-        _error: 'Общая ошибка формы!!'
-      });
+      dispatch(saveEmployment(values, () => {
+        successSubmit && successSubmit();
+      }));
+      // throw new SubmissionError({
+      //   entraceYear: 'Ошибка заполнения',
+      //   _error: 'Общая ошибка формы!!'
+      // });
     },
     validate: values => {
       const errors = {};

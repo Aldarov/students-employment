@@ -55,6 +55,46 @@ namespace Server.Controllers
                 .AsNoTracking()
                 .SingleOrDefault();
             return res;
+        }
+
+        [HttpPost]
+        public void Post([FromBody]PgHeader header)
+        {
+            var existingHeader = db.PgHeaders
+                .Include(x => x.PgContractStuffs)
+                .FirstOrDefault(x => x.Id == header.Id);
+            
+            if (existingHeader == null)
+            {
+                db.Add(header);
+            }
+            else
+            {
+                db.Entry(existingHeader).CurrentValues.SetValues(header);
+                
+                foreach (var stuff in header.PgContractStuffs)
+                {
+                    var existingStuff = existingHeader.PgContractStuffs
+                        .FirstOrDefault(x => x.Id == stuff.Id);
+                    if (existingStuff == null)
+                    {
+                        existingHeader.PgContractStuffs.Add(stuff);
+                    }
+                    else
+                    {
+                        db.Entry(existingStuff).CurrentValues.SetValues(stuff);
+                    }
+                }
+
+                foreach (var stuff in existingHeader.PgContractStuffs)
+                {
+                    if (!header.PgContractStuffs.Any(x => x.Id == stuff.Id))
+                    {
+                        db.Remove(stuff);
+                    }
+                }                    
+            }            
+            db.SaveChanges();
         }        
     }
 }

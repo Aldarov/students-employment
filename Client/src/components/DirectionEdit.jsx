@@ -4,7 +4,6 @@ import { Field } from 'redux-form';
 import { MenuItem } from 'material-ui/Menu';
 import { withStyles } from 'material-ui/styles';
 
-import RenderTextField from './common/RenderTextField';
 import RenderAutocomplete from './common/RenderAutocomplete';
 import RenderCheckbox from './common/RenderCheckbox';
 import RenderSelect from './common/RenderSelect';
@@ -23,9 +22,6 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
   },
-  // checkbox: {
-  //   alignSelf: 'flex-end'
-  // }
 });
 
 class DirectionEdit extends Component {

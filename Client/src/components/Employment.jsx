@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field, FieldArray  } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import { MenuItem } from 'material-ui/Menu';
 
@@ -8,6 +8,7 @@ import Loading from './common/Loading';
 import RenderTextField from './common/RenderTextField';
 import RenderAutocomplete from './common/RenderAutocomplete';
 import RenderDatePicker from './common/RenderDatePicker';
+import RenderList from './common/RenderList';
 import List from './common/List';
 import ListTableCellTemplate from './common/ListTableCellTemplate';
 import DirectionEdit from './DirectionEdit';
@@ -164,18 +165,33 @@ class Employment extends Component {
 
             {error && <strong className={classes.error}>{error}</strong>}
           </div>
-
-          <List
-            data={students}
-            columns={columnsStudents}
-            defaultColumnWidths={listColumnWidthsStudents}
-            allowAdding
-            allowEditing
-            allowDeleting
-            doAction={onDoActionStudents}
-            // editCellTemplate={this.studentEditCellTemplate}
-            tableCellTemplate={this.studentTableCellTemplate}
-          />
+          {
+            <FieldArray
+              name='pgContractStuffs'
+              component={RenderList}
+              columns={columnsStudents}
+              defaultColumnWidths={listColumnWidthsStudents}
+              allowAdding
+              allowEditing
+              allowDeleting
+              doAction={onDoActionStudents}
+              // editCellTemplate={this.studentEditCellTemplate}
+              tableCellTemplate={this.studentTableCellTemplate}
+            />
+          }
+          {
+          // <List
+          //   data={students}
+          //   columns={columnsStudents}
+          //   defaultColumnWidths={listColumnWidthsStudents}
+          //   allowAdding
+          //   allowEditing
+          //   allowDeleting
+          //   doAction={onDoActionStudents}
+          //   // editCellTemplate={this.studentEditCellTemplate}
+          //   tableCellTemplate={this.studentTableCellTemplate}
+          // />
+          }
         </form>
         {loading && <Loading />}
         { contract &&

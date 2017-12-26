@@ -1,6 +1,6 @@
 import { connectAdvanced } from 'react-redux';
 import {
-  SubmissionError, reduxForm, getFormValues, submit, isPristine, isSubmitting, change
+  SubmissionError, reduxForm, getFormValues, submit, isPristine, isSubmitting, change, arrayRemove,
 } from 'redux-form';
 
 import Employment from '../components/Employment';
@@ -69,7 +69,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     specialities: state.employment.edit.specialitySuggestions,
     eduForms: state.dictionaries.eduForms,
 
-    students: formValues && formValues.pgContractStuffs,
+    // students: formValues && formValues.pgContractStuffs,
     directionTypes: state.dictionaries.directionTypes,
     distributionTypes: state.dictionaries.distributionTypes,
     columnsStudents: [
@@ -174,6 +174,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           ownProps.onInitDialog({
             contentText: 'Удалить данную запись?',
             onYes: () => {
+              dispatch(arrayRemove(formName, 'pgContractStuffs', args.tableRow));
               dispatch(closeQuestionDialog());
             },
             onNo: () => {
@@ -210,6 +211,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   return { ...props, ...methods, ...ownProps };
 })(
   reduxForm({
-    form: formName
+    form: formName,
   })(Employment)
 );

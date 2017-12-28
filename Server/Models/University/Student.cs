@@ -26,6 +26,7 @@ namespace Server.Models.University
         public int SpecialityId { get; set; }
         public int EducationFormId { get; set; }
         public int EntranceYear { get; set; }
+        public int EntranceYearByOrder { get; set; }
         [JsonIgnore]
         public virtual ICollection<PgContractStuff> ContractStuffs { get; set; }
     }

@@ -9,7 +9,6 @@ import RenderTextField from './common/RenderTextField';
 import RenderAutocomplete from './common/RenderAutocomplete';
 import RenderDatePicker from './common/RenderDatePicker';
 import RenderList from './common/RenderList';
-import List from './common/List';
 import ListTableCellTemplate from './common/ListTableCellTemplate';
 import DirectionEdit from './DirectionEdit';
 import Contract from './Contract';
@@ -110,12 +109,13 @@ class Employment extends Component {
     const {
       classes, error, loading, handleSubmit, eduForms,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
-      students, columnsStudents, listColumnWidthsStudents, onDoActionStudents, directionTypes, distributionTypes,
+      columnsStudents, listColumnWidthsStudents, onDoActionStudents, directionTypes, distributionTypes,
       contract, onCloseContract,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
       onChangeContractDirectionType
     } = this.props;
+
     return (
       <div>
         <form onSubmit={handleSubmit} >
@@ -165,34 +165,21 @@ class Employment extends Component {
 
             {error && <strong className={classes.error}>{error}</strong>}
           </div>
-          {
-            <FieldArray
-              name='pgContractStuffs'
-              component={RenderList}
-              columns={columnsStudents}
-              defaultColumnWidths={listColumnWidthsStudents}
-              allowAdding
-              allowEditing
-              allowDeleting
-              doAction={onDoActionStudents}
-              // editCellTemplate={this.studentEditCellTemplate}
-              tableCellTemplate={this.studentTableCellTemplate}
-            />
-          }
-          {
-          // <List
-          //   data={students}
-          //   columns={columnsStudents}
-          //   defaultColumnWidths={listColumnWidthsStudents}
-          //   allowAdding
-          //   allowEditing
-          //   allowDeleting
-          //   doAction={onDoActionStudents}
-          //   // editCellTemplate={this.studentEditCellTemplate}
-          //   tableCellTemplate={this.studentTableCellTemplate}
-          // />
-          }
+
+          <FieldArray
+            name='pgContractStuffs'
+            component={RenderList}
+            columns={columnsStudents}
+            defaultColumnWidths={listColumnWidthsStudents}
+            allowAdding
+            allowEditing
+            allowDeleting
+            doAction={onDoActionStudents}
+            // editCellTemplate={this.studentEditCellTemplate}
+            tableCellTemplate={this.studentTableCellTemplate}
+          />
         </form>
+
         {loading && <Loading />}
         { contract &&
         <Contract
@@ -240,7 +227,6 @@ Employment.propTypes = {
   onClearSpecialitySelectedSuggestion: PropTypes.func,
   onSpecialitySelected: PropTypes.func,
 
-  students: PropTypes.array,
   columnsStudents: PropTypes.array,
   listColumnWidthsStudents: PropTypes.object,
   onDoActionStudents: PropTypes.func,

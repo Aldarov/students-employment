@@ -58,6 +58,8 @@ namespace Server.Models.University
                 entity.Property(e => e.SpecialityId).HasColumnName("speciality_id");
                 entity.Property(e => e.EducationFormId).HasColumnName("education_form_id");
                 entity.Property(e => e.EntranceYear).HasColumnName("entrance_year");
+                entity.Property(e => e.EntranceYearByOrder).HasColumnName("entrance_year_by_order");
+                
             });
 
             modelBuilder.Entity<Placement>(entity =>

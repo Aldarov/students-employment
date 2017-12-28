@@ -19,12 +19,7 @@ import {
 const formName = 'employment';
 let successSubmit;
 
-export default connectAdvanced( dispatch => (state, ownProps) => {
-  const { id } = ownProps.match.params;
-  const formValues = getFormValues(formName)(state);
-  const pristine = isPristine(formName)(state);
-  const submitting = isSubmitting(formName)(state);
-
+const initHeader = (dispatch, ownProps, pristine, submitting, title) => {
   ownProps.onInitHeader({
     onLeftButtonClick: () => {
       if (!pristine) {
@@ -51,8 +46,16 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     leftButtonIconName: 'ArrowBack',
     onRightButtonClick: () => dispatch(submit(formName)),
     rightButtonDisabled: pristine || submitting,
-    title: `Документ № ${id}`
+    title: title
   });
+};
+
+export default connectAdvanced( dispatch => (state, ownProps) => {
+  const { id } = ownProps.match.params;
+  const formValues = getFormValues(formName)(state);
+  const pristine = isPristine(formName)(state);
+  const submitting = isSubmitting(formName)(state);
+  const title = `Документ № ${id}`;
 
   const handleClearSchoolSelected = (row, type) => {
     dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
@@ -69,7 +72,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     specialities: state.employment.edit.specialitySuggestions,
     eduForms: state.dictionaries.eduForms,
 
-    // students: formValues && formValues.pgContractStuffs,
     directionTypes: state.dictionaries.directionTypes,
     distributionTypes: state.dictionaries.distributionTypes,
     columnsStudents: [
@@ -90,6 +92,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const methods = {
     onLoadData: () => {
       dispatch(initEmploymentForm(formName, id));
+      initHeader(dispatch, ownProps, pristine, submitting, title);
     },
 
     onGetSpecialitySuggestions: value => dispatch(getSpecialitiesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
@@ -154,6 +157,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     onDoActionStudents: (args) => {
       switch (args.type) {
         case 'adding': {
+          dispatch(openEmploymentContract('Добавление', null, false, false, false, false));
           break;
         }
         case 'editing': {
@@ -185,6 +189,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           break;
         }
       }
+    },
+    onChange: () => {
+      initHeader(dispatch, ownProps, pristine, submitting, title);
     },
     onSubmit: values => {
       dispatch(saveEmployment(values, () => {

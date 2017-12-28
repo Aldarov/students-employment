@@ -4,11 +4,11 @@ import { Button, IconButton } from 'material-ui';
 import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/Edit';
 import {
-  PagingState, SortingState, EditingState, TableColumnResizing,
+  PagingState, SortingState, SelectionState, EditingState, TableColumnResizing,
   // RowDetailState,
 } from '@devexpress/dx-react-grid';
 import {
-  Grid, TableView, TableHeaderRow, TableEditRow, TableEditColumn, PagingPanel,
+  Grid, TableView, TableHeaderRow, TableEditRow, TableEditColumn, PagingPanel, TableSelection
   // TableRowDetail,
 } from '@devexpress/dx-react-grid-material-ui';
 
@@ -58,8 +58,10 @@ class List extends Component {
       data, columns, pageSize, currentPage, totalCount, changeCurrentPage,
       allowSorting, sorting, changeSorting,
       allowAdding, allowEditing, allowDeleting, defaultColumnWidths,
-      editCellTemplate, tableCellTemplate, className
+      editCellTemplate, tableCellTemplate, className,
+      enableSelectionState, onSelectionChange
     } = this.props;
+
     return (
       <div className={className}>
         <Grid
@@ -117,12 +119,13 @@ class List extends Component {
               }}
             />
           }
-          {/* <RowDetailState
-            expandedRows={[0]}
-          />
-          <TableRowDetail
-            template={this.rowTemplate}
-          /> */}
+          {
+            enableSelectionState &&
+            <SelectionState
+              onSelectionChange={onSelectionChange}
+            />
+          }
+          { enableSelectionState && <TableSelection /> }
         </Grid>
       </div>
     );
@@ -151,6 +154,9 @@ List.propTypes = {
   editCellTemplate: PropTypes.func,
   tableCellTemplate: PropTypes.func,
   className: PropTypes.string,
+
+  enableSelectionState: PropTypes.bool,
+  onSelectionChange: PropTypes.func
 };
 
 export default List;

@@ -32,5 +32,5 @@ export default function getUrl({startUrl, page, limit, sorting, search, ...filte
     url = url + 'id=' + filters.id + '&';
   }
 
-  return url.slice(0,-1);
+  return encodeURI(url.slice(0,-1));
 }

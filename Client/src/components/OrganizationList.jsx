@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 export default class OrganizationList extends Component {
 
   componentWillMount() {
+    this.props.onLoadData();
   }
 
   render() {
@@ -17,4 +18,5 @@ export default class OrganizationList extends Component {
 
 OrganizationList.propTypes = {
   onChangeTitle: PropTypes.func,
+  onLoadData: PropTypes.func
 };

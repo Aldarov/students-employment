@@ -8,14 +8,14 @@ import {
   openSidebar
 } from '../actions';
 
+const initHeader = (dispatch, onInitHeader) => onInitHeader({
+  onLeftButtonClick: () => dispatch(openSidebar()),
+  leftButtonIconName: 'Menu',
+  title: 'Трудоустройство'
+});
+
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const { limit, page, totalRecord, sorting } = state.employment.list.info;
-
-  ownProps.onInitHeader({
-    onLeftButtonClick: () => dispatch(openSidebar()),
-    leftButtonIconName: 'Menu',
-    title: 'Трудоустройство'
-  });
 
   const props = {
     data: state.employment.list.data,
@@ -36,7 +36,10 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   };
 
   const methods = {
-    onLoadData: () => dispatch(getEmploymentList({ limit, page, sorting })),
+    onLoadData: () => {
+      initHeader(dispatch, ownProps.onInitHeader);
+      dispatch(getEmploymentList({ limit, page, sorting }));
+    },
     onChangeSorting: (newSorting) => dispatch(getEmploymentList({ limit, page, sorting: newSorting })),
     onChangePage: (newPage) => {
       if (newPage != page )

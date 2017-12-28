@@ -5,11 +5,9 @@ import List from './List';
 
 export default function renderList ({
   fields,
-  meta,
   ...custom
 }) {
   const data = fields.getAll() || [];
-  console.log('renderList', fields, meta);
   return (
     <List
       data={data}

@@ -88,7 +88,10 @@ class Main extends Component {
   }
 
   childProps = {
-    onInitHeader: props => this.headerProps = props,
+    onInitHeader: props => {
+      this.headerProps = props;
+      this.forceUpdate();
+    },
     onInitDialog: props => this.dialogProps = props
   }
 
@@ -96,6 +99,7 @@ class Main extends Component {
     const {
       classes, onCloseSidebar, openedSidebar, onRedirect, dialogOpen
     } = this.props;
+
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>

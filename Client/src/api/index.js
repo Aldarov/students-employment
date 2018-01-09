@@ -2,6 +2,7 @@ export { apiLogin, apiLogout, apiIsAuth, apiSetRequestHeader } from './authApi';
 export { apiGetEmploymentList, apiGetEmploymentById, apiPostEmployment } from './employmentApi';
 export { apiGetSpecialities, apiGetEduForms, apiGetPgTypes, apiGetSchools } from './dictionariesApi';
 export { apiGetOrganizations } from './organizationApi';
+export { apiGetStudentsByHeader,  apiGetStudentsWithoutSelected } from './studentApi';
 
 import { logout } from '../actions';
 

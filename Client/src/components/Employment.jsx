@@ -12,6 +12,7 @@ import RenderList from './common/RenderList';
 import ListTableCellTemplate from './common/ListTableCellTemplate';
 import DirectionEdit from './DirectionEdit';
 import Contract from './Contract';
+import StudentsSelection from './StudentsSelection';
 
 const styles = theme => ({
   container: {
@@ -113,7 +114,8 @@ class Employment extends Component {
       contract, onCloseContract,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
-      onChangeContractDirectionType
+      onChangeContractDirectionType,
+      openedStudentsSelection, studentsSelection, onCloseStudentsSelection
     } = this.props;
 
     return (
@@ -180,7 +182,6 @@ class Employment extends Component {
           />
         </form>
 
-        {loading && <Loading />}
         { contract &&
         <Contract
           data={contract}
@@ -206,6 +207,15 @@ class Employment extends Component {
           onChangeContractDirectionType={onChangeContractDirectionType}
         />
         }
+        <StudentsSelection
+          title={'Добавление студентов'}
+          data={studentsSelection}
+          onClose={onCloseStudentsSelection}
+          opened={openedStudentsSelection}
+          columns={columnsStudents}
+          defaultColumnWidths={listColumnWidthsStudents}
+        />
+        {loading && <Loading />}
       </div>
     );
   }
@@ -249,7 +259,11 @@ Employment.propTypes = {
   onOrganizationSelected: PropTypes.func,
   onClearOrganizationSelected: PropTypes.func,
 
-  onChangeContractDirectionType: PropTypes.func
+  onChangeContractDirectionType: PropTypes.func,
+
+  studentsSelection: PropTypes.array,
+  openedStudentsSelection: PropTypes.bool,
+  onCloseStudentsSelection: PropTypes.func
 };
 
 export default withStyles(styles)(Employment);

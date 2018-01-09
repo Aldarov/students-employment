@@ -19,7 +19,7 @@ namespace Server.Controllers
     {
         private UniversityContext db;
 
-        public StudentsController(UniversityContext context, IClaimsProps claimsProps)
+        public StudentsController(UniversityContext context)
         {
             db = context;
         }

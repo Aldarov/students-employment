@@ -13,7 +13,9 @@ import {
   getOrganizationsSuggestion, clearOrganizationsSuggestion,
   showDirectionOrganizations, showDistributionOrganizations,
   hideDirectionOrganizations, hideDistributionOrganizations,
-  saveEmployment
+  saveEmployment,
+  getStudentsWithoutSelected, getStudentsByHeader, clearStudentSelection,
+  openStudentsSelection, closeStudentsSelection
 } from '../actions';
 
 const formName = 'employment';
@@ -86,7 +88,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     listColumnWidthsStudents: { fullName: 250, regAddress: 300, finance: 120, entrType: 150, phone: 150, direction: 250, distribution: 250 },
     contract: state.employment.edit.currentContract,
     schoolsSuggestions: state.employment.edit.schoolsSuggestions,
-    organizationsSuggestions: state.employment.edit.organizationsSuggestions
+    organizationsSuggestions: state.employment.edit.organizationsSuggestions,
+    openedStudentsSelection: state.employment.edit.openedStudentsSelection,
+    studentsSelection: state.employment.edit.studentsSelection
   };
 
   const methods = {
@@ -153,11 +157,20 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         handleClearOrganizationSelected(tableRow, directionType);
       }
     },
-
+    onCloseStudentsSelection: () => {
+      dispatch(clearStudentSelection());
+      dispatch(closeStudentsSelection());
+    },
     onDoActionStudents: (args) => {
       switch (args.type) {
         case 'adding': {
-          dispatch(openEmploymentContract('Добавление', null, false, false, false, false));
+          const { entraceYear, eduFormId, specialityId } = formValues;
+          const exceptedIds = formValues && formValues.pgContractStuffs &&
+            formValues.pgContractStuffs.map( item => item.studentId );
+          console.log('add', args, entraceYear, eduFormId, specialityId, exceptedIds);
+          // dispatch(openEmploymentContract('Добавление', null, false, false, false, false));
+          dispatch(getStudentsWithoutSelected(entraceYear, eduFormId, specialityId, exceptedIds));
+          dispatch(openStudentsSelection());
           break;
         }
         case 'editing': {

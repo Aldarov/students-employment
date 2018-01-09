@@ -36,3 +36,15 @@ export {
   DIALOG_QUESTION_CLOSE, DIALOG_QUESTION_OPEN,
   openQuestionDialog, closeQuestionDialog
 } from './dialogActions';
+
+export {
+  SET_STUDENTS_SELECTION,
+  CLEAR_STUDENTS_SELECTION,
+  OPEN_STUDENTS_SELECTION,
+  CLOSE_STUDENTS_SELECTION,
+  getStudentsByHeader,
+  getStudentsWithoutSelected,
+  clearStudentSelection,
+  openStudentsSelection,
+  closeStudentsSelection
+} from './studentActions';

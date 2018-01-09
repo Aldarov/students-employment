@@ -3,7 +3,9 @@ import {
   SET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
   SET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS,
   SET_EMPLOYMENT_CONTRACT, SET_SCHOOLS_SUGGESTIONS, CLEAR_SCHOOLS_SUGGESTIONS,
-  SET_ORGANIZATIONS_SUGGESTIONS, CLEAR_ORGANIZATIONS_SUGGESTIONS
+  SET_ORGANIZATIONS_SUGGESTIONS, CLEAR_ORGANIZATIONS_SUGGESTIONS,
+  SET_STUDENTS_SELECTION, CLEAR_STUDENTS_SELECTION,
+  OPEN_STUDENTS_SELECTION, CLOSE_STUDENTS_SELECTION,
 } from '../actions';
 
 const defaultData = {
@@ -16,7 +18,9 @@ const defaultData = {
     specialitySuggestions: [],
     currentContract: null,
     schoolsSuggestions: [],
-    organizationsSuggestions: []
+    organizationsSuggestions: [],
+    studentsSelection: [],
+    openedStudentsSelection: false
   }
 };
 export default function reducer(state = defaultData, action) {
@@ -45,7 +49,7 @@ export default function reducer(state = defaultData, action) {
       };
     }
     case SET_EMPLOYMENT_SUGGESTIONS: {
-      const suggestions = action.data.map((item)=> ({ id: item.id, name: item.id + ', ' +
+      const suggestions = action.data.map((item) => ({ id: item.id, name: item.id + ', ' +
         item.faculty + ', ' + item.speciality + ', ' + item.entranceYear + ', ' + item.eduForm }));
       return {
         ...state,
@@ -122,6 +126,38 @@ export default function reducer(state = defaultData, action) {
         edit: {
           ...state.edit,
           organizationsSuggestions: []
+        }
+      };
+    case SET_STUDENTS_SELECTION:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          studentsSelection: action.data
+        }
+      };
+    case CLEAR_STUDENTS_SELECTION:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          studentsSelection: []
+        }
+      };
+    case OPEN_STUDENTS_SELECTION:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          openedStudentsSelection: true
+        }
+      };
+    case CLOSE_STUDENTS_SELECTION:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          openedStudentsSelection: false
         }
       };
     default:

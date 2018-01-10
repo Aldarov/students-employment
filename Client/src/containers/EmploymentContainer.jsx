@@ -1,6 +1,7 @@
 import { connectAdvanced } from 'react-redux';
 import {
-  SubmissionError, reduxForm, getFormValues, submit, isPristine, isSubmitting, change, arrayRemove,
+  SubmissionError, reduxForm, getFormValues,
+  submit, isPristine, isSubmitting, change, arrayRemove, arrayPush
 } from 'redux-form';
 
 import Employment from '../components/Employment';
@@ -161,14 +162,40 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(clearStudentSelection());
       dispatch(closeStudentsSelection());
     },
+    onStudentsSelected: selection => {
+      console.log('selection', selection);
+      if (Array.isArray(selection) && selection.length > 0) {
+        selection.forEach(item => {
+          const pg = {
+            id: null,
+            studentId: item.studentId,
+            pgHeaderId: id,
+            directionTypeId: null,
+            distributionTypeId: null,
+            directionOrganizationId: null,
+            distributionOrganizationId: null,
+            directionSchoolId: null,
+            distributionSchoolId: null,
+            jobOnSpeciality: null,
+            directionOrganizationName: null,
+            distributionOrganizationName: null,
+            directionSchoolName: null,
+            distributionSchoolName: null,
+            student: item
+          };
+
+          dispatch(arrayPush(formName, 'pgContractStuffs', pg));
+        });
+        dispatch(clearStudentSelection());
+        dispatch(closeStudentsSelection());
+      }
+    },
     onDoActionStudents: (args) => {
       switch (args.type) {
         case 'adding': {
           const { entraceYear, eduFormId, specialityId } = formValues;
           const exceptedIds = formValues && formValues.pgContractStuffs &&
             formValues.pgContractStuffs.map( item => item.studentId );
-          console.log('add', args, entraceYear, eduFormId, specialityId, exceptedIds);
-          // dispatch(openEmploymentContract('Добавление', null, false, false, false, false));
           dispatch(getStudentsWithoutSelected(entraceYear, eduFormId, specialityId, exceptedIds));
           dispatch(openStudentsSelection());
           break;
@@ -207,6 +234,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       initHeader(dispatch, ownProps, pristine, submitting, title);
     },
     onSubmit: values => {
+      console.log('sub', values);
       dispatch(saveEmployment(values, () => {
         successSubmit && successSubmit();
       }));

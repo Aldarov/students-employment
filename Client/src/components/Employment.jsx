@@ -115,7 +115,7 @@ class Employment extends Component {
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
       onChangeContractDirectionType,
-      openedStudentsSelection, studentsSelection, onCloseStudentsSelection
+      openedStudentsSelection, studentsSelection, onCloseStudentsSelection, onStudentsSelected
     } = this.props;
 
     return (
@@ -214,6 +214,7 @@ class Employment extends Component {
           opened={openedStudentsSelection}
           columns={columnsStudents}
           defaultColumnWidths={listColumnWidthsStudents}
+          onSelected={onStudentsSelected}
         />
         {loading && <Loading />}
       </div>
@@ -263,7 +264,8 @@ Employment.propTypes = {
 
   studentsSelection: PropTypes.array,
   openedStudentsSelection: PropTypes.bool,
-  onCloseStudentsSelection: PropTypes.func
+  onCloseStudentsSelection: PropTypes.func,
+  onStudentsSelected: PropTypes.func
 };
 
 export default withStyles(styles)(Employment);

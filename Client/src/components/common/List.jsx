@@ -21,7 +21,7 @@ class List extends Component {
           onClick={onClick}
           disabled={!allowAdding}
         >
-          Создать
+          Добавить
         </Button>
       </div>
     ),

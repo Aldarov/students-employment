@@ -167,7 +167,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       if (Array.isArray(selection) && selection.length > 0) {
         selection.forEach(item => {
           const pg = {
-            id: null,
             studentId: item.studentId,
             pgHeaderId: id,
             directionTypeId: null,

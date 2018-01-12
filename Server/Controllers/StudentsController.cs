@@ -33,7 +33,9 @@ namespace Server.Controllers
                     q.EducationFormId == educationFormId && 
                     q.SpecialityId == specialityId &&
                     (q.StateId == 1 || q.StateId == 2)
-                ).AsNoTracking();
+                )
+                .OrderBy(x => x.FullName)
+                .AsNoTracking();
             return Ok(res);
         }
 
@@ -46,7 +48,9 @@ namespace Server.Controllers
                     q.EducationFormId == educationFormId && 
                     q.SpecialityId == specialityId &&
                     !w.Contains(q.StudentId)
-                ).AsNoTracking();
+                )
+                .OrderBy(x => x.FullName)
+                .AsNoTracking();
             return Ok(res);
         }
     }

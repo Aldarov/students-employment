@@ -74,6 +74,7 @@ namespace Server.Controllers
                 
                 foreach (var stuff in header.PgContractStuffs)
                 {
+                    stuff.Student = null;
                     var existingStuff = existingHeader.PgContractStuffs
                         .FirstOrDefault(x => x.Id == stuff.Id);
                     if (existingStuff == null)

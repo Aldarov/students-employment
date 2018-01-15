@@ -58,8 +58,13 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody]PgHeader header)
+        public IActionResult Post([FromBody]PgHeader header)
         {
+            if (header == null) 
+            {
+                return BadRequest();
+            }
+            
             var existingHeader = db.PgHeaders
                 .Include(x => x.PgContractStuffs)
                 .FirstOrDefault(x => x.Id == header.Id);
@@ -75,8 +80,12 @@ namespace Server.Controllers
                 foreach (var stuff in header.PgContractStuffs)
                 {
                     stuff.Student = null;
-                    var existingStuff = existingHeader.PgContractStuffs
-                        .FirstOrDefault(x => x.Id == stuff.Id);
+                    PgContractStuff existingStuff = null;
+                    if (stuff?.Id > 0) 
+                    {
+                        existingStuff = existingHeader.PgContractStuffs
+                            .FirstOrDefault(x => x.Id == stuff.Id);
+                    }
                     if (existingStuff == null)
                     {
                         existingHeader.PgContractStuffs.Add(stuff);
@@ -96,6 +105,7 @@ namespace Server.Controllers
                 }                    
             }            
             db.SaveChanges();
+            return Ok();
         }        
     }
 }

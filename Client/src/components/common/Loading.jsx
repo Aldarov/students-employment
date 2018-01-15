@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 const styles = () => ({
   'loadingShadingMui': {
+    zIndex: 999999,
     position: 'absolute',
     top: 0,
     left: 0,

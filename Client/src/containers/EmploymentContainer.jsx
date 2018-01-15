@@ -53,12 +53,32 @@ const initHeader = (dispatch, ownProps, pristine, submitting, title) => {
   });
 };
 
+const getNewContractStuff = (headerId, studentId, student) => ({
+  studentId: studentId,
+  pgHeaderId: headerId,
+  directionTypeId: null,
+  distributionTypeId: null,
+  directionOrganizationId: null,
+  distributionOrganizationId: null,
+  directionSchoolId: null,
+  distributionSchoolId: null,
+  jobOnSpeciality: false,
+  directionOrganizationName: null,
+  distributionOrganizationName: null,
+  directionSchoolName: null,
+  distributionSchoolName: null,
+  student: student
+});
+
+
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const { id } = ownProps.match.params;
   const formValues = getFormValues(formName)(state);
   const pristine = isPristine(formName)(state);
   const submitting = isSubmitting(formName)(state);
   const title = `Документ № ${id}`;
+  const pgContractStuffs = formValues ? formValues.pgContractStuffs : [];
+  console.log('pristine', pristine);
 
   const handleClearSchoolSelected = (row, type) => {
     dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
@@ -91,7 +111,8 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     schoolsSuggestions: state.employment.edit.schoolsSuggestions,
     organizationsSuggestions: state.employment.edit.organizationsSuggestions,
     openedStudentsSelection: state.employment.edit.openedStudentsSelection,
-    studentsSelection: state.employment.edit.studentsSelection
+    studentsSelection: state.employment.edit.studentsSelection,
+    contractStuffIsEmpty: pgContractStuffs.length > 0 ? false : true
   };
 
   const methods = {
@@ -162,29 +183,15 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(clearStudentSelection());
       dispatch(closeStudentsSelection());
     },
+    onLoadStudents: () => {
+      const { entraceYear, eduFormId, specialityId } = formValues;
+      dispatch(getStudentsByHeader(entraceYear, eduFormId, specialityId,
+        data => data.forEach(item => dispatch(arrayPush(formName, 'pgContractStuffs', getNewContractStuff(id, item.studentId, item))))
+      ));
+    },
     onStudentsSelected: selection => {
-      console.log('selection', selection);
       if (Array.isArray(selection) && selection.length > 0) {
-        selection.forEach(item => {
-          const pg = {
-            studentId: item.studentId,
-            pgHeaderId: id,
-            directionTypeId: null,
-            distributionTypeId: null,
-            directionOrganizationId: null,
-            distributionOrganizationId: null,
-            directionSchoolId: null,
-            distributionSchoolId: null,
-            jobOnSpeciality: null,
-            directionOrganizationName: null,
-            distributionOrganizationName: null,
-            directionSchoolName: null,
-            distributionSchoolName: null,
-            student: item
-          };
-
-          dispatch(arrayPush(formName, 'pgContractStuffs', pg));
-        });
+        selection.forEach(item => dispatch(arrayPush(formName, 'pgContractStuffs', getNewContractStuff(id, item.studentId, item))));
         dispatch(clearStudentSelection());
         dispatch(closeStudentsSelection());
       }

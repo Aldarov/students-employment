@@ -44,7 +44,7 @@ export function initEmploymentForm(formName, id) {
           apiGetSpecialities({ id: res.specialityId })
             .then(spec => {
               const speciality = (spec.data[0] && spec.data[0].name) || '';
-              const result = { ...res, speciality, dirty: false };
+              const result = { ...res, speciality };
               dispatch(initialize(formName, result));
             })
         )

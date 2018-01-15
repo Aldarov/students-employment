@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, FieldArray  } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import { MenuItem } from 'material-ui/Menu';
+import Button from 'material-ui/Button';
 
 import Loading from './common/Loading';
 import RenderTextField from './common/RenderTextField';
@@ -39,7 +40,10 @@ const styles = theme => ({
     color: 'red',
     fontWeight: 600,
     display: 'block'
-  }
+  },
+  marginBottom: {
+    marginBottom: theme.spacing.unit,
+  },
 });
 
 class Employment extends Component {
@@ -115,7 +119,7 @@ class Employment extends Component {
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
       onChangeContractDirectionType,
-      openedStudentsSelection, studentsSelection, onCloseStudentsSelection, onStudentsSelected
+      openedStudentsSelection, studentsSelection, onCloseStudentsSelection, onStudentsSelected, onLoadStudents, contractStuffIsEmpty
     } = this.props;
 
     return (
@@ -125,7 +129,7 @@ class Employment extends Component {
             <Field
               name='speciality'
               component={RenderAutocomplete}
-
+              disabled={!contractStuffIsEmpty}
               autoFocus={false}
               label='Специальность'
               placeholder='выберите специальность'
@@ -140,6 +144,7 @@ class Employment extends Component {
 
             <Field
               name='entraceYear'
+              disabled={!contractStuffIsEmpty}
               component={RenderTextField}
               label='Год начала обучения'
               placeholder='введите год начала обучения'
@@ -148,6 +153,7 @@ class Employment extends Component {
 
             <Field
               name='eduFormId'
+              disabled={!contractStuffIsEmpty}
               select
               component={RenderTextField}
               label='Форма обучения'
@@ -158,6 +164,7 @@ class Employment extends Component {
             </Field>
 
             <Field
+              disabled={!contractStuffIsEmpty}
               name='docDate'
               component={RenderDatePicker}
               className={classes.textField}
@@ -167,7 +174,12 @@ class Employment extends Component {
 
             {error && <strong className={classes.error}>{error}</strong>}
           </div>
-
+          {
+            contractStuffIsEmpty && !loading &&
+            <Button className={classes.marginBottom} raised color="primary" onClick={onLoadStudents}>
+              Загрузить студентов по выбранным выше данным
+            </Button>
+          }
           <FieldArray
             name='pgContractStuffs'
             component={RenderList}
@@ -265,7 +277,9 @@ Employment.propTypes = {
   studentsSelection: PropTypes.array,
   openedStudentsSelection: PropTypes.bool,
   onCloseStudentsSelection: PropTypes.func,
-  onStudentsSelected: PropTypes.func
+  onStudentsSelected: PropTypes.func,
+  onLoadStudents: PropTypes.func,
+  contractStuffIsEmpty: PropTypes.bool,
 };
 
 export default withStyles(styles)(Employment);

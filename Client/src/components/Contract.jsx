@@ -21,7 +21,7 @@ class Contract extends Component {
     return (
       <Dialog
         opened={opened}
-        onClose={onClose}
+        onClose={onClose(tableRow)}
         title={title}
       >
         <DirectionEdit

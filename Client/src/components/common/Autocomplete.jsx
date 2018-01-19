@@ -23,7 +23,9 @@ function renderInput(inputProps) {
   } = inputProps;
 
   return (
-    <FormControl className={className}>
+    <FormControl className={className}
+      error={error}
+    >
       <InputLabel>{label}</InputLabel>
       <Input
         type='select'
@@ -156,6 +158,7 @@ class Autocomplete extends React.Component {
     const {
       id, classes, className, suggestions, onSuggestionsClearRequested, inputProps: {...inputProps}
     } = this.props;
+
     return (
       <div className={className}>
         <Autosuggest
@@ -195,7 +198,8 @@ Autocomplete.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
 
-  suggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
+  //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
+  suggestions: PropTypes.array,
 
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,

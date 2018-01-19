@@ -22,14 +22,13 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   autocomplete: {
-    marginTop: theme.spacing.unit,
     width: 300,
     [theme.breakpoints.up('sm')]: {
       width: 600,
     },
   },
   textField: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing.unit*2,
     width: 300,
     [theme.breakpoints.up('sm')]: {
       width: 400,
@@ -167,7 +166,6 @@ class Employment extends Component {
               disabled={!contractStuffIsEmpty}
               name='docDate'
               component={RenderDatePicker}
-              className={classes.textField}
               floatingLabelText='Дата документа'
               hintText="Дата документа"
             />

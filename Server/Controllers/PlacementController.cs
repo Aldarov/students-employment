@@ -106,6 +106,15 @@ namespace Server.Controllers
             }            
             db.SaveChanges();
             return Ok();
-        }        
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var header = new PgHeader() { Id = id };
+            db.PgHeaders.Remove(header);
+            db.SaveChanges();
+            return Ok();
+        }
     }
 }

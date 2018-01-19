@@ -35,24 +35,26 @@ class StudentsSelection extends Component {
     const { title, data, onClose, opened, classes, ...other } = this.props;
 
     return (
-      <Dialog
-        title={title}
-        opened={opened}
-        onClose={onClose}
-      >
-        <Tooltip title="Добавить выбранных студентов">
-          <Button className={classes.button} raised color="primary" onClick={this.handleSelected}>
-            Выбрать
-            <Icon className={classes.rightIcon}>send</Icon>
-          </Button>
-        </Tooltip>
-        <List
-          enableSelectionState
-          data={data}
-          onSelectionChange={this.handleSelectionChange}
-          {...other}
-        />
-      </Dialog>
+      opened ?
+        <Dialog
+          title={title}
+          opened={opened}
+          onClose={onClose}
+        >
+          <Tooltip title="Добавить выбранных студентов">
+            <Button className={classes.button} raised color="primary" onClick={this.handleSelected}>
+              Выбрать
+              <Icon className={classes.rightIcon}>send</Icon>
+            </Button>
+          </Tooltip>
+          <List
+            enableSelectionState
+            data={data}
+            onSelectionChange={this.handleSelectionChange}
+            {...other}
+          />
+        </Dialog>
+        : null
     );
   }
 }

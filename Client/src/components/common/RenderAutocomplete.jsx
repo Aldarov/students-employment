@@ -9,14 +9,14 @@ export default function renderAutocomplete ({
   onSuggestionSelected,
   onClearSelectedSuggestion,
   input,
-  meta: { touched, error },
+  meta: {touched, error },
   ...custom
 }) {
   return (
     <Autocomplete
       inputProps={{
         error: touched && Boolean(error),
-        helperText: touched && error,
+        helperText: error,
         ...input,
         ...custom
       }}

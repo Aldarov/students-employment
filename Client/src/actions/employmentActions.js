@@ -1,5 +1,9 @@
 import { fetchingAction } from './';
-import { apiGetEmploymentList, apiGetEmploymentById, apiGetSpecialities, apiGetSchools, apiGetOrganizations, apiPostEmployment } from '../api';
+import {
+  apiGetEmploymentList, apiGetEmploymentById,
+  apiGetSpecialities, apiGetSchools, apiGetOrganizations,
+  apiPostEmployment, apiDeleteEmployment
+} from '../api';
 import { initialize } from 'redux-form';
 
 export const SET_EMPLOYMENT_LIST = 'SET_EMPLOYMENT_LIST';
@@ -13,6 +17,7 @@ export const SET_SCHOOLS_SUGGESTIONS = 'SET_SCHOOLS_SUGGESTIONS';
 export const CLEAR_SCHOOLS_SUGGESTIONS = 'CLEAR_SCHOOLS_SUGGESTIONS';
 export const SET_ORGANIZATIONS_SUGGESTIONS = 'SET_ORGANIZATIONS_SUGGESTIONS';
 export const CLEAR_ORGANIZATIONS_SUGGESTIONS = 'CLEAR_ORGANIZATIONS_SUGGESTIONS';
+export const DELETE_EMPLOYMENT = 'DELETE_EMPLOYMENT';
 
 export function getEmploymentList(params) {
   return dispatch => fetchingAction(dispatch,
@@ -38,23 +43,66 @@ export function clearEmploymentSuggestions() {
 
 export function initEmploymentForm(formName, id) {
   return dispatch => {
-    fetchingAction(dispatch,
-      apiGetEmploymentById(id)
-        .then(res =>
-          apiGetSpecialities({ id: res.specialityId })
-            .then(spec => {
-              const speciality = (spec.data[0] && spec.data[0].name) || '';
-              const result = { ...res, speciality };
-              dispatch(initialize(formName, result));
-            })
-        )
-    );
+    if (!id) {
+      dispatch(initialize(formName, {
+        specialityId: null,
+        entraceYear: null,
+        eduFormId: null,
+        docDate: null,
+        pgContractStuffs: [],
+        speciality: ''
+      }));
+    } else {
+      fetchingAction(dispatch,
+        apiGetEmploymentById(id)
+          .then(res =>
+            apiGetSpecialities({ id: res.specialityId })
+              .then(spec => {
+                const speciality = (spec.data[0] && spec.data[0].name) || '';
+                const stuff = res.pgContractStuffs.sort(function (a, b) {
+                  const fullNameA = a.student.fullName;
+                  const fullNameB = b.student.fullName;
+                  if (fullNameA > fullNameB) {
+                    return 1;
+                  }
+                  if (fullNameA < fullNameB) {
+                    return -1;
+                  }
+                  return 0;
+                });
+                res.pgContractStuffs = stuff;
+                const result = { ...res, speciality };
+                dispatch(initialize(formName, result));
+              })
+          )
+      );
+    }
   };
 }
 
 export function saveEmployment(data, callback) {
   return dispatch => {
-    fetchingAction(dispatch, apiPostEmployment(data).then(() => callback()));
+    const stuff = data.pgContractStuffs.map(item => {
+      return {
+        ...item,
+        student: null
+      };
+    });
+    const res = {
+      ...data,
+      pgContractStuffs: stuff
+    };
+    fetchingAction(dispatch, apiPostEmployment(res).then(() => callback()));
+  };
+}
+
+export function deleteEmployment(id, callback) {
+  return dispatch => {
+    fetchingAction(dispatch, apiDeleteEmployment(id)
+      .then(() => {
+        dispatch({ type: DELETE_EMPLOYMENT, data: id });
+        callback();
+      }));
   };
 }
 

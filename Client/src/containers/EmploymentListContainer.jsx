@@ -5,7 +5,9 @@ import {
   getEmploymentList,
   getEmploymentSuggestions,
   clearEmploymentSuggestions,
-  openSidebar
+  openSidebar,
+  deleteEmployment,
+  openQuestionDialog, closeQuestionDialog,
 } from '../actions';
 
 const initHeader = (dispatch, onInitHeader) => onInitHeader({
@@ -54,7 +56,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     onDoAction: (args) => {
       switch (args.type) {
         case 'adding': {
-
+          ownProps.history.push('/employment/add');
           break;
         }
         case 'editing': {
@@ -62,7 +64,17 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           break;
         }
         case 'deleting': {
-
+          ownProps.onInitDialog({
+            contentText: 'Удалить данную запись?',
+            onYes: () => {
+              dispatch(deleteEmployment(args.row.id));
+              dispatch(closeQuestionDialog());
+            },
+            onNo: () => {
+              dispatch(closeQuestionDialog());
+            }
+          });
+          dispatch(openQuestionDialog());
           break;
         }
         default: break;

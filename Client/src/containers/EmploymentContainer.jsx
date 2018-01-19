@@ -1,7 +1,9 @@
 import { connectAdvanced } from 'react-redux';
+import _ from 'lodash';
 import {
   SubmissionError, reduxForm, getFormValues,
-  submit, isPristine, isSubmitting, change, arrayRemove, arrayPush
+  submit, isPristine, isSubmitting, change, arrayRemove, arrayPush,
+  stopAsyncValidation, touch
 } from 'redux-form';
 
 import Employment from '../components/Employment';
@@ -53,32 +55,62 @@ const initHeader = (dispatch, ownProps, pristine, submitting, title) => {
   });
 };
 
-const getNewContractStuff = (headerId, studentId, student) => ({
-  studentId: studentId,
-  pgHeaderId: headerId,
-  directionTypeId: null,
-  distributionTypeId: null,
-  directionOrganizationId: null,
-  distributionOrganizationId: null,
-  directionSchoolId: null,
-  distributionSchoolId: null,
-  jobOnSpeciality: false,
-  directionOrganizationName: null,
-  distributionOrganizationName: null,
-  directionSchoolName: null,
-  distributionSchoolName: null,
-  student: student
-});
+const getNewContractStuff = (headerId, studentId, student) => {
+  let res = {
+    studentId: studentId,
+    directionTypeId: null,
+    distributionTypeId: null,
+    directionOrganizationId: null,
+    distributionOrganizationId: null,
+    directionSchoolId: null,
+    distributionSchoolId: null,
+    jobOnSpeciality: false,
+    directionOrganizationName: null,
+    distributionOrganizationName: null,
+    directionSchoolName: null,
+    distributionSchoolName: null,
+    student: student
+  };
+  if (headerId) {
+    res = {
+      ...res,
+      pgHeaderId: headerId
+    };
+  }
+  return res;
+};
 
+const getHeaderErrors = values => {
+  const errors = {};
+
+  const requiredFields = [ 'specialityId', 'entraceYear', 'docDate', 'eduFormId' ];
+  requiredFields.forEach(field => {
+    if (!values[field]) {
+      if (field == 'specialityId') {
+        errors['speciality'] = 'Заполните данное поле';
+      } else {
+        errors[field] = 'Заполните данное поле';
+      }
+    }
+  });
+
+  if (values.entraceYear && isNaN(Number(values.entraceYear))) {
+    errors.entraceYear = 'Год должен быть числом';
+  }
+
+  // if (values.pgContractStuffs && values.pgContractStuffs.length == 0) {
+  //   errors['_error'] = 'Пожалуйста, загрузите студентов';
+  // }
+  return errors;
+};
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
-  const { id } = ownProps.match.params;
+  const id  = ownProps.match.params.id === 'add' ? null : ownProps.match.params.id;
   const formValues = getFormValues(formName)(state);
   const pristine = isPristine(formName)(state);
   const submitting = isSubmitting(formName)(state);
-  const title = `Документ № ${id}`;
+  const title = id ? 'Трудоустройство выпускников' : 'Трудоустройство выпускников (добавление)';
   const pgContractStuffs = formValues ? formValues.pgContractStuffs : [];
-  console.log('pristine', pristine);
 
   const handleClearSchoolSelected = (row, type) => {
     dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
@@ -88,6 +120,14 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const handleClearOrganizationSelected = (row, type) => {
     dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationName', ''));
     dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationId', null));
+  };
+
+  const toucheErrorFields = errors => {
+    for (var err in errors) {
+      if (errors.hasOwnProperty(err)) {
+        dispatch(touch(formName, err));
+      }
+    }
   };
 
   const props = {
@@ -117,6 +157,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
   const methods = {
     onLoadData: () => {
+      dispatch(clearStudentSelection());
+      dispatch(closeStudentsSelection());
+      dispatch(closeEmploymentContract());
       dispatch(initEmploymentForm(formName, id));
       initHeader(dispatch, ownProps, pristine, submitting, title);
     },
@@ -132,7 +175,63 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(change(formName, 'specialityId', data.id));
     },
 
-    onCloseContract: () => dispatch(closeEmploymentContract()),
+    onCloseContract: row => () => {
+      let error = null;
+      if (pgContractStuffs[row].directionTypeId == 8 && !pgContractStuffs[row].directionSchoolId) {
+        const oldError = error && {...error.pgContractStuffs[row]};
+        error = {
+          'pgContractStuffs': {
+            [row]: {
+              ...oldError,
+              directionSchoolName: 'Выберите образовательное учреждение'
+            }
+          }
+        };
+        dispatch(touch(formName, 'pgContractStuffs['+row+'].directionSchoolName'));
+      }
+      if (pgContractStuffs[row].directionTypeId == 9 && !pgContractStuffs[row].directionOrganizationId) {
+        const oldError = error && {...error.pgContractStuffs[row]};
+        error = {
+          'pgContractStuffs': {
+            [row]: {
+              ...oldError,
+              directionOrganizationName: 'Выберите организацию'
+            }
+          }
+        };
+        dispatch(touch(formName, 'pgContractStuffs['+row+'].directionOrganizationName'));
+      }
+      if (pgContractStuffs[row].distributionTypeId == 17 && !pgContractStuffs[row].distributionSchoolId) {
+        const oldError = error && {...error.pgContractStuffs[row]};
+        error = {
+          'pgContractStuffs': {
+            [row]: {
+              ...oldError,
+              distributionSchoolName: 'Выберите образовательное учреждение'
+            }
+          }
+        };
+        dispatch(touch(formName, 'pgContractStuffs['+row+'].distributionSchoolName'));
+      }
+      if (pgContractStuffs[row].distributionTypeId == 18 && !pgContractStuffs[row].distributionOrganizationId) {
+        const oldError = error && {...error.pgContractStuffs[row]};
+        error = {
+          'pgContractStuffs': {
+            [row]: {
+              ...oldError,
+              distributionOrganizationName: 'Выберите организацию'
+            }
+          }
+        };
+        dispatch(touch(formName, 'pgContractStuffs['+row+'].distributionOrganizationName'));
+      }
+
+      if (error) {
+        dispatch(stopAsyncValidation(formName, error));
+      } else {
+        dispatch(closeEmploymentContract());
+      }
+    },
 
     onGetSchoolsSuggestions: value => dispatch(getSchoolsSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearSchoolsSuggestions: () => dispatch(clearSchoolsSuggestion()),
@@ -183,11 +282,19 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(clearStudentSelection());
       dispatch(closeStudentsSelection());
     },
+
     onLoadStudents: () => {
-      const { entraceYear, eduFormId, specialityId } = formValues;
-      dispatch(getStudentsByHeader(entraceYear, eduFormId, specialityId,
-        data => data.forEach(item => dispatch(arrayPush(formName, 'pgContractStuffs', getNewContractStuff(id, item.studentId, item))))
-      ));
+      const errors = getHeaderErrors(formValues);
+
+      if (!_.isEmpty(errors)) {
+        toucheErrorFields(errors);
+        dispatch(stopAsyncValidation(formName, errors));
+      } else {
+        const { entraceYear, eduFormId, specialityId } = formValues;
+        dispatch(getStudentsByHeader(entraceYear, eduFormId, specialityId,
+          data => data.forEach(item => dispatch(arrayPush(formName, 'pgContractStuffs', getNewContractStuff(id, item.studentId, item))))
+        ));
+      }
     },
     onStudentsSelected: selection => {
       if (Array.isArray(selection) && selection.length > 0) {
@@ -196,6 +303,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         dispatch(closeStudentsSelection());
       }
     },
+
     onDoActionStudents: (args) => {
       switch (args.type) {
         case 'adding': {
@@ -240,7 +348,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       initHeader(dispatch, ownProps, pristine, submitting, title);
     },
     onSubmit: values => {
-      console.log('sub', values);
       dispatch(saveEmployment(values, () => {
         successSubmit && successSubmit();
       }));
@@ -249,17 +356,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       //   _error: 'Общая ошибка формы!!'
       // });
     },
-    validate: values => {
-      const errors = {};
-      const requiredFields = [ 'entraceYear', 'docDate', 'speciality' ];
-      requiredFields.forEach(field => {
-        if (!values[field]) {
-          errors[field] = 'Заполните данное поле';
-        }
-      });
-
-      return errors;
-    }
+    validate: values => getHeaderErrors(values),
   };
 
   return { ...props, ...methods, ...ownProps };

@@ -14,6 +14,7 @@ export default class renderDatePicker extends Component {
 
   render() {
     const {input, meta: { touched, error }, ...custom} = this.props;
+
     return (
       <DatePicker
         autoOk

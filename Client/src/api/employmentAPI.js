@@ -15,3 +15,7 @@ export function apiGetEmploymentById(id) {
 export function apiPostEmployment(data) {
   return axios.post(startUrl, data);
 }
+
+export function apiDeleteEmployment(id) {
+  return axios.delete(startUrl + `/${id}`);
+}

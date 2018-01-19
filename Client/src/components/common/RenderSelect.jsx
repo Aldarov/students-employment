@@ -6,25 +6,27 @@ import Select from 'material-ui/Select';
 
 const renderSelect = ({
   input,
-  meta: { touched, error },
+  meta: { error },
   children,
   label,
   className,
   ...custom
-}) => (
-  <FormControl error={touched && error} className={className}>
-    <InputLabel htmlFor={input.name}>{label}</InputLabel>
-    <Select
-      input={<Input id={input.name} />}
-      autoWidth
-      {...input}
-      {...custom}
-    >
-      {children}
-    </Select>
-    <FormHelperText>{touched && error}</FormHelperText>
-  </FormControl>
-);
+}) => {
+  return (
+    <FormControl error={error} className={className}>
+      <InputLabel htmlFor={input.name}>{label}</InputLabel>
+      <Select
+        input={<Input id={input.name} />}
+        autoWidth
+        {...input}
+        {...custom}
+      >
+        {children}
+      </Select>
+      <FormHelperText>{error}</FormHelperText>
+    </FormControl>
+  );
+};
 
 renderSelect.propTypes = {
   input: PropTypes.object.isRequired,

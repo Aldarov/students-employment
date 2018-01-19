@@ -6,6 +6,7 @@ import {
   SET_ORGANIZATIONS_SUGGESTIONS, CLEAR_ORGANIZATIONS_SUGGESTIONS,
   SET_STUDENTS_SELECTION, CLEAR_STUDENTS_SELECTION,
   OPEN_STUDENTS_SELECTION, CLOSE_STUDENTS_SELECTION,
+  DELETE_EMPLOYMENT
 } from '../actions';
 
 const defaultData = {
@@ -33,6 +34,20 @@ export default function reducer(state = defaultData, action) {
           ...state.list,
           data,
           info: {...state.list.info, ...info}
+        }
+      };
+    }
+    case DELETE_EMPLOYMENT: {
+      const data = state.list.data.filter(item => item.id != action.data);
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          data: data,
+          info: {
+            ...state.list.info,
+            totalRecord: state.list.info.totalRecord > 0 ? state.list.info.totalRecord - 1 : 0
+          }
         }
       };
     }

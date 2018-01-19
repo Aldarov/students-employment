@@ -11,10 +11,10 @@ export {
   SET_EMPLOYMENT_LIST, SET_EMPLOYMENT_SUGGESTIONS, CLEAR_EMPLOYMENT_SUGGESTIONS,
   SET_EMPLOYMENT_LIST_SORTING, SET_EMPLOYMENT_BY_ID,
   SET_SPECIALITIES_SUGGESTIONS, CLEAR_SPECIALITIES_SUGGESTIONS,
-  SET_EMPLOYMENT_CONTRACT,
+  SET_EMPLOYMENT_CONTRACT, DELETE_EMPLOYMENT,
 
   getEmploymentList, getEmploymentSuggestions, clearEmploymentSuggestions,
-  initEmploymentForm, saveEmployment,
+  initEmploymentForm, saveEmployment, deleteEmployment,
   getSpecialitiesSuggestion, clearSpecialitiesSuggestion,
 
   openEmploymentContract, closeEmploymentContract,

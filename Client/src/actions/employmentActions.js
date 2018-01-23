@@ -41,7 +41,7 @@ export function clearEmploymentSuggestions() {
   return dispatch => dispatch({ type: CLEAR_EMPLOYMENT_SUGGESTIONS });
 }
 
-export function initEmploymentForm(formName, id) {
+export function initEmploymentForm(formName, id, callback) {
   return dispatch => {
     if (!id) {
       dispatch(initialize(formName, {
@@ -51,7 +51,8 @@ export function initEmploymentForm(formName, id) {
         docDate: null,
         pgContractStuffs: [],
         speciality: ''
-      }));
+      }, false, false, false));
+      if (typeof callback === 'function') callback();
     } else {
       fetchingAction(dispatch,
         apiGetEmploymentById(id)
@@ -72,7 +73,8 @@ export function initEmploymentForm(formName, id) {
                 });
                 res.pgContractStuffs = stuff;
                 const result = { ...res, speciality };
-                dispatch(initialize(formName, result));
+                dispatch(initialize(formName, result, false, false, false));
+                if (typeof callback === 'function') callback();
               })
           )
       );
@@ -92,7 +94,7 @@ export function saveEmployment(data, callback) {
       ...data,
       pgContractStuffs: stuff
     };
-    fetchingAction(dispatch, apiPostEmployment(res).then(() => callback()));
+    fetchingAction(dispatch, apiPostEmployment(res).then(data => callback(data)));
   };
 }
 

@@ -113,7 +113,8 @@ class Employment extends Component {
     const {
       classes, error, loading, handleSubmit, eduForms,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
-      columnsStudents, listColumnWidthsStudents, onDoActionStudents, directionTypes, distributionTypes,
+      directionTypes, distributionTypes,
+      gridSettingContracts,
       contract, onCloseContract,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
@@ -181,14 +182,18 @@ class Employment extends Component {
           <FieldArray
             name='pgContractStuffs'
             component={RenderList}
-            columns={columnsStudents}
-            defaultColumnWidths={listColumnWidthsStudents}
-            allowAdding
-            allowEditing
-            allowDeleting
-            doAction={onDoActionStudents}
-            // editCellTemplate={this.studentEditCellTemplate}
-            tableCellTemplate={this.studentTableCellTemplate}
+            gridSetting={gridSettingContracts}
+            // AddButton={AddButton}
+            // EditButton={EditButton}
+            // DeleteButton={DeleteButton}
+
+            // columns={columnsStudents}
+            // defaultColumnWidths={listColumnWidthsStudents}
+            // allowAdding
+            // allowEditing
+            // allowDeleting
+            // doAction={onDoActionStudents}
+            // tableCellTemplate={this.studentTableCellTemplate}
           />
         </form>
 
@@ -222,8 +227,8 @@ class Employment extends Component {
           data={studentsSelection}
           onClose={onCloseStudentsSelection}
           opened={openedStudentsSelection}
-          columns={columnsStudents}
-          defaultColumnWidths={listColumnWidthsStudents}
+          columns={gridSettingContracts.columns}
+          defaultColumnWidths={gridSettingContracts.defaultColumnWidths}
           onSelected={onStudentsSelected}
         />
         {loading && <Loading />}
@@ -248,9 +253,10 @@ Employment.propTypes = {
   onClearSpecialitySelectedSuggestion: PropTypes.func,
   onSpecialitySelected: PropTypes.func,
 
-  columnsStudents: PropTypes.array,
-  listColumnWidthsStudents: PropTypes.object,
-  onDoActionStudents: PropTypes.func,
+  gridSettingContracts: PropTypes.object,
+  // columnsStudents: PropTypes.array,
+  // listColumnWidthsStudents: PropTypes.object,
+  // onDoActionStudents: PropTypes.func,
 
   directionTypes: PropTypes.array,
   distributionTypes: PropTypes.array,

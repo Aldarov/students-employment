@@ -1,65 +1,75 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Button, IconButton } from 'material-ui';
-import DeleteIcon from 'material-ui-icons/Delete';
-import EditIcon from 'material-ui-icons/Edit';
 import {
-  PagingState, SortingState, SelectionState, EditingState, TableColumnResizing,
-  // RowDetailState,
+  PagingState, CustomPaging,
+  SortingState, SelectionState,
+  EditingState, TableColumnResizing,
+  IntegratedSorting, IntegratedSelection
 } from '@devexpress/dx-react-grid';
 import {
-  Grid, TableView, TableHeaderRow, TableEditRow, TableEditColumn, PagingPanel, TableSelection
-  // TableRowDetail,
+  Grid, Table, TableHeaderRow, TableEditColumn, TableEditRow,
+  PagingPanel, TableSelection
 } from '@devexpress/dx-react-grid-material-ui';
 
+const tableMessages = {
+  noData: 'Нет данных',
+};
+
+const pagingPanelMessages = {
+  showAll: 'Показать все',
+  rowsPerPage: 'Кол-во записей на странице',
+  info: '{from}-{to} из {count}',
+};
+
 class List extends Component {
-  commandTemplates = {
-    add: (onClick, allowAdding) => (
-      <div style={{ textAlign: 'center' }}>
-        <Button
-          color="primary"
-          onClick={onClick}
-          disabled={!allowAdding}
-        >
-          Добавить
-        </Button>
-      </div>
-    ),
-    edit: onClick => (
-      <IconButton onClick={onClick}>
-        <EditIcon />
-      </IconButton>
-    ),
-    delete: onClick => (
-      <IconButton onClick={onClick}>
-        <DeleteIcon />
-      </IconButton>
-    ),
+  commandComponents = {
+    add: this.props.AddButton,
+    edit: this.props.EditButton,
+    delete: this.props.DeleteButton,
+    commit: this.props.CommitButton,
+    cancel: this.props.CancelButton,
   };
 
-  onEditingRowsChange = editingRows => {
+  Command = ({ id, onExecute }) => {
+    const CommandButton = this.commandComponents[id];
+    return (
+      <CommandButton
+        onExecute={onExecute}
+      />
+    );
+  };
+
+  handleEditingRowsChange = editingRows => {
     const tableRow = editingRows[editingRows.length-1];
-    this.props.doAction({ type: 'editing', tableRow, row: this.props.data[tableRow] });
+    this.props.gridSetting.onDoAction({ type: 'editing', tableRow, row: this.props.data[tableRow] });
   };
 
-  onAddedRowsChange = () => {
-    this.props.doAction({ type: 'adding' });
+  handleAddedRowsChange = () => {
+    this.props.gridSetting.onDoAction({ type: 'adding' });
   };
 
-  onCommitChanges = ({deleted}) => {
+  handleCommitChanges = ({deleted}) => {
     if (deleted) {
       const tableRow = deleted[deleted.length-1];
-      this.props.doAction({ type: 'deleting', tableRow, row: this.props.data[tableRow] });
+      this.props.gridSetting.onDoAction({ type: 'deleting', tableRow, row: this.props.data[tableRow] });
     }
   }
 
   render() {
     const {
-      data, columns, pageSize, currentPage, totalCount, changeCurrentPage,
-      allowSorting, sorting, changeSorting,
-      allowAdding, allowEditing, allowDeleting, defaultColumnWidths,
-      editCellTemplate, tableCellTemplate, className,
-      enableSelectionState, onSelectionChange
+      data,
+      className,
+      gridSetting: {
+        columns,
+        defaultColumnWidths,
+
+        allowAdding, allowEditing, allowDeleting,
+        currentPage, pageSize, totalCount, onChangeCurrentPage,
+        allowSorting, sorting, onSortingChange,
+
+        enableSelectionState, onSelectionChange,
+        tableColumnExtensions,
+      }
     } = this.props;
 
     return (
@@ -68,64 +78,71 @@ class List extends Component {
           rows={data || []}
           columns={columns}
         >
+          <Table
+            columnExtensions={tableColumnExtensions}
+            messages={tableMessages}
+          />
           <SortingState
             sorting={sorting}
-            onSortingChange={changeSorting}
+            onSortingChange={onSortingChange}
           />
-          <EditingState
-            onEditingRowsChange={this.onEditingRowsChange}
-            onAddedRowsChange={this.onAddedRowsChange}
-            onCommitChanges={this.onCommitChanges}
-          />
-          {
-            tableCellTemplate ?
-              <TableView tableCellTemplate={tableCellTemplate}/> :
-              <TableView/>
-          }
-          <TableColumnResizing defaultColumnWidths={defaultColumnWidths}/>
-          <TableHeaderRow allowSorting={allowSorting} allowResizing/>
-          {
-            editCellTemplate &&
-            <TableEditRow
-              editCellTemplate={editCellTemplate}
-            />
-          }
+          <IntegratedSorting />
+
           <PagingState
             currentPage={currentPage}
-            onCurrentPageChange={changeCurrentPage}
+            onCurrentPageChange={onChangeCurrentPage}
             pageSize={pageSize}
+          />
+          <CustomPaging
             totalCount={totalCount}
           />
-          { totalCount && <PagingPanel /> }
-          { (allowAdding || allowEditing || allowDeleting) &&
-            <TableEditColumn
-              allowAdding={allowAdding}
-              allowEditing={allowEditing}
-              allowDeleting={allowDeleting}
-              commandTemplate={({executeCommand, id }) => {
-                const template = this.commandTemplates[id];
-                if (template) {
-                  const allowAdding = true;
-                  const onClick = (e) => {
-                    executeCommand();
-                    e.stopPropagation();
-                  };
-                  return template(
-                    onClick,
-                    allowAdding,
-                  );
-                }
-                return undefined;
-              }}
+          {
+            totalCount &&
+            <PagingPanel
+              messages={pagingPanelMessages}
             />
           }
+
+          <TableColumnResizing
+            columnWidths={defaultColumnWidths}
+          />
+
+          <TableHeaderRow
+            showSortingControls={allowSorting}
+          />
+
           {
             enableSelectionState &&
-            <SelectionState
-              onSelectionChange={onSelectionChange}
-            />
+            <Fragment>
+              <SelectionState
+                key={SelectionState}
+                onSelectionChange={onSelectionChange}
+              />
+              <TableSelection
+                key={TableSelection}
+                showSelectAll
+              />
+              <IntegratedSelection
+                key={IntegratedSelection}
+              />
+            </Fragment>
           }
-          { enableSelectionState && <TableSelection /> }
+
+          <EditingState
+            editingRowIds={[]}
+            addedRows={[]}
+
+            onEditingRowIdsChange={this.handleEditingRowsChange}
+            onAddedRowsChange={this.handleAddedRowsChange}
+            onCommitChanges={this.handleCommitChanges}
+          />
+          <TableEditRow />
+          <TableEditColumn
+            showAddCommand={allowAdding}
+            showEditCommand={allowEditing}
+            showDeleteCommand={allowDeleting}
+            commandComponent={this.Command}
+          />
         </Grid>
       </div>
     );
@@ -134,29 +151,14 @@ class List extends Component {
 
 List.propTypes = {
   data: PropTypes.array,
-  columns: PropTypes.array,
-  defaultColumnWidths: PropTypes.object,
-
-  pageSize: PropTypes.number,
-  currentPage: PropTypes.number,
-  totalCount: PropTypes.number,
-  changeCurrentPage: PropTypes.func,
-
-  allowSorting: PropTypes.bool,
-  sorting: PropTypes.array,
-  changeSorting: PropTypes.func,
-
-  allowAdding: PropTypes.bool,
-  allowEditing: PropTypes.bool,
-  allowDeleting: PropTypes.bool,
-  doAction: PropTypes.func,
-
-  editCellTemplate: PropTypes.func,
-  tableCellTemplate: PropTypes.func,
   className: PropTypes.string,
+  gridSetting: PropTypes.object.isRequired,
 
-  enableSelectionState: PropTypes.bool,
-  onSelectionChange: PropTypes.func
+  AddButton: PropTypes.any,
+  EditButton: PropTypes.any,
+  DeleteButton: PropTypes.any,
+  CommitButton: PropTypes.any,
+  CancelButton: PropTypes.any,
 };
 
 export default List;

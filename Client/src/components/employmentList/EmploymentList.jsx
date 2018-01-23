@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 
-import List from './common/List';
-import Autocomplete from './common/Autocomplete';
-import Loading from './common/Loading';
+import List from '../common/List';
+import Autocomplete from '../common/Autocomplete';
+import Loading from '../common/Loading';
+import {AddButton, EditButton, DeleteButton} from './Buttons';
 
 const styles = theme => ({
   autocomplete: {
@@ -26,14 +27,15 @@ class EmploymentList extends Component {
 
   render() {
     const {
+      classes,
       searchSuggestions, onSuggestionsFetchRequested,
       onSuggestionsClearRequested, onSuggestionSelected, onClearSuggestionSelected,
-      onChangePage, onChangeSorting, onDoAction,
-      listColumnWidths, data, columns, pageSize, currentPage, totalCount, loading, sorting, classes
+      data, loading,
+      gridSetting,
     } = this.props;
 
     return (
-      <div>
+      <Fragment>
         <Autocomplete
           inputProps={{
             autoFocus: false,
@@ -47,25 +49,17 @@ class EmploymentList extends Component {
           onSuggestionSelected={onSuggestionSelected}
           onClearSelectedSuggestion={onClearSuggestionSelected}
         />
-
-        <List
-          data={data}
-          columns={columns}
-          pageSize={pageSize}
-          currentPage={currentPage}
-          totalCount={totalCount}
-          changeCurrentPage={onChangePage}
-          allowSorting
-          sorting={sorting}
-          changeSorting={onChangeSorting}
-          allowAdding
-          allowEditing
-          allowDeleting
-          doAction={onDoAction}
-          defaultColumnWidths={listColumnWidths}
-        />
+        {
+          <List
+            data={data}
+            gridSetting={gridSetting}
+            AddButton={AddButton}
+            EditButton={EditButton}
+            DeleteButton={DeleteButton}
+          />
+        }
         {loading && <Loading />}
-      </div>
+      </Fragment>
     );
   }
 }
@@ -75,23 +69,16 @@ EmploymentList.propTypes = {
   onLoadData: PropTypes.func,
 
   data: PropTypes.array,
-  columns: PropTypes.array,
-  pageSize: PropTypes.number,
-  currentPage: PropTypes.number,
-  totalCount: PropTypes.number,
-  sorting: PropTypes.array,
-  listColumnWidths: PropTypes.object,
+  gridSetting: PropTypes.object,
 
   loading: PropTypes.bool,
 
-  searchSuggestions: PropTypes.array,   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
+  //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
+  searchSuggestions: PropTypes.array,
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,
   onSuggestionSelected: PropTypes.func,
-  onChangeSorting: PropTypes.func,
-  onChangePage: PropTypes.func,
   onClearSuggestionSelected: PropTypes.func,
-  onDoAction: PropTypes.func,
 };
 
 export default withStyles(styles)(EmploymentList);

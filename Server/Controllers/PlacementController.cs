@@ -105,7 +105,7 @@ namespace Server.Controllers
                 }                    
             }            
             db.SaveChanges();
-            return Ok();
+            return Ok(header);
         }
 
         [HttpDelete("{id}")]

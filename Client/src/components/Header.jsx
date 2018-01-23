@@ -18,14 +18,15 @@ export default function Header(params) {
   return (
     <AppBar className={classNames(classes.appBar, openedSidebar && classes.appBarShift)}>
       <Toolbar disableGutters={!openedSidebar}>
-        <IconButton
-          color="contrast"
-          aria-label="open drawer"
-          onClick={onLeftButtonClick}
-          className={classNames(classes.menuButton, openedSidebar && classes.hide)}
-        >
-          {Icon && <Icon />}
-        </IconButton>
+        {
+          <IconButton
+            aria-label="open drawer"
+            onClick={onLeftButtonClick}
+            className={classNames(classes.menuButton, openedSidebar && classes.hide)}
+          >
+            {Icon && <Icon style={{color: 'white'}}/>}
+          </IconButton>
+        }
         <Typography type="title" color="inherit" noWrap className={classes.flex}>
           {title}
         </Typography>
@@ -33,7 +34,7 @@ export default function Header(params) {
           onRightButtonClick &&
           <Button
             className={classes.menuButton}
-            color="contrast"
+            color="secondary"
             onClick={onRightButtonClick}
             disabled={rightButtonDisabled}
           >

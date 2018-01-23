@@ -22,7 +22,7 @@ export default function QuestionDialog(params) {
       transition={Transition}
       keepMounted
     >
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle>{title || ''}</DialogTitle>
       <DialogContent>
         <DialogContentText>
           {contentText}

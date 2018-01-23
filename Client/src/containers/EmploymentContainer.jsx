@@ -22,7 +22,7 @@ import {
 } from '../actions';
 
 const formName = 'employment';
-let successSubmit;
+let onRedirectToList;
 
 const initHeader = (dispatch, ownProps, pristine, submitting, title) => {
   ownProps.onInitHeader({
@@ -31,9 +31,9 @@ const initHeader = (dispatch, ownProps, pristine, submitting, title) => {
         ownProps.onInitDialog({
           contentText: 'Сохранить измененные данные?',
           onYes: () => {
-            successSubmit = () => {
+            onRedirectToList = () => {
               ownProps.history.push('/employment');
-              successSubmit = null;
+              onRedirectToList = null;
             };
             dispatch(closeQuestionDialog());
             dispatch(submit(formName));
@@ -130,39 +130,108 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     }
   };
 
+  const handleInitForm = headerId => {
+    dispatch(clearStudentSelection());
+    dispatch(closeStudentsSelection());
+    dispatch(closeEmploymentContract());
+    dispatch(initEmploymentForm(formName, headerId,
+      () => {
+        console.log('init', pristine, isPristine(formName)(state));
+        initHeader(dispatch, ownProps, pristine, submitting, title);
+      }
+    ));
+    console.log('init', pristine, isPristine(formName)(state));
+    console.log('init', pristine, isPristine(formName)(state));
+    console.log('init', pristine, isPristine(formName)(state));
+  };
+
   const props = {
-    loading: state.fetching,
     specialities: state.employment.edit.specialitySuggestions,
     eduForms: state.dictionaries.eduForms,
-
     directionTypes: state.dictionaries.directionTypes,
     distributionTypes: state.dictionaries.distributionTypes,
-    columnsStudents: [
-      { name: 'fullName', title: 'ФИО' },
-      { name: 'regAddress', title: 'Адрес регистрации' },
-      { name: 'finance', title: 'Финансирование' },
-      { name: 'entrType', title: 'Способ поступления' },
-      { name: 'phone', title: 'Телефон' },
-      { name: 'direction', title: 'Распределен' },
-      { name: 'distribution', title: 'Трудоустроен' },
-    ],
-    listColumnWidthsStudents: { fullName: 250, regAddress: 300, finance: 120, entrType: 150, phone: 150, direction: 250, distribution: 250 },
-    contract: state.employment.edit.currentContract,
+
+    gridSettingContracts: {
+      columns: [
+        { name: 'fullName', title: 'ФИО' },
+        { name: 'regAddress', title: 'Адрес регистрации' },
+        { name: 'finance', title: 'Финансирование' },
+        { name: 'entrType', title: 'Способ поступления' },
+        { name: 'phone', title: 'Телефон' },
+        { name: 'direction', title: 'Распределен' },
+        { name: 'distribution', title: 'Трудоустроен' },
+      ],
+      defaultColumnWidths: [
+        { columnName: 'fullName', width: 250 },
+        { columnName: 'regAddress', width: 300 },
+        { columnName: 'finance', width: 120 },
+        { columnName: 'entrType', width: 150 },
+        { columnName: 'phone', width: 150 },
+        { columnName: 'direction', width: 250 },
+        { columnName: 'distribution', width: 250 }
+      ],
+
+      allowAdding: false,
+      allowEditing: false,
+      allowDeleting: false,
+      allowSorting: false,
+
+      onDoAction: (args) => {
+        switch (args.type) {
+          case 'adding': {
+            const { entraceYear, eduFormId, specialityId } = formValues;
+            const exceptedIds = formValues && formValues.pgContractStuffs &&
+              formValues.pgContractStuffs.map( item => item.studentId );
+            dispatch(getStudentsWithoutSelected(entraceYear, eduFormId, specialityId, exceptedIds));
+            dispatch(openStudentsSelection());
+            break;
+          }
+          case 'editing': {
+            const { directionTypeId, distributionTypeId } = formValues.pgContractStuffs[args.tableRow];
+
+            const showDirectionSchool = (directionTypeId === 8);
+            const showDirectionOrganization = (directionTypeId === 9);
+            const showDistributionSchool = (distributionTypeId === 17);
+            const showDistributionOrganization = (distributionTypeId === 18);
+
+            dispatch(openEmploymentContract(args.row.student.fullName, args.tableRow,
+              showDirectionSchool, showDirectionOrganization,
+              showDistributionSchool, showDistributionOrganization
+            ));
+            break;
+          }
+          case 'deleting': {
+            ownProps.onInitDialog({
+              contentText: 'Удалить данную запись?',
+              onYes: () => {
+                dispatch(arrayRemove(formName, 'pgContractStuffs', args.tableRow));
+                dispatch(closeQuestionDialog());
+              },
+              onNo: () => {
+                dispatch(closeQuestionDialog());
+              }
+            });
+            dispatch(openQuestionDialog());
+            break;
+          }
+        }
+      },
+    },
+
     schoolsSuggestions: state.employment.edit.schoolsSuggestions,
     organizationsSuggestions: state.employment.edit.organizationsSuggestions,
+
     openedStudentsSelection: state.employment.edit.openedStudentsSelection,
     studentsSelection: state.employment.edit.studentsSelection,
-    contractStuffIsEmpty: pgContractStuffs.length > 0 ? false : true
+
+    contract: state.employment.edit.currentContract,
+    contractStuffIsEmpty: pgContractStuffs.length > 0 ? false : true,
+
+    loading: state.fetching,
   };
 
   const methods = {
-    onLoadData: () => {
-      dispatch(clearStudentSelection());
-      dispatch(closeStudentsSelection());
-      dispatch(closeEmploymentContract());
-      dispatch(initEmploymentForm(formName, id));
-      initHeader(dispatch, ownProps, pristine, submitting, title);
-    },
+    onLoadData: () => handleInitForm(id),
 
     onGetSpecialitySuggestions: value => dispatch(getSpecialitiesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearSpecialitySuggestions: () => dispatch(clearSpecialitiesSuggestion()),
@@ -304,52 +373,18 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       }
     },
 
-    onDoActionStudents: (args) => {
-      switch (args.type) {
-        case 'adding': {
-          const { entraceYear, eduFormId, specialityId } = formValues;
-          const exceptedIds = formValues && formValues.pgContractStuffs &&
-            formValues.pgContractStuffs.map( item => item.studentId );
-          dispatch(getStudentsWithoutSelected(entraceYear, eduFormId, specialityId, exceptedIds));
-          dispatch(openStudentsSelection());
-          break;
-        }
-        case 'editing': {
-          const { directionTypeId, distributionTypeId } = formValues.pgContractStuffs[args.tableRow];
-
-          const showDirectionSchool = (directionTypeId === 8);
-          const showDirectionOrganization = (directionTypeId === 9);
-          const showDistributionSchool = (distributionTypeId === 17);
-          const showDistributionOrganization = (distributionTypeId === 18);
-
-          dispatch(openEmploymentContract(args.row.student.fullName, args.tableRow,
-            showDirectionSchool, showDirectionOrganization,
-            showDistributionSchool, showDistributionOrganization
-          ));
-          break;
-        }
-        case 'deleting': {
-          ownProps.onInitDialog({
-            contentText: 'Удалить данную запись?',
-            onYes: () => {
-              dispatch(arrayRemove(formName, 'pgContractStuffs', args.tableRow));
-              dispatch(closeQuestionDialog());
-            },
-            onNo: () => {
-              dispatch(closeQuestionDialog());
-            }
-          });
-          dispatch(openQuestionDialog());
-          break;
-        }
-      }
-    },
     onChange: () => {
       initHeader(dispatch, ownProps, pristine, submitting, title);
     },
     onSubmit: values => {
-      dispatch(saveEmployment(values, () => {
-        successSubmit && successSubmit();
+      dispatch(saveEmployment(values, res => {
+        if (onRedirectToList) {
+          onRedirectToList();
+        }
+        else {
+          handleInitForm(res.id);
+          ownProps.history.push(`/employment/${res.id}`);
+        }
       }));
       // throw new SubmissionError({
       //   entraceYear: 'Ошибка заполнения',

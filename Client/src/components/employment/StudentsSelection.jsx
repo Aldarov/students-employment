@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Icon from 'material-ui/Icon';
 import { withStyles } from 'material-ui/styles';
-
-import Dialog from './common/dialogs/Dialog';
-import List from './common/List';
 import Tooltip from 'material-ui/Tooltip/Tooltip';
+
+import Dialog from '../common/dialogs/Dialog';
+import List from '../common/List';
 
 const styles = theme => ({
   button: {

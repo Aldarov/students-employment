@@ -5,12 +5,13 @@ import { withStyles } from 'material-ui/styles';
 import { MenuItem } from 'material-ui/Menu';
 import Button from 'material-ui/Button';
 
-import Loading from './common/Loading';
-import RenderTextField from './common/RenderTextField';
-import RenderAutocomplete from './common/RenderAutocomplete';
-import RenderDatePicker from './common/RenderDatePicker';
-import RenderList from './common/RenderList';
-import ListTableCellTemplate from './common/ListTableCellTemplate';
+import Loading from '../common/Loading';
+import RenderTextField from '../common/RenderTextField';
+import RenderAutocomplete from '../common/RenderAutocomplete';
+import RenderDatePicker from '../common/RenderDatePicker';
+import RenderList from '../common/RenderList';
+import ListTableCellTemplate from '../common/ListTableCellTemplate';
+
 import DirectionEdit from './DirectionEdit';
 import Contract from './Contract';
 import StudentsSelection from './StudentsSelection';

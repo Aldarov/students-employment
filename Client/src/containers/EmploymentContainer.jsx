@@ -6,7 +6,7 @@ import {
   stopAsyncValidation, touch
 } from 'redux-form';
 
-import Employment from '../components/Employment';
+import { Employment } from '../components/employment';
 import {
   initEmploymentForm,
   getSpecialitiesSuggestion, clearSpecialitiesSuggestion,

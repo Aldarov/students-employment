@@ -4,9 +4,9 @@ import { Field } from 'redux-form';
 import { MenuItem } from 'material-ui/Menu';
 import { withStyles } from 'material-ui/styles';
 
-import RenderAutocomplete from './common/RenderAutocomplete';
-import RenderCheckbox from './common/RenderCheckbox';
-import RenderSelect from './common/RenderSelect';
+import RenderAutocomplete from '../common/RenderAutocomplete';
+import RenderCheckbox from '../common/RenderCheckbox';
+import RenderSelect from '../common/RenderSelect';
 
 const styles = theme => ({
   field: {

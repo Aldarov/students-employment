@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Fragment }  from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Alert from 'react-s-alert';
-import One from './components/common/One';
 
 import MainContainer from './containers/MainContainer';
 import LoginContainer from './containers/LoginContainer';
@@ -11,7 +10,7 @@ import './styles/base.scss';
 
 function App()  {
   return (
-    <One>
+    <Fragment>
       <BrowserRouter>
         <Switch>
           <Route path='/login' component={LoginContainer} />
@@ -20,7 +19,7 @@ function App()  {
         </Switch>
       </BrowserRouter>
       <Alert stack={{limit: 5}} timeout={'none'}/>
-    </One>
+    </Fragment>
   );
 }
 

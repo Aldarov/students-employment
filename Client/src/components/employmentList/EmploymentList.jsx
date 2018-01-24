@@ -49,15 +49,13 @@ class EmploymentList extends Component {
           onSuggestionSelected={onSuggestionSelected}
           onClearSelectedSuggestion={onClearSuggestionSelected}
         />
-        {
-          <List
-            data={data}
-            gridSetting={gridSetting}
-            AddButton={AddButton}
-            EditButton={EditButton}
-            DeleteButton={DeleteButton}
-          />
-        }
+        <List
+          data={data}
+          gridSetting={gridSetting}
+          AddButton={AddButton}
+          EditButton={EditButton}
+          DeleteButton={DeleteButton}
+        />
         {loading && <Loading />}
       </Fragment>
     );

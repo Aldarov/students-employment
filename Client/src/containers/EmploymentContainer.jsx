@@ -136,13 +136,12 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     dispatch(closeEmploymentContract());
     dispatch(initEmploymentForm(formName, headerId,
       () => {
-        console.log('init', pristine, isPristine(formName)(state));
-        initHeader(dispatch, ownProps, pristine, submitting, title);
+        console.log('init 1', pristine, isPristine(formName)(state));
+        // initHeader(dispatch, ownProps, pristine, submitting, title);
       }
     ));
-    console.log('init', pristine, isPristine(formName)(state));
-    console.log('init', pristine, isPristine(formName)(state));
-    console.log('init', pristine, isPristine(formName)(state));
+    initHeader(dispatch, ownProps, pristine, submitting, title);
+    console.log('init 2', pristine, isPristine(formName)(state));
   };
 
   const props = {

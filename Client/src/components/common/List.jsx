@@ -68,7 +68,6 @@ class List extends Component {
   render() {
     const {
       data,
-      className,
       gridSetting: {
         columns,
         defaultColumnWidths,
@@ -79,86 +78,82 @@ class List extends Component {
 
         enableSelectionState, onSelectionChange,
         tableColumnExtensions,
-      }
+      },
+
     } = this.props;
 
     return (
-      <div className={className}>
-        <Grid
-          rows={data || []}
-          columns={columns}
-        >
-          <Table
-            columnExtensions={tableColumnExtensions}
-            messages={tableMessages}
-          />
-          <SortingState
-            sorting={sorting}
-            onSortingChange={onSortingChange}
-          />
-          <IntegratedSorting />
+      <Grid
+        rows={data || []}
+        columns={columns}
+      >
+        <Table
+          columnExtensions={tableColumnExtensions}
+          messages={tableMessages}
+        />
+        <SortingState
+          sorting={sorting}
+          onSortingChange={onSortingChange}
+        />
+        <IntegratedSorting />
 
-          {
-            totalCount &&
-            <Fragment>
-              <PagingState
-                currentPage={currentPage}
-                onCurrentPageChange={onChangeCurrentPage}
-                pageSize={pageSize}
-              />
-              <IntegratedPaging />
-              <CustomPaging
-                totalCount={totalCount}
-              />
-              <PagingPanel
-                messages={pagingPanelMessages}
-              />
-            </Fragment>
-          }
-
-          <TableColumnResizing
-            columnWidths={defaultColumnWidths}
+        <PagingState
+          currentPage={currentPage}
+          onCurrentPageChange={onChangeCurrentPage}
+          pageSize={pageSize}
+        />
+        <CustomPaging
+          totalCount={totalCount}
+        />
+        {
+          totalCount &&
+          <PagingPanel
+            messages={pagingPanelMessages}
           />
+        }
 
-          <TableHeaderRow
-            showSortingControls={allowSorting}
-          />
+        <TableColumnResizing
+          columnWidths={defaultColumnWidths}
+        />
 
-          {
-            enableSelectionState &&
-            <Fragment>
-              <SelectionState
-                selection={this.state.selection}
-                onSelectionChange={this.handleSelectionChange}
-              />
-              <IntegratedSelection/>
-              <TableSelection
-                showSelectAll
-              />
-            </Fragment>
-          }
-          <EditingState
-            editingRowIds={[]}
-            addedRows={[]}
+        <TableHeaderRow
+          showSortingControls={allowSorting}
+        />
 
-            onEditingRowIdsChange={this.handleEditingRowsChange}
-            onAddedRowsChange={this.handleAddedRowsChange}
-            onCommitChanges={this.handleCommitChanges}
-          />
-          <TableEditRow />
-          {
-            (allowAdding || allowEditing || allowDeleting) &&
-            <Fragment>
-              <TableEditColumn
-                showAddCommand={allowAdding}
-                showEditCommand={allowEditing}
-                showDeleteCommand={allowDeleting}
-                commandComponent={this.Command}
-              />
-            </Fragment>
-          }
-        </Grid>
-      </div>
+        {
+          enableSelectionState &&
+          <Fragment>
+            <SelectionState
+              selection={this.state.selection}
+              onSelectionChange={this.handleSelectionChange}
+            />
+            <IntegratedSelection/>
+            <TableSelection
+              showSelectAll
+            />
+          </Fragment>
+        }
+        <EditingState
+          editingRowIds={[]}
+          addedRows={[]}
+
+          onEditingRowIdsChange={this.handleEditingRowsChange}
+          onAddedRowsChange={this.handleAddedRowsChange}
+          onCommitChanges={this.handleCommitChanges}
+        />
+        <TableEditRow />
+        {
+          (allowAdding || allowEditing || allowDeleting) &&
+          <Fragment>
+            <TableEditColumn
+              showAddCommand={allowAdding}
+              showEditCommand={allowEditing}
+              showDeleteCommand={allowDeleting}
+              commandComponent={this.Command}
+            />
+          </Fragment>
+        }
+      </Grid>
     );
   }
 }

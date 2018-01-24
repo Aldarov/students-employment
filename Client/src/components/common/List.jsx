@@ -4,7 +4,7 @@ import {
   PagingState, CustomPaging,
   SortingState, SelectionState,
   EditingState, TableColumnResizing,
-  IntegratedSorting, IntegratedSelection
+  IntegratedSorting, IntegratedSelection, IntegratedPaging
 } from '@devexpress/dx-react-grid';
 import {
   Grid, Table, TableHeaderRow, TableEditColumn, TableEditRow,
@@ -22,6 +22,16 @@ const pagingPanelMessages = {
 };
 
 class List extends Component {
+  state = {
+    selection: []
+  };
+
+  handleSelectionChange = selection => {
+    console.log('sel', selection);
+    this.setState({ selection });
+    this.props.gridSetting.onSelectionChange(selection);
+  }
+
   commandComponents = {
     add: this.props.AddButton,
     edit: this.props.EditButton,
@@ -88,19 +98,22 @@ class List extends Component {
           />
           <IntegratedSorting />
 
-          <PagingState
-            currentPage={currentPage}
-            onCurrentPageChange={onChangeCurrentPage}
-            pageSize={pageSize}
-          />
-          <CustomPaging
-            totalCount={totalCount}
-          />
           {
             totalCount &&
-            <PagingPanel
-              messages={pagingPanelMessages}
-            />
+            <Fragment>
+              <PagingState
+                currentPage={currentPage}
+                onCurrentPageChange={onChangeCurrentPage}
+                pageSize={pageSize}
+              />
+              <IntegratedPaging />
+              <CustomPaging
+                totalCount={totalCount}
+              />
+              <PagingPanel
+                messages={pagingPanelMessages}
+              />
+            </Fragment>
           }
 
           <TableColumnResizing
@@ -115,19 +128,15 @@ class List extends Component {
             enableSelectionState &&
             <Fragment>
               <SelectionState
-                key={SelectionState}
-                onSelectionChange={onSelectionChange}
+                selection={this.state.selection}
+                onSelectionChange={this.handleSelectionChange}
               />
+              <IntegratedSelection/>
               <TableSelection
-                key={TableSelection}
                 showSelectAll
-              />
-              <IntegratedSelection
-                key={IntegratedSelection}
               />
             </Fragment>
           }
-
           <EditingState
             editingRowIds={[]}
             addedRows={[]}
@@ -137,12 +146,17 @@ class List extends Component {
             onCommitChanges={this.handleCommitChanges}
           />
           <TableEditRow />
-          <TableEditColumn
-            showAddCommand={allowAdding}
-            showEditCommand={allowEditing}
-            showDeleteCommand={allowDeleting}
-            commandComponent={this.Command}
-          />
+          {
+            (allowAdding || allowEditing || allowDeleting) &&
+            <Fragment>
+              <TableEditColumn
+                showAddCommand={allowAdding}
+                showEditCommand={allowEditing}
+                showDeleteCommand={allowDeleting}
+                commandComponent={this.Command}
+              />
+            </Fragment>
+          }
         </Grid>
       </div>
     );

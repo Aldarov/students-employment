@@ -15,6 +15,7 @@ import ListTableCellTemplate from '../common/ListTableCellTemplate';
 import DirectionEdit from './DirectionEdit';
 import Contract from './Contract';
 import StudentsSelection from './StudentsSelection';
+import {AddButton, EditButton, DeleteButton} from './GridButtons';
 
 const styles = theme => ({
   container: {
@@ -184,9 +185,9 @@ class Employment extends Component {
             name='pgContractStuffs'
             component={RenderList}
             gridSetting={gridSettingContracts}
-            // AddButton={AddButton}
-            // EditButton={EditButton}
-            // DeleteButton={DeleteButton}
+            AddButton={AddButton}
+            EditButton={EditButton}
+            DeleteButton={DeleteButton}
 
             // columns={columnsStudents}
             // defaultColumnWidths={listColumnWidthsStudents}
@@ -228,6 +229,7 @@ class Employment extends Component {
           data={studentsSelection}
           onClose={onCloseStudentsSelection}
           opened={openedStudentsSelection}
+
           columns={gridSettingContracts.columns}
           defaultColumnWidths={gridSettingContracts.defaultColumnWidths}
           onSelected={onStudentsSelected}

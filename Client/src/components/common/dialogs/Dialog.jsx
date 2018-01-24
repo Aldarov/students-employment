@@ -41,6 +41,9 @@ const styles = theme => ({
   horizontal: {
     display: 'flex',
     flexWrap: 'wrap',
+  },
+  button: {
+    color: 'white'
   }
 });
 
@@ -58,12 +61,12 @@ class Contract extends Component {
       <Dialog
         fullScreen
         open={opened}
-        onRequestClose={onClose}
+        onClose={onClose}
         transition={Transition}
       >
         <AppBar className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
-            <IconButton color="contrast" onClick={onClose} aria-label="Close">
+            <IconButton className={classes.button} onClick={onClose} aria-label="Close">
               <CloseIcon />
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>

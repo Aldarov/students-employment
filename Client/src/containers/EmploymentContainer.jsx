@@ -171,9 +171,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         { columnName: 'distribution', width: 250 }
       ],
 
-      allowAdding: false,
-      allowEditing: false,
-      allowDeleting: false,
+      allowAdding: true,
+      allowEditing: true,
+      allowDeleting: true,
       allowSorting: false,
 
       onDoAction: (args) => {

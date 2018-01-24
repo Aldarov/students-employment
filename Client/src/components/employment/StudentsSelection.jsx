@@ -32,7 +32,10 @@ class StudentsSelection extends Component {
   }
 
   render () {
-    const { title, data, onClose, opened, classes, ...other } = this.props;
+    const {
+      title, data, onClose, opened, classes,
+      columns, defaultColumnWidths
+    } = this.props;
 
     return (
       opened ?
@@ -42,16 +45,22 @@ class StudentsSelection extends Component {
           onClose={onClose}
         >
           <Tooltip title="Добавить выбранных студентов">
-            <Button className={classes.button} raised color="primary" onClick={this.handleSelected}>
+            <Button className={classes.button} raised onClick={this.handleSelected}>
               Выбрать
               <Icon className={classes.rightIcon}>send</Icon>
             </Button>
           </Tooltip>
           <List
-            enableSelectionState
             data={data}
-            onSelectionChange={this.handleSelectionChange}
-            {...other}
+            gridSetting={{
+              enableSelectionState: true,
+              onSelectionChange: this.handleSelectionChange,
+              columns: columns,
+              defaultColumnWidths: defaultColumnWidths,
+              allowAdding: false,
+              allowEditing: false,
+              allowDeleting: false,
+            }}
           />
         </Dialog>
         : null
@@ -65,6 +74,9 @@ StudentsSelection.propTypes = {
   onClose: PropTypes.func,
   opened: PropTypes.bool,
   classes: PropTypes.object.isRequired,
+
+  columns: PropTypes.array,
+  defaultColumnWidths: PropTypes.array,
   onSelected: PropTypes.func
 };
 

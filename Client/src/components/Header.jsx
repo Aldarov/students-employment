@@ -6,8 +6,28 @@ import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import * as Icons from 'material-ui-icons';
+import { withStyles } from 'material-ui/styles';
 
-export default function Header(params) {
+const styles = () => ({
+  rightButtonColor: {
+    color: 'white'
+  },
+  appBar: {
+    height: 64
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20,
+  },
+  flex: {
+    flex: 1,
+  },
+  hide: {
+    display: 'none',
+  },
+});
+
+function Header(params) {
   const {
     classes, openedSidebar, headerProps
   } = params;
@@ -16,7 +36,7 @@ export default function Header(params) {
   const Icon = leftButtonIconName && Icons[leftButtonIconName];
 
   return (
-    <AppBar className={classNames(classes.appBar, openedSidebar && classes.appBarShift)}>
+    <AppBar className={classes.appBar}>
       <Toolbar disableGutters={!openedSidebar}>
         {
           <IconButton
@@ -33,8 +53,7 @@ export default function Header(params) {
         {
           onRightButtonClick &&
           <Button
-            className={classes.menuButton}
-            color="secondary"
+            className={classNames(classes.menuButton, !rightButtonDisabled && classes.rightButtonColor)}
             onClick={onRightButtonClick}
             disabled={rightButtonDisabled}
           >
@@ -45,3 +64,5 @@ export default function Header(params) {
     </AppBar>
   );
 }
+
+export default withStyles(styles)(Header);

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
@@ -11,8 +10,6 @@ import Header from './Header';
 import QuestionDialog from './common/dialogs/QuestionDialog';
 import Sidebar from './Sidebar';
 import RouteWithProps from './common/RouteWithProps';
-
-const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
@@ -26,59 +23,11 @@ const styles = theme => ({
     width: '100%',
     height: '100%',
   },
-  appBar: {
-    position: 'fixed',
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 20,
-  },
-  flex: {
-    flex: 1,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    height: 48,
-    [theme.breakpoints.up('sm')]: {
-      height: 64,
-    },
-  },
   content: {
     width: '100%',
     flexGrow: 1,
     padding: theme.spacing.unit,
-    marginTop: 48,
-    [theme.breakpoints.up('sm')]: {
-      marginTop: 64
-    },
-  },
-  contentShift: {
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+    marginTop: 64,
   },
 });
 
@@ -104,17 +53,15 @@ class Main extends Component {
       <div className={classes.root}>
         <div className={classes.appFrame}>
           <Header
-            classes={classes}
             openedSidebar={openedSidebar}
             headerProps={this.headerProps}
           />
           <Sidebar
-            classes={classes}
             open={openedSidebar}
             onClose={onCloseSidebar}
             onRedirect={onRedirect}
           />
-          <main className={classNames(classes.content, openedSidebar && classes.contentShift)}>
+          <main className={classes.content}>
             <RouteWithProps exact path="/"
               component={EmploymentListContainer}
               componentProps={this.childProps}

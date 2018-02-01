@@ -6,7 +6,7 @@ import {
   stopAsyncValidation, touch
 } from 'redux-form';
 
-import { Employment } from '../components/employment';
+import { Employment, ContractTableCellTemplate } from '../components/employment';
 import {
   initEmploymentForm,
   getSpecialitiesSuggestion, clearSpecialitiesSuggestion,
@@ -144,6 +144,32 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     console.log('init 2', pristine, isPristine(formName)(state));
   };
 
+  const getContractTableCellData = (column, row) => {
+    const directionType = state.dictionaries.directionTypes.filter((item) => (item.id == row.directionTypeId))[0];
+    const distributionType = state.dictionaries.distributionTypes.filter((item) => (item.id == row.distributionTypeId))[0];
+    switch (column.name) {
+      case 'fullName': return (row.student && row.student.fullName);
+      case 'regAddress': return (row.student && row.student.regAddress);
+      case 'finance': return (row.student && row.student.finance);
+      case 'entrType': return (row.student && row.student.entrType);
+      case 'phone': return (row.student && row.student.phone);
+      case 'direction':
+        return (
+          directionType && directionType.name +
+          (row.directionOrganizationName ? ', ' + row.directionOrganizationName : '') +
+          (row.directionSchoolName ? ', ' + row.directionSchoolName : '')
+        ) || '';
+      case 'distribution':
+        return (
+          distributionType && distributionType.name +
+          (row.distributionOrganizationName ? ', ' + row.distributionOrganizationName : '') +
+          (row.distributionSchoolName ? ', ' + row.distributionSchoolName : '')
+        ) || '';
+      default:
+        break;
+    }
+  };
+
   const props = {
     specialities: state.employment.edit.specialitySuggestions,
     eduForms: state.dictionaries.eduForms,
@@ -170,6 +196,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         { columnName: 'distribution', width: 250 }
       ],
 
+      cellComponent: props => ContractTableCellTemplate({...props, getCellData: getContractTableCellData}),
       allowAdding: true,
       allowEditing: true,
       allowDeleting: true,

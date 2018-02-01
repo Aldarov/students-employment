@@ -4,7 +4,7 @@ import {
   PagingState, CustomPaging,
   SortingState, SelectionState,
   EditingState, TableColumnResizing,
-  IntegratedSorting, IntegratedSelection, IntegratedPaging
+  IntegratedSorting, IntegratedSelection
 } from '@devexpress/dx-react-grid';
 import {
   Grid, Table, TableHeaderRow, TableEditColumn, TableEditRow,
@@ -21,17 +21,21 @@ const pagingPanelMessages = {
   info: '{from}-{to} из {count}',
 };
 
+const CellDefault = props =>
+  <Table.Cell
+    {...props}
+    style={{
+      ...props.style,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'normal',
+    }}
+  />;
+CellDefault.propTypes = {
+  style: PropTypes.object
+};
+
 class List extends Component {
-  state = {
-    selection: []
-  };
-
-  handleSelectionChange = selection => {
-    console.log('sel', selection);
-    this.setState({ selection });
-    this.props.gridSetting.onSelectionChange(selection);
-  }
-
   commandComponents = {
     add: this.props.AddButton,
     edit: this.props.EditButton,
@@ -78,8 +82,8 @@ class List extends Component {
 
         enableSelectionState, onSelectionChange,
         tableColumnExtensions,
+        cellComponent,
       },
-
     } = this.props;
 
     return (
@@ -87,9 +91,15 @@ class List extends Component {
         rows={data || []}
         columns={columns}
       >
+        <SelectionState
+          onSelectionChange={onSelectionChange}
+        />
+        <IntegratedSelection/>
+
         <Table
           columnExtensions={tableColumnExtensions}
           messages={tableMessages}
+          cellComponent={cellComponent || CellDefault}
         />
         <SortingState
           sorting={sorting}
@@ -123,16 +133,14 @@ class List extends Component {
         {
           enableSelectionState &&
           <Fragment>
-            <SelectionState
-              selection={this.state.selection}
-              onSelectionChange={this.handleSelectionChange}
-            />
-            <IntegratedSelection/>
             <TableSelection
               showSelectAll
+              selectByRowClick
+              highlightRow
             />
           </Fragment>
         }
+
         <EditingState
           editingRowIds={[]}
           addedRows={[]}

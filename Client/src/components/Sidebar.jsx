@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
@@ -9,25 +10,38 @@ import DescriptionIcon from 'material-ui-icons/Description';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import AccountBalanceIcon from 'material-ui-icons/AccountBalance';
 
+const styles = () => ({
+  list: {
+    width: 240,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    height: 64,
+  },
+});
+
 class Sidebar extends Component {
   render () {
-    const { open, onClose, classes, onRedirect } = this.props;
+    const { classes, open, onClose, onRedirect } = this.props;
 
     return (
-      <Drawer
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-        open={open}
-      >
-        <div className={classes.drawerInner}>
+      <Drawer open={open} onClose={onClose}>
+        <div
+          tabIndex={0}
+          role="button"
+          onClick={onClose}
+          onKeyDown={onClose}
+        >
           <div className={classes.drawerHeader}>
             <IconButton onClick={onClose}>
               <ChevronLeftIcon />
             </IconButton>
           </div>
           <Divider />
-          <List>
+          <List className={classes.list}>
             <ListItem button onClick={onRedirect('/employment')}>
               <ListItemIcon>
                 <DescriptionIcon />
@@ -54,4 +68,4 @@ Sidebar.propTypes = {
   onRedirect: PropTypes.func,
 };
 
-export default Sidebar;
+export default withStyles(styles)(Sidebar);

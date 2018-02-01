@@ -10,9 +10,7 @@ import RenderTextField from '../common/RenderTextField';
 import RenderAutocomplete from '../common/RenderAutocomplete';
 import RenderDatePicker from '../common/RenderDatePicker';
 import RenderList from '../common/RenderList';
-import ListTableCellTemplate from '../common/ListTableCellTemplate';
 
-import DirectionEdit from './DirectionEdit';
 import Contract from './Contract';
 import StudentsSelection from './StudentsSelection';
 import {AddButton, EditButton, DeleteButton} from './GridButtons';
@@ -77,39 +75,6 @@ class Employment extends Component {
         break;
     }
   }
-
-  studentEditCellTemplate = (args) => {
-    const { style, column, row, tableRow: {rowId} } = args;
-    return (
-      <ListTableCellTemplate
-        column={column}
-        style={{...style}}
-      >
-        {
-          column.name == 'direction'
-            ?
-            <DirectionEdit
-              tableRow={rowId}
-              directionTypes={this.props.directionTypes}
-            />
-            :
-            column.name == 'distribution' ? '' : this.getCellData(column, row)
-        }
-      </ListTableCellTemplate>
-    );
-  };
-
-  studentTableCellTemplate = (args) => {
-    const { column, row, style } = args;
-    return (
-      <ListTableCellTemplate
-        style={{...style}}
-        column={column}
-      >
-        {this.getCellData(column, row)}
-      </ListTableCellTemplate>
-    );
-  };
 
   render() {
     const {
@@ -188,14 +153,6 @@ class Employment extends Component {
             AddButton={AddButton}
             EditButton={EditButton}
             DeleteButton={DeleteButton}
-
-            // columns={columnsStudents}
-            // defaultColumnWidths={listColumnWidthsStudents}
-            // allowAdding
-            // allowEditing
-            // allowDeleting
-            // doAction={onDoActionStudents}
-            // tableCellTemplate={this.studentTableCellTemplate}
           />
         </form>
 
@@ -257,9 +214,6 @@ Employment.propTypes = {
   onSpecialitySelected: PropTypes.func,
 
   gridSettingContracts: PropTypes.object,
-  // columnsStudents: PropTypes.array,
-  // listColumnWidthsStudents: PropTypes.object,
-  // onDoActionStudents: PropTypes.func,
 
   directionTypes: PropTypes.array,
   distributionTypes: PropTypes.array,

@@ -39,6 +39,7 @@ class Main extends Component {
   childProps = {
     onInitHeader: props => {
       this.headerProps = props;
+      console.log('init header', props);
       this.forceUpdate();
     },
     onInitDialog: props => this.dialogProps = props

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {
   SubmissionError, reduxForm, getFormValues,
   submit, isPristine, isSubmitting, change, arrayRemove, arrayPush,
-  stopAsyncValidation, touch
+  stopAsyncValidation, touch,
 } from 'redux-form';
 
 import { Employment, ContractTableCellTemplate } from '../components/employment';
@@ -136,12 +136,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     dispatch(closeEmploymentContract());
     dispatch(initEmploymentForm(formName, headerId,
       () => {
-        console.log('init 1', pristine, isPristine(formName)(state));
-        // initHeader(dispatch, ownProps, pristine, submitting, title);
+        initHeader(dispatch, ownProps, pristine, submitting, title);
       }
     ));
-    initHeader(dispatch, ownProps, pristine, submitting, title);
-    console.log('init 2', pristine, isPristine(formName)(state));
   };
 
   const getContractTableCellData = (column, row) => {
@@ -408,7 +405,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           onRedirectToList();
         }
         else {
-          handleInitForm(res.id);
+          initHeader(dispatch, ownProps, pristine, submitting, title);
           ownProps.history.push(`/employment/${res.id}`);
         }
       }));

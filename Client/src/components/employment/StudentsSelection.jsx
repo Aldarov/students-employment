@@ -45,7 +45,7 @@ class StudentsSelection extends Component {
           onClose={onClose}
         >
           <Tooltip title="Добавить выбранных студентов">
-            <Button className={classes.button} raised onClick={this.handleSelected}>
+            <Button className={classes.button} onClick={this.handleSelected}>
               Выбрать
               <Icon className={classes.rightIcon}>send</Icon>
             </Button>

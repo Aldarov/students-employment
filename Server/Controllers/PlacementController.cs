@@ -64,48 +64,55 @@ namespace Server.Controllers
             {
                 return BadRequest();
             }
-            
-            var existingHeader = db.PgHeaders
-                .Include(x => x.PgContractStuffs)
-                .FirstOrDefault(x => x.Id == header.Id);
-            
-            if (existingHeader == null)
-            {
-                db.Add(header);
-            }
-            else
-            {
-                db.Entry(existingHeader).CurrentValues.SetValues(header);
-                
-                foreach (var stuff in header.PgContractStuffs)
-                {
-                    stuff.Student = null;
-                    PgContractStuff existingStuff = null;
-                    if (stuff?.Id > 0) 
-                    {
-                        existingStuff = existingHeader.PgContractStuffs
-                            .FirstOrDefault(x => x.Id == stuff.Id);
-                    }
-                    if (existingStuff == null)
-                    {
-                        existingHeader.PgContractStuffs.Add(stuff);
-                    }
-                    else
-                    {
-                        db.Entry(existingStuff).CurrentValues.SetValues(stuff);
-                    }
-                }
 
-                foreach (var stuff in existingHeader.PgContractStuffs)
+            if (ModelState.IsValid)
+            {
+                var existingHeader = db.PgHeaders
+                    .Include(x => x.PgContractStuffs)
+                    .FirstOrDefault(x => x.Id == header.Id);
+                
+                if (existingHeader == null)
                 {
-                    if (!header.PgContractStuffs.Any(x => x.Id == stuff.Id))
+                    db.Add(header);
+                }
+                else
+                {
+                    db.Entry(existingHeader).CurrentValues.SetValues(header);
+                    
+                    foreach (var stuff in header.PgContractStuffs)
                     {
-                        db.Remove(stuff);
+                        stuff.Student = null;
+                        PgContractStuff existingStuff = null;
+                        if (stuff?.Id > 0) 
+                        {
+                            existingStuff = existingHeader.PgContractStuffs
+                                .FirstOrDefault(x => x.Id == stuff.Id);
+                        }
+                        if (existingStuff == null)
+                        {
+                            existingHeader.PgContractStuffs.Add(stuff);
+                        }
+                        else
+                        {
+                            db.Entry(existingStuff).CurrentValues.SetValues(stuff);
+                        }
                     }
-                }                    
+
+                    foreach (var stuff in existingHeader.PgContractStuffs)
+                    {
+                        if (!header.PgContractStuffs.Any(x => x.Id == stuff.Id))
+                        {
+                            db.Remove(stuff);
+                        }
+                    }                    
+                }            
+                db.SaveChanges();
+                return Ok(header);
+            }
+            else 
+            {
+                return BadRequest(ModelState.Values.Select(a => a.Errors.Select(z => z.ErrorMessage)));
             }            
-            db.SaveChanges();
-            return Ok(header);
         }
 
         [HttpDelete("{id}")]

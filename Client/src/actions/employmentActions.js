@@ -51,7 +51,7 @@ export function initEmploymentForm(formName, id, callback) {
         docDate: null,
         pgContractStuffs: [],
         speciality: ''
-      }, false, false, false));
+      }, false, { keepSubmitSucceeded: true }));
       if (typeof callback === 'function') callback();
     } else {
       fetchingAction(dispatch,
@@ -73,7 +73,7 @@ export function initEmploymentForm(formName, id, callback) {
                 });
                 res.pgContractStuffs = stuff;
                 const result = { ...res, speciality };
-                dispatch(initialize(formName, result, false, false, false));
+                dispatch(initialize(formName, result, false, { keepSubmitSucceeded: true }));
                 if (typeof callback === 'function') callback();
               })
           )

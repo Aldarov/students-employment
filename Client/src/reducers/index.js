@@ -7,6 +7,7 @@ import headerReducer from './headerReducer';
 import employmentReducer from './employmentReducer';
 import dictionariesReducer from './dictionariesReducer';
 import dialogReducer from './dialogReducer';
+import organizationReducer from './organizationReducer';
 
 const reducer = combineReducers({
   fetching: fetchingReducer,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   form: formReducer,
   header: headerReducer,
   employment: employmentReducer,
+  organization: organizationReducer,
   dictionaries: dictionariesReducer,
   dialog: dialogReducer
 });

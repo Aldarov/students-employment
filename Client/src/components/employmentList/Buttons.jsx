@@ -10,7 +10,7 @@ export const AddButton = ({ onExecute }) => (
       color="primary"
       onClick={onExecute}
     >
-      Добавить
+      Создать
     </Button>
   </div>
 );
@@ -19,7 +19,7 @@ AddButton.propTypes = {
 };
 
 export const EditButton = ({ onExecute }) => (
-  <IconButton onClick={onExecute} title="Редактировать">
+  <IconButton onClick={onExecute} title="Редактировать документ">
     <EditIcon />
   </IconButton>
 );
@@ -28,7 +28,7 @@ EditButton.propTypes = {
 };
 
 export const DeleteButton = ({ onExecute }) => (
-  <IconButton onClick={onExecute} title="Удалить">
+  <IconButton onClick={onExecute} title="Удалить документ">
     <DeleteIcon />
   </IconButton>
 );

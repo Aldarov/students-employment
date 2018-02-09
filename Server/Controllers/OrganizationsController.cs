@@ -27,12 +27,36 @@ namespace Server.Controllers
             IQueryable<Organization> query = db.Organizations.AsQueryable();
             if (args.q != null)
                 query = query.Where(x => x.Name.Contains(args.q));
-            var res = query
+            var res = query.Filter(Request.Query.ToList())
                 .Sort(args)
                 .AsNoTracking()
                 .PaginateResult(args);
 
             return Json(res);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var org = new JuridicalPerson() { Id = id };
+            db.JuridicalPersons.Remove(org);
+            db.SaveChanges();
+            return Ok();
+        }
+
+        [HttpGet("{id}")]
+        public JuridicalPerson Get(int id)
+        {
+            var res = db.JuridicalPersons
+                // .Include(x => x.Country)
+                // .Include(x => x.RegistrationRegion)
+                // .Include(x => x.RegistrationDistrict)
+                // .Include(x => x.RegistrationCity)
+                // .Include(x => x.RegistrationSettlement)            
+                .Where(x => x.Id == id)
+                .AsNoTracking()
+                .SingleOrDefault();
+            return res;
+        }        
     }
 }

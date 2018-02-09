@@ -47,7 +47,7 @@ function Header(params) {
             {Icon && <Icon style={{color: 'white'}}/>}
           </IconButton>
         }
-        <Typography type="title" color="inherit" noWrap className={classes.flex}>
+        <Typography type="title" color="inherit" noWrap className={classes.flex} variant={'title'}>
           {title}
         </Typography>
         {

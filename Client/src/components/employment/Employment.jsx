@@ -150,7 +150,7 @@ class Employment extends Component {
             name='pgContractStuffs'
             component={RenderList}
             gridSetting={gridSettingContracts}
-            AddButton={AddButton}
+            AddButton={props => AddButton({...props, disabled: contractStuffIsEmpty})}
             EditButton={EditButton}
             DeleteButton={DeleteButton}
           />

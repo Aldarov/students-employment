@@ -48,3 +48,9 @@ export {
   openStudentsSelection,
   closeStudentsSelection
 } from './studentActions';
+
+export {
+  SET_ORGANIZATION_LIST, SET_ORGANIZATION_LIST_SORTING,
+  SET_ORGANIZATION_SUGGESTIONS, CLEAR_ORGANIZATION_SUGGESTIONS,
+  getOrganizationList, getOrganizationSuggestions, clearOrganizationSuggestions
+} from './organizationActions';

@@ -6,7 +6,6 @@ import List from '../common/List';
 import Autocomplete from '../common/Autocomplete';
 import Loading from '../common/Loading';
 import {AddButton, EditButton, DeleteButton} from './Buttons';
-
 const styles = theme => ({
   autocomplete: {
     width: 600,
@@ -17,7 +16,8 @@ const styles = theme => ({
   },
 });
 
-class EmploymentList extends Component {
+class OrganizationList extends Component {
+
   componentWillMount() {
     this.props.onLoadData();
   }
@@ -59,7 +59,7 @@ class EmploymentList extends Component {
   }
 }
 
-EmploymentList.propTypes = {
+OrganizationList.propTypes = {
   classes: PropTypes.object,
   onLoadData: PropTypes.func,
 
@@ -73,7 +73,7 @@ EmploymentList.propTypes = {
   onSuggestionsFetchRequested: PropTypes.func,
   onSuggestionsClearRequested: PropTypes.func,
   onSuggestionSelected: PropTypes.func,
-  onClearSuggestionSelected: PropTypes.func,
+  onClearSuggestionSelected: PropTypes.func
 };
 
-export default withStyles(styles)(EmploymentList);
+export default withStyles(styles)(OrganizationList);

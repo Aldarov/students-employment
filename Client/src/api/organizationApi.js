@@ -11,3 +11,7 @@ export function apiGetOrganizations({...args}) {
 export function apiDeleteOrganization(id) {
   return axios.delete(startUrl + `/${id}`);
 }
+
+export function apiGetOrganizationById(id) {
+  return axios.get(startUrl + `/${id}`);
+}

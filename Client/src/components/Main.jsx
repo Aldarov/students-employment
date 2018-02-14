@@ -6,6 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import EmploymentListContainer from '../containers/EmploymentListContainer';
 import EmploymentContainer from '../containers/EmploymentContainer';
 import OrganizationListContainer from '../containers/OrganizationListContainer';
+import OrganizationContainer from '../containers/OrganizationContainer';
 import Header from './Header';
 import QuestionDialog from './common/dialogs/QuestionDialog';
 import Sidebar from './Sidebar';
@@ -76,6 +77,10 @@ class Main extends Component {
             />
             <RouteWithProps exact path="/organization"
               component={OrganizationListContainer}
+              componentProps={this.childProps}
+            />
+            <RouteWithProps exact path="/organization/:id"
+              component={OrganizationContainer}
               componentProps={this.childProps}
             />
           </main>

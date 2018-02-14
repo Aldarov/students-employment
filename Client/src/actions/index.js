@@ -52,5 +52,6 @@ export {
 export {
   SET_ORGANIZATION_LIST, SET_ORGANIZATION_LIST_SORTING,
   SET_ORGANIZATION_SUGGESTIONS, CLEAR_ORGANIZATION_SUGGESTIONS,
-  getOrganizationList, getOrganizationSuggestions, clearOrganizationSuggestions
+  getOrganizationList, getOrganizationSuggestions, clearOrganizationSuggestions,
+  initOrganizationForm
 } from './organizationActions';

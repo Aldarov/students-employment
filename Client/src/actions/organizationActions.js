@@ -1,7 +1,9 @@
 import { fetchingAction } from './';
 import {
-  apiGetOrganizations, apiDeleteOrganization
+  apiGetOrganizations, apiDeleteOrganization,
+  apiGetOrganizationById
 } from '../api';
+import { initialize } from 'redux-form';
 
 export const SET_ORGANIZATION_LIST = 'SET_ORGANIZATION_LIST';
 export const SET_ORGANIZATION_LIST_SORTING = 'SET_ORGANIZATION_LIST_SORTING';
@@ -38,5 +40,43 @@ export function deleteOrganization(id, callback) {
         dispatch({ type: DELETE_ORGANIZATION, data: id });
         callback();
       }));
+  };
+}
+
+export function initOrganizationForm(formName, id, callback) {
+  return dispatch => {
+    if (!id) {
+      dispatch(initialize(formName, {
+        name: '',
+        registrationCountryId: null,
+        registrationRegionId: null,
+        registrationDistrictId: null,
+        registrationCityId: null,
+        registrationSettlementId: null,
+        country: {
+          name: ''
+        },
+        registrationRegion: {
+          name: ''
+        },
+        registrationDistrict: {
+          name: ''
+        },
+        registrationCity: {
+          name: ''
+        },
+        'registrationSettlement': {
+          name: ''
+        }
+      }, false, { keepSubmitSucceeded: false }));
+      if (typeof callback === 'function') callback();
+    } else {
+      fetchingAction(dispatch, apiGetOrganizationById(id)
+        .then(res => {
+          dispatch(initialize(formName, res, false, { keepSubmitSucceeded: false }));
+          if (typeof callback === 'function') callback();
+        })
+      );
+    }
   };
 }

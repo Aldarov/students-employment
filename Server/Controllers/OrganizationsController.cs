@@ -48,11 +48,11 @@ namespace Server.Controllers
         public JuridicalPerson Get(int id)
         {
             var res = db.JuridicalPersons
-                // .Include(x => x.Country)
-                // .Include(x => x.RegistrationRegion)
-                // .Include(x => x.RegistrationDistrict)
-                // .Include(x => x.RegistrationCity)
-                // .Include(x => x.RegistrationSettlement)            
+                .Include(x => x.Country)
+                .Include(x => x.RegistrationRegion)
+                .Include(x => x.RegistrationDistrict)
+                .Include(x => x.RegistrationCity)
+                .Include(x => x.RegistrationSettlement)            
                 .Where(x => x.Id == id)
                 .AsNoTracking()
                 .SingleOrDefault();

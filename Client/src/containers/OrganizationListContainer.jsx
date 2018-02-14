@@ -1,5 +1,5 @@
 import { connectAdvanced } from 'react-redux';
-import { OrganizationList } from '../components/OrganizationList';
+import { OrganizationList } from '../components/organizationList';
 import {
   openSidebar,
   getOrganizationList, getOrganizationSuggestions, clearOrganizationSuggestions,

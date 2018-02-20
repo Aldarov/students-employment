@@ -28,9 +28,13 @@ export default function getUrl({startUrl, page, limit, sorting, search, ...filte
       url = url + '_order=' + order + '&';
     }
   }
-  if (filters.id) {
-    url = url + 'id=' + filters.id + '&';
-  }
+  // if (filters.id) {
+  //   url = url + 'id=' + filters.id + '&';
+  // }
+  const propNames = Object.keys(filters);
+  propNames.forEach(propName => {
+    url = url + propName + '=' + filters[propName] + '&';
+  });
 
   return encodeURI(url.slice(0,-1));
 }

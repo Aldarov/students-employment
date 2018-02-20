@@ -25,6 +25,8 @@ namespace Server.Models.University
         public virtual DbSet<Speciality> Specialities { get; set; }
         public virtual DbSet<Organization> Organizations { get; set; }
 
+        public virtual DbSet<Address> Addresses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Speciality>(entity =>
@@ -108,7 +110,18 @@ namespace Server.Models.University
                     .IsRequired()
                     .HasColumnName("name")
                     .HasColumnType("varchar(50)");
-            });            
+            });  
+            
+            modelBuilder.Entity<Address>(entity =>
+            {
+                entity.ToTable("vKladrFullList");
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Name).HasColumnName("name");
+                entity.Property(e => e.RegionId).HasColumnName("region_id");
+                entity.Property(e => e.DistrictId).HasColumnName("district_id");
+                entity.Property(e => e.CityId).HasColumnName("city_id");
+                entity.Property(e => e.SettlementId).HasColumnName("settlement_id");
+            });                       
 
             modelBuilder.Entity<JuridicalPerson>(entity =>
             {

@@ -53,5 +53,9 @@ export {
   SET_ORGANIZATION_LIST, SET_ORGANIZATION_LIST_SORTING,
   SET_ORGANIZATION_SUGGESTIONS, CLEAR_ORGANIZATION_SUGGESTIONS,
   getOrganizationList, getOrganizationSuggestions, clearOrganizationSuggestions,
-  initOrganizationForm
+  initOrganizationForm,
+  SET_ADDRESSES_SUGGESTIONS, CLEAR_ADDRESSES_SUGGESTIONS,
+  SET_COUNRIES_SUGGESTIONS, CLEAR_COUNRIES_SUGGESTIONS,
+  getCountriesSuggestion, clearCountriesSuggestion,
+  getAddressesSuggestion, clearAddressesSuggestion
 } from './organizationActions';

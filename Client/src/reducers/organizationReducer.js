@@ -1,6 +1,8 @@
 import {
   SET_ORGANIZATION_LIST, SET_ORGANIZATION_LIST_SORTING,
-  SET_ORGANIZATION_SUGGESTIONS, CLEAR_ORGANIZATION_SUGGESTIONS
+  SET_ORGANIZATION_SUGGESTIONS, CLEAR_ORGANIZATION_SUGGESTIONS,
+  SET_ADDRESSES_SUGGESTIONS, CLEAR_ADDRESSES_SUGGESTIONS,
+  SET_COUNRIES_SUGGESTIONS, CLEAR_COUNRIES_SUGGESTIONS,
 } from '../actions';
 
 const defaultData = {
@@ -10,6 +12,8 @@ const defaultData = {
     searchSuggestions: []
   },
   edit: {
+    addressesSuggestions: [],
+    countriesSuggestions: [],
   }
 };
 
@@ -57,6 +61,40 @@ export default function reducer(state = defaultData, action) {
         }
       };
     }
+
+    case SET_ADDRESSES_SUGGESTIONS:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          addressesSuggestions: action.data
+        }
+      };
+    case CLEAR_ADDRESSES_SUGGESTIONS:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          addressesSuggestions: []
+        }
+      };
+
+    case SET_COUNRIES_SUGGESTIONS:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          countriesSuggestions: action.data
+        }
+      };
+    case CLEAR_COUNRIES_SUGGESTIONS:
+      return {
+        ...state,
+        edit: {
+          ...state.edit,
+          countriesSuggestions: []
+        }
+      };
     default:
       return state;
   }

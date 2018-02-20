@@ -1,7 +1,8 @@
 import { fetchingAction } from './';
 import {
   apiGetOrganizations, apiDeleteOrganization,
-  apiGetOrganizationById
+  apiGetOrganizationById, apiGetCountries,
+  apiGetAddresses, apiSearchAddress
 } from '../api';
 import { initialize } from 'redux-form';
 
@@ -10,6 +11,10 @@ export const SET_ORGANIZATION_LIST_SORTING = 'SET_ORGANIZATION_LIST_SORTING';
 export const SET_ORGANIZATION_SUGGESTIONS = 'SET_ORGANIZATION_SUGGESTIONS';
 export const CLEAR_ORGANIZATION_SUGGESTIONS = 'CLEAR_ORGANIZATION_SUGGESTIONS';
 export const DELETE_ORGANIZATION = 'DELETE_ORGANIZATION';
+export const SET_COUNRIES_SUGGESTIONS = 'SET_COUNRIES_SUGGESTIONS';
+export const CLEAR_COUNRIES_SUGGESTIONS = 'CLEAR_COUNRIES_SUGGESTIONS';
+export const SET_ADDRESSES_SUGGESTIONS = 'SET_ADDRESSES_SUGGESTIONS';
+export const CLEAR_ADDRESSES_SUGGESTIONS = 'CLEAR_ADDRESSES_SUGGESTIONS';
 
 export function getOrganizationList(params) {
   return dispatch => fetchingAction(dispatch,
@@ -67,16 +72,48 @@ export function initOrganizationForm(formName, id, callback) {
         },
         'registrationSettlement': {
           name: ''
-        }
+        },
+        address: '',
+        countryName: ''
       }, false, { keepSubmitSucceeded: false }));
       if (typeof callback === 'function') callback();
     } else {
       fetchingAction(dispatch, apiGetOrganizationById(id)
         .then(res => {
-          dispatch(initialize(formName, res, false, { keepSubmitSucceeded: false }));
-          if (typeof callback === 'function') callback();
+          apiSearchAddress({
+            regionId: res.registrationRegionId, districtId: res.registrationDistrictId,
+            cityId: res.registrationCityId, settlementId: res.registrationSettlementId
+          }).then(address => {
+            const addr = (address && address.name) || '';
+            const country = (res.country && res.country.name) || '';
+            const result = { ...res, address: addr, countryName: country };
+            dispatch(initialize(formName, result, false, { keepSubmitSucceeded: false }));
+            if (typeof callback === 'function') callback();
+          });
         })
       );
     }
   };
+}
+
+export function getCountriesSuggestion(params) {
+  return dispatch => apiGetCountries(params)
+    .then(res =>
+      dispatch({ type: SET_COUNRIES_SUGGESTIONS, data: res.data })
+    );
+}
+
+export function clearCountriesSuggestion() {
+  return dispatch => dispatch({ type: CLEAR_COUNRIES_SUGGESTIONS });
+}
+
+export function getAddressesSuggestion(params) {
+  return dispatch => apiGetAddresses(params)
+    .then(res =>
+      dispatch({ type: SET_ADDRESSES_SUGGESTIONS, data: res.data })
+    );
+}
+
+export function clearAddressesSuggestion() {
+  return dispatch => dispatch({ type: CLEAR_ADDRESSES_SUGGESTIONS });
 }

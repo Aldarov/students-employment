@@ -1,6 +1,9 @@
 export { apiLogin, apiLogout, apiIsAuth, apiSetRequestHeader } from './authApi';
 export { apiGetEmploymentList, apiGetEmploymentById, apiPostEmployment, apiDeleteEmployment } from './employmentApi';
-export { apiGetSpecialities, apiGetEduForms, apiGetPgTypes, apiGetSchools } from './dictionariesApi';
+export {
+  apiGetSpecialities, apiGetEduForms, apiGetPgTypes, apiGetSchools,
+  apiGetCountries, apiGetAddresses, apiSearchAddress
+} from './dictionariesApi';
 export { apiGetOrganizations, apiDeleteOrganization, apiGetOrganizationById } from './organizationApi';
 export { apiGetStudentsByHeader,  apiGetStudentsWithoutSelected } from './studentApi';
 

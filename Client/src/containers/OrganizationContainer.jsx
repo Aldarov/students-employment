@@ -8,7 +8,9 @@ import {
 import { Organization } from '../components/organization';
 import {
   openQuestionDialog, closeQuestionDialog,
-  saveOrganization
+  saveOrganization, initOrganizationForm,
+  getCountriesSuggestion, clearCountriesSuggestion,
+  getAddressesSuggestion, clearAddressesSuggestion
 } from '../actions';
 
 const formName = 'organization';
@@ -55,11 +57,17 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
   const props = {
     loading: state.fetching,
+    countriesSuggestions: state.organization.edit.countriesSuggestions,
+    addressesSuggestions: state.organization.edit.addressesSuggestions,
   };
 
   const methods = {
     onLoadData: () => {
-      initHeader(dispatch, ownProps, pristine, submitting, title);
+      dispatch(initOrganizationForm(formName, id,
+        () => {
+          initHeader(dispatch, ownProps, pristine, submitting, title);
+        }
+      ));
     },
     onChange: () => {
       initHeader(dispatch, ownProps, pristine, submitting, title);
@@ -79,7 +87,21 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       // });
     },
     validate: values => {},
+
+    onGetCountriesSuggestions: value => dispatch(getCountriesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+    onClearCountriesSuggestions: () => dispatch(clearCountriesSuggestion()),
+    onCountriesSelected: data => {},
+    onClearCountriesSelectedSuggestion: () => {},
+
+    onGetKladrSuggestions: value => dispatch(getAddressesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+    onClearKladrSuggestions: () => dispatch(clearAddressesSuggestion()),
+    onKladrSelected: data => {},
+    onClearKladrSelectedSuggestion: () => {}
   };
 
   return { ...props, ...methods, ...ownProps };
-})(Organization);
+})(
+  reduxForm({
+    form: formName,
+  })(Organization)
+);

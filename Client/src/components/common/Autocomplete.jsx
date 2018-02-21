@@ -19,6 +19,7 @@ function renderInput(inputProps) {
     className, value, onChange, ref, label,
     error, helperText,
     onClearSelectSuggestion, inputDisable,
+    hideIcon,
     ...other
   } = inputProps;
 
@@ -35,13 +36,14 @@ function renderInput(inputProps) {
         value={value || ''}
         onChange={onChange}
         endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              onClick={onClearSelectSuggestion}
-            >
-              <ClearIcon />
-            </IconButton>
-          </InputAdornment>
+          hideIcon ? null :
+            <InputAdornment position="end">
+              <IconButton
+                onClick={onClearSelectSuggestion}
+              >
+                <ClearIcon />
+              </IconButton>
+            </InputAdornment>
         }
         {...other}
       />
@@ -117,14 +119,14 @@ class Autocomplete extends React.Component {
   state = {
     value: '',
     inputDisable: false,
-    // firstReceiveProps: true,
+    firstReceiveProps: true,
   };
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.inputProps && nextProps.inputProps.value && this.state.firstReceiveProps) {
-  //     this.setState({ firstReceiveProps: false, inputDisable: true });
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.inputProps && nextProps.inputProps.value && this.state.firstReceiveProps) {
+      this.setState({ firstReceiveProps: false, inputDisable: true });
+    }
+  }
 
   handleChange = (event, { newValue }) => {
     this.setState({ value: newValue });
@@ -156,7 +158,9 @@ class Autocomplete extends React.Component {
 
   render() {
     const {
-      id, classes, className, suggestions, onSuggestionsClearRequested, inputProps: {...inputProps}
+      id, classes, className,
+      suggestions, onSuggestionsClearRequested,
+      inputProps: {...inputProps}
     } = this.props;
 
     return (

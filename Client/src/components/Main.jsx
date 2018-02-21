@@ -13,22 +13,16 @@ import Sidebar from './Sidebar';
 import RouteWithProps from './common/RouteWithProps';
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    zIndex: 1,
-    overflow: 'hidden',
-  },
   appFrame: {
-    position: 'relative',
+    position: 'fixed',
     display: 'flex',
     width: '100%',
     height: '100%',
   },
   content: {
-    width: '100%',
     padding: theme.spacing.unit,
     marginTop: 64,
-    height: '100vh'
+    flex: 1
   },
 });
 
@@ -51,44 +45,42 @@ class Main extends Component {
     } = this.props;
 
     return (
-      <div className={classes.root}>
-        <div className={classes.appFrame}>
-          <Header
-            openedSidebar={openedSidebar}
-            headerProps={this.headerProps}
+      <div className={classes.appFrame}>
+        <Header
+          openedSidebar={openedSidebar}
+          headerProps={this.headerProps}
+        />
+        <Sidebar
+          open={openedSidebar}
+          onClose={onCloseSidebar}
+          onRedirect={onRedirect}
+        />
+        <main className={classes.content}>
+          <RouteWithProps exact path="/"
+            component={EmploymentListContainer}
+            componentProps={this.childProps}
           />
-          <Sidebar
-            open={openedSidebar}
-            onClose={onCloseSidebar}
-            onRedirect={onRedirect}
+          <RouteWithProps exact path="/employment"
+            component={EmploymentListContainer}
+            componentProps={this.childProps}
           />
-          <main className={classes.content}>
-            <RouteWithProps exact path="/"
-              component={EmploymentListContainer}
-              componentProps={this.childProps}
-            />
-            <RouteWithProps exact path="/employment"
-              component={EmploymentListContainer}
-              componentProps={this.childProps}
-            />
-            <RouteWithProps exact path="/employment/:id"
-              component={EmploymentContainer}
-              componentProps={this.childProps}
-            />
-            <RouteWithProps exact path="/organization"
-              component={OrganizationListContainer}
-              componentProps={this.childProps}
-            />
-            <RouteWithProps exact path="/organization/:id"
-              component={OrganizationContainer}
-              componentProps={this.childProps}
-            />
-          </main>
-          <QuestionDialog
-            open={dialogOpen}
-            dialogProps={this.dialogProps}
+          <RouteWithProps exact path="/employment/:id"
+            component={EmploymentContainer}
+            componentProps={this.childProps}
           />
-        </div>
+          <RouteWithProps exact path="/organization"
+            component={OrganizationListContainer}
+            componentProps={this.childProps}
+          />
+          <RouteWithProps exact path="/organization/:id"
+            component={OrganizationContainer}
+            componentProps={this.childProps}
+          />
+        </main>
+        <QuestionDialog
+          open={dialogOpen}
+          dialogProps={this.dialogProps}
+        />
       </div>
     );
   }

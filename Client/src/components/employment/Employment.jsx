@@ -97,6 +97,7 @@ class Employment extends Component {
               name='speciality'
               component={RenderAutocomplete}
               disabled={!contractStuffIsEmpty}
+              hideIcon={!contractStuffIsEmpty}
               autoFocus={false}
               label='Специальность'
               placeholder='выберите специальность'

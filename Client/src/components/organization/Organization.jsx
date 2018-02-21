@@ -11,8 +11,6 @@ const styles = theme => ({
   form: {
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
-    flex: 1,
-    backgroundColor: 'green'
   },
   textField: {
     marginTop: theme.spacing.unit*2,
@@ -26,6 +24,7 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       width: 600,
     },
+    marginTop: theme.spacing.unit*2
   },
 });
 
@@ -40,7 +39,7 @@ class Organization extends Component {
       countriesSuggestions, onGetCountriesSuggestions, onClearCountriesSuggestions,
       onCountriesSelected, onClearCountriesSelectedSuggestion,
       addressesSuggestions, onGetKladrSuggestions, onClearKladrSuggestions,
-      onKladrSelected, onClearKladrSelectedSuggestion
+      onKladrSelected, onClearKladrSelectedSuggestion, isRussia
     } = this.props;
 
     return (
@@ -49,7 +48,7 @@ class Organization extends Component {
           name='name'
           component={RenderTextField}
           label='Наименование организации'
-          placeholder='введите наименование организации'
+          placeholder='Введите наименование организации'
           className={classes.textField}
         />
         <Field
@@ -57,7 +56,7 @@ class Organization extends Component {
           component={RenderAutocomplete}
           autoFocus={false}
           label='Страна'
-          placeholder='выберите страну'
+          placeholder='Выберите страну'
           className={classes.autocomplete}
 
           suggestions={countriesSuggestions}
@@ -71,9 +70,10 @@ class Organization extends Component {
           component={RenderAutocomplete}
           autoFocus={false}
           label='Адрес организации'
-          placeholder='укажите адрес организации'
+          placeholder='Напишите населенный пункт'
           className={classes.autocomplete}
-
+          disabled={!isRussia}
+          hideIcon={!isRussia}
           suggestions={addressesSuggestions}
           onSuggestionsFetchRequested={onGetKladrSuggestions}
           onSuggestionsClearRequested={onClearKladrSuggestions}
@@ -102,7 +102,9 @@ Organization.propTypes = {
   onGetKladrSuggestions: PropTypes.func,
   onClearKladrSuggestions: PropTypes.func,
   onKladrSelected: PropTypes.func,
-  onClearKladrSelectedSuggestion: PropTypes.func
+  onClearKladrSelectedSuggestion: PropTypes.func,
+
+  isRussia: PropTypes.bool
 };
 
 export default withStyles(styles)(Organization);

@@ -47,6 +47,14 @@ const initHeader = (dispatch, ownProps, pristine, submitting, title) => {
   });
 };
 
+const clearAddress = dispatch => {
+  dispatch(change(formName, 'registrationRegionId', null));
+  dispatch(change(formName, 'registrationDistrictId', null));
+  dispatch(change(formName, 'registrationCityId', null));
+  dispatch(change(formName, 'registrationSettlementId', null));
+  dispatch(change(formName, 'address', ''));
+};
+
 export default connectAdvanced( dispatch => (state, ownProps) => {
   const id  = ownProps.match.params.id === 'add' ? null : ownProps.match.params.id;
   const formValues = getFormValues(formName)(state);
@@ -59,6 +67,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     loading: state.fetching,
     countriesSuggestions: state.organization.edit.countriesSuggestions,
     addressesSuggestions: state.organization.edit.addressesSuggestions,
+    isRussia: formValues && formValues.registrationCountryId == 643 ? true : false
   };
 
   const methods = {
@@ -90,13 +99,29 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
     onGetCountriesSuggestions: value => dispatch(getCountriesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearCountriesSuggestions: () => dispatch(clearCountriesSuggestion()),
-    onCountriesSelected: data => {},
-    onClearCountriesSelectedSuggestion: () => {},
+    onCountriesSelected: data => {
+      dispatch(change(formName, 'registrationCountryId', data.id));
+      dispatch(change(formName, 'countryName', data.name));
+      if (data.id != 643) {
+        clearAddress(dispatch);
+      }
+    },
+    onClearCountriesSelectedSuggestion: () => {
+      dispatch(change(formName, 'registrationCountryId', null));
+      dispatch(change(formName, 'countryName', ''));
+      clearAddress(dispatch);
+    },
 
     onGetKladrSuggestions: value => dispatch(getAddressesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
     onClearKladrSuggestions: () => dispatch(clearAddressesSuggestion()),
-    onKladrSelected: data => {},
-    onClearKladrSelectedSuggestion: () => {}
+    onKladrSelected: data => {
+      dispatch(change(formName, 'registrationRegionId', data.regionId));
+      dispatch(change(formName, 'registrationDistrictId', data.districtId));
+      dispatch(change(formName, 'registrationCityId', data.cityId));
+      dispatch(change(formName, 'registrationSettlementId', data.settlementId));
+      dispatch(change(formName, 'address', data.name));
+    },
+    onClearKladrSelectedSuggestion: () => clearAddress(dispatch)
   };
 
   return { ...props, ...methods, ...ownProps };

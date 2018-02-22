@@ -4,7 +4,10 @@ export {
   apiGetSpecialities, apiGetEduForms, apiGetPgTypes, apiGetSchools,
   apiGetCountries, apiGetAddresses, apiSearchAddress
 } from './dictionariesApi';
-export { apiGetOrganizations, apiDeleteOrganization, apiGetOrganizationById } from './organizationApi';
+export {
+  apiGetOrganizations, apiDeleteOrganization,
+  apiGetOrganizationById, apiPostOrganization
+} from './organizationApi';
 export { apiGetStudentsByHeader,  apiGetStudentsWithoutSelected } from './studentApi';
 
 import { logout } from '../actions';

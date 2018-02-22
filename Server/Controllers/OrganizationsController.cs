@@ -57,6 +57,36 @@ namespace Server.Controllers
                 .AsNoTracking()
                 .SingleOrDefault();
             return res;
-        }        
+        } 
+
+        [HttpPost]
+        public IActionResult Post([FromBody]JuridicalPerson org)
+        {
+            if (org == null) 
+            {
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var existingOrg = db.JuridicalPersons
+                    .FirstOrDefault(x => x.Id == org.Id);
+                
+                if (existingOrg == null)
+                {
+                    db.Add(org);
+                }
+                else
+                {
+                    db.Entry(existingOrg).CurrentValues.SetValues(org);
+                }            
+                db.SaveChanges();
+                return Ok(org);
+            }
+            else 
+            {
+                return BadRequest(ModelState.Values.Select(a => a.Errors.Select(z => z.ErrorMessage)));
+            }            
+        }               
     }
 }

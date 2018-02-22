@@ -3,6 +3,7 @@ import {
   SET_ORGANIZATION_SUGGESTIONS, CLEAR_ORGANIZATION_SUGGESTIONS,
   SET_ADDRESSES_SUGGESTIONS, CLEAR_ADDRESSES_SUGGESTIONS,
   SET_COUNRIES_SUGGESTIONS, CLEAR_COUNRIES_SUGGESTIONS,
+  DELETE_ORGANIZATION
 } from '../actions';
 
 const defaultData = {
@@ -95,6 +96,21 @@ export default function reducer(state = defaultData, action) {
           countriesSuggestions: []
         }
       };
+    case DELETE_ORGANIZATION: {
+      const data = state.list.data.filter(item => item.id != action.data);
+      console.log('red', data);
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          data: data,
+          info: {
+            ...state.list.info,
+            totalRecord: state.list.info.totalRecord > 0 ? state.list.info.totalRecord - 1 : 0
+          }
+        }
+      };
+    }
     default:
       return state;
   }

@@ -2,7 +2,8 @@ import { fetchingAction } from './';
 import {
   apiGetOrganizations, apiDeleteOrganization,
   apiGetOrganizationById, apiGetCountries,
-  apiGetAddresses, apiSearchAddress
+  apiGetAddresses, apiSearchAddress,
+  apiPostOrganization
 } from '../api';
 import { initialize } from 'redux-form';
 
@@ -116,4 +117,20 @@ export function getAddressesSuggestion(params) {
 
 export function clearAddressesSuggestion() {
   return dispatch => dispatch({ type: CLEAR_ADDRESSES_SUGGESTIONS });
+}
+
+export function saveOrganization(data, callback) {
+  return dispatch => {
+    const res = {
+      ...data,
+      country: null,
+      countryName: null,
+      registrationRegion: null,
+      registrationDistrict: null,
+      registrationCity: null,
+      registrationSettlement: null,
+      address: null
+    };
+    fetchingAction(dispatch, apiPostOrganization(res).then(data => callback(data)));
+  };
 }

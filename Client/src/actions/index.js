@@ -57,5 +57,5 @@ export {
   SET_ADDRESSES_SUGGESTIONS, CLEAR_ADDRESSES_SUGGESTIONS,
   SET_COUNRIES_SUGGESTIONS, CLEAR_COUNRIES_SUGGESTIONS,
   getCountriesSuggestion, clearCountriesSuggestion,
-  getAddressesSuggestion, clearAddressesSuggestion
+  getAddressesSuggestion, clearAddressesSuggestion, saveOrganization, deleteOrganization
 } from './organizationActions';

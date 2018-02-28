@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
 import Paper from 'material-ui/Paper';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import { MenuItem } from 'material-ui/Menu';
 import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
 
@@ -57,11 +58,16 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
   const parts = parse(suggestion.name, matches);
 
   return (
-    <MenuItem selected={isHighlighted} component="div">
+    <MenuItem
+      selected={isHighlighted}
+      component="div"
+    >
       <div>
         {parts.map((part, index) => {
           return part.highlight ? (
-            <span key={index} style={{ fontWeight: 700 }}>
+            <span
+              key={index}
+              style={{ fontWeight: 'bold' }}>
               {part.text}
             </span>
           ) : (
@@ -75,17 +81,27 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
   );
 }
 
+// function renderSuggestionsContainer(options) {
+//   const { containerProps, children } = options;
+
+//   return (
+//     <Paper {...containerProps} square>
+//       {children}
+//     </Paper>
+//   );
+// }
+
 function renderSuggestionsContainer(options) {
   const { containerProps, children } = options;
 
   return (
-    <Paper {...containerProps} square>
+    <List {...containerProps}>
       {children}
-    </Paper>
+    </List>
   );
 }
 
-const styles = () => ({
+const styles = theme => ({
   container: {
     flexGrow: 1,
     position: 'relative',
@@ -94,6 +110,11 @@ const styles = () => ({
     position: 'absolute',
     left: 0,
     right: 0,
+    width: 'auto',
+    maxHeight: 300,
+    backgroundColor: theme.palette.background.paper,
+    overflow: 'auto',
+    border: '1px solid #eee',
     zIndex: 999999
   },
   suggestion: {
@@ -124,7 +145,7 @@ class Autocomplete extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.inputProps && nextProps.inputProps.value && this.state.firstReceiveProps) {
-      this.setState({ firstReceiveProps: false, inputDisable: true });
+      this.setState({ firstReceiveProps: false });
     }
   }
 

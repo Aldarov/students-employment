@@ -105,11 +105,12 @@ const getHeaderErrors = values => {
 };
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
-  const id  = ownProps.match.params.id === 'add' ? null : ownProps.match.params.id;
+  let id  = ownProps.match.params.id === 'add' ? null : ownProps.match.params.id;
   const formValues = getFormValues(formName)(state);
   const pristine = isPristine(formName)(state);
   const submitting = isSubmitting(formName)(state);
-  const title = id ? 'Трудоустройство выпускников' : 'Трудоустройство выпускников (добавление)';
+  const getTitle = () => id ? 'Организация' : 'Организация (добавление)';
+  const title = getTitle();
   const pgContractStuffs = formValues ? formValues.pgContractStuffs : [];
 
   const handleClearSchoolSelected = (row, type) => {
@@ -256,7 +257,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const methods = {
     onLoadData: () => handleInitForm(id),
 
-    onGetSpecialitySuggestions: value => dispatch(getSpecialitiesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+    onGetSpecialitySuggestions: value => dispatch(getSpecialitiesSuggestion({ limit: 20, search: value, sorting: [{columnName: 'name'}] })),
     onClearSpecialitySuggestions: () => dispatch(clearSpecialitiesSuggestion()),
     onClearSpecialitySelectedSuggestion: () => {
       dispatch(change(formName, 'speciality', ''));
@@ -325,7 +326,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       }
     },
 
-    onGetSchoolsSuggestions: value => dispatch(getSchoolsSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+    onGetSchoolsSuggestions: value => dispatch(getSchoolsSuggestion({ limit: 20, search: value, sorting: [{columnName: 'name'}] })),
     onClearSchoolsSuggestions: () => dispatch(clearSchoolsSuggestion()),
     onSchoolSelected: (row, type) => data => {
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', data.name));
@@ -333,7 +334,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
     onClearSchoolSelected: (row, type) => () => handleClearSchoolSelected(row, type),
 
-    onGetOrganizationsSuggestions: value => dispatch(getOrganizationsSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+    onGetOrganizationsSuggestions: value => dispatch(getOrganizationsSuggestion({ limit: 20, search: value, sorting: [{columnName: 'name'}] })),
     onClearOrganizationsSuggestions: () => dispatch(clearOrganizationsSuggestion()),
     onOrganizationSelected: (row, type) => data => {
       dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'OrganizationName', data.name));
@@ -405,8 +406,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           onRedirectToList();
         }
         else {
-          initHeader(dispatch, ownProps, pristine, submitting, title);
+          id = res.id;
           ownProps.history.push(`/employment/${res.id}`);
+          initHeader(dispatch, ownProps, isPristine(formName)(state), isSubmitting(formName)(state), getTitle());
         }
       }));
       // throw new SubmissionError({

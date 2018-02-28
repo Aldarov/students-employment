@@ -6,7 +6,6 @@ import EditIcon from 'material-ui-icons/Edit';
 
 export const AddButton = ({ onExecute }) => {
   return (
-    // disiabled ? null :
     <div style={{ textAlign: 'center' }}>
       <Button
         color="primary"
@@ -19,7 +18,6 @@ export const AddButton = ({ onExecute }) => {
 };
 AddButton.propTypes = {
   onExecute: PropTypes.func.isRequired,
-  disiabled: PropTypes.bool
 };
 
 export const EditButton = ({ onExecute }) => (

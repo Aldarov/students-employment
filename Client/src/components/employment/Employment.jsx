@@ -147,14 +147,17 @@ class Employment extends Component {
               Загрузить студентов по выбранным выше данным
             </Button>
           }
-          <FieldArray
-            name='pgContractStuffs'
-            component={RenderList}
-            gridSetting={gridSettingContracts}
-            AddButton={props => AddButton({...props, disabled: contractStuffIsEmpty})}
-            EditButton={EditButton}
-            DeleteButton={DeleteButton}
-          />
+          {
+            !contractStuffIsEmpty &&
+            <FieldArray
+              name='pgContractStuffs'
+              component={RenderList}
+              gridSetting={gridSettingContracts}
+              AddButton={AddButton}
+              EditButton={EditButton}
+              DeleteButton={DeleteButton}
+            />
+          }
         </form>
 
         { contract &&

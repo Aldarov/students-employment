@@ -98,7 +98,6 @@ export default function reducer(state = defaultData, action) {
       };
     case DELETE_ORGANIZATION: {
       const data = state.list.data.filter(item => item.id != action.data);
-      console.log('red', data);
       return {
         ...state,
         list: {

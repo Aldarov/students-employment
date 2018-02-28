@@ -56,12 +56,12 @@ const clearAddress = dispatch => {
 };
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
-  const id  = ownProps.match.params.id === 'add' ? null : ownProps.match.params.id;
+  let id  = ownProps.match.params.id === 'add' ? null : ownProps.match.params.id;
   const formValues = getFormValues(formName)(state);
   const pristine = isPristine(formName)(state);
   const submitting = isSubmitting(formName)(state);
-  const title = id ? 'Организация' : 'Организация (добавление)';
-
+  const getTitle = () => id ? 'Организация' : 'Организация (добавление)';
+  const title = getTitle();
 
   const props = {
     loading: state.fetching,
@@ -87,7 +87,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           onRedirectToList();
         }
         else {
-          initHeader(dispatch, ownProps, pristine, submitting, title);
+          id = res.id;
+          ownProps.history.push(`/organization/${res.id}`);
+          initHeader(dispatch, ownProps, isPristine(formName)(state), isSubmitting(formName)(state), getTitle());
         }
       }));
       // throw new SubmissionError({
@@ -95,9 +97,20 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       //   _error: 'Общая ошибка формы!!'
       // });
     },
-    validate: values => {},
+    validate: values => {
+      const errors = {};
 
-    onGetCountriesSuggestions: value => dispatch(getCountriesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+      const requiredFields = ['name'];
+      requiredFields.forEach(field => {
+        if (!values[field]) {
+          errors[field] = 'Заполните данное поле';
+        }
+      });
+
+      return errors;
+    },
+
+    onGetCountriesSuggestions: value => dispatch(getCountriesSuggestion({ limit: 20, search: value, sorting: [{columnName: 'name'}] })),
     onClearCountriesSuggestions: () => dispatch(clearCountriesSuggestion()),
     onCountriesSelected: data => {
       dispatch(change(formName, 'registrationCountryId', data.id));
@@ -112,7 +125,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       clearAddress(dispatch);
     },
 
-    onGetKladrSuggestions: value => dispatch(getAddressesSuggestion({ limit: 7, search: value, sorting: [{columnName: 'name'}] })),
+    onGetKladrSuggestions: value => dispatch(getAddressesSuggestion({ limit: 20, search: value, sorting: [{columnName: 'name'}] })),
     onClearKladrSuggestions: () => dispatch(clearAddressesSuggestion()),
     onKladrSelected: data => {
       dispatch(change(formName, 'registrationRegionId', data.regionId));

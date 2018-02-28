@@ -76,19 +76,19 @@ export function initOrganizationForm(formName, id, callback) {
         },
         address: '',
         countryName: ''
-      }, false, { keepSubmitSucceeded: false }));
+      }));
       if (typeof callback === 'function') callback();
     } else {
       fetchingAction(dispatch, apiGetOrganizationById(id)
         .then(res => {
-          apiSearchAddress({
+          return apiSearchAddress({
             regionId: res.registrationRegionId, districtId: res.registrationDistrictId,
             cityId: res.registrationCityId, settlementId: res.registrationSettlementId
           }).then(address => {
             const addr = (address && address.name) || '';
             const country = (res.country && res.country.name) || '';
             const result = { ...res, address: addr, countryName: country };
-            dispatch(initialize(formName, result, false, { keepSubmitSucceeded: false }));
+            dispatch(initialize(formName, result));
             if (typeof callback === 'function') callback();
           });
         })

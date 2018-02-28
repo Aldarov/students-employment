@@ -93,7 +93,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(getEmploymentList({ limit, page, sorting }));
     },
 
-    onSuggestionsFetchRequested: (value) => dispatch(getEmploymentSuggestions({ limit: 7, search: value })),
+    onSuggestionsFetchRequested: (value) => dispatch(getEmploymentSuggestions({ limit: 20, search: value })),
     onSuggestionsClearRequested: () => dispatch(clearEmploymentSuggestions()),
     onSuggestionSelected: (value) => dispatch(getEmploymentList({ limit, id: value? value.id : null})),
     onClearSuggestionSelected: () => dispatch(getEmploymentList({ limit, page, sorting })),

@@ -86,7 +86,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         [{columnName: 'name', direction: 'asc'}];
       dispatch(getOrganizationList({ limit, page, sorting: sort }));
     },
-    onSuggestionsFetchRequested: (value) => dispatch(getOrganizationSuggestions({ limit: 7, search: value })),
+    onSuggestionsFetchRequested: (value) => dispatch(getOrganizationSuggestions({ limit: 20, search: value })),
     onSuggestionsClearRequested: () => dispatch(clearOrganizationSuggestions()),
     onSuggestionSelected: (value) => dispatch(getOrganizationList({ limit, id: value? value.id : null})),
     onClearSuggestionSelected: () => dispatch(getOrganizationList({ limit, page, sorting })),

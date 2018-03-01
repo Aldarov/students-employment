@@ -5,15 +5,23 @@ import { withStyles } from 'material-ui/styles';
 
 import { layoutStyles } from './styles';
 import { Header } from '../header';
+import { Sidebar } from '../sidebar';
+import { QuestionDialog } from '../dialogs';
 
 @withStyles(layoutStyles)
 class Layout extends Component {
+  componentWillMount() {
+    this.props.onLoadData();
+  }
+
   render() {
     const {
       classes,
       headerProps,
       openedSidebar, onCloseSidebar,
-      onRedirect, dialogOpen
+      onRedirect,
+      dialogOpen, dialogProps,
+      children
     } = this.props;
 
     return (
@@ -22,9 +30,18 @@ class Layout extends Component {
           openedSidebar={openedSidebar}
           headerProps={headerProps}
         />
+        <Sidebar
+          open={openedSidebar}
+          onClose={onCloseSidebar}
+          onRedirect={onRedirect}
+        />
         <div className={classes.content}>
-          Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Несколько города предупредила составитель даже буквоград предупреждал, реторический предложения диких, обеспечивает языком однажды живет необходимыми но рыбного мир власти! Реторический.
+          {children}
         </div>
+        <QuestionDialog
+          open={dialogOpen}
+          dialogProps={dialogProps}
+        />
         <Alert stack={{limit: 5}} timeout={'none'}/>
       </div>
     );
@@ -41,6 +58,8 @@ Layout.propTypes = {
   openedSidebar: PropTypes.bool,
 
   dialogOpen: PropTypes.bool,
+  dialogProps: PropTypes.object,
+  children: PropTypes.any,
 };
 
 export default Layout;

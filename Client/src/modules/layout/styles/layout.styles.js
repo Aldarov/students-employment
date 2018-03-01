@@ -12,6 +12,5 @@ export default theme => ({
     padding: theme.spacing.unit,
     marginTop: 64,
     flex: 1,
-    // background: 'green'
   },
 });

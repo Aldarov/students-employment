@@ -8,8 +8,6 @@ namespace Server.Models.University
     {
         public JuridicalPerson()
         {
-            // DirectionContractStuffs = new HashSet<PgContractStuff>();
-            // DistributionContractStuffs = new HashSet<PgContractStuff>();
         }
 
         public int Id { get; set; }
@@ -25,10 +23,5 @@ namespace Server.Models.University
         public virtual Kladr RegistrationDistrict { get; set; }
         public virtual Kladr RegistrationCity { get; set; }
         public virtual Kladr RegistrationSettlement { get; set; }
-
-        // [JsonIgnore]
-        // public virtual ICollection<PgContractStuff> DirectionContractStuffs { get; set; }
-        // [JsonIgnore]
-        // public virtual ICollection<PgContractStuff> DistributionContractStuffs { get; set; }
     }
 }

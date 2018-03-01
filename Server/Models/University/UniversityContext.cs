@@ -162,49 +162,11 @@ namespace Server.Models.University
             modelBuilder.Entity<Kladr>(entity =>
             {
                 entity.ToTable("kladr");
-                // entity.HasIndex(e => e.ElLevel)
-                //     .HasName("IX_kladr_1");
-                // entity.HasIndex(e => e.ParentId)
-                //     .HasName("IX_kladr");
-                // entity.HasIndex(e => new { e.Id, e.Name })
-                //     .HasName("_dta_index_kladr_5_85575343__K1_K4");
-                // entity.HasIndex(e => new { e.Socr, e.ElLevel, e.Id, e.Name })
-                //     .HasName("_dta_index_kladr_5_85575343__K1_K4_3_5");
-                // entity.HasIndex(e => new { e.Socr, e.ElLevel, e.ParentId, e.Id, e.Name })
-                //     .HasName("_dta_index_kladr_5_85575343__K2_K1_K4_3_5");
-                // entity.HasIndex(e => new { e.Socr, e.ElLevel, e.Code, e.ParentId, e.Id, e.Name })
-                //     .HasName("_dta_index_kladr_5_85575343__K2_K1_K4_3_5_6");
                 entity.Property(e => e.Id).HasColumnName("id");
-                // entity.Property(e => e.Code)
-                //     .IsRequired()
-                //     .HasColumnName("CODE")
-                //     .HasMaxLength(13);
-                // entity.Property(e => e.ElLevel).HasColumnName("el_level");
-                // entity.Property(e => e.FomsId).HasColumnName("foms_id");
-                // entity.Property(e => e.Gninmb)
-                //     .HasColumnName("GNINMB")
-                //     .HasMaxLength(4);
-                // entity.Property(e => e.Index)
-                //     .HasColumnName("INDEX")
-                //     .HasMaxLength(6);
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("NAME")
                     .HasMaxLength(40);
-                // entity.Property(e => e.Ocatd)
-                //     .HasColumnName("OCATD")
-                //     .HasMaxLength(11);
-                // entity.Property(e => e.ParentId).HasColumnName("parent_id");
-                // entity.Property(e => e.Socr)
-                //     .IsRequired()
-                //     .HasColumnName("SOCR")
-                //     .HasMaxLength(10);
-                // entity.Property(e => e.Status)
-                //     .HasColumnName("STATUS")
-                //     .HasMaxLength(1);
-                // entity.Property(e => e.Uno)
-                //     .HasColumnName("UNO")
-                //     .HasMaxLength(4);
             });
 
             modelBuilder.Entity<PgContractInfo>(entity =>
@@ -224,11 +186,6 @@ namespace Server.Models.University
                 entity.Property(e => e.NumberContract)
                     .HasColumnName("number_contract")
                     .HasMaxLength(20);
-                // entity.HasOne(d => d.JuridicalPerson)
-                //     .WithMany(p => p.PgContractInfos)
-                //     .HasForeignKey(d => d.JuridicalPersonId)
-                //     .OnDelete(DeleteBehavior.Restrict)
-                //     .HasConstraintName("FK_pg_contract_info_juridical_persons");
             });
 
             modelBuilder.Entity<PgContractStuff>(entity =>
@@ -252,14 +209,6 @@ namespace Server.Models.University
                     .WithMany(p => p.DistributionContractStuffs)
                     .HasForeignKey(d => d.DistributionTypeId)
                     .HasConstraintName("FK_pg_contract_stuff_pg_types1");
-                // entity.HasOne(d => d.DirectionOrganization)
-                //     .WithMany(p => p.DirectionContractStuffs)
-                //     .HasForeignKey(d => d.DirectionOrganizationId)
-                //     .HasConstraintName("FK_pg_contract_stuff_juridical_persons");
-                // entity.HasOne(d => d.DistributionOrganization)
-                //     .WithMany(p => p.DistributionContractStuffs)
-                //     .HasForeignKey(d => d.DistributionOrganizationId)
-                //     .HasConstraintName("FK_pg_contract_stuff_juridical_persons1");
                 entity.HasOne(d => d.PgHeader)
                     .WithMany(p => p.PgContractStuffs)
                     .HasForeignKey(d => d.PgHeaderId)
@@ -290,14 +239,6 @@ namespace Server.Models.University
                     .HasMaxLength(150);
                 entity.Property(e => e.SchoolId).HasColumnName("school_id");
                 entity.Property(e => e.StudentId).HasColumnName("student_id");
-                // entity.HasOne(d => d.JuridicalPerson)
-                //     .WithMany(p => p.PgGraduateWorkplaces)
-                //     .HasForeignKey(d => d.JuridicalPersonId)
-                //     .HasConstraintName("FK_pg_graduate_workplace_juridical_persons");
-                // entity.HasOne(d => d.School)
-                //     .WithMany(p => p.PgGraduateWorkplaces)
-                //     .HasForeignKey(d => d.SchoolId)
-                //     .HasConstraintName("FK_pg_graduate_workplace_schools");
             });
 
             modelBuilder.Entity<PgHeader>(entity =>
@@ -348,46 +289,6 @@ namespace Server.Models.University
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("varchar(255)");
-                // entity.HasIndex(e => new { e.Name, e.Id })
-                //     .HasName("_dta_index_schools_5_1083202959__K1_2");
-                // entity.HasIndex(e => new { e.SchoolRegionId, e.Id })
-                //     .HasName("_dta_index_schools_5_1083202959__K1_6");
-                // entity.Property(e => e.CityDistrictId).HasColumnName("city_district_id");
-                // entity.Property(e => e.InstId).HasColumnName("inst_id");
-                // entity.Property(e => e.KindOu)
-                //     .HasColumnName("kind_ou")
-                //     .HasColumnType("char(4)");
-                // entity.Property(e => e.SchoolCityId).HasColumnName("school_city_id");
-                // entity.Property(e => e.SchoolCountryId).HasColumnName("school_country_id");
-                // entity.Property(e => e.SchoolDistrictId).HasColumnName("school_district_id");
-                // entity.Property(e => e.SchoolRegionId).HasColumnName("school_region_id");
-                // entity.Property(e => e.SchoolSettlementId).HasColumnName("school_settlement_id");
-                // entity.Property(e => e.ShortName)
-                //     .HasColumnName("short_name")
-                //     .HasColumnType("varchar(150)");
-                // entity.Property(e => e.TypeId)
-                //     .HasColumnName("type_id")
-                //     .HasDefaultValueSql("14");
-                // entity.HasOne(d => d.SchoolCity)
-                //     .WithMany(p => p.SchoolsCity)
-                //     .HasForeignKey(d => d.SchoolCityId)
-                //     .HasConstraintName("FK_schools_kladr2");
-                // entity.HasOne(d => d.SchoolDistrict)
-                //     .WithMany(p => p.SchoolsDistrict)
-                //     .HasForeignKey(d => d.SchoolDistrictId)
-                //     .HasConstraintName("FK_schools_kladr1");
-                // entity.HasOne(d => d.SchoolRegion)
-                //     .WithMany(p => p.SchoolsRegion)
-                //     .HasForeignKey(d => d.SchoolRegionId)
-                //     .HasConstraintName("FK_schools_kladr");
-                // entity.HasOne(d => d.SchoolSettlement)
-                //     .WithMany(p => p.SchoolsSettlement)
-                //     .HasForeignKey(d => d.SchoolSettlementId)
-                //     .HasConstraintName("FK_schools_kladr3");
-                // entity.HasOne(d => d.Country)
-                //     .WithMany(p => p.Schools)
-                //     .HasForeignKey(d => d.SchoolCountryId)
-                //     .HasConstraintName("FK_schools_countries");                    
             });
         }
     }

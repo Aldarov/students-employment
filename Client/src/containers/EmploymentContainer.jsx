@@ -375,7 +375,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(clearStudentSelection());
       dispatch(closeStudentsSelection());
     },
-
     onLoadStudents: () => {
       const errors = getHeaderErrors(formValues);
 
@@ -395,6 +394,10 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         dispatch(clearStudentSelection());
         dispatch(closeStudentsSelection());
       }
+    },
+
+    onShowDistributionReport: () => {
+      console.log('show distibution report', );
     },
 
     onChange: () => {

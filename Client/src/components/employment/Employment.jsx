@@ -87,6 +87,7 @@ class Employment extends Component {
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
       onChangeContractDirectionType,
       openedStudentsSelection, studentsSelection, onCloseStudentsSelection, onStudentsSelected, onLoadStudents, contractStuffIsEmpty,
+      onShowDistributionReport
     } = this.props;
 
     return (
@@ -145,6 +146,12 @@ class Employment extends Component {
             contractStuffIsEmpty && !loading &&
             <Button className={classes.marginBottom} color="primary" onClick={onLoadStudents}>
               Загрузить студентов по выбранным выше данным
+            </Button>
+          }
+          {
+            !contractStuffIsEmpty &&
+            <Button className={classes.marginBottom} color="primary" onClick={onShowDistributionReport}>
+              Отчет по распределению
             </Button>
           }
           {
@@ -246,7 +253,9 @@ Employment.propTypes = {
   onLoadStudents: PropTypes.func,
   contractStuffIsEmpty: PropTypes.bool,
   pristine: PropTypes.bool,
-  submitting: PropTypes.bool
+  submitting: PropTypes.bool,
+
+  onShowDistributionReport: PropTypes.func,
 };
 
 export default withStyles(styles)(Employment);

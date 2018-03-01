@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
-import Paper from 'material-ui/Paper';
-import List, { ListItem, ListItemText } from 'material-ui/List';
+import List from 'material-ui/List';
 import { MenuItem } from 'material-ui/Menu';
 import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
 
@@ -81,16 +80,6 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
   );
 }
 
-// function renderSuggestionsContainer(options) {
-//   const { containerProps, children } = options;
-
-//   return (
-//     <Paper {...containerProps} square>
-//       {children}
-//     </Paper>
-//   );
-// }
-
 function renderSuggestionsContainer(options) {
   const { containerProps, children } = options;
 
@@ -156,7 +145,8 @@ class Autocomplete extends React.Component {
   handleSuggestionSelected = (event, {suggestion}) => {
     if (suggestion && suggestion.id) {
       this.props.onSuggestionSelected(suggestion);
-      this.setState({value: suggestion.name, inputDisable: true });
+      // this.setState({value: suggestion.name, inputDisable: true });
+      this.setState({value: suggestion.name});
     }
   }
 

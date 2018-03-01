@@ -5,9 +5,6 @@ import Alert from 'react-s-alert';
 import MainContainer from './containers/MainContainer';
 import LoginContainer from './containers/LoginContainer';
 
-import 'normalize.css';
-import './styles/base.scss';
-
 function App()  {
   return (
     <Fragment>

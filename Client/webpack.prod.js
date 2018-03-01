@@ -16,7 +16,10 @@ module.exports = merge(
             {
               loader: 'babel-loader',
               options: {
-                presets: ['es2015', 'react', 'stage-2']
+                plugins: [
+                  'transform-decorators-legacy'
+                ],
+                presets: ['es2015', 'react', 'stage-2'],
               }
             }
           ]

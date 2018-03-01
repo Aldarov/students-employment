@@ -11,7 +11,7 @@ module.exports = {
   entry: {
     'main': [
       'babel-polyfill',
-      paths.source + '/index.js'
+      paths.source + '/App.js'
     ]
   },
   output: {

@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { Layout } from '../layout';
 
 class EmploymentList extends Component {
+  componentWillMount() {
+    this.props.onLoadData();
+  }
+
   render() {
     const {
       headerProps,
-      dialogProps
+      formName,
     } = this.props;
 
     return (
       <Layout
         headerProps={headerProps}
-        dialogProps={dialogProps}
+        formName={formName}
       >
         EmploymentList!!!!
       </Layout>
@@ -22,7 +26,8 @@ class EmploymentList extends Component {
 
 EmploymentList.propTypes = {
   headerProps: PropTypes.object,
-  dialogProps: PropTypes.object,
+  onLoadData: PropTypes.func,
+  formName: PropTypes.string,
 };
 
 export default EmploymentList;

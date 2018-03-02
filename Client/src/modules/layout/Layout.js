@@ -7,6 +7,7 @@ import { layoutStyles } from './styles';
 import { Header } from '../header';
 import { Sidebar } from '../sidebar';
 import { QuestionDialog } from '../dialogs';
+import { BusyIndicator } from '../busyIndicator';
 
 @withStyles(layoutStyles)
 class Layout extends Component {
@@ -21,11 +22,13 @@ class Layout extends Component {
       openedSidebar, onCloseSidebar,
       onRedirect,
       dialogOpen, dialogProps,
-      children
+      children,
+      formName
     } = this.props;
 
     return (
       <div className={classes.container}>
+        <BusyIndicator formName={formName}/>
         <Header
           openedSidebar={openedSidebar}
           headerProps={headerProps}
@@ -60,6 +63,7 @@ Layout.propTypes = {
   dialogOpen: PropTypes.bool,
   dialogProps: PropTypes.object,
   children: PropTypes.any,
+  formName: PropTypes.string,
 };
 
 export default Layout;

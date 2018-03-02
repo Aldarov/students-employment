@@ -5,8 +5,8 @@ import { authReducer } from './modules/auth';
 import { sidebarReducer } from './modules/sidebar';
 import { dialogReducer } from './modules/dialogs';
 import { dictionariesReducer } from './modules/layout';
+import { fetchingReducer } from './modules/busyIndicator';
 
-// import fetchingReducer from './fetchingReducer';
 // import employmentReducer from './employmentReducer';
 // import organizationReducer from './organizationReducer';
 
@@ -16,8 +16,8 @@ const reducer = combineReducers({
   sidebar: sidebarReducer,
   dialog: dialogReducer,
   dictionaries: dictionariesReducer,
+  fetching: fetchingReducer,
 
-  // fetching: fetchingReducer,
   // employment: employmentReducer,
   // organization: organizationReducer,
 });

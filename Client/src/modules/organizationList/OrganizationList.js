@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Layout } from '../layout';
 
 class OrganizationList extends Component {
   render() {
-    //const {  } = this.props;
+    const {
+      headerProps
+    } = this.props;
 
     return (
-      <div>
+      <Layout
+        headerProps={headerProps}
+      >
         OrganizationList!!!
-      </div>
+      </Layout>
     );
   }
 }
 
 OrganizationList.propTypes = {
-
+  headerProps: PropTypes.object,
 };
 
 export default OrganizationList;

@@ -17,6 +17,7 @@ export default withRouter(AuthDispatcher(
       children: ownProps.children,
       headerProps: ownProps.headerProps,
       dialogProps: ownProps.dialogProps,
+      formName: ownProps.formName,
     };
 
     const methods = {

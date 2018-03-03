@@ -6,7 +6,6 @@ import { withStyles } from 'material-ui/styles';
 import { layoutStyles } from './styles';
 import { Header } from '../header';
 import { Sidebar } from '../sidebar';
-import { QuestionDialog } from '../dialogs';
 import { BusyIndicator } from '../busyIndicator';
 
 @withStyles(layoutStyles)
@@ -21,7 +20,6 @@ class Layout extends Component {
       headerProps,
       openedSidebar, onCloseSidebar,
       onRedirect,
-      dialogOpen, dialogProps,
       children,
       formName
     } = this.props;
@@ -41,10 +39,6 @@ class Layout extends Component {
         <div className={classes.content}>
           {children}
         </div>
-        <QuestionDialog
-          open={dialogOpen}
-          dialogProps={dialogProps}
-        />
         <Alert stack={{limit: 5}} timeout={'none'}/>
       </div>
     );
@@ -60,8 +54,6 @@ Layout.propTypes = {
   onCloseSidebar: PropTypes.func,
   openedSidebar: PropTypes.bool,
 
-  dialogOpen: PropTypes.bool,
-  dialogProps: PropTypes.object,
   children: PropTypes.any,
   formName: PropTypes.string,
 };

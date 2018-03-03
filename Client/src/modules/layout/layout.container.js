@@ -11,13 +11,11 @@ import {
 export default withRouter(AuthDispatcher(
   connectAdvanced(dispatch => (state, ownProps) => {
     const props = {
-      openedSidebar: state.sidebar.openedSidebar,
-      dialogOpen: state.dialog.dialogOpen,
-
       children: ownProps.children,
-      headerProps: ownProps.headerProps,
-      dialogProps: ownProps.dialogProps,
       formName: ownProps.formName,
+      headerProps: ownProps.headerProps,
+
+      openedSidebar: state.sidebar.openedSidebar,
     };
 
     const methods = {

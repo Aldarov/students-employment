@@ -7,6 +7,8 @@ import { dialogReducer } from './modules/dialogs';
 import { dictionariesReducer } from './modules/layout';
 import { fetchingReducer } from './modules/busyIndicator';
 
+import { employmentListReducer } from './modules/employmentList';
+
 // import employmentReducer from './employmentReducer';
 // import organizationReducer from './organizationReducer';
 
@@ -18,7 +20,9 @@ const reducer = combineReducers({
   dictionaries: dictionariesReducer,
   fetching: fetchingReducer,
 
-  // employment: employmentReducer,
+  employment: combineReducers({
+    list: employmentListReducer,
+  })
   // organization: organizationReducer,
 });
 

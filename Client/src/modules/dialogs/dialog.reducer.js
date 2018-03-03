@@ -2,23 +2,21 @@ import {
   DIALOG_QUESTION_OPEN, DIALOG_QUESTION_CLOSE
 } from '../../constants';
 
-const defaultData = {
-  dialogOpen: false,
-};
-
-export default function reducer(state = defaultData, action) {
+export default function reducer(state = [], action) {
   switch (action.type) {
     case DIALOG_QUESTION_OPEN: {
-      return {
-        ...state,
-        dialogOpen: true
-      };
+      const st = state && state.filter(item => item.dialogName !== action.data.dialogName);
+      return [
+        ...st,
+        { dialogName: action.data.dialogName, open: true, args: action.data.args }
+      ];
     }
     case DIALOG_QUESTION_CLOSE: {
-      return {
-        ...state,
-        dialogOpen: false
-      };
+      const st = state && state.filter(item => item.dialogName !== action.data.dialogName);
+      return [
+        ...st,
+        { dialogName: action.data.dialogName, open: false }
+      ];
     }
     default:
       return state;

@@ -1,9 +1,9 @@
 import { DIALOG_QUESTION_OPEN, DIALOG_QUESTION_CLOSE } from '../../constants';
 
-export function openQuestionDialog() {
-  return dispatch => dispatch({ type: DIALOG_QUESTION_OPEN });
+export function openQuestionDialog(dialogName, args) {
+  return dispatch => dispatch({ type: DIALOG_QUESTION_OPEN, data: {dialogName, args} });
 }
 
-export function closeQuestionDialog() {
-  return dispatch => dispatch({ type: DIALOG_QUESTION_CLOSE });
+export function closeQuestionDialog(dialogName) {
+  return dispatch => dispatch({ type: DIALOG_QUESTION_CLOSE, data: {dialogName} });
 }

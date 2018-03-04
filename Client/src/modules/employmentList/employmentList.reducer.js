@@ -32,7 +32,7 @@ export default function reducer(state = defaultData, action) {
       };
     }
     case DELETE_EMPLOYMENT: {
-      const data = state.list.data.filter(item => item.id != action.data);
+      const data = state.data.filter(item => item.id != action.data);
       return {
         ...state,
         data: data,

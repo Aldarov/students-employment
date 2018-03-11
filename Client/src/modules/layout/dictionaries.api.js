@@ -20,18 +20,3 @@ export function apiGetSchools({...args}) {
   const url = getUrl({startUrl: 'api/schools', ...args});
   return axios.get(url);
 }
-
-export function apiGetCountries({...args}) {
-  const url = getUrl({startUrl: 'api/countries', ...args});
-  return axios.get(url);
-}
-
-export function apiGetAddresses({...args}) {
-  const url = getUrl({startUrl: 'api/addresses', ...args});
-  return axios.get(url);
-}
-
-export function apiSearchAddress({...args}) {
-  const url = getUrl({startUrl: 'api/addresses/search', ...args});
-  return axios.get(url);
-}

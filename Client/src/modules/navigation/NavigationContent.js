@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 
 import { EmploymentList } from '../employmentList';
 import { OrganizationList } from '../organizationList';
+import { Organization } from '../organization';
 
 class NavigationContent extends Component {
   render() {
@@ -17,12 +18,12 @@ class NavigationContent extends Component {
         <Route exact path="/organization"
           component={OrganizationList}
         />
-        {/*<Route exact path="/employment/:id"
+        {/* <Route exact path="/employment/:id"
           component={EmploymentContainer}
-        />
-        <Route exact path="/organization/:id"
-          component={OrganizationContainer}
         /> */}
+        <Route exact path="/organization/:id"
+          component={Organization}
+        />
       </Fragment>
     );
   }

@@ -2,7 +2,6 @@ import { connectAdvanced } from 'react-redux';
 
 import EmploymentList from './EmploymentList';
 import { openSidebar } from '../sidebar';
-import { fetchingStart, fetchingEnd } from '../busyIndicator';
 import { openQuestionDialog, closeQuestionDialog } from '../dialogs';
 import {
   getEmploymentList,
@@ -33,8 +32,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dialogName: DELETE_EMPLOYMENT_DIALOG,
       contentText: 'Удалить данную запись?',
       onYes: args => {
-        dispatch(fetchingStart(formName));
-        dispatch(deleteEmployment(args.row.id), () => dispatch(fetchingEnd(formName)));
+        dispatch(deleteEmployment(args.row.id, formName));
         dispatch(closeQuestionDialog(DELETE_EMPLOYMENT_DIALOG));
       },
       onNo: () => {
@@ -65,8 +63,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       allowSorting: true,
       sorting: sorting,
       onSortingChange: (newSorting) => {
-        dispatch(fetchingStart(formName));
-        dispatch(getEmploymentList({ limit, page, sorting: newSorting }, () => dispatch(fetchingEnd(formName))));
+        dispatch(getEmploymentList({ limit, page, sorting: newSorting }, formName));
       },
 
       currentPage: page,
@@ -74,8 +71,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       totalCount: totalRecord,
       onChangeCurrentPage: (newPage) => {
         if (newPage != page ) {
-          dispatch(fetchingStart(formName));
-          dispatch(getEmploymentList({ limit, page: newPage, sorting }, () => dispatch(fetchingEnd(formName))));
+          dispatch(getEmploymentList({ limit, page: newPage, sorting }, formName));
         }
       },
 
@@ -101,20 +97,19 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
   const methods = {
     onLoadData: () => {
-      dispatch(fetchingStart(formName));
-      dispatch(getEmploymentList({ limit, page, sorting }, () => dispatch(fetchingEnd(formName))));
+      dispatch(getEmploymentList({ limit, page, sorting }, formName));
     },
 
     onSuggestionsFetchRequested: (value) => {
-      dispatch(fetchingStart(formName));
-      dispatch(getEmploymentSuggestions({ limit: 20, search: value }, () => dispatch(fetchingEnd(formName))));
+      dispatch(getEmploymentSuggestions({ limit: 20, search: value }, formName));
     },
     onSuggestionsClearRequested: () => dispatch(clearEmploymentSuggestions()),
     onSuggestionSelected: (value) => {
-      dispatch(fetchingStart(formName));
-      dispatch(getEmploymentList({ limit, id: value ? value.id : null }, dispatch(fetchingEnd(formName))));
+      dispatch(getEmploymentList({ limit, id: value ? value.id : null }, formName));
     },
-    onClearSuggestionSelected: () => dispatch(getEmploymentList({ limit, page, sorting })),
+    onClearSuggestionSelected: () => {
+      dispatch(getEmploymentList({ limit, page, sorting }, formName));
+    },
   };
 
   return { ...props, ...methods, ...ownProps };

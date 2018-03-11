@@ -9,31 +9,33 @@ import {
 import {
   apiGetEmploymentList, apiDeleteEmployment
 } from './employmentList.api';
+import { fetching } from '../busyIndicator';
 
-export function getEmploymentList(params, callback) {
-  return dispatch => apiGetEmploymentList(params)
-    .then(res => {
+export function getEmploymentList(params, formName) {
+  return dispatch => fetching(dispatch, formName,
+    apiGetEmploymentList(params).then(res => {
       dispatch({ type: SET_EMPLOYMENT_LIST, data: res });
       if (params.sorting)
         dispatch({ type: SET_EMPLOYMENT_LIST_SORTING, data: params.sorting });
-      callback();
-    });
+      return res;
+    })
+  );
 }
 
-export function deleteEmployment(id, callback) {
-  return dispatch => apiDeleteEmployment(id)
-    .then(() => {
+export function deleteEmployment(id, formName) {
+  return dispatch => fetching(dispatch, formName,
+    apiDeleteEmployment(id).then(() => {
       dispatch({ type: DELETE_EMPLOYMENT, data: id });
-      callback();
-    });
+    })
+  );
 }
 
-export function getEmploymentSuggestions(params, callback) {
-  return dispatch => apiGetEmploymentList(params)
-    .then(res => {
+export function getEmploymentSuggestions(params, formName) {
+  return dispatch => fetching(dispatch, formName,
+    apiGetEmploymentList(params).then(res => {
       dispatch({ type: SET_EMPLOYMENT_SUGGESTIONS, data: res.data });
-      callback();
-    });
+    })
+  );
 }
 
 export function clearEmploymentSuggestions() {

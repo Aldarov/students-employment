@@ -8,9 +8,8 @@ import { dictionariesReducer } from './modules/layout';
 import { fetchingReducer } from './modules/busyIndicator';
 
 import { employmentListReducer } from './modules/employmentList';
-
-// import employmentReducer from './employmentReducer';
-// import organizationReducer from './organizationReducer';
+import { organizationListReducer } from './modules/organizationList';
+import { organizationReducer } from './modules/organization';
 
 const reducer = combineReducers({
   isAuth: authReducer,
@@ -22,8 +21,11 @@ const reducer = combineReducers({
 
   employment: combineReducers({
     list: employmentListReducer,
-  })
-  // organization: organizationReducer,
+  }),
+  organization: combineReducers({
+    list: organizationListReducer,
+    edit: organizationReducer
+  }),
 });
 
 export default reducer;

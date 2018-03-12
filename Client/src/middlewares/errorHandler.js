@@ -1,9 +1,13 @@
-// import Alert from 'react-s-alert';
+import Alert from 'react-s-alert';
+import { fetchingEnd } from '../modules/busyIndicator';
 
-export const errorHandler = () => next => action => {
+export const errorHandler = store => next => action => {
   const res = next(action);
+
   if (res && (typeof res.catch === 'function')) {
-    return res.catch(() => {
+    return res.catch(error => {
+      store.dispatch(fetchingEnd());
+
       // if (error && error.messages) {
       //   let msg = '';
       //   error.messages['*'].forEach(el => {

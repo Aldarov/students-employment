@@ -8,11 +8,13 @@ import {
 } from '../../constants';
 import {
   apiGetOrganizationById,
-  apiSearchAddress,
-  apiGetCountries,
-  apiGetAddresses,
   apiPostOrganization
 } from './organization.api';
+import {
+  apiGetCountries,
+  apiGetAddresses,
+  apiSearchAddress,
+} from '../layout';
 import { fetching } from '../busyIndicator';
 
 export function initOrganizationForm(formName, id) {

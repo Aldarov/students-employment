@@ -5,8 +5,8 @@ import Icon from 'material-ui/Icon';
 import { withStyles } from 'material-ui/styles';
 import Tooltip from 'material-ui/Tooltip/Tooltip';
 
-import Dialog from '../common/dialogs/Dialog';
-import List from '../common/List';
+import { Dialog } from '../../dialogs';
+import List from '../../_global/components/List';
 
 const styles = theme => ({
   button: {

@@ -18,9 +18,11 @@ import {
   showDirectionOrganizations, showDistributionOrganizations,
   hideDirectionOrganizations, hideDistributionOrganizations,
   saveEmployment,
+} from './employment.actions';
+import {
   getStudentsWithoutSelected, getStudentsByHeader, clearStudentSelection,
   openStudentsSelection, closeStudentsSelection,
-} from './organization.actions';
+} from './students.actions';
 import ContractTableCellTemplate from './components/ContractTableCellTemplate';
 
 

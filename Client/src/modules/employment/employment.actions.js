@@ -1,5 +1,3 @@
-// getStudentsWithoutSelected, getStudentsByHeader, clearStudentSelection,
-// openStudentsSelection, closeStudentsSelection,
 import {
   SET_SPECIALITIES_SUGGESTIONS,
   CLEAR_SPECIALITIES_SUGGESTIONS,
@@ -13,8 +11,9 @@ import {
 import { fetching } from '../busyIndicator';
 import {
   apiGetEmploymentById, apiPostEmployment,
-  apiGetSpecialities, apiGetSchools, apiGetOrganizations,
 } from './employment.api';
+import { apiGetSpecialities, apiGetSchools } from '../layout';
+import { apiGetOrganizations } from '../organizationList';
 import { initialize } from 'redux-form';
 
 export function initEmploymentForm(id, formName) {
@@ -136,11 +135,11 @@ export function hideDistributionOrganizations() {
   });
 }
 
-export function getSchoolsSuggestion(params) {
-  return dispatch => apiGetSchools(params)
-    .then(res =>
+export function getSchoolsSuggestion(params, formName) {
+  return dispatch => fetching(dispatch, formName,
+    apiGetSchools(params).then(res =>
       dispatch({ type: SET_SCHOOLS_SUGGESTIONS, data: res.data })
-    );
+    ));
 }
 
 export function clearSchoolsSuggestion() {

@@ -9,3 +9,7 @@ export function fetching(dispatch, type, action) {
     })
     .catch(() => dispatch({ type: FETCHING_END, data: type }));
 }
+
+export function fetchingEnd(type) {
+  return dispatch => dispatch({ type: FETCHING_END, data: type });
+}

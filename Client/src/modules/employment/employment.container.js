@@ -24,6 +24,7 @@ import {
   openStudentsSelection, closeStudentsSelection,
 } from './students.actions';
 import ContractTableCellTemplate from './components/ContractTableCellTemplate';
+import { showReport } from '../reportManager';
 
 
 const formName = 'employment';
@@ -395,7 +396,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
 
     onShowDistributionReport: () => {
-      console.log('show distibution report', );
+      showReport('Distribution');
     },
 
     onSubmit: values => {

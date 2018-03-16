@@ -1,6 +1,13 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
+const htmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+
+const paths = {
+  source: path.resolve(__dirname, 'src'),
+  build: path.resolve(__dirname, 'build')
+};
 
 module.exports = merge(
   common,
@@ -51,7 +58,16 @@ module.exports = merge(
         'process.env':{
           'NODE_ENV': JSON.stringify('development')
         }
+      }),
+      new htmlWebpackPlugin({
+        chunks: ['main', 'common'],
+        favicon: paths.source + '/assets/favicon.ico',
+        template: paths.source + '/assets/index.html'
+      }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'common'
       })
+
     ],
     devtool: 'eval',
   }

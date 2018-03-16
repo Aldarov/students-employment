@@ -80,18 +80,18 @@ namespace Server
             
             app.UseAuthentication();
 
-            app.Use(async (context, next) => 
-            { 
-                await next(); 
-                if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value)) 
-                { 
-                    context.Request.Path = "/index.html"; 
-                    await next(); 
-                } 
-            })
-            .UseDefaultFiles()
-            .UseStaticFiles()
-            .UseMvc();
+            // app.Use(async (context, next) => 
+            // { 
+            //     await next(); 
+            //     if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value)) 
+            //     { 
+            //         context.Request.Path = "/index.html"; 
+            //         await next(); 
+            //     } 
+            // })
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseMvc();
         }
     }
 }

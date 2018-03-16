@@ -1,6 +1,6 @@
-const webpack = require('webpack');
 const path = require('path');
-const htmlWebpackPlugin = require('html-webpack-plugin');
+// const webpack = require('webpack');
+// const htmlWebpackPlugin = require('html-webpack-plugin');
 
 const paths = {
   source: path.resolve(__dirname, 'src'),
@@ -16,7 +16,7 @@ module.exports = {
   },
   output: {
     path: paths.build,
-    filename: 'js/[name]-[hash].js',
+    filename: 'js/[name].js',
     publicPath: '/'
   },
   module: {
@@ -29,16 +29,16 @@ module.exports = {
       }
     }]
   },
-  plugins: [
-    new htmlWebpackPlugin({
-      chunks: ['main', 'common'],
-      favicon: paths.source + '/assets/favicon.ico',
-      template: paths.source + '/assets/index.html'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common'
-    })
-  ],
+  // plugins: [
+  //   new htmlWebpackPlugin({
+  //     chunks: ['main', 'common'],
+  //     favicon: paths.source + '/assets/favicon.ico',
+  //     template: paths.source + '/assets/index.html'
+  //   }),
+  //   new webpack.optimize.CommonsChunkPlugin({
+  //     name: 'common'
+  //   })
+  // ],
   resolve: {
     extensions: ['.js', '.jsx', '.json', '*']
   }

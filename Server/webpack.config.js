@@ -23,6 +23,6 @@ module.exports = merge(
         }
       }),
     ],
-    devtool: 'eval-source-map',
+    devtool: 'inline-source-map',
   }
 );

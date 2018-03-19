@@ -9,10 +9,12 @@
   "author": "Alex Aldarov",
   "license": "MIT",
   "dependencies": {
-    "aspnet-prerendering": "^3.0.1",
     "@devexpress/dx-react-core": "^1.0.0",
     "@devexpress/dx-react-grid": "^1.0.0",
     "@devexpress/dx-react-grid-material-ui": "^1.0.0",
+    "aspnet-prerendering": "^3.0.1",
+    "aspnet-webpack": "^2.0.3",
+    "aspnet-webpack-react": "^3.0.0",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.17.1",
     "classnames": "^2.2.5",
@@ -36,7 +38,8 @@
     "redux": "^3.7.2",
     "redux-form": "^7.2.3",
     "redux-promise": "^0.5.3",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "webpack-hot-middleware": "^2.21.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

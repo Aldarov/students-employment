@@ -8,7 +8,6 @@ using Server.Models;
 
 namespace Server.Controllers
 {
-    [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
         public IActionResult Index()

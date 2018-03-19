@@ -15,6 +15,7 @@ using Server.Models.University;
 using Microsoft.AspNetCore.Http;
 using Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 
 namespace Server
 {
@@ -33,7 +34,7 @@ namespace Server
             // Add framework services.
             services.AddMvc();
 
-            services.AddDbContext<UniversityContext>(options => 
+            services.AddDbContext<UniversityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("UniversityConnection"))
             );
 
@@ -61,8 +62,8 @@ namespace Server
                         ValidateIssuerSigningKey = true,
                     };
                 });
-            
-            services.AddSingleton<IJwt, Jwt>();            
+
+            services.AddSingleton<IJwt, Jwt>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IClaimsProps, ClaimsProps>();
         }
@@ -73,25 +74,44 @@ namespace Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                    HotModuleReplacement = true,
+                    ReactHotModuleReplacement = true
+                });
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
             }
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            
+
             app.UseAuthentication();
 
-            // app.Use(async (context, next) => 
-            // { 
-            //     await next(); 
-            //     if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value)) 
-            //     { 
-            //         context.Request.Path = "/index.html"; 
-            //         await next(); 
-            //     } 
+            // app.Use(async (context, next) =>
+            // {
+            //     await next();
+            //     if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
+            //     {
+            //         context.Request.Path = "/index.html";
+            //         await next();
+            //     }
             // })
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseMvc();
+            // app.UseMvc();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
         }
     }
 }

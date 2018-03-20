@@ -6,7 +6,6 @@ const path = require('path');
 
 const paths = {
   source: path.resolve(__dirname, 'src'),
-  build: path.resolve(__dirname, 'build')
 };
 
 module.exports = merge(
@@ -60,14 +59,10 @@ module.exports = merge(
         }
       }),
       new htmlWebpackPlugin({
-        chunks: ['main', 'common'],
+        chunks: ['main'],
         favicon: paths.source + '/assets/favicon.ico',
         template: paths.source + '/assets/index.html'
       }),
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'common'
-      })
-
     ],
     devtool: 'eval',
   }

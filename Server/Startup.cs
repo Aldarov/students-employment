@@ -74,33 +74,19 @@ namespace Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
-                    HotModuleReplacement = true,
-                    ReactHotModuleReplacement = true
-                });
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            // loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            // loggerFactory.AddDebug();
 
             app.UseAuthentication();
 
-            // app.Use(async (context, next) =>
-            // {
-            //     await next();
-            //     if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
-            //     {
-            //         context.Request.Path = "/index.html";
-            //         await next();
-            //     }
-            // })
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            // app.UseMvc();
 
             app.UseMvc(routes =>
             {

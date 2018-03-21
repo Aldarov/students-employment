@@ -7,8 +7,8 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[js, jsx, json, css, scss, less, html]
+[*.{js,jsx,json,css,scss,less,html,cshtml}]
 indent_size = 2
 
-[cs]
+[*.{cs}]
 indent_size = 4

@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Rotativa.AspNetCore;
 
 namespace Server
 {
@@ -98,6 +99,8 @@ namespace Server
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+
+            RotativaConfiguration.Setup(env);
         }
     }
 }

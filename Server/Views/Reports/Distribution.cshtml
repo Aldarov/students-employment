@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <style type="text/css">
+    .main {
+      padding: 0;
+      margin: 0;
+      font-size: 1.2em;
+    }
+    .margin-bottom {
+      margin-bottom: 10px;
+    }
+    .table {
+      display: table;
+    }
+    .cell {
+      display: table-cell;
+    }
+    .stretch  {
+      width: 100%;
+    }
+    .center {
+      text-align: center;
+    }
+    .left {
+      text-align: left;
+    }
+    .right {
+      text-align: right;
+    }
+    .row-item {
+      display: inline-block;
+    }
+    .border {
+      border: 1px solid black;
+    }
+    .margin-row-item {
+      margin-right: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class='main'>
+    <div class='center margin-bottom'>ФГБОУ ВО "БУРЯТСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ"</div>
+    <div class='right'>код протокола: 1</div>
+    <div class='center margin-bottom'>Протокол распределения выпускников №1</div>
+    <div class='center margin-bottom'>Подразделение, специальность/направление: dddddddddfdfdf  fdfdf</div>
+    <div class='table stretch margin-bottom'>
+      <div class='cell'>
+        <div class='stretch center'>
+          <div class='row-item left margin-row-item'>
+            <div class='margin-bottom'>Год приема: 2014</div>
+            <div >Форма обучения: очная</div>
+          </div>
+          <div class='row-item left'>
+            <div class='margin-bottom'>Год выпуска: 2018</div>
+            <div>Дата: 21.03.2018</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <table border="1">
+      <caption></caption>
+      <tr>
+        <th>№</th>
+        <th>ФИО</th>
+        <th>Адрес регистрации</th>
+        <th>Финансирование</th>
+        <th>Способ поступления</th>
+        <th>Телефон</th>
+        <th>Распределение (вид)</th>
+        <th>Куда направлен (организация)</th>
+        <th>Подпись</th>
+      </tr>
+      @foreach(Distribution d in Model)
+      {
+        <tr>
+          <td>@d.Number</td>
+          <td>@d.Fio</td>
+          <td>@d.Registration</td>
+          <td>@d.Finance</td>
+          <td>@d.EntrType</td>
+          <td>@d.Phone</td>
+          <td>@d.PgType</td>
+          <td>@d.Organization</td>
+        </tr>
+      }
+    </table>
+  </div>
+</body>
+</html>

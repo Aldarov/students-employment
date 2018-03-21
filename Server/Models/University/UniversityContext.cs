@@ -7,7 +7,7 @@ namespace Server.Models.University
     public class UniversityContext : DbContext
     {
         public UniversityContext(DbContextOptions<UniversityContext> options): base(options)
-        { }        
+        { }
         public virtual DbSet<EducationForm> EducationForms { get; set; }
         public virtual DbSet<JuridicalPerson> JuridicalPersons { get; set; }
         public virtual DbSet<Kladr> Kladr { get; set; }
@@ -24,6 +24,7 @@ namespace Server.Models.University
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Speciality> Specialities { get; set; }
         public virtual DbSet<Organization> Organizations { get; set; }
+        public virtual DbSet<Distribution> Distributions { get; set; }
 
         public virtual DbSet<Address> Addresses { get; set; }
 
@@ -41,7 +42,7 @@ namespace Server.Models.University
                 entity.Property(e => e.Id).HasColumnName("juridical_person_id");
                 entity.Property(e => e.Name).HasColumnName("juridical_person");
                 entity.Property(e => e.Address).HasColumnName("reg_address");
-            });            
+            });
 
             modelBuilder.Entity<Student>(entity =>
             {
@@ -60,7 +61,7 @@ namespace Server.Models.University
                 entity.Property(e => e.EducationFormId).HasColumnName("education_form_id");
                 entity.Property(e => e.EntranceYear).HasColumnName("entrance_year");
                 entity.Property(e => e.EntranceYearByOrder).HasColumnName("entrance_year_by_order");
-                
+
             });
 
             modelBuilder.Entity<Placement>(entity =>
@@ -110,8 +111,8 @@ namespace Server.Models.University
                     .IsRequired()
                     .HasColumnName("name")
                     .HasColumnType("varchar(50)");
-            });  
-            
+            });
+
             modelBuilder.Entity<Address>(entity =>
             {
                 entity.ToTable("vKladrFullList");
@@ -121,7 +122,7 @@ namespace Server.Models.University
                 entity.Property(e => e.DistrictId).HasColumnName("district_id");
                 entity.Property(e => e.CityId).HasColumnName("city_id");
                 entity.Property(e => e.SettlementId).HasColumnName("settlement_id");
-            });                       
+            });
 
             modelBuilder.Entity<JuridicalPerson>(entity =>
             {
@@ -156,7 +157,7 @@ namespace Server.Models.University
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.JuridicalPersons)
                     .HasForeignKey(d => d.RegistrationCountryId)
-                    .HasConstraintName("FK_juridical_persons_countries");                    
+                    .HasConstraintName("FK_juridical_persons_countries");
             });
 
             modelBuilder.Entity<Kladr>(entity =>
@@ -289,6 +290,18 @@ namespace Server.Models.University
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("varchar(255)");
+            });
+
+            modelBuilder.Entity<Distribution>(entity =>
+            {
+                entity.Property(e => e.Number).HasColumnName("number");
+                entity.Property(e => e.Fio).HasColumnName("fio");
+                entity.Property(e => e.Registration).HasColumnName("registration");
+                entity.Property(e => e.Finance).HasColumnName("finance");
+                entity.Property(e => e.EntrType).HasColumnName("entr_type");
+                entity.Property(e => e.Phone).HasColumnName("phone");
+                entity.Property(e => e.PgType).HasColumnName("pg_type");
+                entity.Property(e => e.Organization).HasColumnName("organization");
             });
         }
     }

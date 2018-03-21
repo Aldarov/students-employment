@@ -14,8 +14,8 @@ module.exports = merge(
   {
     output: {
       path: paths.build,
-      filename: '[name].js',
-      publicPath: '/'
+      filename: 'js/[name].js',
+      publicPath: '/js/'
     },
     module: {
       rules: [

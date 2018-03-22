@@ -1,9 +1,17 @@
+@using Server.Models.ViewModel
+@using Server.Models.University
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
+@model DistributionReport
+
+@section styles {
   <style type="text/css">
+    TABLE {
+      border-collapse: collapse;
+    }
+    TD, TH {
+      padding: 7px;
+      border: 1px solid black;
+    }
     .main {
       padding: 0;
       margin: 0;
@@ -40,28 +48,29 @@
       margin-right: 100px;
     }
   </style>
-</head>
-<body>
-  <div class='main'>
-    <div class='center margin-bottom'>ФГБОУ ВО "БУРЯТСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ"</div>
-    <div class='right'>код протокола: 1</div>
-    <div class='center margin-bottom'>Протокол распределения выпускников №1</div>
-    <div class='center margin-bottom'>Подразделение, специальность/направление: dddddddddfdfdf  fdfdf</div>
-    <div class='table stretch margin-bottom'>
-      <div class='cell'>
-        <div class='stretch center'>
-          <div class='row-item left margin-row-item'>
-            <div class='margin-bottom'>Год приема: 2014</div>
-            <div >Форма обучения: очная</div>
-          </div>
-          <div class='row-item left'>
-            <div class='margin-bottom'>Год выпуска: 2018</div>
-            <div>Дата: 21.03.2018</div>
-          </div>
+}
+
+<div class='main'>
+  <div class='center margin-bottom'>ФГБОУ ВО "БУРЯТСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ"</div>
+  <div class='right'>код протокола: 1</div>
+  <div class='center margin-bottom'>Протокол распределения выпускников №1</div>
+  <div class='center margin-bottom'>Подразделение, специальность/направление: @Model.Header?.Speciality</div>
+  <div class='table stretch margin-bottom'>
+    <div class='cell'>
+      <div class='stretch center'>
+        <div class='row-item left margin-row-item'>
+          <div class='margin-bottom'>Год приема: @Model.Header?.EntranceYear</div>
+          <div>Форма обучения: @Model.Header?.EduForm</div>
+        </div>
+        <div class='row-item left'>
+          <div>Дата: @Model.Header?.DocDate</div>
         </div>
       </div>
     </div>
-    <table border="1">
+  </div>
+  @if (Model.Distributions?.Count() > 0) {
+    <br/>
+    <table class='margin-bottom'>
       <caption></caption>
       <tr>
         <th>№</th>
@@ -70,12 +79,11 @@
         <th>Финансирование</th>
         <th>Способ поступления</th>
         <th>Телефон</th>
-        <th>Распределение (вид)</th>
-        <th>Куда направлен (организация)</th>
+        <th>Вид распределения</th>
+        <th>Куда направлен - организация</th>
         <th>Подпись</th>
       </tr>
-      @foreach(Distribution d in Model)
-      {
+      @foreach(Distribution d in Model.Distributions) {
         <tr>
           <td>@d.Number</td>
           <td>@d.Fio</td>
@@ -85,9 +93,13 @@
           <td>@d.Phone</td>
           <td>@d.PgType</td>
           <td>@d.Organization</td>
+          <td></td>
         </tr>
       }
     </table>
+  }
+  <br/><br/>
+  <div class='stretch center'>
+    @Model.Header?.HeaderPost __________________ @Model.Header?.HeaderName
   </div>
-</body>
-</html>
+</div>

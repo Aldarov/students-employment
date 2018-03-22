@@ -34,7 +34,7 @@ namespace Server.Controllers
                 query = query.FromSql<Placement>("select * from dbo.pg_search_placements({0}, {1})", employmentId, args.q);
             else
                 query = query.FromSql<Placement>("select * from dbo.pg_placements({0})", employmentId);
-                
+
             var res = query.Filter(Request.Query.ToList())
                 .Sort(args)
                 .AsNoTracking()
@@ -60,7 +60,7 @@ namespace Server.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]PgHeader header)
         {
-            if (header == null) 
+            if (header == null)
             {
                 return BadRequest();
             }
@@ -70,7 +70,7 @@ namespace Server.Controllers
                 var existingHeader = db.PgHeaders
                     .Include(x => x.PgContractStuffs)
                     .FirstOrDefault(x => x.Id == header.Id);
-                
+
                 if (existingHeader == null)
                 {
                     db.Add(header);
@@ -78,12 +78,12 @@ namespace Server.Controllers
                 else
                 {
                     db.Entry(existingHeader).CurrentValues.SetValues(header);
-                    
+
                     foreach (var stuff in header.PgContractStuffs)
                     {
                         stuff.Student = null;
                         PgContractStuff existingStuff = null;
-                        if (stuff?.Id > 0) 
+                        if (stuff?.Id > 0)
                         {
                             existingStuff = existingHeader.PgContractStuffs
                                 .FirstOrDefault(x => x.Id == stuff.Id);
@@ -104,15 +104,15 @@ namespace Server.Controllers
                         {
                             db.Remove(stuff);
                         }
-                    }                    
-                }            
+                    }
+                }
                 db.SaveChanges();
                 return Ok(header);
             }
-            else 
+            else
             {
                 return BadRequest(ModelState.Values.Select(a => a.Errors.Select(z => z.ErrorMessage)));
-            }            
+            }
         }
 
         [HttpDelete("{id}")]

@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
 
 namespace Server.Models.University
 {
     public partial class Distribution
     {
         [Key]
-        public int Number { get; set; }
+        public Int64 Number { get; set; }
         public string Fio { get; set; }
         public string Registration { get; set; }
         public string Finance { get; set; }

@@ -24,8 +24,7 @@ import {
   openStudentsSelection, closeStudentsSelection,
 } from './students.actions';
 import ContractTableCellTemplate from './components/ContractTableCellTemplate';
-import { showReport } from '../reportManager';
-
+import { apiGetReport } from './employment.api';
 
 const formName = 'employment';
 const CONFIRM_SAVE_EMPLOYMENT_DIALOG = 'CONFIRM_SAVE_EMPLOYMENT_DIALOG';
@@ -396,7 +395,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
 
     onShowDistributionReport: () => {
-      showReport('Distribution');
+      apiGetReport('/reports/distribution', id);
     },
 
     onSubmit: values => {

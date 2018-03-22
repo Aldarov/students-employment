@@ -25,8 +25,9 @@ namespace Server.Models.University
         public virtual DbSet<Speciality> Specialities { get; set; }
         public virtual DbSet<Organization> Organizations { get; set; }
         public virtual DbSet<Distribution> Distributions { get; set; }
-
+        public virtual DbSet<Employment> Employments { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<PlacementHeader> PlacementHeaders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -292,17 +293,6 @@ namespace Server.Models.University
                     .HasColumnType("varchar(255)");
             });
 
-            modelBuilder.Entity<Distribution>(entity =>
-            {
-                entity.Property(e => e.Number).HasColumnName("number");
-                entity.Property(e => e.Fio).HasColumnName("fio");
-                entity.Property(e => e.Registration).HasColumnName("registration");
-                entity.Property(e => e.Finance).HasColumnName("finance");
-                entity.Property(e => e.EntrType).HasColumnName("entr_type");
-                entity.Property(e => e.Phone).HasColumnName("phone");
-                entity.Property(e => e.PgType).HasColumnName("pg_type");
-                entity.Property(e => e.Organization).HasColumnName("organization");
-            });
         }
     }
 }

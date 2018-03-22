@@ -11,6 +11,9 @@ const paths = {
 module.exports = merge(
   common,
   {
+    output: {
+      publicPath: '/'
+    },
     module: {
       rules: [
         {
@@ -47,7 +50,8 @@ module.exports = merge(
       inline: true,
       hot: true,
       proxy: {
-        '/api': 'http://localhost:5000'
+        '/api': 'http://localhost:5000',
+        '/reports': 'http://localhost:5000'
       }
     },
     plugins: [

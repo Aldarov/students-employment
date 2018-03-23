@@ -24,7 +24,8 @@ import {
   openStudentsSelection, closeStudentsSelection,
 } from './students.actions';
 import ContractTableCellTemplate from './components/ContractTableCellTemplate';
-import { apiGetReport } from './employment.api';
+import showPdf from '../_global/helpers/showPdf';
+import { fetching } from '../busyIndicator';
 
 const formName = 'employment';
 const CONFIRM_SAVE_EMPLOYMENT_DIALOG = 'CONFIRM_SAVE_EMPLOYMENT_DIALOG';
@@ -395,7 +396,10 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
 
     onShowDistributionReport: () => {
-      apiGetReport('/reports/distribution', id);
+      fetching(dispatch, formName, showPdf(`/reports/distribution/${id}`));
+    },
+    onShowEmploymentReport: () => {
+      fetching(dispatch, formName, showPdf(`/reports/employment/${id}`));
     },
 
     onSubmit: values => {

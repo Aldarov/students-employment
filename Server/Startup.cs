@@ -67,6 +67,10 @@ namespace Server
             services.AddSingleton<IJwt, Jwt>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IClaimsProps, ClaimsProps>();
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,8 +85,8 @@ namespace Server
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            // loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            // loggerFactory.AddDebug();
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
             app.UseAuthentication();
 

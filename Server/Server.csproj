@@ -19,6 +19,8 @@
   <ItemGroup>
     <Content Remove="env.example.json" />
     <Content Remove="Auth/auth.example.json" />
+    <Content Remove="appsettings.Development.json" />
+    <Content Remove=".eslintrc.json" />
   </ItemGroup>
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">

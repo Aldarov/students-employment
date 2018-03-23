@@ -14,6 +14,7 @@
     "@devexpress/dx-react-grid-material-ui": "^1.0.0",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.17.1",
+    "bowser": "^1.9.3",
     "classnames": "^2.2.5",
     "intl": "^1.2.5",
     "lodash": "^4.17.5",

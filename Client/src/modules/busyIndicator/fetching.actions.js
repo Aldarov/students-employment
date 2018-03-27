@@ -2,7 +2,7 @@ import { FETCHING_START, FETCHING_END } from '../../constants';
 
 export function fetching(dispatch, type, action) {
   dispatch({ type: FETCHING_START, data: type });
-  action
+  return action
     .then(res => {
       dispatch({ type: FETCHING_END, data: type });
       return res;

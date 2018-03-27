@@ -132,6 +132,21 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     }
   };
 
+  const saveData = values => {
+    return dispatch(saveEmployment(values, formName, res => {
+      if (onRedirectToList) {
+        onRedirectToList();
+      }
+      else {
+        ownProps.history.push(`/employment/${res.id}`);
+      }
+      // throw new SubmissionError({
+      //   entraceYear: 'Ошибка заполнения',
+      //   _error: 'Общая ошибка формы!!'
+      // });
+    }));
+  };
+
   const props = {
     formName: formName,
     headerProps: {
@@ -396,25 +411,17 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
 
     onShowDistributionReport: () => {
-      fetching(dispatch, formName, showPdf(`/reports/distribution/${id}`));
+      saveData(formValues).then(() => {
+        fetching(dispatch, formName, showPdf(`/reports/distribution/${id}`));
+      });
     },
     onShowEmploymentReport: () => {
-      fetching(dispatch, formName, showPdf(`/reports/employment/${id}`));
+      saveData(formValues).then(() => {
+        fetching(dispatch, formName, showPdf(`/reports/employment/${id}`));
+      });
     },
-
     onSubmit: values => {
-      dispatch(saveEmployment(values, formName, res => {
-        if (onRedirectToList) {
-          onRedirectToList();
-        }
-        else {
-          ownProps.history.push(`/employment/${res.id}`);
-        }
-      }));
-      // throw new SubmissionError({
-      //   entraceYear: 'Ошибка заполнения',
-      //   _error: 'Общая ошибка формы!!'
-      // });
+      saveData(values);
     },
     validate: values => getHeaderErrors(values),
   };

@@ -65,7 +65,8 @@ export function saveEmployment(data, formName, callback) {
       ...data,
       pgContractStuffs: stuff
     };
-    fetching(dispatch, formName, apiPostEmployment(res).then(data => callback(data)));
+    const result = fetching(dispatch, formName, apiPostEmployment(res).then(data => callback(data)));
+    return result;
   };
 }
 

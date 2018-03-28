@@ -26,4 +26,10 @@ export default theme => ({
   marginBottom: {
     marginBottom: theme.spacing.unit,
   },
+  row: {
+    flexDirection: 'row'
+  },
+  marginRight: {
+    marginRight: 20
+  }
 });

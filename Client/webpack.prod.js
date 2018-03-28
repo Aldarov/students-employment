@@ -3,10 +3,20 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common');
 const extractTextPlugin = require('extract-text-webpack-plugin');
 const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const path = require('path');
+
+const paths = {
+  build: path.resolve(__dirname, 'build')
+};
 
 module.exports = merge(
   common,
   {
+    output: {
+      path: paths.build,
+      filename: '[name].js',
+      publicPath: '/'
+    },
     module: {
       rules: [
         {
@@ -38,11 +48,7 @@ module.exports = merge(
     plugins: [
       new extractTextPlugin('./css/[name]-[hash].css'),
       new optimizeCssAssetsPlugin(),
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false
-        }
-      }),
+      new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }),
       new webpack.DefinePlugin({
         'process.env':{
           'NODE_ENV': JSON.stringify('production')

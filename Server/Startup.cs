@@ -15,6 +15,8 @@ using Server.Models.University;
 using Microsoft.AspNetCore.Http;
 using Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SpaServices.Webpack;
+using Rotativa.AspNetCore;
 
 namespace Server
 {
@@ -33,7 +35,7 @@ namespace Server
             // Add framework services.
             services.AddMvc();
 
-            services.AddDbContext<UniversityContext>(options => 
+            services.AddDbContext<UniversityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("UniversityConnection"))
             );
 
@@ -61,10 +63,14 @@ namespace Server
                         ValidateIssuerSigningKey = true,
                     };
                 });
-            
-            services.AddSingleton<IJwt, Jwt>();            
+
+            services.AddSingleton<IJwt, Jwt>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IClaimsProps, ClaimsProps>();
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,24 +80,31 @@ namespace Server
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            
+
             app.UseAuthentication();
 
-            app.Use(async (context, next) => 
-            { 
-                await next(); 
-                if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value)) 
-                { 
-                    context.Request.Path = "/index.html"; 
-                    await next(); 
-                } 
-            })
-            .UseDefaultFiles()
-            .UseStaticFiles()
-            .UseMvc();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+
+            RotativaConfiguration.Setup(env);
         }
     }
 }

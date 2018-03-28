@@ -1,10 +1,7 @@
-const webpack = require('webpack');
 const path = require('path');
-const htmlWebpackPlugin = require('html-webpack-plugin');
 
 const paths = {
   source: path.resolve(__dirname, 'src'),
-  build: path.resolve(__dirname, 'build')
 };
 
 module.exports = {
@@ -13,11 +10,6 @@ module.exports = {
       'babel-polyfill',
       paths.source + '/App.js'
     ]
-  },
-  output: {
-    path: paths.build,
-    filename: 'js/[name]-[hash].js',
-    publicPath: '/'
   },
   module: {
     rules: [{
@@ -29,16 +21,6 @@ module.exports = {
       }
     }]
   },
-  plugins: [
-    new htmlWebpackPlugin({
-      chunks: ['main', 'common'],
-      favicon: paths.source + '/assets/favicon.ico',
-      template: paths.source + '/assets/index.html'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common'
-    })
-  ],
   resolve: {
     extensions: ['.js', '.jsx', '.json', '*']
   }

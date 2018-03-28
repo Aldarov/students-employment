@@ -24,7 +24,8 @@ import {
   openStudentsSelection, closeStudentsSelection,
 } from './students.actions';
 import ContractTableCellTemplate from './components/ContractTableCellTemplate';
-
+import showPdf from '../_global/helpers/showPdf';
+import { fetching } from '../busyIndicator';
 
 const formName = 'employment';
 const CONFIRM_SAVE_EMPLOYMENT_DIALOG = 'CONFIRM_SAVE_EMPLOYMENT_DIALOG';
@@ -129,6 +130,21 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       default:
         break;
     }
+  };
+
+  const saveData = values => {
+    return dispatch(saveEmployment(values, formName, res => {
+      if (onRedirectToList) {
+        onRedirectToList();
+      }
+      else {
+        ownProps.history.push(`/employment/${res.id}`);
+      }
+      // throw new SubmissionError({
+      //   entraceYear: 'Ошибка заполнения',
+      //   _error: 'Общая ошибка формы!!'
+      // });
+    }));
   };
 
   const props = {
@@ -395,22 +411,17 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
 
     onShowDistributionReport: () => {
-      console.log('show distibution report', );
+      saveData(formValues).then(() => {
+        fetching(dispatch, formName, showPdf(`/reports/distribution/${id}`));
+      });
     },
-
+    onShowEmploymentReport: () => {
+      saveData(formValues).then(() => {
+        fetching(dispatch, formName, showPdf(`/reports/employment/${id}`));
+      });
+    },
     onSubmit: values => {
-      dispatch(saveEmployment(values, formName, res => {
-        if (onRedirectToList) {
-          onRedirectToList();
-        }
-        else {
-          ownProps.history.push(`/employment/${res.id}`);
-        }
-      }));
-      // throw new SubmissionError({
-      //   entraceYear: 'Ошибка заполнения',
-      //   _error: 'Общая ошибка формы!!'
-      // });
+      saveData(values);
     },
     validate: values => getHeaderErrors(values),
   };

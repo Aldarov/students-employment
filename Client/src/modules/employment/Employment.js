@@ -4,6 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import { Field, FieldArray  } from 'redux-form';
 import { MenuItem } from 'material-ui/Menu';
 import Button from 'material-ui/Button';
+import classNames from 'classnames';
 
 import { employmentStyles } from './styles';
 import { Layout } from '../layout';
@@ -64,7 +65,7 @@ class Employment extends Component {
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
       onChangeContractDirectionType,
       openedStudentsSelection, studentsSelection, onCloseStudentsSelection, onStudentsSelected, onLoadStudents, contractStuffIsEmpty,
-      onShowDistributionReport
+      onShowDistributionReport, onShowEmploymentReport
     } = this.props;
 
     return (
@@ -130,9 +131,14 @@ class Employment extends Component {
           }
           {
             !contractStuffIsEmpty &&
-            <Button className={classes.marginBottom} color="primary" onClick={onShowDistributionReport}>
-              Отчет по распределению
-            </Button>
+            <div className={classNames(classes.marginBottom, classes.row)}>
+              <Button className={classes.marginRight} color="primary" onClick={onShowDistributionReport}>
+                Отчет по распределению
+              </Button>
+              <Button color="primary" onClick={onShowEmploymentReport}>
+                Отчет по трудоустройству
+              </Button>
+            </div>
           }
           {
             !contractStuffIsEmpty &&
@@ -242,6 +248,7 @@ Employment.propTypes = {
   submitting: PropTypes.bool,
 
   onShowDistributionReport: PropTypes.func,
+  onShowEmploymentReport: PropTypes.func,
 };
 
 export default Employment;

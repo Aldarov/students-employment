@@ -5,7 +5,8 @@ export default theme => ({
     width: '100%',
     height: '100%',
     display: 'flex',
-    fontFamily: ['Roboto','Helvetica', 'sans-serif']
+    fontFamily: ['Roboto','Helvetica', 'sans-serif'],
+    fontSize: '1.1em'
   },
   content: {
     padding: theme.spacing.unit,

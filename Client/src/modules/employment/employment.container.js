@@ -3,7 +3,7 @@ import {
   reduxForm, getFormValues,
   submit, isPristine, isSubmitting,
   change, touch, arrayRemove, arrayPush,
-  stopAsyncValidation
+  stopAsyncValidation, initialize
 } from 'redux-form';
 import _ from 'lodash';
 
@@ -133,18 +133,22 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   };
 
   const saveData = values => {
-    return dispatch(saveEmployment(values, formName, res => {
-      if (onRedirectToList) {
-        onRedirectToList();
-      }
-      else {
-        ownProps.history.push(`/employment/${res.id}`);
-      }
-      // throw new SubmissionError({
-      //   entraceYear: 'Ошибка заполнения',
-      //   _error: 'Общая ошибка формы!!'
-      // });
-    }));
+    return dispatch(saveEmployment(values, formName))
+      .then(res => {
+        if (onRedirectToList) {
+          onRedirectToList();
+        }
+        else {
+          dispatch(initialize(formName, values));
+          ownProps.history.push(`/employment/${res.id}`);
+        }
+      });
+    // .catch(error => {
+    //   throw new SubmissionError({
+    //     entraceYear: 'Ошибка заполнения',
+    //     _error: 'Общая ошибка формы!!'
+    //   });
+    // });
   };
 
   const props = {
@@ -410,19 +414,13 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       }
     },
 
-    onShowDistributionReport: () => {
-      saveData(formValues).then(() => {
-        fetching(dispatch, formName, showPdf(`/reports/distribution/${id}`));
-      });
-    },
-    onShowEmploymentReport: () => {
-      saveData(formValues).then(() => {
-        fetching(dispatch, formName, showPdf(`/reports/employment/${id}`));
-      });
-    },
-    onSubmit: values => {
-      saveData(values);
-    },
+    onShowDistributionReport: () => saveData(formValues).then(() => {
+      fetching(dispatch, formName, showPdf(`/reports/distribution/${id}`));
+    }),
+    onShowEmploymentReport: () => saveData(formValues).then(() => {
+      fetching(dispatch, formName, showPdf(`/reports/employment/${id}`));
+    }),
+    onSubmit: values => saveData(values),
     validate: values => getHeaderErrors(values),
   };
 

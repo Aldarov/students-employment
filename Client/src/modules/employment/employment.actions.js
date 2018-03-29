@@ -53,7 +53,7 @@ export function initEmploymentForm(id, formName) {
   };
 }
 
-export function saveEmployment(data, formName, callback) {
+export function saveEmployment(data, formName) {
   return dispatch => {
     const stuff = data.pgContractStuffs.map(item => {
       return {
@@ -65,8 +65,7 @@ export function saveEmployment(data, formName, callback) {
       ...data,
       pgContractStuffs: stuff
     };
-    const result = fetching(dispatch, formName, apiPostEmployment(res).then(data => callback(data)));
-    return result;
+    return fetching(dispatch, formName, apiPostEmployment(res));
   };
 }
 

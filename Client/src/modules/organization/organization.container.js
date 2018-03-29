@@ -1,7 +1,7 @@
 import { connectAdvanced } from 'react-redux';
 import {
   reduxForm, getFormValues,
-  submit, isPristine, isSubmitting, change
+  submit, isPristine, isSubmitting, change, initialize
 } from 'redux-form';
 
 import Organization from './Organization';
@@ -73,14 +73,16 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(initOrganizationForm(formName, id, formName));
     },
     onSubmit: values => {
-      dispatch(saveOrganization(values, formName, res => {
-        if (onRedirectToList) {
-          onRedirectToList();
-        }
-        else {
-          ownProps.history.push(`/organization/${res.id}`);
-        }
-      }));
+      dispatch(saveOrganization(values, formName))
+        .then(res => {
+          if (onRedirectToList) {
+            onRedirectToList();
+          }
+          else {
+            dispatch(initialize(formName, values));
+            ownProps.history.push(`/organization/${res.id}`);
+          }
+        });
       // throw new SubmissionError({
       //   entraceYear: 'Ошибка заполнения',
       //   _error: 'Общая ошибка формы!!'

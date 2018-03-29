@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import MuiThemeProvider from 'material-ui-prev/styles/MuiThemeProvider';
 import bowser from 'bowser';
+import 'normalize.css';
 
 import store from './store';
 import { Navigation } from './modules/navigation';

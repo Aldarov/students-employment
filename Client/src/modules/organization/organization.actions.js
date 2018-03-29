@@ -85,7 +85,7 @@ export function clearAddressesSuggestion() {
   return dispatch => dispatch({ type: CLEAR_ADDRESSES_SUGGESTIONS });
 }
 
-export function saveOrganization(data, formName, callback) {
+export function saveOrganization(data, formName) {
   return dispatch => {
     const res = {
       ...data,
@@ -97,6 +97,6 @@ export function saveOrganization(data, formName, callback) {
       registrationSettlement: null,
       address: null
     };
-    fetching(dispatch, formName, apiPostOrganization(res).then(data => callback(data)));
+    return fetching(dispatch, formName, apiPostOrganization(res));
   };
 }

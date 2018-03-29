@@ -46,7 +46,7 @@ module.exports = merge(
       ]
     },
     plugins: [
-      new extractTextPlugin('./css/[name]-[hash].css'),
+      new extractTextPlugin('./css/[name].css'),
       new optimizeCssAssetsPlugin(),
       new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }),
       new webpack.DefinePlugin({

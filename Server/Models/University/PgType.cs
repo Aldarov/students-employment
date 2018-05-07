@@ -15,6 +15,7 @@ namespace Server.Models.University
         public int Id { get; set; }
         public string Name { get; set; }
         public int PgKindId { get; set; }
+        public bool InArchive { get; set; }
         [JsonIgnore]
         public virtual PgKind PgKind { get; set; }
         [JsonIgnore]

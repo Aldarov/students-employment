@@ -27,7 +27,7 @@ namespace Server.Controllers
         public IActionResult Get(int id, QueryArgsBase args)
         {
             var res = db.PgTypes
-                .Where(x => x.PgKindId == id)
+                .Where(x => x.PgKindId == id && x.InArchive == false)
                 .Sort(args)
                 .AsNoTracking()
                 .ToList();

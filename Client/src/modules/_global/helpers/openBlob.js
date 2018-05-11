@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default function showPdf(url) {
+export default function openBlob(url) {
   return axios.get(url, { responseType: 'blob' })
     .then(blob => {
       // IE doesn't allow using a blob object directly as link href
@@ -9,8 +9,6 @@ export default function showPdf(url) {
         window.navigator.msSaveOrOpenBlob(blob);
         return;
       }
-
-      const url = window.URL.createObjectURL(blob);
-      window.location.href = url;
+      window.open(window.URL.createObjectURL(blob));
     });
 }

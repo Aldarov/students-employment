@@ -414,13 +414,15 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
 
     onShowDistributionReport: () => {
+      const w = window.open();
       fetching(dispatch, formName,
-        saveData(formValues).then(() => window.open(`/reports/distribution/${id}`))
+        saveData(formValues).then(() => w.location = `/reports/distribution/${id}`)
       );
     },
     onShowEmploymentReport: () => {
+      const w = window.open();
       fetching(dispatch, formName,
-        saveData(formValues).then(() => window.open(`/reports/employment/${id}`))
+        saveData(formValues).then(() => w.location = `/reports/employment/${id}`)
       );
     },
     onSubmit: values => saveData(values),

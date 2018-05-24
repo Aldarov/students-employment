@@ -51,7 +51,7 @@ class DirectionEdit extends Component {
             name={'pgContractStuffs['+tableRow+'].'+directionType+'SchoolName'}
             component={RenderAutocomplete}
             autoFocus={false}
-            label={directionType==='direction' ? 'Распределен в образ-ное учреждение': 'Работает в образ-ном учреждении'}
+            label={directionType==='direction' ? 'Распределен в образ-ное учреждение': 'В образ-ном учреждении'}
             className={classes.field}
 
             suggestions={schoolsSuggestions}

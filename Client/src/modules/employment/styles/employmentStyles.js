@@ -14,7 +14,7 @@ export default theme => ({
     marginTop: theme.spacing.unit*2,
     width: 300,
     [theme.breakpoints.up('sm')]: {
-      width: 400,
+      width: 600,
     },
   },
   error: {

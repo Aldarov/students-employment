@@ -28,9 +28,18 @@ namespace Server.Models.University
         public virtual DbSet<Employment> Employments { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<PlacementHeader> PlacementHeaders { get; set; }
+        public virtual DbSet<Profile> Profiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Profile>(entity =>
+            {
+                entity.ToTable("v_pg_specializations");
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.SpecialityId).HasColumnName("speciality_id");
+                entity.Property(e => e.Name).HasColumnName("name");
+            });
+
             modelBuilder.Entity<Speciality>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("speciality_id");
@@ -62,7 +71,7 @@ namespace Server.Models.University
                 entity.Property(e => e.EducationFormId).HasColumnName("education_form_id");
                 entity.Property(e => e.EntranceYear).HasColumnName("entrance_year");
                 entity.Property(e => e.EntranceYearByOrder).HasColumnName("entrance_year_by_order");
-
+                entity.Property(e => e.SpecializationId).HasColumnName("specialization_id");
             });
 
             modelBuilder.Entity<Placement>(entity =>

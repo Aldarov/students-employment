@@ -14,12 +14,10 @@ import { organizationReducer } from './modules/organization';
 
 const reducer = combineReducers({
   isAuth: authReducer,
-  form: formReducer,
+  fetching: fetchingReducer,
   sidebar: sidebarReducer,
   dialog: dialogReducer,
-  dictionaries: dictionariesReducer,
-  fetching: fetchingReducer,
-
+  form: formReducer,
   employment: combineReducers({
     list: employmentListReducer,
     edit: employmentReducer
@@ -28,6 +26,7 @@ const reducer = combineReducers({
     list: organizationListReducer,
     edit: organizationReducer
   }),
+  dictionaries: dictionariesReducer,
 });
 
 export default reducer;

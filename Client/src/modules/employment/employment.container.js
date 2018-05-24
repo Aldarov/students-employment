@@ -26,6 +26,8 @@ import {
 import ContractTableCellTemplate from './components/ContractTableCellTemplate';
 import showPdf from '../_global/helpers/showPdf';
 import { fetching } from '../busyIndicator';
+import { getProfiles, clearProfiles } from '../layout';
+import Alert from 'react-s-alert';
 
 const formName = 'employment';
 const CONFIRM_SAVE_EMPLOYMENT_DIALOG = 'CONFIRM_SAVE_EMPLOYMENT_DIALOG';
@@ -87,6 +89,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const pristine = isPristine(formName)(state);
   const submitting = isSubmitting(formName)(state);
   const pgContractStuffs = formValues ? formValues.pgContractStuffs : [];
+  const distributionSchoolTypeIds = [13, 14, 21, 25, 26];
 
   const handleClearSchoolSelected = (row, type) => {
     dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
@@ -198,6 +201,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     eduForms: state.dictionaries.eduForms,
     directionTypes: state.dictionaries.directionTypes,
     distributionTypes: state.dictionaries.distributionTypes,
+    profiles: state.dictionaries.profiles,
 
     gridSettingContracts: {
       columns: [
@@ -228,11 +232,12 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       onDoAction: (args) => {
         switch (args.type) {
           case 'adding': {
-            const { entraceYear, eduFormId, specialityId } = formValues;
+            let { entraceYear, eduFormId, specialityId, specializationId } = formValues;
+            if (specializationId == 0) specializationId = null;
             const exceptedIds = formValues && formValues.pgContractStuffs &&
               formValues.pgContractStuffs.map( item => item.studentId );
-            dispatch(getStudentsWithoutSelected(entraceYear, eduFormId, specialityId, exceptedIds, formName));
-            dispatch(openStudentsSelection());
+            dispatch(getStudentsWithoutSelected(entraceYear, eduFormId, specialityId, specializationId, exceptedIds, formName))
+              .then(() => dispatch(openStudentsSelection()));
             break;
           }
           case 'editing': {
@@ -280,10 +285,14 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     onClearSpecialitySelectedSuggestion: () => {
       dispatch(change(formName, 'speciality', ''));
       dispatch(change(formName, 'specialityId', null));
+      dispatch(change(formName, 'specializationId', 0));
+      dispatch(clearProfiles());
     },
     onSpecialitySelected: data => {
       dispatch(change(formName, 'speciality', data.name));
       dispatch(change(formName, 'specialityId', data.id));
+      dispatch(change(formName, 'specializationId', null));
+      dispatch(getProfiles(data.id, { sorting: [{columnName: 'specialityID'}, {columnName: 'name'}] }));
     },
 
     onCloseContract: row => () => {
@@ -312,7 +321,8 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         };
         dispatch(touch(formName, 'pgContractStuffs['+row+'].directionOrganizationName'));
       }
-      if (pgContractStuffs[row].distributionTypeId == 17 && !pgContractStuffs[row].distributionSchoolId) {
+      if ((pgContractStuffs[row].distributionTypeId == 17 || distributionSchoolTypeIds.indexOf(pgContractStuffs[row].distributionTypeId) > -1)
+          && !pgContractStuffs[row].distributionSchoolId) {
         const oldError = error && {...error.pgContractStuffs[row]};
         error = {
           'pgContractStuffs': {
@@ -371,20 +381,18 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         organizationTypeId = 18;
       }
 
-      if (value === schoolTypeId) {
-        directionType === 'direction' ?
-          dispatch(showDirectionOrganizations('school')) :
-          dispatch(showDistributionOrganizations('school'));
+      if (value === schoolTypeId || distributionSchoolTypeIds.indexOf(value) > -1) {
+        (directionType === 'direction' && distributionSchoolTypeIds.indexOf(value) == -1)
+          ? dispatch(showDirectionOrganizations('school'))
+          : dispatch(showDistributionOrganizations('school'));
         handleClearOrganizationSelected(tableRow, directionType);
       } else if (value === organizationTypeId) {
-        directionType === 'direction' ?
-          dispatch(showDirectionOrganizations('organization')) :
-          dispatch(showDistributionOrganizations('organization'));
+        directionType === 'direction'
+          ? dispatch(showDirectionOrganizations('organization'))
+          : dispatch(showDistributionOrganizations('organization'));
         handleClearSchoolSelected(tableRow, directionType);
       } else {
-        directionType === 'direction' ?
-          dispatch(hideDirectionOrganizations()) :
-          dispatch(hideDistributionOrganizations());
+        directionType === 'direction' ? dispatch(hideDirectionOrganizations()) : dispatch(hideDistributionOrganizations());
         handleClearSchoolSelected(tableRow, directionType);
         handleClearOrganizationSelected(tableRow, directionType);
       }
@@ -400,10 +408,16 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         toucheErrorFields(errors);
         dispatch(stopAsyncValidation(formName, errors));
       } else {
-        const { entraceYear, eduFormId, specialityId } = formValues;
-        dispatch(getStudentsByHeader(entraceYear, eduFormId, specialityId, formName,
-          data => data.forEach(item => dispatch(arrayPush(formName, 'pgContractStuffs', getNewContractStuff(id, item.studentId, item))))
-        ));
+        let { entraceYear, eduFormId, specialityId, specializationId } = formValues;
+        if (specializationId == 0) specializationId = null;
+        dispatch(getStudentsByHeader(entraceYear, eduFormId, specialityId, specializationId, formName))
+          .then(data => {
+            if (data.length > 0)
+              data.forEach(item => dispatch(arrayPush(formName, 'pgContractStuffs', getNewContractStuff(id, item.studentId, item))));
+            else {
+              Alert.error('По указанным данным не найдено ни одного студента');
+            }
+          });
       }
     },
     onStudentsSelected: selection => {

@@ -25,32 +25,36 @@ namespace Server.Controllers
         }
 
         [HttpGet()]
-        public IActionResult GetStudentsByHeader(int year, int educationFormId, int specialityId)
+        public IActionResult GetStudentsByHeader(int year, int educationFormId, int specialityId, int? specializationId)
         {
-            IQueryable<Student> res = 
-                db.Students.Where(q => 
-                    (q.EntranceYear == year || q.EntranceYearByOrder == year) && 
-                    q.EducationFormId == educationFormId && 
+            IQueryable<Student> res =
+                db.Students.Where(q =>
+                    (q.EntranceYear == year || q.EntranceYearByOrder == year) &&
+                    q.EducationFormId == educationFormId &&
                     q.SpecialityId == specialityId &&
                     (q.StateId == 1 || q.StateId == 2)
                 )
                 .OrderBy(x => x.FullName)
                 .AsNoTracking();
+            if (specializationId != null && specializationId != 0)
+                res = res.Where(q => q.SpecializationId == specializationId);
             return Ok(res);
         }
 
         [HttpGet()]
-        public IActionResult GetStudentsWithoutSelected(int year, int educationFormId, int specialityId, List<int> w)
+        public IActionResult GetStudentsWithoutSelected(int year, int educationFormId, int specialityId, int? specializationId, List<int> w)
         {
-            IQueryable<Student> res = 
-                db.Students.Where(q => 
-                    (q.EntranceYear == year || q.EntranceYearByOrder == year) && 
-                    q.EducationFormId == educationFormId && 
+            IQueryable<Student> res =
+                db.Students.Where(q =>
+                    (q.EntranceYear == year || q.EntranceYearByOrder == year) &&
+                    q.EducationFormId == educationFormId &&
                     q.SpecialityId == specialityId &&
                     !w.Contains(q.StudentId)
                 )
                 .OrderBy(x => x.FullName)
                 .AsNoTracking();
+            if (specializationId != null && specializationId != 0)
+                res = res.Where(q => q.SpecializationId == specializationId);
             return Ok(res);
         }
     }

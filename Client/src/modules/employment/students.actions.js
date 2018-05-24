@@ -9,16 +9,17 @@ import {
   CLOSE_STUDENTS_SELECTION
 } from '../../constants';
 
-export function getStudentsByHeader(year, educationFormId, specialityId, formName, callback) {
+export function getStudentsByHeader(year, educationFormId, specialityId, specializationId, formName) {
   return dispatch => fetching(dispatch, formName,
-    apiGetStudentsByHeader(year, educationFormId, specialityId).then(res => callback(res)));
+    apiGetStudentsByHeader(year, educationFormId, specialityId, specializationId));
 }
 
-export function getStudentsWithoutSelected(year, educationFormId, specialityId, exceptedIds, formName) {
+export function getStudentsWithoutSelected(year, educationFormId, specialityId, specializationId, exceptedIds, formName) {
   return dispatch => fetching(dispatch, formName,
-    apiGetStudentsWithoutSelected(year, educationFormId, specialityId, exceptedIds).then(res =>
-      dispatch({ type: SET_STUDENTS_SELECTION, data: res })
-    ));
+    apiGetStudentsWithoutSelected(year, educationFormId, specialityId, specializationId, exceptedIds).then(res => {
+      dispatch({ type: SET_STUDENTS_SELECTION, data: res });
+      return res;
+    }));
 }
 
 export function clearStudentSelection() {

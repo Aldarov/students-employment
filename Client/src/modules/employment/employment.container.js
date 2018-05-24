@@ -24,7 +24,6 @@ import {
   openStudentsSelection, closeStudentsSelection,
 } from './students.actions';
 import ContractTableCellTemplate from './components/ContractTableCellTemplate';
-import showPdf from '../_global/helpers/showPdf';
 import { fetching } from '../busyIndicator';
 import { getProfiles, clearProfiles } from '../layout';
 import Alert from 'react-s-alert';
@@ -428,12 +427,18 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       }
     },
 
-    onShowDistributionReport: () => saveData(formValues).then(() => {
-      fetching(dispatch, formName, showPdf(`/reports/distribution/${id}`));
-    }),
-    onShowEmploymentReport: () => saveData(formValues).then(() => {
-      fetching(dispatch, formName, showPdf(`/reports/employment/${id}`));
-    }),
+    onShowDistributionReport: () => {
+      const w = window.open();
+      fetching(dispatch, formName,
+        saveData(formValues).then(() => w.location = `/reports/distribution/${id}`)
+      );
+    },
+    onShowEmploymentReport: () => {
+      const w = window.open();
+      fetching(dispatch, formName,
+        saveData(formValues).then(() => w.location = `/reports/employment/${id}`)
+      );
+    },
     onSubmit: values => saveData(values),
     validate: values => getHeaderErrors(values),
   };

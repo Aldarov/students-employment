@@ -24,7 +24,6 @@ import {
   openStudentsSelection, closeStudentsSelection,
 } from './students.actions';
 import ContractTableCellTemplate from './components/ContractTableCellTemplate';
-import { fetching } from '../busyIndicator';
 import { getProfiles, clearProfiles } from '../layout';
 import Alert from 'react-s-alert';
 

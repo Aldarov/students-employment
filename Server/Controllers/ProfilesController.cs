@@ -15,19 +15,20 @@ namespace Server.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class PgTypesController : Controller
+    public class ProfilesController : Controller
     {
         private UniversityContext db;
-        public PgTypesController(UniversityContext context)
+        public ProfilesController(UniversityContext context)
         {
             db = context;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id, QueryArgsBase args)
+        [HttpGet("{specialityId}")]
+        public IActionResult Get(int specialityId, QueryArgsBase args)
         {
-            var res = db.PgTypes
-                .Where(x => x.PgKindId == id && x.InArchive == false)
+            var res = db.Profiles
+                .Where(x => x.SpecialityId == specialityId)
+                .Filter(Request.Query.ToList())
                 .Sort(args)
                 .AsNoTracking()
                 .ToList();

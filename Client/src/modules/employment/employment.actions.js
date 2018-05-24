@@ -12,27 +12,30 @@ import { fetching } from '../busyIndicator';
 import {
   apiGetEmploymentById, apiPostEmployment,
 } from './employment.api';
-import { apiGetSpecialities, apiGetSchools } from '../layout';
+import { apiGetSpecialities, apiGetSchools, getProfiles } from '../layout';
 import { apiGetOrganizations } from '../organizationList';
 import { initialize } from 'redux-form';
 
 export function initEmploymentForm(id, formName) {
   return dispatch => {
     if (!id) {
-      dispatch(initialize(formName, {
+      const result = {
         specialityId: null,
         entraceYear: null,
         eduFormId: null,
         docDate: null,
         pgContractStuffs: [],
-        speciality: ''
-      }, false, { keepSubmitSucceeded: true }));
+        speciality: '',
+        specializationId: 0,
+      };
+      dispatch(initialize(formName, result, false, { keepSubmitSucceeded: true }));
+      return result;
     } else {
-      fetching(dispatch, formName,
+      return fetching(dispatch, formName,
         apiGetEmploymentById(id).then(res =>
           apiGetSpecialities({ id: res.specialityId }).then(spec => {
             const speciality = (spec.data[0] && spec.data[0].name) || '';
-            const stuff = res.pgContractStuffs.sort(function (a, b) {
+            res.pgContractStuffs = res.pgContractStuffs.sort(function (a, b) {
               const fullNameA = a.student.fullName;
               const fullNameB = b.student.fullName;
               if (fullNameA > fullNameB) {
@@ -43,9 +46,15 @@ export function initEmploymentForm(id, formName) {
               }
               return 0;
             });
-            res.pgContractStuffs = stuff;
-            const result = { ...res, speciality };
-            dispatch(initialize(formName, result, false, { keepSubmitSucceeded: true }));
+            let result = { ...res, speciality };
+            if (!result.specializationId)
+              result = {...result, specializationId: 0 };
+
+            return dispatch(getProfiles(res.specialityId, { sorting: [{columnName: 'specialityID'}, {columnName: 'name'}] }))
+              .then(() => {
+                dispatch(initialize(formName, result, false, { keepSubmitSucceeded: true }));
+                return result;
+              });
           })
         )
       );
@@ -65,6 +74,7 @@ export function saveEmployment(data, formName) {
       ...data,
       pgContractStuffs: stuff
     };
+    if (res.specializationId == 0) res.specializationId = null;
     return fetching(dispatch, formName, apiPostEmployment(res));
   };
 }

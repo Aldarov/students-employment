@@ -22,7 +22,7 @@ namespace Server.Controllers
             jwt = token;
         }
 
-        private ClaimsIdentity GetClaimsIdentity(string employmentId) 
+        private ClaimsIdentity GetClaimsIdentity(string employmentId)
         {
             var claims = new List<Claim>
                 {
@@ -46,7 +46,7 @@ namespace Server.Controllers
             var response = client.GetAsync("http://my.bsu.ru/auth.php?id=" + sessionId).Result;
             if (response.IsSuccessStatusCode)
             {
-                var stringAuth = await response.Content.ReadAsStringAsync();   
+                var stringAuth = await response.Content.ReadAsStringAsync();
                 XDocument xdoc = XDocument.Parse(stringAuth);
                 XElement res = xdoc.Descendants("result").FirstOrDefault();
                 if (res != null)
@@ -57,6 +57,8 @@ namespace Server.Controllers
                         var identity = GetClaimsIdentity(props.EmploymentId);
                         return Ok(jwt.GetToken(identity));
                     }
+                    else
+                        return StatusCode(403, Json("Access denied"));
                 }
             }
             return Unauthorized();
@@ -80,7 +82,7 @@ namespace Server.Controllers
                 Token newToken = jwt.GetToken(identity);
                 return Ok(newToken);
             }
-            catch 
+            catch
             {
                 return StatusCode(403, Json("Invalid refresh token"));
             }

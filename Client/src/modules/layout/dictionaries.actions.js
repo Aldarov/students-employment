@@ -1,12 +1,15 @@
 import {
   SET_EDU_FORMS,
   SET_DIRECTION_TYPES,
-  SET_DISTRIBUTION_TYPES
+  SET_DISTRIBUTION_TYPES,
+  SET_PROFILES,
+  CLEAR_PROFILES
 } from '../../constants';
 
 import {
   apiGetEduForms,
-  apiGetPgTypes
+  apiGetPgTypes,
+  apiGetProfiles
 } from './dictionaries.api';
 
 export function getEduForms(params) {
@@ -28,4 +31,16 @@ export function getDistributionTypes() {
     .then(res =>
       dispatch({ type: SET_DISTRIBUTION_TYPES, data: res })
     );
+}
+
+export function getProfiles(specialityId, args) {
+  return dispatch => apiGetProfiles(specialityId, args)
+    .then(res => {
+      dispatch({ type: SET_PROFILES, data: res });
+      return res;
+    });
+}
+
+export function clearProfiles() {
+  return dispatch => dispatch({ type: CLEAR_PROFILES });
 }

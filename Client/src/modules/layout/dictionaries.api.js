@@ -35,3 +35,8 @@ export function apiSearchAddress({...args}) {
   const url = getUrl({startUrl: 'api/addresses/search', ...args});
   return axios.get(url);
 }
+
+export function apiGetProfiles(specialityId, args) {
+  const url = getUrl({startUrl: 'api/profiles/' + specialityId, ...args});
+  return axios.get(url);
+}

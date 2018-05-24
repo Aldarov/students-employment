@@ -65,7 +65,8 @@ class Employment extends Component {
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
       onChangeContractDirectionType,
       openedStudentsSelection, studentsSelection, onCloseStudentsSelection, onStudentsSelected, onLoadStudents, contractStuffIsEmpty,
-      onShowDistributionReport, onShowEmploymentReport
+      onShowDistributionReport, onShowEmploymentReport,
+      profiles
     } = this.props;
 
     return (
@@ -81,8 +82,8 @@ class Employment extends Component {
               disabled={!contractStuffIsEmpty}
               hideIcon={!contractStuffIsEmpty}
               autoFocus={false}
-              label='Специальность'
-              placeholder='выберите специальность'
+              label='Специальность/направление'
+              placeholder='выберите специальность/направление'
               className={classes.autocomplete}
 
               suggestions={specialities}
@@ -110,7 +111,19 @@ class Employment extends Component {
               placeholder='выберите форму обучения'
               className={classes.textField}
             >
-              {eduForms && eduForms.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+              {eduForms && eduForms.map((item, index) => <MenuItem key={index} value={item.id}>{item.name}</MenuItem>)}
+            </Field>
+
+            <Field
+              name='specializationId'
+              disabled={!contractStuffIsEmpty}
+              select
+              component={RenderTextField}
+              label='Образовательная программа'
+              placeholder='выберите образовательную программу'
+              className={classes.textField}
+            >
+              {profiles && profiles.map((item, index) => <MenuItem key={index} value={item.id}>{item.name}</MenuItem>)}
             </Field>
 
             <Field
@@ -249,6 +262,7 @@ Employment.propTypes = {
 
   onShowDistributionReport: PropTypes.func,
   onShowEmploymentReport: PropTypes.func,
+  profiles: PropTypes.array,
 };
 
 export default Employment;

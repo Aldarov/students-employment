@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Alert from 'react-s-alert';
 import { withStyles } from 'material-ui/styles';
 
 import { layoutStyles } from './styles';
@@ -39,7 +38,6 @@ class Layout extends Component {
         <div className={classes.content}>
           {children}
         </div>
-        <Alert stack={{limit: 5}} timeout={'none'}/>
       </div>
     );
   }

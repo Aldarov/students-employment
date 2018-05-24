@@ -1,11 +1,12 @@
 import {
-  SET_EDU_FORMS, SET_DIRECTION_TYPES, SET_DISTRIBUTION_TYPES
+  SET_EDU_FORMS, SET_DIRECTION_TYPES, SET_DISTRIBUTION_TYPES, SET_PROFILES, CLEAR_PROFILES
 } from '../../constants';
 
 const defaultData = {
   eduForms: [],
   directionTypes: [],
-  distributionTypes: []
+  distributionTypes: [],
+  profiles: [{ id: 0, name: 'Не указана', specialityID: null }]
 };
 
 export default function reducer(state = defaultData, action) {
@@ -26,6 +27,18 @@ export default function reducer(state = defaultData, action) {
       return {
         ...state,
         distributionTypes: action.data
+      };
+    }
+    case SET_PROFILES: {
+      return {
+        ...state,
+        profiles: [...defaultData.profiles, ...action.data]
+      };
+    }
+    case CLEAR_PROFILES: {
+      return {
+        ...state,
+        profiles: defaultData.profiles
       };
     }
     default:

@@ -144,6 +144,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           dispatch(initialize(formName, values));
           ownProps.history.push(`/employment/${res.id}`);
         }
+        return res;
       });
     // .catch(error => {
     //   throw new SubmissionError({
@@ -429,15 +430,11 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
 
     onShowDistributionReport: () => {
       const w = window.open();
-      fetching(dispatch, formName,
-        saveData(formValues).then(() => w.location = `/reports/distribution/${id}`)
-      );
+      saveData(formValues).then(res => w.location = `/reports/distribution/${res.id}`);
     },
     onShowEmploymentReport: () => {
       const w = window.open();
-      fetching(dispatch, formName,
-        saveData(formValues).then(() => w.location = `/reports/employment/${id}`)
-      );
+      saveData(formValues).then(res => w.location = `/reports/employment/${res.id}`);
     },
     onSubmit: values => saveData(values),
     validate: values => getHeaderErrors(values),

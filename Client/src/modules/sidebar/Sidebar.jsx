@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import { withStyles } from 'material-ui/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
-import Drawer from 'material-ui/Drawer';
-import Divider from 'material-ui/Divider';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import IconButton from 'material-ui/IconButton';
-import DescriptionIcon from 'material-ui-icons/Description';
-import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
-import AccountBalanceIcon from 'material-ui-icons/AccountBalance';
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+
+import IconButton from '@material-ui/core/IconButton';
+import DescriptionIcon from '@material-ui/icons/Description';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 
 import { sidebarStyles } from './styles';
 

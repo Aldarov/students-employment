@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
-import { withStyles } from 'material-ui/styles';
-import Tooltip from 'material-ui/Tooltip/Tooltip';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 
 import { Dialog } from '../../dialogs';
 import List from '../../_global/components/List';

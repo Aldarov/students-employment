@@ -26,4 +26,3 @@ if (bowser.msie) {
     document.getElementById('root')
   );
 }
-

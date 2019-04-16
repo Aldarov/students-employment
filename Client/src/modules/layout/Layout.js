@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import { layoutStyles } from './styles';
 import { Header } from '../header';
@@ -9,7 +9,7 @@ import { BusyIndicator } from '../busyIndicator';
 
 @withStyles(layoutStyles)
 class Layout extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.onLoadData();
   }
 

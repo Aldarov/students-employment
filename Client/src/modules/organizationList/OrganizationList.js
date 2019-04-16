@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Layout } from '../layout';
 import { QuestionDialog } from '../dialogs';
@@ -11,7 +11,7 @@ import { AddButton, EditButton, DeleteButton } from './components/Buttons';
 
 @withStyles(organizationListStyles)
 class OrganizationList extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.onLoadData();
   }
 

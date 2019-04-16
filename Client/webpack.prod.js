@@ -1,8 +1,6 @@
-const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
-const extractTextPlugin = require('extract-text-webpack-plugin');
-const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 const paths = {
@@ -12,48 +10,26 @@ const paths = {
 module.exports = merge(
   common,
   {
+    mode: 'production',
     output: {
       path: paths.build,
       filename: './js/[name].js',
       publicPath: '/'
     },
-    module: {
-      rules: [
-        {
-          test: /\.(js|jsx)$/,
-          exclude: [/node_modules/, /build/],
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                plugins: [
-                  'transform-decorators-legacy'
-                ],
-                presets: ['es2015', 'react', 'stage-2'],
-              }
-            }
-          ]
-        },
-        {
-          test: /\.(scss|css)$/,
-          exclude: [/build/],
-          use: extractTextPlugin.extract({
-            publicPath: '../',
-            fallback: 'style-loader',
-            use: ['css-loader', 'sass-loader']
-          })
-        },
-      ]
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /node_modules/,
+            chunks: 'all',
+            name: 'vendor',
+            enforce: true
+          },
+        }
+      }
     },
     plugins: [
-      new extractTextPlugin('./css/[name].css'),
-      new optimizeCssAssetsPlugin(),
-      new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }),
-      new webpack.DefinePlugin({
-        'process.env':{
-          'NODE_ENV': JSON.stringify('production')
-        }
-      })
+      new MiniCssExtractPlugin({ filename: './css/[name].css' }),
     ],
   }
 );

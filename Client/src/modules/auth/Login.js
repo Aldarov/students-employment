@@ -1,12 +1,12 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { loginStyles } from './styles';
 
 @withStyles(loginStyles)
 class Login extends React.Component {
-  componentWillMount(){
+  componentDidMount(){
     this.props.onLogin();
   }
 

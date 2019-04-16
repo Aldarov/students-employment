@@ -11,38 +11,9 @@ const paths = {
 module.exports = merge(
   common,
   {
+    mode: 'development',
     output: {
       publicPath: '/'
-    },
-    module: {
-      rules: [
-        {
-          test: /\.(js|jsx)$/,
-          exclude: [/node_modules/, /build/],
-          use: [
-            { loader: 'react-hot-loader/webpack' },
-            {
-              loader: 'babel-loader',
-              options: {
-                plugins: [
-                  'transform-decorators-legacy'
-                ],
-                presets: ['es2015', 'react', 'stage-2'],
-              }
-            },
-            { loader: 'eslint-loader' }
-          ]
-        },
-        {
-          test: /\.(scss|css)$/,
-          exclude: [/build/],
-          use: [
-            'style-loader',
-            'css-loader',
-            'sass-loader'
-          ]
-        },
-      ]
     },
     devServer: {
       stats: 'errors-only',
@@ -68,6 +39,5 @@ module.exports = merge(
         template: paths.source + '/assets/index.html'
       }),
     ],
-    devtool: 'eval',
   }
 );

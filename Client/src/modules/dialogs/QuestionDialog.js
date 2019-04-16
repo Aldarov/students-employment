@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
-import Slide from 'material-ui/transitions/Slide';
+import Button from '@material-ui/core/Button';
 
-function Transition(props) {
-  return <Slide direction="up" {...props} />;
-}
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import Slide from '@material-ui/core/Slide';
+
+// function Transition(props) {
+//   return <Slide direction="up" {...props} />;
+// }
 
 export default function QuestionDialog(props) {
   const { open, dialogProps, args } = props;
@@ -20,14 +21,14 @@ export default function QuestionDialog(props) {
   return (
     <Dialog
       open={open}
-      transition={Transition}
-      keepMounted
+      aria-labelledby='alert-dialog-title'
+      aria-describedby='alert-dialog-description'
+      // transition={Transition}
+      // keepMounted
     >
-      <DialogTitle>{title || ''}</DialogTitle>
+      <DialogTitle id='alert-dialog-title'>{title || ''}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          {contentText}
-        </DialogContentText>
+        <DialogContentText id="alert-dialog-description">{contentText}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onYes(args)} color="primary" autoFocus >
@@ -46,4 +47,3 @@ QuestionDialog.propTypes = {
   dialogProps: PropTypes.object,
   args: PropTypes.object,
 };
-

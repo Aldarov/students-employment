@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Form } from 'redux-form';
-import { withStyles } from 'material-ui/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Layout } from '../layout';
 import { QuestionDialog } from '../dialogs';
@@ -11,7 +11,7 @@ import RenderAutocomplete from '../_global/components/RenderAutocomplete';
 
 @withStyles(organizationStyles)
 class Organization extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.onLoadData();
   }
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { Field, FieldArray  } from 'redux-form';
-import { MenuItem } from 'material-ui/Menu';
-import Button from 'material-ui/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 
 import { employmentStyles } from './styles';
@@ -22,7 +22,7 @@ import {AddButton, EditButton, DeleteButton} from './components/GridButtons';
 
 @withStyles(employmentStyles)
 class Employment extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.onLoadData();
   }
 

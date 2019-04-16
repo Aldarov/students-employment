@@ -73,6 +73,17 @@ namespace Server.Controllers
 
                 if (existingHeader == null)
                 {
+                    if (
+                        db.PgHeaders.Any(x =>
+                            x.Id != header.Id
+                            && x.SpecialityId == header.SpecialityId
+                            && x.EntraceYear == header.EntraceYear
+                            && x.EduFormId == header.EduFormId
+                            && x.SpecializationId == header.SpecializationId
+                        )
+                    )
+                        return BadRequest("Документ с текущей специальностью, годом обучения, формой обучения и образовательной программой уже существует. " +
+                            "Пожалуйста вносите изменения в уже созданный документ, данный документ не будет сохранен.");
                     db.Add(header);
                 }
                 else

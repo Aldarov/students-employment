@@ -47,13 +47,15 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         { name: 'speciality', title: 'Специальность' },
         { name: 'entranceYear', title: 'Год поступления' },
         { name: 'eduForm', title: 'Форма обучения' },
+        { name: 'specialization', title: 'Образовательная программа' },
       ],
       defaultColumnWidths: [
         { columnName: 'id', width: 100 },
         { columnName: 'faculty', width: 100 },
-        { columnName: 'speciality', width: 700 },
-        { columnName: 'entranceYear', width: 200 },
+        { columnName: 'speciality', width: 500 },
+        { columnName: 'entranceYear', width: 100 },
         { columnName: 'eduForm', width: 120 },
+        { columnName: 'specialization', width: 500 },
       ],
 
       allowAdding: true,

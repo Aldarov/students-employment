@@ -12,5 +12,6 @@ namespace Server.Models.University
         public string DocDate { get; set; }
         public string HeaderPost { get; set; }
         public string HeaderName { get; set; }
+        public string Specialization { get; set; }
     }
 }

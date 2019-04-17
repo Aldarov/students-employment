@@ -17,7 +17,7 @@ import {
   getOrganizationsSuggestion, clearOrganizationsSuggestion,
   showDirectionOrganizations, showDistributionOrganizations,
   hideDirectionOrganizations, hideDistributionOrganizations,
-  saveEmployment,
+  saveEmployment, getHeaderErrors
 } from './employment.actions';
 import {
   getStudentsWithoutSelected, getStudentsByHeader, clearStudentSelection,
@@ -57,29 +57,6 @@ const getNewContractStuff = (headerId, studentId, student) => {
   return res;
 };
 
-const getHeaderErrors = values => {
-  const errors = {};
-
-  const requiredFields = [ 'specialityId', 'entraceYear', 'docDate', 'eduFormId' ];
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      if (field == 'specialityId') {
-        errors['speciality'] = 'Заполните данное поле';
-      } else {
-        errors[field] = 'Заполните данное поле';
-      }
-    }
-  });
-
-  if (values.entraceYear && isNaN(Number(values.entraceYear))) {
-    errors.entraceYear = 'Год должен быть числом';
-  }
-
-  // if (values.pgContractStuffs && values.pgContractStuffs.length == 0) {
-  //   errors['_error'] = 'Пожалуйста, загрузите студентов';
-  // }
-  return errors;
-};
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
   let id  = ownProps.match.params.id === 'add' ? null : ownProps.match.params.id;
@@ -134,8 +111,17 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   };
 
   const saveData = values => {
-    return dispatch(saveEmployment(values, formName))
-      .then(res => {
+    return dispatch(saveEmployment(values, formName,
+      (res, err) => {
+        if (err) {
+          console.log('saveData error', err);
+          Alert.error(err.data);
+          throw new SubmissionError({
+            _error: err.data
+          });
+          return;
+        }
+
         if (onRedirectToList) {
           onRedirectToList();
         }
@@ -144,13 +130,8 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           ownProps.history.push(`/employment/${res.id}`);
         }
         return res;
-      });
-    // .catch(error => {
-    //   throw new SubmissionError({
-    //     entraceYear: 'Ошибка заполнения',
-    //     _error: 'Общая ошибка формы!!'
-    //   });
-    // });
+      }
+    ));
   };
 
   const props = {
@@ -401,7 +382,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(closeStudentsSelection());
     },
     onLoadStudents: () => {
-      const errors = getHeaderErrors(formValues);
+      const errors = dispatch(getHeaderErrors(formName));
 
       if (!_.isEmpty(errors)) {
         toucheErrorFields(errors);
@@ -436,7 +417,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       saveData(formValues).then(res => w.location = `/reports/employment/${res.id}`);
     },
     onSubmit: values => saveData(values),
-    validate: values => getHeaderErrors(values),
+    validate: values => dispatch(getHeaderErrors(formName, values)),
   };
 
   return { ...props, ...methods, ...ownProps };

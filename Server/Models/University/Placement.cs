@@ -13,5 +13,7 @@ namespace Server.Models.University
         public int EntranceYear { get; set; }
         public int EduFormId { get; set; }
         public string EduForm { get; set; }
+        public int? SpecializationId { get; set; }
+        public string Specialization { get; set; }
     }
 }

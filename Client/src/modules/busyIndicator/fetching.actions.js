@@ -5,9 +5,12 @@ export function fetching(dispatch, type, action) {
   return action
     .then(res => {
       dispatch({ type: FETCHING_END, data: type });
-      return res;
+      return res
     })
-    .catch(() => dispatch({ type: FETCHING_END, data: type }));
+    .catch(err => {
+      dispatch({ type: FETCHING_END, data: type });
+      throw err;
+    });
 }
 
 export function fetchingEnd(type) {

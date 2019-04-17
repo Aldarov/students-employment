@@ -14,7 +14,7 @@ import {
 } from './employment.api';
 import { apiGetSpecialities, apiGetSchools, getProfiles } from '../layout';
 import { apiGetOrganizations } from '../organizationList';
-import { initialize } from 'redux-form';
+import { initialize, getFormValues } from 'redux-form';
 
 export function initEmploymentForm(id, formName) {
   return dispatch => {
@@ -62,7 +62,7 @@ export function initEmploymentForm(id, formName) {
   };
 }
 
-export function saveEmployment(data, formName) {
+export function saveEmployment(data, formName, callback) {
   return dispatch => {
     const stuff = data.pgContractStuffs.map(item => {
       return {
@@ -75,7 +75,9 @@ export function saveEmployment(data, formName) {
       pgContractStuffs: stuff
     };
     if (res.specializationId == 0) res.specializationId = null;
-    return fetching(dispatch, formName, apiPostEmployment(res));
+    return fetching(dispatch, formName, apiPostEmployment(res))
+      .then(res => callback(res))
+      .catch(err => callback(null, err));
   };
 }
 
@@ -165,4 +167,36 @@ export function getOrganizationsSuggestion(params, formName) {
 
 export function clearOrganizationsSuggestion() {
   return dispatch => dispatch({ type: CLEAR_ORGANIZATIONS_SUGGESTIONS });
+}
+
+export function getHeaderErrors(formName, values) {
+  return (dispatch, getState) => {
+    const state = getState();
+    values = values || getFormValues(formName)(state);
+    const errors = {};
+
+    const requiredFields = [ 'specialityId', 'entraceYear', 'docDate', 'eduFormId', 'specializationId' ];
+    requiredFields.forEach(field => {
+      if (!values[field]) {
+        if (field == 'specialityId') {
+          errors['speciality'] = 'Заполните данное поле';
+        } else if (field == 'specializationId') {
+          if (state.dictionaries.profiles.some(item => item.id != 0))
+            errors['specializationId'] = 'Заполните данное поле';
+        }
+        else {
+          errors[field] = 'Заполните данное поле';
+        }
+      }
+    });
+
+    if (values.entraceYear && isNaN(Number(values.entraceYear))) {
+      errors.entraceYear = 'Год должен быть числом';
+    }
+
+    // if (values.pgContractStuffs && values.pgContractStuffs.length == 0) {
+    //   errors['_error'] = 'Пожалуйста, загрузите студентов';
+    // }
+    return errors;
+  };
 }

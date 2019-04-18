@@ -17,7 +17,6 @@ namespace Server
             var host = new WebHostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseKestrel()
-                .UseIISIntegration()
                 .ConfigureAppConfiguration((hostContext, config) =>
                 {
                     config.SetBasePath(Directory.GetCurrentDirectory());

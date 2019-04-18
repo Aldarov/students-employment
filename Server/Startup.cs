@@ -85,9 +85,6 @@ namespace Server
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             app.UseAuthentication();
 
             app.UseDefaultFiles();

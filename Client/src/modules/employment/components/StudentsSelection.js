@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 
@@ -45,9 +44,8 @@ class StudentsSelection extends Component {
           onClose={onClose}
         >
           <Tooltip title="Добавить выбранных студентов">
-            <Button className={classes.button} onClick={this.handleSelected}>
+            <Button variant="contained" className={classes.button} onClick={this.handleSelected}>
               Выбрать
-              <Icon className={classes.rightIcon}>send</Icon>
             </Button>
           </Tooltip>
           <List

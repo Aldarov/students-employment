@@ -44,7 +44,7 @@ export default function reducer(state = defaultData, action) {
     }
     case SET_EMPLOYMENT_SUGGESTIONS: {
       const suggestions = action.data.map((item) => ({ id: item.id, name: item.id + ', ' +
-        item.faculty + ', ' + item.speciality + ', ' + item.entranceYear + ', ' + item.eduForm + ', ' + item.specialization }));
+        item.faculty + ', ' + item.speciality + ', ' + item.entranceYear + ', ' + item.eduForm + ', ' + (item.specialization || '') }));
       return {
         ...state,
         searchSuggestions: suggestions

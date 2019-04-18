@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ClearIcon from '@material-ui/icons/Clear';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 
 function renderInput(inputProps) {
   const {
@@ -157,7 +157,7 @@ class Autocomplete extends React.Component {
     return suggestion.name;
   }
 
-  debounceSuggestionsFetch = _.debounce((val) => {
+  debounceSuggestionsFetch = debounce((val) => {
     this.props.onSuggestionsFetchRequested(val);
   }, 500);
 

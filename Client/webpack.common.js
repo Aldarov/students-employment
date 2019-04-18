@@ -32,15 +32,6 @@ module.exports = {
         ]
       },
       {
-        test: /\.(scss|css)$/,
-        exclude: [/build/],
-        use: [
-          process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader'
-        ]
-      },
-      {
         test: /\.(gif|png|jpg|jpeg|svg)$/,
         exclude: [/node_modules/, /build/],
         loader: 'file-loader',

@@ -2,6 +2,7 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const paths = {
   build: path.resolve(__dirname, 'build')
@@ -16,17 +17,37 @@ module.exports = merge(
       filename: './js/[name].js',
       publicPath: '/'
     },
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            test: /node_modules/,
-            chunks: 'all',
-            name: 'vendor',
-            enforce: true
-          },
+    module: {
+      rules: [
+        {
+          test: /\.(scss|css)$/,
+          exclude: [/build/],
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+            'sass-loader'
+          ]
         }
-      }
+      ]
+    },
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          extractComments: true,
+          cache: true,
+          parallel: true,
+          sourceMap: true,
+          terserOptions: {
+            compress: {
+              warnings: false
+            },
+            output: {
+              comments: false
+            }
+          }
+        }),
+      ],
     },
     plugins: [
       new MiniCssExtractPlugin({ filename: './css/[name].css' }),

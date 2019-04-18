@@ -15,6 +15,19 @@ module.exports = merge(
     output: {
       publicPath: '/'
     },
+    module: {
+      rules: [
+        {
+          test: /\.(scss|css)$/,
+          exclude: [/build/],
+          use: [
+            'style-loader',
+            'css-loader',
+            'sass-loader'
+          ]
+        }
+      ]
+    },
     devServer: {
       stats: 'errors-only',
       historyApiFallback: true,

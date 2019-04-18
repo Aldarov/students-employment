@@ -5,7 +5,7 @@ import {
   change, touch, arrayRemove, arrayPush,
   stopAsyncValidation, initialize
 } from 'redux-form';
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import Employment from './Employment';
 import { openQuestionDialog, closeQuestionDialog } from '../dialogs';
@@ -384,7 +384,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     onLoadStudents: () => {
       const errors = dispatch(getHeaderErrors(formName));
 
-      if (!_.isEmpty(errors)) {
+      if (!isEmpty(errors)) {
         toucheErrorFields(errors);
         dispatch(stopAsyncValidation(formName, errors));
       } else {

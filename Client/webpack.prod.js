@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -40,10 +41,7 @@ module.exports = merge(
           sourceMap: true,
           terserOptions: {
             compress: {
-              warnings: false
-            },
-            output: {
-              comments: false
+              drop_console: true
             }
           }
         }),
@@ -51,6 +49,8 @@ module.exports = merge(
     },
     plugins: [
       new MiniCssExtractPlugin({ filename: './css/[name].css' }),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
+    // devtool: 'source-map'
   }
 );

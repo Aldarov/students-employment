@@ -6,7 +6,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import * as Icons from '@material-ui/icons';
+import MenuIcon from '@material-ui/icons/Menu';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import { headerStyles } from './styles';
@@ -15,9 +16,8 @@ import { headerStyles } from './styles';
 class Header extends Component {
   render() {
     const { classes, openedSidebar, headerProps } = this.props;
-
     const { onLeftButtonClick, leftButtonIconName, onRightButtonClick, rightButtonDisabled, title } = headerProps || {};
-    const Icon = leftButtonIconName && Icons[leftButtonIconName];
+    const Icon = leftButtonIconName == 'Menu' ? MenuIcon : (leftButtonIconName == 'ArrowBack' ? ArrowBackIcon : null);
 
     return (
       <AppBar className={classes.appBar}>

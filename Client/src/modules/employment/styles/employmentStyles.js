@@ -17,11 +17,18 @@ export default theme => ({
       width: 600,
     },
   },
+  date: {
+    marginTop: theme.spacing.unit*2,
+    width: 200,
+  },
   error: {
     margin: theme.spacing.unit,
     color: 'red',
     fontWeight: 600,
     display: 'block'
+  },
+  marginTop: {
+    marginTop: theme.spacing.unit,
   },
   marginBottom: {
     marginBottom: theme.spacing.unit,

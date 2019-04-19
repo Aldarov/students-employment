@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import MuiThemeProvider from 'material-ui-prev/styles/MuiThemeProvider';
+
 import bowser from 'bowser';
 import 'normalize.css';
+import MuiPickersUtilsProvider from 'material-ui-pickers/MuiPickersUtilsProvider';
+import MomentUtils from "@date-io/moment";
+import "moment/locale/ru";
 
 import store from './store';
 import { Navigation } from './modules/navigation';
@@ -19,9 +22,9 @@ if (bowser.msie) {
 } else {
   ReactDOM.render(
     <Provider store={store}>
-      <MuiThemeProvider>
+      <MuiPickersUtilsProvider utils={MomentUtils}>
         <Navigation/>
-      </MuiThemeProvider>
+      </MuiPickersUtilsProvider>
     </Provider>,
     document.getElementById('root')
   );

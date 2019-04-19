@@ -7,7 +7,6 @@ import Login from './Login';
 const formName = 'login';
 
 export default connectAdvanced(dispatch => (state, ownProps) => {
-  console.log('login', ownProps);
   const { emp_id: employmentId, id: sessionId } = qs.parse(ownProps.location.search);
 
   const props = {

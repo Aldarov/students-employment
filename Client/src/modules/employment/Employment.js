@@ -129,21 +129,22 @@ class Employment extends Component {
               disabled={!contractStuffIsEmpty}
               name='docDate'
               component={RenderDatePicker}
-              floatingLabelText='Дата документа'
-              hintText="Дата документа"
+              label='Дата документа'
+              emptyLabel='Не указана'
+              className={classes.date}
             />
 
             {error && <strong className={classes.error}>{error}</strong>}
           </div>
           {
             contractStuffIsEmpty &&
-            <Button className={classes.marginBottom} color="primary" onClick={onLoadStudents}>
+            <Button className={classNames(classes.marginTop, classes.marginBottom)} color="primary" onClick={onLoadStudents}>
               Загрузить студентов по выбранным выше данным
             </Button>
           }
           {
             !contractStuffIsEmpty &&
-            <div className={classNames(classes.marginBottom, classes.row)}>
+            <div className={classNames(classes.marginTop, classes.marginBottom, classes.row)}>
               <Button className={classes.marginRight} color="primary" onClick={onShowDistributionReport}>
                 Отчет по распределению
               </Button>

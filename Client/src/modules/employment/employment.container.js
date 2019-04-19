@@ -114,7 +114,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     return dispatch(saveEmployment(values, formName,
       (res, err) => {
         if (err) {
-          console.log('saveData error', err);
           Alert.error(err.data);
           throw new SubmissionError({
             _error: err.data

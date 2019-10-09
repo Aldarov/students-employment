@@ -39,13 +39,13 @@ class Sidebar extends Component {
               <ListItemIcon>
                 <DescriptionIcon />
               </ListItemIcon>
-              <ListItemText inset primary="Трудоустройство" />
+              <ListItemText primary="Трудоустройство" />
             </ListItem>
             <ListItem button onClick={onRedirect('/organization')}>
               <ListItemIcon>
                 <AccountBalanceIcon />
               </ListItemIcon>
-              <ListItemText inset primary="Организации" />
+              <ListItemText primary="Организации" />
             </ListItem>
           </List>
         </div>

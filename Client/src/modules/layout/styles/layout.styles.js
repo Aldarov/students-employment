@@ -8,7 +8,7 @@ export default theme => ({
     fontFamily: ['Roboto','Helvetica', 'sans-serif'],
   },
   content: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(),
     marginTop: 64,
     flex: 1,
   },

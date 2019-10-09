@@ -9,10 +9,10 @@ import List from '../../_global/components/List';
 
 const styles = theme => ({
   button: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(),
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(),
   },
 });
 

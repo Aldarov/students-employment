@@ -9,15 +9,15 @@ export default theme => ({
     flex: 1,
   },
   content: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
+    marginTop: theme.spacing(),
+    marginBottom: theme.spacing(),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
   },
   field: {
-    marginRight: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginRight: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(),
     width: '300px',
     [theme.breakpoints.up('sm')]: {
       width: 400,

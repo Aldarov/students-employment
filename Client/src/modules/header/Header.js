@@ -31,7 +31,7 @@ class Header extends Component {
               {Icon && <Icon style={{color: 'white'}}/>}
             </IconButton>
           }
-          <Typography type="title" color="inherit" noWrap className={classes.flex} variant={'title'}>
+          <Typography type="title" color="inherit" noWrap className={classes.flex} variant="subtitle1">
             {title}
           </Typography>
           {

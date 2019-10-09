@@ -279,11 +279,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
 
     onCloseContract: row => () => {
-      // const withSelectDirectionSchoolPgTypeIds = [8];
-      // const withSelectDirectionOrganPgTypeIds = [9];
-      // const withSelectDistributionSchoolPgTypeIds = [17, 13, 14, 21, 25, 26];
-      // const withSelectDistributionOrganPgTypeIds = [18];
-
       let error = null;
       if ((withSelectDirectionSchoolPgTypeIds.indexOf(pgContractStuffs[row].directionTypeId) > -1)
           && !pgContractStuffs[row].directionSchoolId) {
@@ -313,7 +308,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         dispatch(touch(formName, 'pgContractStuffs['+row+'].directionOrganizationName'));
       }
 
-      if ((withSelectDistributionSchoolPgTypeIds.indexOf(pgContractStuffs[row].directionTypeId) > -1)
+      if ((withSelectDistributionSchoolPgTypeIds.indexOf(pgContractStuffs[row].distributionTypeId) > -1)
           && !pgContractStuffs[row].distributionSchoolId) {
         const oldError = error && {...error.pgContractStuffs[row]};
         error = {
@@ -327,7 +322,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         dispatch(touch(formName, 'pgContractStuffs['+row+'].distributionSchoolName'));
       }
 
-      if ((withSelectDistributionOrganPgTypeIds.indexOf(pgContractStuffs[row].directionTypeId) > -1)
+      if ((withSelectDistributionOrganPgTypeIds.indexOf(pgContractStuffs[row].distributionTypeId) > -1)
           && !pgContractStuffs[row].distributionOrganizationId) {
         const oldError = error && {...error.pgContractStuffs[row]};
         error = {

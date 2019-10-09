@@ -10,9 +10,9 @@ import RenderSelect from '../../_global/components/RenderSelect';
 
 const styles = theme => ({
   field: {
-    marginRight: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginRight: theme.spacing(2),
+    marginTop: theme.spacing(),
+    marginBottom: theme.spacing(),
     width: '500px',
     [theme.breakpoints.down('sm')]: {
       width: '100vw - 5px',

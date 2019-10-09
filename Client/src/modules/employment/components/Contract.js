@@ -18,7 +18,7 @@ class Contract extends Component {
       showDirectionSchools, showDirectionOrganizations, showDistributionSchools, showDistributionOrganizations
     } = data;
 
-    console.log('contract', data);
+    console.log('render contract', data);
 
     return (
       <Dialog

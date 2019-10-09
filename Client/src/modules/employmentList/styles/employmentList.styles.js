@@ -4,6 +4,6 @@ export default theme => ({
     [theme.breakpoints.down('sm')]: {
       width: 350,
     },
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(),
   },
 });

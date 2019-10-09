@@ -1,10 +1,10 @@
 export default theme => ({
   form: {
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
+    paddingLeft: theme.spacing(),
+    paddingRight: theme.spacing(),
   },
   textField: {
-    marginTop: theme.spacing.unit*2,
+    marginTop: theme.spacing(2),
     width: 300,
     [theme.breakpoints.up('sm')]: {
       width: 400,
@@ -15,6 +15,6 @@ export default theme => ({
     [theme.breakpoints.up('sm')]: {
       width: 600,
     },
-    marginTop: theme.spacing.unit*2
+    marginTop: theme.spacing(2)
   },
 });

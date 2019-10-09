@@ -2,7 +2,7 @@ export default theme => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
   },
   autocomplete: {
     width: 300,
@@ -11,27 +11,27 @@ export default theme => ({
     },
   },
   textField: {
-    marginTop: theme.spacing.unit*2,
+    marginTop: theme.spacing(2),
     width: 300,
     [theme.breakpoints.up('sm')]: {
       width: 600,
     },
   },
   date: {
-    marginTop: theme.spacing.unit*2,
+    marginTop: theme.spacing(2),
     width: 200,
   },
   error: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
     color: 'red',
     fontWeight: 600,
     display: 'block'
   },
   marginTop: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(),
   },
   marginBottom: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(),
   },
   row: {
     flexDirection: 'row'

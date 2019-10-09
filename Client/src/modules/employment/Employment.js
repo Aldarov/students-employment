@@ -68,6 +68,7 @@ class Employment extends Component {
       onShowDistributionReport, onShowEmploymentReport,
       profiles
     } = this.props;
+    console.log('render emp', );
     return (
       <Layout
         formName={formName}

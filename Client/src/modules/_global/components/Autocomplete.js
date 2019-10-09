@@ -48,6 +48,7 @@ function renderInput(inputProps) {
               </IconButton>
             </InputAdornment>
         }
+        multiline
         {...other}
       />
       {error && <FormHelperText>{helperText}</FormHelperText>}
@@ -64,7 +65,7 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
       selected={isHighlighted}
       component="div"
     >
-      <div>
+      <div style={{whiteSpace: 'pre-wrap'}}>
         {parts.map((part, index) => {
           return part.highlight ? (
             <span
@@ -132,14 +133,7 @@ class Autocomplete extends React.Component {
   state = {
     value: '',
     inputDisable: false,
-    firstReceiveProps: true,
   };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.inputProps && nextProps.inputProps.value && this.state.firstReceiveProps) {
-      this.setState({ firstReceiveProps: false });
-    }
-  }
 
   handleChange = (event, { newValue }) => {
     this.setState({ value: newValue });

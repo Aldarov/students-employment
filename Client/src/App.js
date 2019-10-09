@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import bowser from 'bowser';
 import 'normalize.css';
-import MuiPickersUtilsProvider from 'material-ui-pickers/MuiPickersUtilsProvider';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from "@date-io/moment";
 import "moment/locale/ru";
 

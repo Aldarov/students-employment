@@ -131,7 +131,6 @@ class Employment extends Component {
               name='docDate'
               component={RenderDatePicker}
               label='Дата документа'
-              emptyLabel='Не указана'
               className={classes.date}
             />
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DatePicker from "material-ui-pickers/DatePicker";
+import { KeyboardDatePicker } from "@material-ui/pickers"
 import moment from 'moment';
 
 export default class renderDatePicker extends Component {
@@ -12,13 +12,16 @@ export default class renderDatePicker extends Component {
     const {input, meta: { touched, error }, ...custom} = this.props;
 
     return (
-      <DatePicker
+      <KeyboardDatePicker
+        clearable
         value={input.value ? new Date(input.value) : null}
+        placeholder="дд/мм/гггг"
         onChange={this.onChange}
-        format={"DD.MM.YYYY"}
-        autoOk={true}
+        format="DD.MM.YYYY"
+        autoOk
         okLabel="Ок"
         cancelLabel="Отмена"
+        clearLabel="Очистить"
         error={touched && Boolean(error)}
         helperText={touched && Boolean(error) && error}
         {...custom}

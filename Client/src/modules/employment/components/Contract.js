@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { Dialog } from '../../dialogs';
 import DirectionEdit from './DirectionEdit';
 
-class Contract extends Component {
+class Contract extends PureComponent {
   render () {
     const {
       onClose,
@@ -17,8 +17,6 @@ class Contract extends Component {
     const { opened, title, tableRow,
       showDirectionSchools, showDirectionOrganizations, showDistributionSchools, showDistributionOrganizations
     } = data;
-
-    console.log('render contract', data);
 
     return (
       <Dialog

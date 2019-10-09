@@ -68,7 +68,6 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const pristine = isPristine(formName)(state);
   const submitting = isSubmitting(formName)(state);
   const pgContractStuffs = formValues ? formValues.pgContractStuffs : [];
-  // const distributionSchoolTypeIds = [13, 14, 21, 25, 26];
 
   const handleClearSchoolSelected = (row, type) => {
     dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
@@ -117,6 +116,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const saveData = values => {
     return dispatch(saveEmployment(values, formName,
       (res, err) => {
+        console.log('saveData', res, err);
         if (err) {
           Alert.error(err.data);
           throw new SubmissionError({
@@ -130,6 +130,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         }
         else {
           dispatch(initialize(formName, values));
+          dispatch(change(formName, 'id', res.id));
           ownProps.history.push(`/employment/${res.id}`);
         }
         return res;

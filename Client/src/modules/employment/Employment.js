@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Field, FieldArray  } from 'redux-form';
+import { Field } from 'redux-form';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
@@ -13,11 +13,10 @@ import { QuestionDialog } from '../dialogs';
 import RenderTextField from '../_global/components/RenderTextField';
 import RenderAutocomplete from '../_global/components/RenderAutocomplete';
 import RenderDatePicker from '../_global/components/RenderDatePicker';
-import RenderList from '../_global/components/RenderList';
 
 import Contract from './components/Contract';
 import StudentsSelection from './components/StudentsSelection';
-import {AddButton, EditButton, DeleteButton} from './components/GridButtons';
+import StudentList from './StudentList';
 
 
 @withStyles(employmentStyles)
@@ -68,7 +67,7 @@ class Employment extends Component {
       onShowDistributionReport, onShowEmploymentReport,
       profiles
     } = this.props;
-    console.log('render emp', );
+
     return (
       <Layout
         formName={formName}
@@ -155,14 +154,17 @@ class Employment extends Component {
           }
           {
             !contractStuffIsEmpty &&
-            <FieldArray
-              name='pgContractStuffs'
-              component={RenderList}
-              gridSetting={gridSettingContracts}
-              AddButton={AddButton}
-              EditButton={EditButton}
-              DeleteButton={DeleteButton}
+            <StudentList
+              gridSettingContracts={gridSettingContracts}
             />
+            // <FieldArray
+            //   name='pgContractStuffs'
+            //   component={RenderList}
+            //   gridSetting={gridSettingContracts}
+            //   AddButton={AddButton}
+            //   EditButton={EditButton}
+            //   DeleteButton={DeleteButton}
+            // />
           }
         </form>
 

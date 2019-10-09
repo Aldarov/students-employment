@@ -57,8 +57,7 @@ namespace Server.Controllers
             return res;
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody]PgHeader header)
+        private IActionResult checkExistHeader(PgHeader header)
         {
             if (header == null)
             {
@@ -73,8 +72,27 @@ namespace Server.Controllers
                     && x.SpecializationId == header.SpecializationId
                 )
             )
+            {
                 return BadRequest("Документ с текущей специальностью, годом обучения, формой обучения и образовательной программой уже существует. " +
                     "Пожалуйста вносите изменения в уже созданный документ, данный документ не будет сохранен.");
+            }
+            return Ok();
+        }
+
+        [HttpPost("CheckExistHeader")]
+        public IActionResult CheckExistHeader([FromBody]PgHeader header)
+        {
+            return checkExistHeader(header);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody]PgHeader header)
+        {
+            var res = checkExistHeader(header);
+            if (res is BadRequestObjectResult)
+            {
+                return res;
+            }
 
             if (ModelState.IsValid)
             {

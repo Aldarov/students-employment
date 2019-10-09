@@ -11,6 +11,7 @@ import {
 import { fetching } from '../busyIndicator';
 import {
   apiGetEmploymentById, apiPostEmployment,
+  apiCheckExistHeader
 } from './employment.api';
 import { apiGetSpecialities, apiGetSchools, getProfiles } from '../layout';
 import { apiGetOrganizations } from '../organizationList';
@@ -167,6 +168,12 @@ export function getOrganizationsSuggestion(params, formName) {
 
 export function clearOrganizationsSuggestion() {
   return dispatch => dispatch({ type: CLEAR_ORGANIZATIONS_SUGGESTIONS });
+}
+
+export function checkExistHeader(formName, data, callback) {
+  return (dispatch) => fetching(dispatch, formName,
+      apiCheckExistHeader(data).catch(err => callback(err.data))
+    );
 }
 
 export function getHeaderErrors(formName, values) {

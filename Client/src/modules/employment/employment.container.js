@@ -17,7 +17,7 @@ import {
   getOrganizationsSuggestion, clearOrganizationsSuggestion,
   showDirectionOrganizations, showDistributionOrganizations,
   hideDirectionOrganizations, hideDistributionOrganizations,
-  saveEmployment, getHeaderErrors
+  saveEmployment, getHeaderErrors, checkExistHeader
 } from './employment.actions';
 import {
   getStudentsWithoutSelected, getStudentsByHeader, clearStudentSelection,
@@ -57,6 +57,10 @@ const getNewContractStuff = (headerId, studentId, student) => {
   return res;
 };
 
+const withSelectDirectionSchoolPgTypeIds = [8];
+const withSelectDirectionOrganPgTypeIds = [9];
+const withSelectDistributionSchoolPgTypeIds = [17, 13, 14, 21, 25, 26];
+const withSelectDistributionOrganPgTypeIds = [18];
 
 export default connectAdvanced( dispatch => (state, ownProps) => {
   let id  = ownProps.match.params.id === 'add' ? null : ownProps.match.params.id;
@@ -64,7 +68,7 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
   const pristine = isPristine(formName)(state);
   const submitting = isSubmitting(formName)(state);
   const pgContractStuffs = formValues ? formValues.pgContractStuffs : [];
-  const distributionSchoolTypeIds = [13, 14, 21, 25, 26];
+  // const distributionSchoolTypeIds = [13, 14, 21, 25, 26];
 
   const handleClearSchoolSelected = (row, type) => {
     dispatch(change(formName, 'pgContractStuffs['+row+'].'+type+'SchoolName', ''));
@@ -222,10 +226,10 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
           case 'editing': {
             const { directionTypeId, distributionTypeId } = formValues.pgContractStuffs[args.tableRow];
 
-            const showDirectionSchool = (directionTypeId === 8);
-            const showDirectionOrganization = (directionTypeId === 9);
-            const showDistributionSchool = (distributionTypeId === 17);
-            const showDistributionOrganization = (distributionTypeId === 18);
+            const showDirectionSchool = (withSelectDirectionSchoolPgTypeIds.indexOf(directionTypeId) > -1);
+            const showDirectionOrganization = (withSelectDirectionOrganPgTypeIds.indexOf(directionTypeId) > -1);
+            const showDistributionSchool = (withSelectDistributionSchoolPgTypeIds.indexOf(distributionTypeId) > -1);
+            const showDistributionOrganization = (withSelectDistributionOrganPgTypeIds.indexOf(distributionTypeId) > -1);
 
             dispatch(openEmploymentContract(args.row.student.fullName, args.tableRow,
               showDirectionSchool, showDirectionOrganization,
@@ -275,8 +279,14 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     },
 
     onCloseContract: row => () => {
+      // const withSelectDirectionSchoolPgTypeIds = [8];
+      // const withSelectDirectionOrganPgTypeIds = [9];
+      // const withSelectDistributionSchoolPgTypeIds = [17, 13, 14, 21, 25, 26];
+      // const withSelectDistributionOrganPgTypeIds = [18];
+
       let error = null;
-      if (pgContractStuffs[row].directionTypeId == 8 && !pgContractStuffs[row].directionSchoolId) {
+      if ((withSelectDirectionSchoolPgTypeIds.indexOf(pgContractStuffs[row].directionTypeId) > -1)
+          && !pgContractStuffs[row].directionSchoolId) {
         const oldError = error && {...error.pgContractStuffs[row]};
         error = {
           'pgContractStuffs': {
@@ -288,7 +298,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         };
         dispatch(touch(formName, 'pgContractStuffs['+row+'].directionSchoolName'));
       }
-      if (pgContractStuffs[row].directionTypeId == 9 && !pgContractStuffs[row].directionOrganizationId) {
+
+      if ((withSelectDirectionOrganPgTypeIds.indexOf(pgContractStuffs[row].directionTypeId) > -1)
+          && !pgContractStuffs[row].directionOrganizationId) {
         const oldError = error && {...error.pgContractStuffs[row]};
         error = {
           'pgContractStuffs': {
@@ -300,7 +312,8 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         };
         dispatch(touch(formName, 'pgContractStuffs['+row+'].directionOrganizationName'));
       }
-      if ((pgContractStuffs[row].distributionTypeId == 17 || distributionSchoolTypeIds.indexOf(pgContractStuffs[row].distributionTypeId) > -1)
+
+      if ((withSelectDistributionSchoolPgTypeIds.indexOf(pgContractStuffs[row].directionTypeId) > -1)
           && !pgContractStuffs[row].distributionSchoolId) {
         const oldError = error && {...error.pgContractStuffs[row]};
         error = {
@@ -313,7 +326,9 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
         };
         dispatch(touch(formName, 'pgContractStuffs['+row+'].distributionSchoolName'));
       }
-      if (pgContractStuffs[row].distributionTypeId == 18 && !pgContractStuffs[row].distributionOrganizationId) {
+
+      if ((withSelectDistributionOrganPgTypeIds.indexOf(pgContractStuffs[row].directionTypeId) > -1)
+          && !pgContractStuffs[row].distributionOrganizationId) {
         const oldError = error && {...error.pgContractStuffs[row]};
         error = {
           'pgContractStuffs': {
@@ -350,25 +365,17 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
     onClearOrganizationSelected: (row, type) => () => handleClearOrganizationSelected(row, type),
 
     onChangeContractDirectionType: (value, tableRow, directionType) => {
-      let schoolTypeId;
-      let organizationTypeId;
-      if (directionType === 'direction') {
-        schoolTypeId = 8;
-        organizationTypeId = 9;
-      } else {
-        schoolTypeId = 17;
-        organizationTypeId = 18;
-      }
-
-      if (value === schoolTypeId || distributionSchoolTypeIds.indexOf(value) > -1) {
-        (directionType === 'direction' && distributionSchoolTypeIds.indexOf(value) == -1)
-          ? dispatch(showDirectionOrganizations('school'))
-          : dispatch(showDistributionOrganizations('school'));
+      if ((directionType === 'direction') && (withSelectDirectionSchoolPgTypeIds.indexOf(value) > -1)) {
+        dispatch(showDirectionOrganizations('school'));
         handleClearOrganizationSelected(tableRow, directionType);
-      } else if (value === organizationTypeId) {
-        directionType === 'direction'
-          ? dispatch(showDirectionOrganizations('organization'))
-          : dispatch(showDistributionOrganizations('organization'));
+      } else if ((directionType === 'direction') && (withSelectDirectionOrganPgTypeIds.indexOf(value) > -1)) {
+        dispatch(showDirectionOrganizations('organization'));
+        handleClearSchoolSelected(tableRow, directionType);
+      } else if ((directionType === 'distribution') && (withSelectDistributionSchoolPgTypeIds.indexOf(value) > -1)) {
+        dispatch(showDistributionOrganizations('school'));
+        handleClearOrganizationSelected(tableRow, directionType);
+      } else if ((directionType === 'distribution') && (withSelectDistributionOrganPgTypeIds.indexOf(value) > -1)) {
+        dispatch(showDistributionOrganizations('organization'));
         handleClearSchoolSelected(tableRow, directionType);
       } else {
         directionType === 'direction' ? dispatch(hideDirectionOrganizations()) : dispatch(hideDistributionOrganizations());
@@ -380,23 +387,34 @@ export default connectAdvanced( dispatch => (state, ownProps) => {
       dispatch(clearStudentSelection());
       dispatch(closeStudentsSelection());
     },
-    onLoadStudents: () => {
+    onLoadStudents: async () => {
       const errors = dispatch(getHeaderErrors(formName));
 
       if (!isEmpty(errors)) {
         toucheErrorFields(errors);
         dispatch(stopAsyncValidation(formName, errors));
       } else {
+        const error = await dispatch(checkExistHeader(formName, formValues, (err) => {
+          if (err) {
+            Alert.error(err);
+            return true;
+          }
+          return false;
+        }));
+        if (error) return;
+
         let { entraceYear, eduFormId, specialityId, specializationId } = formValues;
         if (specializationId == 0) specializationId = null;
-        dispatch(getStudentsByHeader(entraceYear, eduFormId, specialityId, specializationId, formName))
-          .then(data => {
-            if (data.length > 0)
-              data.forEach(item => dispatch(arrayPush(formName, 'pgContractStuffs', getNewContractStuff(id, item.studentId, item))));
-            else {
-              Alert.error('По указанным данным не найдено ни одного студента');
-            }
-          });
+
+        const data = await dispatch(getStudentsByHeader(entraceYear, eduFormId, specialityId, specializationId, formName));
+        if (data.length > 0)
+        {
+          const stuff = data.map(item => getNewContractStuff(id, item.studentId, item));
+          dispatch(change(formName, 'pgContractStuffs', stuff));
+        }
+        else {
+          Alert.error('По указанным данным не найдено ни одного студента');
+        }
       }
     },
     onStudentsSelected: selection => {

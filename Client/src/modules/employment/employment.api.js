@@ -26,3 +26,7 @@ function showPdf(blob) {
   const url = window.URL.createObjectURL(blob);
   window.location.href = url;
 }
+
+export function apiCheckExistHeader(data) {
+  return axios.post(startUrl+ '/CheckExistHeader', data);
+}

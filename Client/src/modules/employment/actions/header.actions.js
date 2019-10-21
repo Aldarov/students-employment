@@ -1,4 +1,5 @@
 import {
+  submit,
   isPristine
 } from 'redux-form';
 import { openQuestionDialog } from '../../dialogs';
@@ -16,6 +17,9 @@ const onHeaderLeftButtonClick = (history) => () => (dispatch, getState) => {
   }
 };
 
+const onHeaderRightButtonClick = () => submit(formName);
+
 export {
-  onHeaderLeftButtonClick
+  onHeaderLeftButtonClick,
+  onHeaderRightButtonClick
 };

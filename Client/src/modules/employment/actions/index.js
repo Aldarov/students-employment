@@ -30,7 +30,10 @@ import {
   onDelContractYes,
   onDelContractNo
 } from './contract.actions';
-import { onHeaderLeftButtonClick } from './header.actions';
+import {
+  onHeaderLeftButtonClick,
+  onHeaderRightButtonClick
+} from './header.actions';
 import {
   onGetSpecialitySuggestions,
   onClearSpecialitySuggestions,
@@ -201,9 +204,10 @@ const onSaveNo = (history) => () => (dispatch) => {
   history.push('/employment');
 };
 
-export {
+export default {
   onEmploymentLoadData,
   onHeaderLeftButtonClick,
+  onHeaderRightButtonClick,
 
   onGetSpecialitySuggestions,
   onClearSpecialitySuggestions,
@@ -235,10 +239,15 @@ export {
   onShowDistributionReport,
   onShowEmploymentReport,
 
-  CONFIRM_SAVE_EMPLOYMENT_DIALOG,
-  DELETE_EMPLOYMENT_CONTRACT_DIALOG,
   onSaveYes,
   onSaveNo,
   onDelContractYes,
   onDelContractNo
+};
+
+export {
+  CONFIRM_SAVE_EMPLOYMENT_DIALOG,
+  DELETE_EMPLOYMENT_CONTRACT_DIALOG,
+  saveData,
+  validate
 };

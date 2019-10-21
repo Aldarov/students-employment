@@ -1,6 +1,6 @@
 import { getFormValues } from 'redux-form';
 
-import { saveData } from './index';
+import { saveData } from '.';
 import { formName }  from '../employment.container';
 
 const onShowDistributionReport = (history) => () => async (dispatch, getState) => {

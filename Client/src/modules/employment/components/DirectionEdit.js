@@ -24,13 +24,17 @@ const styles = theme => ({
   },
 });
 
+const menuItems = (types) => types.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>);
+
 class DirectionEdit extends PureComponent {
+  onChangeType = event => this.props.onChangeDirectionType(event.target.value, this.props.tableRow, this.props.directionType);
+
   render() {
     const { classes, tableRow, directionType,
       types,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
-      showSchool, showOrganization, onChangeDirectionType
+      showSchool, showOrganization
     } = this.props;
 
     return (
@@ -40,9 +44,9 @@ class DirectionEdit extends PureComponent {
           component={RenderSelect}
           label={directionType==='direction' ? 'Тип распределения': 'Тип трудоустройства'}
           className={classes.field}
-          onChange={event => onChangeDirectionType(event.target.value, tableRow, directionType)}
+          onChange={this.onChangeType}
         >
-          {types && types.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+          {types && menuItems(types)}
         </Field>
 
         {

@@ -2,53 +2,13 @@ import { connect } from 'react-redux';
 import {
   reduxForm,
   getFormValues,
-  submit,
   isPristine,
   isSubmitting,
 } from 'redux-form';
 import { bindActionCreators } from 'redux';
 
 import Employment from './Employment';
-
-import {
-  onEmploymentLoadData,
-  onHeaderLeftButtonClick,
-
-  onGetSpecialitySuggestions,
-  onClearSpecialitySuggestions,
-  onClearSpecialitySelectedSuggestion,
-  onSpecialitySelected,
-
-  onGetSchoolsSuggestions,
-  onClearSchoolsSuggestions,
-  onSchoolSelected,
-  onClearSchoolSelected,
-
-  onGetOrganizationsSuggestions,
-  onClearOrganizationsSuggestions,
-  onOrganizationSelected,
-  onClearOrganizationSelected,
-
-  onCloseContract,
-  onChangeContractDirectionType,
-
-  onDoAction,
-
-  onLoadStudents,
-  onCloseStudentsSelection,
-  onStudentsSelected,
-
-  saveData,
-  validate,
-
-  onShowDistributionReport,
-  onShowEmploymentReport,
-
-  onSaveYes,
-  onSaveNo,
-  onDelContractYes,
-  onDelContractNo
-} from './actions';
+import actions from './actions';
 
 const formName = 'employment';
 const withSelectDirectionSchoolPgTypeIds = [8];
@@ -116,50 +76,32 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const handleSubmit = () => submit(formName);
-
 const mapDispatchToProps = (dispatch, props) => {
   let id  = getId(props);
+  const {
+    onEmploymentLoadData,
+    onHeaderLeftButtonClick,
+    onLoadStudents,
+    onStudentsSelected,
+    onShowDistributionReport,
+    onShowEmploymentReport,
+    saveData,
+    onSaveYes,
+    onSaveNo,
+    ...rest
+  } = actions;
 
   return bindActionCreators({
     onLoadData: onEmploymentLoadData(id),
-
     onHeaderLeftButtonClick: onHeaderLeftButtonClick(props.history),
-    onHeaderRightButtonClick: handleSubmit,
-
-    onGetSpecialitySuggestions,
-    onClearSpecialitySuggestions,
-    onClearSpecialitySelectedSuggestion,
-    onSpecialitySelected,
-
-    onGetSchoolsSuggestions,
-    onClearSchoolsSuggestions,
-    onSchoolSelected,
-    onClearSchoolSelected,
-
-    onGetOrganizationsSuggestions,
-    onClearOrganizationsSuggestions,
-    onOrganizationSelected,
-    onClearOrganizationSelected,
-
-    onCloseContract,
-    onDoAction,
-
-    onChangeContractDirectionType,
-
-    onCloseStudentsSelection,
     onLoadStudents: onLoadStudents(id),
     onStudentsSelected: onStudentsSelected(id),
-
     onShowDistributionReport: onShowDistributionReport(props.history),
     onShowEmploymentReport: onShowEmploymentReport(props.history),
     onSubmit: saveData(props.history),
-    validate,
-
     onSaveYes: onSaveYes(props.history),
     onSaveNo: onSaveNo(props.history),
-    onDelContractYes,
-    onDelContractNo
+    ...rest
   }, dispatch);
 };
 

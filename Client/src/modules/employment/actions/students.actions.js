@@ -18,7 +18,7 @@ import {
   OPEN_STUDENTS_SELECTION,
   CLOSE_STUDENTS_SELECTION
 } from '../../../constants';
-import { validate } from './index';
+import { validate } from '.';
 import { apiCheckExistHeader } from '../employment.api';
 import throwError from '../../_global/helpers/throwError';
 

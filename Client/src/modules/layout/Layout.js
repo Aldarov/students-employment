@@ -20,7 +20,8 @@ class Layout extends Component {
       openedSidebar, onCloseSidebar,
       onRedirect,
       children,
-      formName
+      formName,
+      onHeaderLeftButtonClick, onHeaderRightButtonClick
     } = this.props;
 
     return (
@@ -29,6 +30,8 @@ class Layout extends Component {
         <Header
           openedSidebar={openedSidebar}
           headerProps={headerProps}
+          onLeftButtonClick={onHeaderLeftButtonClick}
+          onRightButtonClick={onHeaderRightButtonClick}
         />
         <Sidebar
           open={openedSidebar}
@@ -46,6 +49,8 @@ class Layout extends Component {
 Layout.propTypes = {
   classes: PropTypes.object,
   headerProps: PropTypes.object.isRequired,
+  onHeaderLeftButtonClick: PropTypes.func,
+  onHeaderRightButtonClick: PropTypes.func,
 
   onRedirect: PropTypes.func,
   onLoadData: PropTypes.func,

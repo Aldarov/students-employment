@@ -14,5 +14,10 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^3.5.0"
+  },
+  "dependencies": {
+    "eslint": "^6.5.1",
+    "eslint-plugin-react": "^7.16.0",
+    "global": "^4.4.0"
   }
 }

@@ -1,21 +1,28 @@
-import { connectAdvanced } from 'react-redux';
+import { connect } from 'react-redux';
 import qs from 'query-string';
 
-import { login } from './auth.actions';
+import { onLogin } from './auth.actions';
 import Login from './Login';
+import { bindActionCreators } from 'redux';
 
 const formName = 'login';
 
-export default connectAdvanced(dispatch => (state, ownProps) => {
-  const { emp_id: employmentId, id: sessionId } = qs.parse(ownProps.location.search);
 
-  const props = {
+const mapStateToProps = (state) => {
+  return {
     isAuth: state.isAuth
   };
+};
 
-  const methods = {
-    onLogin: () => dispatch(login({ employmentId, sessionId }, formName))
-  };
+const mapDispatchToProps = (dispatch, { location }) => {
+  const { emp_id: employmentId, id: sessionId } = qs.parse(location.search);
+  return bindActionCreators({
+    onLogin: onLogin(employmentId, sessionId)
+  }, dispatch);
+};
 
-  return { ...props, ...methods, ...ownProps };
-})(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+export {
+  formName
+};

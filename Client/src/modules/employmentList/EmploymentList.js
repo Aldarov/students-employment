@@ -8,6 +8,8 @@ import { employmentListStyles } from './styles';
 import List from '../_global/components/List';
 import Autocomplete from '../_global/components/Autocomplete';
 import { AddButton, EditButton, DeleteButton } from './components/Buttons';
+import { DELETE_EMPLOYMENT_DIALOG } from './actions';
+
 
 @withStyles(employmentListStyles)
 class EmploymentList extends Component {
@@ -19,18 +21,29 @@ class EmploymentList extends Component {
     const {
       classes,
       formName,
+
       headerProps,
-      deleteEmploymentDialogProps,
-      data, gridSetting,
+      onHeaderLeftButtonClick,
+
+      onDelEmploymentYes, onDelEmploymentNo,
+
+      data,
+      gridSetting,
+
       searchSuggestions,
       onSuggestionsFetchRequested, onSuggestionsClearRequested,
       onSuggestionSelected, onClearSuggestionSelected,
+
+      onSortingChange,
+      onChangeCurrentPage,
+      onDoAction
     } = this.props;
 
     return (
       <Layout
         formName={formName}
         headerProps={headerProps}
+        onHeaderLeftButtonClick={onHeaderLeftButtonClick}
       >
         <Autocomplete
           inputProps={{
@@ -51,8 +64,17 @@ class EmploymentList extends Component {
           AddButton={AddButton}
           EditButton={EditButton}
           DeleteButton={DeleteButton}
+
+          onSortingChange={onSortingChange}
+          onChangeCurrentPage={onChangeCurrentPage}
+          onDoAction={onDoAction}
         />
-        <QuestionDialog dialogProps={deleteEmploymentDialogProps} />
+        <QuestionDialog
+          dialogName={DELETE_EMPLOYMENT_DIALOG}
+          contentText='Удалить данную запись?'
+          onYes={onDelEmploymentYes}
+          onNo={onDelEmploymentNo}
+        />
       </Layout>
     );
   }
@@ -62,10 +84,17 @@ EmploymentList.propTypes = {
   classes: PropTypes.object,
   formName: PropTypes.string,
   headerProps: PropTypes.object,
-  deleteEmploymentDialogProps: PropTypes.object,
+  onHeaderLeftButtonClick: PropTypes.func,
+
+  onDelEmploymentYes: PropTypes.func,
+  onDelEmploymentNo: PropTypes.func,
+
   onLoadData: PropTypes.func,
   data: PropTypes.array,
   gridSetting: PropTypes.object,
+  onSortingChange: PropTypes.func,
+  onChangeCurrentPage: PropTypes.func,
+  onDoAction: PropTypes.func,
 
   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
   searchSuggestions: PropTypes.array,

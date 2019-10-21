@@ -15,8 +15,8 @@ import { headerStyles } from './styles';
 @withStyles(headerStyles)
 class Header extends Component {
   render() {
-    const { classes, openedSidebar, headerProps } = this.props;
-    const { onLeftButtonClick, leftButtonIconName, onRightButtonClick, rightButtonDisabled, title } = headerProps || {};
+    const { classes, openedSidebar, headerProps, onLeftButtonClick, onRightButtonClick } = this.props;
+    const { leftButtonIconName, rightButtonDisabled, title } = headerProps || {};
     const Icon = leftButtonIconName == 'Menu' ? MenuIcon : (leftButtonIconName == 'ArrowBack' ? ArrowBackIcon : null);
 
     return (
@@ -54,6 +54,8 @@ Header.propTypes = {
   classes: PropTypes.object,
   openedSidebar: PropTypes.bool,
   headerProps: PropTypes.object,
+  onLeftButtonClick: PropTypes.func,
+  onRightButtonClick: PropTypes.func,
 };
 
 export default Header;

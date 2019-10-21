@@ -8,6 +8,7 @@ import { QuestionDialog } from '../dialogs';
 import { organizationStyles } from './styles';
 import RenderTextField from '../_global/components/RenderTextField';
 import RenderAutocomplete from '../_global/components/RenderAutocomplete';
+import { CONFIRM_SAVE_ORGANIZATION_DIALOG } from './actions';
 
 @withStyles(organizationStyles)
 class Organization extends Component {
@@ -19,9 +20,8 @@ class Organization extends Component {
     const {
       classes,
       formName,
-      headerProps,
-      confirmSaveOrganizationDailogProps,
-      handleSubmit,
+      headerProps, onHeaderLeftButtonClick, onHeaderRightButtonClick,
+      handleSubmit, onSaveYes, onSaveNo,
       countriesSuggestions, onGetCountriesSuggestions, onClearCountriesSuggestions,
       onCountriesSelected, onClearCountriesSelectedSuggestion,
       addressesSuggestions, onGetKladrSuggestions, onClearKladrSuggestions,
@@ -32,6 +32,8 @@ class Organization extends Component {
       <Layout
         formName={formName}
         headerProps={headerProps}
+        onHeaderLeftButtonClick={onHeaderLeftButtonClick}
+        onHeaderRightButtonClick={onHeaderRightButtonClick}
       >
         <Form className={classes.form} onSubmit={handleSubmit}>
           <Field
@@ -71,7 +73,12 @@ class Organization extends Component {
             onClearSelectedSuggestion={onClearKladrSelectedSuggestion}
           />
         </Form>
-        <QuestionDialog dialogProps={confirmSaveOrganizationDailogProps} />
+        <QuestionDialog
+          dialogName={CONFIRM_SAVE_ORGANIZATION_DIALOG}
+          contentText='Сохранить измененные данные?'
+          onYes={onSaveYes}
+          onNo={onSaveNo}
+        />
       </Layout>
     );
   }
@@ -81,10 +88,13 @@ Organization.propTypes = {
   classes: PropTypes.object,
   formName: PropTypes.string,
   headerProps: PropTypes.object,
-  confirmSaveOrganizationDailogProps: PropTypes.object,
+  onHeaderLeftButtonClick: PropTypes.func,
+  onHeaderRightButtonClick: PropTypes.func,
 
   onLoadData: PropTypes.func,
   handleSubmit: PropTypes.func,
+  onSaveYes: PropTypes.func,
+  onSaveNo: PropTypes.func,
 
   countriesSuggestions: PropTypes.array,
   onGetCountriesSuggestions: PropTypes.func,

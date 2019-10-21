@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Field } from 'redux-form';
@@ -16,7 +16,11 @@ import RenderDatePicker from '../_global/components/RenderDatePicker';
 
 import Contract from './components/Contract';
 import StudentsSelection from './components/StudentsSelection';
-import StudentList from './StudentList';
+import StudentList from './components/StudentList';
+import {
+  CONFIRM_SAVE_EMPLOYMENT_DIALOG,
+  DELETE_EMPLOYMENT_CONTRACT_DIALOG
+} from './actions';
 
 
 @withStyles(employmentStyles)
@@ -25,40 +29,14 @@ class Employment extends Component {
     this.props.onLoadData();
   }
 
-  getCellData = (column, row) => {
-    const directionType = this.props.directionTypes.filter((item) => (item.id == row.directionTypeId))[0];
-    const distributionType = this.props.distributionTypes.filter((item) => (item.id == row.distributionTypeId))[0];
-    switch (column.name) {
-      case 'fullName': return (row.student && row.student.fullName);
-      case 'regAddress': return (row.student && row.student.regAddress);
-      case 'finance': return (row.student && row.student.finance);
-      case 'entrType': return (row.student && row.student.entrType);
-      case 'phone': return (row.student && row.student.phone);
-      case 'direction':
-        return (
-          directionType && directionType.name +
-          (row.directionOrganizationName ? ', ' + row.directionOrganizationName : '') +
-          (row.directionSchoolName ? ', ' + row.directionSchoolName : '')
-        ) || '';
-      case 'distribution':
-        return (
-          distributionType && distributionType.name +
-          (row.distributionOrganizationName ? ', ' + row.distributionOrganizationName : '') +
-          (row.distributionSchoolName ? ', ' + row.distributionSchoolName : '')
-        ) || '';
-      default:
-        break;
-    }
-  }
-
   render() {
     const {
-      classes, formName, headerProps,
-      confirmSaveEmploymentDailogProps, deleteEmploymentContractDailogProps,
+      classes, formName, headerProps, onHeaderLeftButtonClick, onHeaderRightButtonClick,
+      onSaveYes, onSaveNo, onDelContractYes, onDelContractNo,
       error, handleSubmit, eduForms,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
       directionTypes, distributionTypes,
-      gridSettingContracts,
+      gridSettingContracts, onDoAction,
       contract, onCloseContract,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
@@ -69,145 +47,159 @@ class Employment extends Component {
     } = this.props;
 
     return (
-      <Layout
-        formName={formName}
-        headerProps={headerProps}
-      >
-        <form onSubmit={handleSubmit} >
-          <div className={classes.container}>
-            <Field
-              name='speciality'
-              component={RenderAutocomplete}
-              disabled={!contractStuffIsEmpty}
-              hideIcon={!contractStuffIsEmpty}
-              autoFocus={false}
-              label='Специальность/направление'
-              placeholder='выберите специальность/направление'
-              className={classes.autocomplete}
+      <Fragment>
+        {
+          (!contract || !contract.opened) &&
+          <Layout
+            formName={formName}
+            headerProps={headerProps}
+            onHeaderLeftButtonClick={onHeaderLeftButtonClick}
+            onHeaderRightButtonClick={onHeaderRightButtonClick}
+          >
+            <form onSubmit={handleSubmit} >
+              <div className={classes.container}>
+                <Field
+                  name='speciality'
+                  component={RenderAutocomplete}
+                  disabled={!contractStuffIsEmpty}
+                  hideIcon={!contractStuffIsEmpty}
+                  autoFocus={false}
+                  label='Специальность/направление'
+                  placeholder='выберите специальность/направление'
+                  className={classes.autocomplete}
 
-              suggestions={specialities}
-              onSuggestionsFetchRequested={onGetSpecialitySuggestions}
-              onSuggestionsClearRequested={onClearSpecialitySuggestions}
-              onSuggestionSelected={onSpecialitySelected}
-              onClearSelectedSuggestion={onClearSpecialitySelectedSuggestion}
+                  suggestions={specialities}
+                  onSuggestionsFetchRequested={onGetSpecialitySuggestions}
+                  onSuggestionsClearRequested={onClearSpecialitySuggestions}
+                  onSuggestionSelected={onSpecialitySelected}
+                  onClearSelectedSuggestion={onClearSpecialitySelectedSuggestion}
+                />
+
+                <Field
+                  name='entraceYear'
+                  disabled={!contractStuffIsEmpty}
+                  component={RenderTextField}
+                  label='Год начала обучения'
+                  placeholder='введите год начала обучения'
+                  className={classes.textField}
+                />
+
+                <Field
+                  name='eduFormId'
+                  disabled={!contractStuffIsEmpty}
+                  select
+                  component={RenderTextField}
+                  label='Форма обучения'
+                  placeholder='выберите форму обучения'
+                  className={classes.textField}
+                >
+                  {eduForms && eduForms.map((item, index) => <MenuItem key={index} value={item.id}>{item.name}</MenuItem>)}
+                </Field>
+
+                <Field
+                  name='specializationId'
+                  disabled={!contractStuffIsEmpty}
+                  select
+                  component={RenderTextField}
+                  label='Образовательная программа'
+                  placeholder='выберите образовательную программу'
+                  className={classes.textField}
+                >
+                  {profiles && profiles.map((item, index) => <MenuItem key={index} value={item.id}>{item.name}</MenuItem>)}
+                </Field>
+
+                <Field
+                  disabled={!contractStuffIsEmpty}
+                  name='docDate'
+                  component={RenderDatePicker}
+                  label='Дата документа'
+                  className={classes.date}
+                />
+
+                {error && <strong className={classes.error}>{error}</strong>}
+              </div>
+
+              {
+                contractStuffIsEmpty &&
+                <Button className={classNames(classes.marginTop, classes.marginBottom)} color="primary" onClick={onLoadStudents}>
+                  Загрузить студентов по выбранным выше данным
+                </Button>
+              }
+              {
+                !contractStuffIsEmpty &&
+                <div className={classNames(classes.marginTop, classes.marginBottom, classes.row)}>
+                  <Button className={classes.marginRight} color="primary" onClick={onShowDistributionReport}>
+                    Отчет по распределению
+                  </Button>
+                  <Button color="primary" onClick={onShowEmploymentReport}>
+                    Отчет по трудоустройству
+                  </Button>
+                </div>
+              }
+              {
+                !contractStuffIsEmpty &&
+                <StudentList
+                  gridSettingContracts={gridSettingContracts}
+                  onDoAction={onDoAction}
+                  directionTypes={directionTypes}
+                  distributionTypes={distributionTypes}
+                />
+              }
+            </form>
+
+            <StudentsSelection
+              title={'Добавление студентов'}
+              data={studentsSelection}
+              onClose={onCloseStudentsSelection}
+              opened={openedStudentsSelection}
+
+              columns={gridSettingContracts.columns}
+              defaultColumnWidths={gridSettingContracts.defaultColumnWidths}
+              onSelected={onStudentsSelected}
             />
 
-            <Field
-              name='entraceYear'
-              disabled={!contractStuffIsEmpty}
-              component={RenderTextField}
-              label='Год начала обучения'
-              placeholder='введите год начала обучения'
-              className={classes.textField}
+            <QuestionDialog
+              dialogName={CONFIRM_SAVE_EMPLOYMENT_DIALOG}
+              contentText='Сохранить измененные данные?'
+              onYes={onSaveYes}
+              onNo={onSaveNo}
             />
-
-            <Field
-              name='eduFormId'
-              disabled={!contractStuffIsEmpty}
-              select
-              component={RenderTextField}
-              label='Форма обучения'
-              placeholder='выберите форму обучения'
-              className={classes.textField}
-            >
-              {eduForms && eduForms.map((item, index) => <MenuItem key={index} value={item.id}>{item.name}</MenuItem>)}
-            </Field>
-
-            <Field
-              name='specializationId'
-              disabled={!contractStuffIsEmpty}
-              select
-              component={RenderTextField}
-              label='Образовательная программа'
-              placeholder='выберите образовательную программу'
-              className={classes.textField}
-            >
-              {profiles && profiles.map((item, index) => <MenuItem key={index} value={item.id}>{item.name}</MenuItem>)}
-            </Field>
-
-            <Field
-              disabled={!contractStuffIsEmpty}
-              name='docDate'
-              component={RenderDatePicker}
-              label='Дата документа'
-              className={classes.date}
+            <QuestionDialog
+              dialogName={DELETE_EMPLOYMENT_CONTRACT_DIALOG}
+              contentText='Удалить данную запись?'
+              onYes={onDelContractYes}
+              onNo={onDelContractNo}
             />
-
-            {error && <strong className={classes.error}>{error}</strong>}
-          </div>
-          {
-            contractStuffIsEmpty &&
-            <Button className={classNames(classes.marginTop, classes.marginBottom)} color="primary" onClick={onLoadStudents}>
-              Загрузить студентов по выбранным выше данным
-            </Button>
-          }
-          {
-            !contractStuffIsEmpty &&
-            <div className={classNames(classes.marginTop, classes.marginBottom, classes.row)}>
-              <Button className={classes.marginRight} color="primary" onClick={onShowDistributionReport}>
-                Отчет по распределению
-              </Button>
-              <Button color="primary" onClick={onShowEmploymentReport}>
-                Отчет по трудоустройству
-              </Button>
-            </div>
-          }
-          {
-            !contractStuffIsEmpty &&
-            <StudentList
-              gridSettingContracts={gridSettingContracts}
-            />
-            // <FieldArray
-            //   name='pgContractStuffs'
-            //   component={RenderList}
-            //   gridSetting={gridSettingContracts}
-            //   AddButton={AddButton}
-            //   EditButton={EditButton}
-            //   DeleteButton={DeleteButton}
-            // />
-          }
-        </form>
-
-        { contract &&
-        <Contract
-          data={contract}
-          open={contract.opened}
-          title={contract.title}
-          tableRow={contract.tableRow}
-          onClose={onCloseContract}
-          directionTypes={directionTypes}
-          distributionTypes={distributionTypes}
-
-          schoolsSuggestions={schoolsSuggestions}
-          onGetSchoolsSuggestions={onGetSchoolsSuggestions}
-          onClearSchoolsSuggestions={onClearSchoolsSuggestions}
-          onSchoolSelected={onSchoolSelected}
-          onClearSchoolSelected={onClearSchoolSelected}
-
-          organizationsSuggestions={organizationsSuggestions}
-          onGetOrganizationsSuggestions={onGetOrganizationsSuggestions}
-          onClearOrganizationsSuggestions={onClearOrganizationsSuggestions}
-          onOrganizationSelected={onOrganizationSelected}
-          onClearOrganizationSelected={onClearOrganizationSelected}
-
-          onChangeContractDirectionType={onChangeContractDirectionType}
-        />
+          </Layout>
         }
 
-        <StudentsSelection
-          title={'Добавление студентов'}
-          data={studentsSelection}
-          onClose={onCloseStudentsSelection}
-          opened={openedStudentsSelection}
+        {
+          contract && contract.opened &&
+          <Contract
+            data={contract}
+            open={contract.opened}
+            title={contract.title}
+            tableRow={contract.tableRow}
+            onClose={onCloseContract}
+            directionTypes={directionTypes}
+            distributionTypes={distributionTypes}
 
-          columns={gridSettingContracts.columns}
-          defaultColumnWidths={gridSettingContracts.defaultColumnWidths}
-          onSelected={onStudentsSelected}
-        />
+            schoolsSuggestions={schoolsSuggestions}
+            onGetSchoolsSuggestions={onGetSchoolsSuggestions}
+            onClearSchoolsSuggestions={onClearSchoolsSuggestions}
+            onSchoolSelected={onSchoolSelected}
+            onClearSchoolSelected={onClearSchoolSelected}
 
-        <QuestionDialog dialogProps={confirmSaveEmploymentDailogProps} />
-        <QuestionDialog dialogProps={deleteEmploymentContractDailogProps} />
-      </Layout>
+            organizationsSuggestions={organizationsSuggestions}
+            onGetOrganizationsSuggestions={onGetOrganizationsSuggestions}
+            onClearOrganizationsSuggestions={onClearOrganizationsSuggestions}
+            onOrganizationSelected={onOrganizationSelected}
+            onClearOrganizationSelected={onClearOrganizationSelected}
+
+            onChangeContractDirectionType={onChangeContractDirectionType}
+          />
+        }
+      </Fragment>
     );
   }
 }
@@ -216,10 +208,14 @@ Employment.propTypes = {
   classes: PropTypes.object,
   formName: PropTypes.string,
   headerProps: PropTypes.object,
+  onHeaderLeftButtonClick: PropTypes.func,
+  onHeaderRightButtonClick: PropTypes.func,
 
   onLoadData: PropTypes.func,
-  confirmSaveEmploymentDailogProps: PropTypes.object,
-  deleteEmploymentContractDailogProps: PropTypes.object,
+  onSaveYes: PropTypes.func,
+  onSaveNo: PropTypes.func,
+  onDelContractYes: PropTypes.func,
+  onDelContractNo: PropTypes.func,
 
   error: PropTypes.string,
   handleSubmit: PropTypes.func,
@@ -232,6 +228,7 @@ Employment.propTypes = {
   onSpecialitySelected: PropTypes.func,
 
   gridSettingContracts: PropTypes.object,
+  onDoAction: PropTypes.func,
 
   directionTypes: PropTypes.array,
   distributionTypes: PropTypes.array,

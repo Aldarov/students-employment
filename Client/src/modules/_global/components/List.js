@@ -55,17 +55,17 @@ class List extends Component {
 
   handleEditingRowsChange = editingRows => {
     const tableRow = editingRows[editingRows.length-1];
-    this.props.gridSetting.onDoAction({ type: 'editing', tableRow, row: this.props.data[tableRow] });
+    this.props.onDoAction({ type: 'editing', tableRow, row: this.props.data[tableRow] });
   };
 
   handleAddedRowsChange = () => {
-    this.props.gridSetting.onDoAction({ type: 'adding' });
+    this.props.onDoAction({ type: 'adding' });
   };
 
   handleCommitChanges = ({deleted}) => {
     if (deleted) {
       const tableRow = deleted[deleted.length-1];
-      this.props.gridSetting.onDoAction({ type: 'deleting', tableRow, row: this.props.data[tableRow] });
+      this.props.onDoAction({ type: 'deleting', tableRow, row: this.props.data[tableRow] });
     }
   }
 
@@ -75,15 +75,16 @@ class List extends Component {
       gridSetting: {
         columns,
         defaultColumnWidths,
-
         allowAdding, allowEditing, allowDeleting,
-        currentPage, pageSize, totalCount, onChangeCurrentPage,
-        allowSorting, sorting, onSortingChange,
-
-        enableSelectionState, onSelectionChange,
-        tableColumnExtensions,
-        cellComponent,
+        currentPage, pageSize, totalCount,
+        allowSorting, sorting,
+        enableSelectionState,
+        tableColumnExtensions
       },
+      onChangeCurrentPage,
+      onSortingChange,
+      onSelectionChange,
+      cellComponent
     } = this.props;
 
     return (
@@ -132,13 +133,11 @@ class List extends Component {
 
         {
           enableSelectionState &&
-          <Fragment>
-            <TableSelection
-              showSelectAll
-              selectByRowClick
-              highlightRow
-            />
-          </Fragment>
+          <TableSelection
+            showSelectAll
+            selectByRowClick
+            highlightRow
+          />
         }
 
         <EditingState
@@ -152,14 +151,12 @@ class List extends Component {
         <TableEditRow />
         {
           (allowAdding || allowEditing || allowDeleting) &&
-          <Fragment>
-            <TableEditColumn
-              showAddCommand={allowAdding}
-              showEditCommand={allowEditing}
-              showDeleteCommand={allowDeleting}
-              commandComponent={this.Command}
-            />
-          </Fragment>
+          <TableEditColumn
+            showAddCommand={allowAdding}
+            showEditCommand={allowEditing}
+            showDeleteCommand={allowDeleting}
+            commandComponent={this.Command}
+          />
         }
       </Grid>
     );
@@ -170,6 +167,12 @@ List.propTypes = {
   data: PropTypes.array,
   className: PropTypes.string,
   gridSetting: PropTypes.object.isRequired,
+  onChangeCurrentPage: PropTypes.func,
+  onSortingChange: PropTypes.func,
+  onSelectionChange: PropTypes.func,
+
+  cellComponent: PropTypes.func,
+  onDoAction: PropTypes.func,
 
   AddButton: PropTypes.any,
   EditButton: PropTypes.any,

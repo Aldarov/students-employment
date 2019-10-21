@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -24,7 +24,7 @@ const styles = theme => ({
   },
 });
 
-class DirectionEdit extends Component {
+class DirectionEdit extends PureComponent {
   render() {
     const { classes, tableRow, directionType,
       types,

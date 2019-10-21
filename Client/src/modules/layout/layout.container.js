@@ -1,5 +1,6 @@
-import { connectAdvanced } from 'react-redux';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { compose } from 'redux';
 
 import Layout from './Layout';
 import { AuthDispatcher } from '../auth';
@@ -8,29 +9,32 @@ import {
   getEduForms, getDirectionTypes, getDistributionTypes,
 } from './dictionaries.actions';
 
-export default withRouter(AuthDispatcher(
-  connectAdvanced(dispatch => (state, ownProps) => {
-    const props = {
-      children: ownProps.children,
-      formName: ownProps.formName,
-      headerProps: ownProps.headerProps,
+const mapStateToProps = (state, props) => {
+  return {
+    formName: props.formName,
+    openedSidebar: state.sidebar.openedSidebar
+  };
+};
 
-      openedSidebar: state.sidebar.openedSidebar,
-    };
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onRedirect: url => () => {
+      props.history.push(url);
+      dispatch({ type: CLOSE_SIDEBAR });
+    },
+    onLoadData: () => {
+      dispatch(getEduForms());
+      dispatch(getDirectionTypes());
+      dispatch(getDistributionTypes());
+    },
+    onCloseSidebar: () => dispatch({ type: CLOSE_SIDEBAR }),
+  };
+};
 
-    const methods = {
-      onRedirect: url => () => {
-        ownProps.history.push(url);
-        dispatch({ type: CLOSE_SIDEBAR });
-      },
-      onLoadData: () => {
-        dispatch(getEduForms());
-        dispatch(getDirectionTypes());
-        dispatch(getDistributionTypes());
-      },
-      onCloseSidebar: () => dispatch({ type: CLOSE_SIDEBAR }),
-    };
+export default compose(
+  withRouter,
+  AuthDispatcher,
+  connect(mapStateToProps, mapDispatchToProps)
+)(Layout);
 
-    return { ...props, ...methods, ...ownProps };
-  })(Layout)
-));
+connect(mapStateToProps, mapDispatchToProps)(Layout);

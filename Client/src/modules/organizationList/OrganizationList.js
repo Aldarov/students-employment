@@ -8,6 +8,7 @@ import { organizationListStyles } from './styles';
 import List from '../_global/components/List';
 import Autocomplete from '../_global/components/Autocomplete';
 import { AddButton, EditButton, DeleteButton } from './components/Buttons';
+import { DELETE_ORGANIZATION_DIALOG } from './actions';
 
 @withStyles(organizationListStyles)
 class OrganizationList extends Component {
@@ -19,19 +20,28 @@ class OrganizationList extends Component {
     const {
       classes,
       formName,
+
       headerProps,
-      deleteOrganizationDialogProps,
+      onHeaderLeftButtonClick,
+
+      onDelOrganizationYes, onDelOrganizationNo,
       data,
       gridSetting,
+
       searchSuggestions,
       onSuggestionsFetchRequested, onSuggestionsClearRequested,
       onSuggestionSelected, onClearSuggestionSelected,
+
+      onSortingChange,
+      onChangeCurrentPage,
+      onDoAction
     } = this.props;
 
     return (
       <Layout
         formName={formName}
         headerProps={headerProps}
+        onHeaderLeftButtonClick={onHeaderLeftButtonClick}
       >
         <Autocomplete
           inputProps={{
@@ -52,8 +62,17 @@ class OrganizationList extends Component {
           AddButton={AddButton}
           EditButton={EditButton}
           DeleteButton={DeleteButton}
+
+          onSortingChange={onSortingChange}
+          onChangeCurrentPage={onChangeCurrentPage}
+          onDoAction={onDoAction}
         />
-        <QuestionDialog dialogProps={deleteOrganizationDialogProps} />
+        <QuestionDialog
+          dialogName={DELETE_ORGANIZATION_DIALOG}
+          contentText='Удалить данную запись?'
+          onYes={onDelOrganizationYes}
+          onNo={onDelOrganizationNo}
+        />
       </Layout>
     );
   }
@@ -63,11 +82,17 @@ OrganizationList.propTypes = {
   classes: PropTypes.object,
   formName: PropTypes.string,
   headerProps: PropTypes.object,
-  deleteOrganizationDialogProps: PropTypes.object,
+  onHeaderLeftButtonClick: PropTypes.func,
+
+  onDelOrganizationYes: PropTypes.func,
+  onDelOrganizationNo: PropTypes.func,
 
   onLoadData: PropTypes.func,
   data: PropTypes.array,
   gridSetting: PropTypes.object,
+  onSortingChange: PropTypes.func,
+  onChangeCurrentPage: PropTypes.func,
+  onDoAction: PropTypes.func,
 
   //suggestions - должен быть массив объектов типа: { id: <id>, name: <name> }
   searchSuggestions: PropTypes.array,

@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Dialog } from '../../dialogs';
 import DirectionEdit from './DirectionEdit';
 
-class Contract extends PureComponent {
+class Contract extends Component {
   render () {
     const {
       onClose,

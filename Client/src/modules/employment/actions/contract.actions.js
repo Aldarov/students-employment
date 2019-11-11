@@ -157,20 +157,20 @@ const hideDistributionOrganizations = () => ({
 const onChangeContractDirectionType = (value, tableRow, directionType) => dispatch => {
   if ((directionType === 'direction') && (withSelectDirectionSchoolPgTypeIds.indexOf(value) > -1)) {
     dispatch(showDirectionOrganizations('school'));
-    onClearOrganizationSelected(tableRow, directionType);
+    dispatch(onClearOrganizationSelected(tableRow, directionType))();
   } else if ((directionType === 'direction') && (withSelectDirectionOrganPgTypeIds.indexOf(value) > -1)) {
     dispatch(showDirectionOrganizations('organization'));
-    onClearSchoolSelected(tableRow, directionType);
+    dispatch(onClearSchoolSelected(tableRow, directionType))();
   } else if ((directionType === 'distribution') && (withSelectDistributionSchoolPgTypeIds.indexOf(value) > -1)) {
     dispatch(showDistributionOrganizations('school'));
-    onClearOrganizationSelected(tableRow, directionType);
+    dispatch(onClearOrganizationSelected(tableRow, directionType))();
   } else if ((directionType === 'distribution') && (withSelectDistributionOrganPgTypeIds.indexOf(value) > -1)) {
     dispatch(showDistributionOrganizations('organization'));
-    onClearSchoolSelected(tableRow, directionType);
+    dispatch(onClearSchoolSelected(tableRow, directionType))();
   } else {
     directionType === 'direction' ? dispatch(hideDirectionOrganizations()) : dispatch(hideDistributionOrganizations());
-    onClearSchoolSelected(tableRow, directionType);
-    onClearOrganizationSelected(tableRow, directionType);
+    dispatch(onClearSchoolSelected(tableRow, directionType))();
+    dispatch(onClearOrganizationSelected(tableRow, directionType))();
   }
 };
 

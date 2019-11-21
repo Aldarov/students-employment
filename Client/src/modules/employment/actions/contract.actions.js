@@ -2,7 +2,9 @@ import {
   getFormValues,
   touch,
   stopAsyncValidation,
-  arrayRemove
+  arrayRemove,
+  submit,
+  isPristine
 } from 'redux-form';
 
 import {
@@ -118,6 +120,11 @@ const onCloseContract = row => (dispatch, getState) => () => {
     dispatch(stopAsyncValidation(formName, errors));
   } else {
     dispatch(closeEmploymentContract());
+    if (!isPristine(formName)(state))
+    {
+      console.log('isPristine', );
+      dispatch(submit(formName));
+    }
   }
 };
 

@@ -160,7 +160,7 @@ const validate = values => (dispatch, getState) => {
   values = values || getFormValues(formName)(state);
   const errors = {};
 
-  const requiredFields = [ 'specialityId', 'entraceYear', 'docDate', 'eduFormId', 'specializationId' ];
+  const requiredFields = [ 'specialityId', 'entraceYear', 'docDate', 'eduFormId' ];
   requiredFields.forEach(field => {
     if (!values[field]) {
       if (field == 'specialityId') {

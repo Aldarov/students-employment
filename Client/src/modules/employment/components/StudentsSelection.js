@@ -22,7 +22,9 @@ class StudentsSelection extends Component {
   }
 
   handleSelectionChange = selection => {
+    console.log('handleSelectionChange', selection);
     const sel = this.props.data.filter((item, index) => selection.includes(index));
+    console.log('handleSelectionChange', sel);
     this.setState({selection: sel});
   }
 
@@ -52,13 +54,13 @@ class StudentsSelection extends Component {
             data={data}
             gridSetting={{
               enableSelectionState: true,
-              onSelectionChange: this.handleSelectionChange,
               columns: columns,
               defaultColumnWidths: defaultColumnWidths,
               allowAdding: false,
               allowEditing: false,
               allowDeleting: false,
             }}
+            onSelectionChange={this.handleSelectionChange}
           />
         </Dialog>
         : null

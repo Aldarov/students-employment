@@ -13,5 +13,8 @@ namespace Server.Models.University
         public string HeaderPost { get; set; }
         public string HeaderName { get; set; }
         public string Specialization { get; set; }
+        public string Faculty { get; set; }
+        public string GroupName { get; set; }
+        public int? LastYear { get; set; }
     }
 }

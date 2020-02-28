@@ -14,7 +14,7 @@ import {
   apiGetEmploymentById,
   apiPostEmployment,
 } from '../employment.api';
-import { apiGetSpecialities, getProfiles } from '../../layout';
+import { apiGetSpecialities, getProfiles, getGroups } from '../../layout';
 import {
   formName,
 }  from '../employment.container';
@@ -74,37 +74,41 @@ const initEmploymentForm = (id) => {
         pgContractStuffs: [],
         speciality: '',
         specializationId: 0,
+        groupId: 0
       };
       dispatch(initialize(formName, result, false, { keepSubmitSucceeded: true }));
       return result;
     } else {
-      return fetching(dispatch, formName,
-        apiGetEmploymentById(id).then(res =>
-          apiGetSpecialities({ id: res.specialityId }).then(spec => {
-            const speciality = (spec.data[0] && spec.data[0].name) || '';
-            res.pgContractStuffs = res.pgContractStuffs.sort(function (a, b) {
-              const fullNameA = a.student.fullName;
-              const fullNameB = b.student.fullName;
-              if (fullNameA > fullNameB) {
-                return 1;
-              }
-              if (fullNameA < fullNameB) {
-                return -1;
-              }
-              return 0;
-            });
-            let result = { ...res, speciality };
-            if (!result.specializationId)
-              result = {...result, specializationId: 0 };
+      return fetching(dispatch, formName, apiGetEmploymentById(id).then(async res => {
+        const spec = await apiGetSpecialities({ id: res.specialityId });
+        throwError(spec);
+        const prof = await dispatch(getProfiles(res.specialityId, { sorting: [{columnName: 'specialityID'}, {columnName: 'name'}] }));
+        throwError(prof);
+        const gr = await dispatch(getGroups(res.specialityId, { sorting: [{columnName: 'lastYear'}, {columnName: 'name'}] }));
+        throwError(gr);
 
-            return dispatch(getProfiles(res.specialityId, { sorting: [{columnName: 'specialityID'}, {columnName: 'name'}] }))
-              .then(() => {
-                dispatch(initialize(formName, result, false, { keepSubmitSucceeded: true }));
-                return result;
-              });
-          })
-        )
-      );
+        const speciality = (spec.data[0] && spec.data[0].name) || '';
+        res.pgContractStuffs = res.pgContractStuffs.sort(function (a, b) {
+          const fullNameA = a.student.fullName;
+          const fullNameB = b.student.fullName;
+          if (fullNameA > fullNameB) {
+            return 1;
+          }
+          if (fullNameA < fullNameB) {
+            return -1;
+          }
+          return 0;
+        });
+        let result = { ...res, speciality };
+        if (!result.specializationId)
+          result = {...result, specializationId: 0 };
+        if (!result.groupId)
+          result = {...result, groupId: 0 };
+
+        dispatch(initialize(formName, result, false, { keepSubmitSucceeded: true }));
+
+        return result;
+      }));
     }
   };
 };
@@ -159,8 +163,8 @@ const validate = values => (dispatch, getState) => {
   const state = getState();
   values = values || getFormValues(formName)(state);
   const errors = {};
+  const requiredFields = [ 'specialityId', 'docDate', 'eduFormId', 'specializationId' ];
 
-  const requiredFields = [ 'specialityId', 'entraceYear', 'docDate', 'eduFormId', 'specializationId' ];
   requiredFields.forEach(field => {
     if (!values[field]) {
       if (field == 'specialityId') {

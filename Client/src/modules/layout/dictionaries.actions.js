@@ -3,13 +3,16 @@ import {
   SET_DIRECTION_TYPES,
   SET_DISTRIBUTION_TYPES,
   SET_PROFILES,
-  CLEAR_PROFILES
+  CLEAR_PROFILES,
+  SET_GROUPS,
+  CLEAR_GROUPS
 } from '../../constants';
 
 import {
   apiGetEduForms,
   apiGetPgTypes,
-  apiGetProfiles
+  apiGetProfiles,
+  apiGetGroups
 } from './dictionaries.api';
 
 export function getEduForms(params) {
@@ -43,4 +46,16 @@ export function getProfiles(specialityId, args) {
 
 export function clearProfiles() {
   return dispatch => dispatch({ type: CLEAR_PROFILES });
+}
+
+export function getGroups(specialityId, args) {
+  return dispatch => apiGetGroups(specialityId, args)
+    .then(res => {
+      dispatch({ type: SET_GROUPS, data: res });
+      return res;
+    });
+}
+
+export function clearGroups() {
+  return dispatch => dispatch({ type: CLEAR_GROUPS });
 }

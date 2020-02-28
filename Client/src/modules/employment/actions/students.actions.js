@@ -26,13 +26,14 @@ const addStudents = () => async (dispatch, getState) => {
   const state = getState();
   const formValues = getFormValues(formName)(state);
 
-  let { entraceYear, eduFormId, specialityId, specializationId } = formValues;
+  let { entraceYear, eduFormId, specialityId, specializationId, groupId } = formValues;
   if (specializationId == 0) specializationId = null;
+  if (groupId == 0) groupId = null;
   const exceptedIds = formValues && formValues.pgContractStuffs &&
     formValues.pgContractStuffs.map( item => item.studentId );
 
   const students = await fetching(dispatch, formName,
-    apiGetStudentsWithoutSelected(entraceYear, eduFormId, specialityId, specializationId, exceptedIds));
+    apiGetStudentsWithoutSelected(entraceYear, eduFormId, specialityId, specializationId, groupId, exceptedIds));
   throwError(students);
 
   dispatch({ type: SET_STUDENTS_SELECTION, data: students });
@@ -71,9 +72,9 @@ const getNewContractStuff = (headerId, studentId, student) => {
   return res;
 };
 
-const getStudentsByHeader = (year, educationFormId, specialityId, specializationId, formName) => dispatch => {
+const getStudentsByHeader = (year, educationFormId, specialityId, specializationId, groupId, formName) => dispatch => {
   return fetching(dispatch, formName,
-    apiGetStudentsByHeader(year, educationFormId, specialityId, specializationId));
+    apiGetStudentsByHeader(year, educationFormId, specialityId, specializationId, groupId));
 };
 
 const checkExistHeader = (data) => (dispatch) => {
@@ -93,10 +94,11 @@ const onLoadStudents = (id) => () => async (dispatch, getState) => {
     const result = await dispatch(checkExistHeader(formValues));
     throwError(result);
 
-    let { entraceYear, eduFormId, specialityId, specializationId } = formValues;
+    let { entraceYear, eduFormId, specialityId, specializationId, groupId } = formValues;
     if (specializationId == 0) specializationId = null;
+    if (groupId == 0) groupId = null;
 
-    const data = await dispatch(getStudentsByHeader(entraceYear, eduFormId, specialityId, specializationId, formName));
+    const data = await dispatch(getStudentsByHeader(entraceYear, eduFormId, specialityId, specializationId, groupId, formName));
     throwError(data);
     if (data.length > 0)
     {

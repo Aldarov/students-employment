@@ -53,9 +53,13 @@
 <div class='main'>
   <div class='center margin-bottom'>ФГБОУ ВО "Бурятский государственный университет имени Доржи Банзарова"</div>
   <div class='right'>код протокола: 2</div>
-  <div class='center margin-bottom'>Трудоустройство выпускников</div>
-  <div class='center margin-bottom'>Подразделение, специальность/направление: @Model.Header?.Speciality</div>
+  <div class='center margin-bottom'>Протокол трудоустройства выпускников № @Model.Header?.Id</div>
+  <div class='center margin-bottom'>@Model.Header?.Faculty, специальность/направление: @Model.Header?.Speciality</div>
   <div class='center margin-bottom'>Образовательная программа: @Model.Header?.Specialization</div>
+  @if (@Model.Header?.GroupName != null)
+  {
+    <div class='center margin-bottom'>Группа: @Model.Header?.GroupName</div>
+  }
   <div class='table stretch margin-bottom'>
     <div class='cell'>
       <div class='stretch center'>
@@ -64,6 +68,10 @@
           <div>Форма обучения: @Model.Header?.EduForm</div>
         </div>
         <div class='row-item left'>
+          @if (@Model.Header?.LastYear != null)
+          {
+            <div class='margin-bottom'>Год выпуска: @Model.Header?.LastYear</div>
+          }
           <div>Дата: @Model.Header?.DocDate</div>
         </div>
       </div>

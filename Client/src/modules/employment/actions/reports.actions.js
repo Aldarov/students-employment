@@ -1,23 +1,34 @@
-import { getFormValues } from 'redux-form';
+import { getFormValues, isPristine } from 'redux-form';
 
 import { saveData } from '.';
 import { formName }  from '../employment.container';
 
-const onShowDistributionReport = (history) => () => async (dispatch, getState) => {
+const onShowDistributionReport = (history, docId) => () => async (dispatch, getState) => {
   const state = getState();
   const formValues = getFormValues(formName)(state);
-  const w = window.open();
+  const pristine = isPristine(formName)(state);
+  if (!pristine)
+  {
+    const res = await dispatch(saveData(history)(formValues));
+    docId = res.id;
+  }
 
-  const res = await dispatch(saveData(history)(formValues));
-  w.location = `/reports/distribution/${res.id}`;
+  const w = window.open();
+  w.location = `/reports/distribution/${docId}`;
 };
 
-const onShowEmploymentReport = (history) => () => async (dispatch, getState) => {
+const onShowEmploymentReport = (history, docId) => () => async (dispatch, getState) => {
   const state = getState();
   const formValues = getFormValues(formName)(state);
+  const pristine = isPristine(formName)(state);
+  if (!pristine)
+  {
+    const res = await dispatch(saveData(history)(formValues));
+    docId = res.id
+  }
+
   const w = window.open();
-  const res = await dispatch(saveData(history)(formValues));
-  w.location = `/reports/employment/${res.id}`;
+  w.location = `/reports/employment/${docId}`;
 };
 
 export {

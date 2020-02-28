@@ -43,7 +43,7 @@ class Employment extends Component {
       onChangeContractDirectionType,
       openedStudentsSelection, studentsSelection, onCloseStudentsSelection, onStudentsSelected, onLoadStudents, contractStuffIsEmpty,
       onShowDistributionReport, onShowEmploymentReport,
-      profiles
+      profiles, groups
     } = this.props;
 
     return (
@@ -58,6 +58,13 @@ class Employment extends Component {
           >
             <form onSubmit={handleSubmit} >
               <div className={classes.container}>
+                <Field
+                  name='id'
+                  disabled={true}
+                  component={RenderTextField}
+                  label='Код документа'
+                  className={classes.textField}
+                />
                 <Field
                   name='speciality'
                   component={RenderAutocomplete}
@@ -109,7 +116,19 @@ class Employment extends Component {
                 </Field>
 
                 <Field
+                  name='groupId'
+                  disabled={false}
                   disabled={!contractStuffIsEmpty}
+                  select
+                  component={RenderTextField}
+                  label='Группа'
+                  placeholder='выберите группу'
+                  className={classes.textField}
+                >
+                  {groups && groups.map((item, index) => <MenuItem key={index} value={item.id}>{item.name}</MenuItem>)}
+                </Field>
+
+                <Field
                   name='docDate'
                   component={RenderDatePicker}
                   label='Дата документа'
@@ -262,6 +281,7 @@ Employment.propTypes = {
   onShowDistributionReport: PropTypes.func,
   onShowEmploymentReport: PropTypes.func,
   profiles: PropTypes.array,
+  groups: PropTypes.array,
 };
 
 export default Employment;

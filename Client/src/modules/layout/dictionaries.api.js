@@ -40,3 +40,8 @@ export function apiGetProfiles(specialityId, args) {
   const url = getUrl({startUrl: 'api/profiles/' + specialityId, ...args});
   return axios.get(url);
 }
+
+export function apiGetGroups(specialityId, args) {
+  const url = getUrl({startUrl: 'api/groups/' + specialityId, ...args});
+  return axios.get(url);
+}

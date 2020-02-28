@@ -2,7 +2,7 @@ import { change } from 'redux-form';
 
 import { formName }  from '../employment.container';
 import { fetching } from '../../busyIndicator';
-import { apiGetSpecialities, clearProfiles, getProfiles } from '../../layout';
+import { apiGetSpecialities, clearProfiles, getProfiles, getGroups, clearGroups } from '../../layout';
 import {
   SET_SPECIALITIES_SUGGESTIONS,
   CLEAR_SPECIALITIES_SUGGESTIONS,
@@ -22,6 +22,7 @@ const onClearSpecialitySelectedSuggestion = () => (dispatch) => {
   dispatch(change(formName, 'specialityId', null));
   dispatch(change(formName, 'specializationId', 0));
   dispatch(clearProfiles());
+  dispatch(clearGroups());
 };
 
 const onSpecialitySelected = (data) => (dispatch) => {
@@ -29,6 +30,7 @@ const onSpecialitySelected = (data) => (dispatch) => {
   dispatch(change(formName, 'specialityId', data.id));
   dispatch(change(formName, 'specializationId', null));
   dispatch(getProfiles(data.id, { sorting: [{columnName: 'specialityID'}, {columnName: 'name'}] }));
+  dispatch(getGroups(data.id, { sorting: [{columnName: 'lastYear'}, {columnName: 'name'}] }));
 };
 
 

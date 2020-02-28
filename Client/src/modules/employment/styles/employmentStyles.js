@@ -11,14 +11,14 @@ export default theme => ({
     },
   },
   textField: {
-    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     width: 300,
     [theme.breakpoints.up('sm')]: {
       width: 600,
     },
   },
   date: {
-    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     width: 200,
   },
   error: {

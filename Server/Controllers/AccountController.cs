@@ -38,7 +38,7 @@ namespace Server.Controllers
             string sessionId = props != null ? props.SessionId : null;
             if (sessionId == null)
             {
-                return BadRequest(new { message = "Invalid session Id"});
+                return BadRequest("Необходимо авторизоваться");
             }
 
             Http­Client  client = new Http­Client ();

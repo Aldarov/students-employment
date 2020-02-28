@@ -29,6 +29,7 @@ namespace Server.Models.University
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<PlacementHeader> PlacementHeaders { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
+        public DbSet<Group> Groups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -72,6 +73,7 @@ namespace Server.Models.University
                 entity.Property(e => e.EntranceYear).HasColumnName("entrance_year");
                 entity.Property(e => e.EntranceYearByOrder).HasColumnName("entrance_year_by_order");
                 entity.Property(e => e.SpecializationId).HasColumnName("specialization_id");
+                entity.Property(e => e.GroupId).HasColumnName("group_id");
             });
 
             modelBuilder.Entity<Placement>(entity =>
@@ -81,6 +83,8 @@ namespace Server.Models.University
                 entity.Property(e => e.Faculty).HasColumnName("faculty");
                 entity.Property(e => e.SpecialityId).HasColumnName("speciality_id");
                 entity.Property(e => e.Speciality).HasColumnName("speciality");
+                entity.Property(e => e.GroupId).HasColumnName("group_id");
+                entity.Property(e => e.Group).HasColumnName("group_name");
                 entity.Property(e => e.EntranceYear).HasColumnName("entrace_year");
                 entity.Property(e => e.EduFormId).HasColumnName("edu_form_id");
                 entity.Property(e => e.EduForm).HasColumnName("edu_form");
@@ -262,6 +266,7 @@ namespace Server.Models.University
                 entity.Property(e => e.EduFormId).HasColumnName("edu_form_id");
                 entity.Property(e => e.EntraceYear).HasColumnName("entrace_year");
                 entity.Property(e => e.SpecialityId).HasColumnName("speciality_id");
+                entity.Property(e => e.GroupId).HasColumnName("group_id");
                 entity.Property(e => e.SpecializationId).HasColumnName("specialization_id");
                 entity.HasOne(d => d.EduForm)
                     .WithMany(p => p.PgHeaders)
@@ -305,12 +310,23 @@ namespace Server.Models.University
                     .IsRequired()
                     .HasColumnType("varchar(255)");
             });
+
             modelBuilder.Entity<Specialization>(entity =>
             {
                 entity.ToTable("vSpecializations");
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Name).HasColumnName("name");
                 entity.Property(e => e.SpecialityId).HasColumnName("speciality_id");
+            });
+
+            modelBuilder.Entity<Group>(entity =>
+            {
+                entity.ToTable("v_pg_groups");
+                entity.Property(e => e.Id).HasColumnName("group_id");
+                entity.Property(e => e.SpecialityId).HasColumnName("speciality_id");
+                entity.Property(e => e.EducationFormId).HasColumnName("education_form_id");
+                entity.Property(e => e.Name).HasColumnName("group_name");
+                entity.Property(e => e.LastYear).HasColumnName("last_year");
             });
         }
     }

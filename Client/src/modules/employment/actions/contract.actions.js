@@ -122,7 +122,6 @@ const onCloseContract = row => (dispatch, getState) => () => {
     dispatch(closeEmploymentContract());
     if (!isPristine(formName)(state))
     {
-      console.log('isPristine', );
       dispatch(submit(formName));
     }
   }

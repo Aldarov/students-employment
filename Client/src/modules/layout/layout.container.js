@@ -6,7 +6,7 @@ import Layout from './Layout';
 import { AuthDispatcher } from '../auth';
 import { CLOSE_SIDEBAR } from '../../constants';
 import {
-  getEduForms, getDirectionTypes, getDistributionTypes,
+  getEduForms, getDirectionTypes, getDistributionTypes
 } from './dictionaries.actions';
 
 const mapStateToProps = (state, props) => {

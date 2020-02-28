@@ -39,12 +39,14 @@ const mapStateToProps = (state, ownProps) => {
     directionTypes: state.dictionaries.directionTypes,
     distributionTypes: state.dictionaries.distributionTypes,
     profiles: state.dictionaries.profiles,
+    groups: state.dictionaries.groups,
 
     gridSettingContracts: {
       columns: [
         { name: 'fullName', title: 'ФИО' },
         { name: 'regAddress', title: 'Адрес регистрации' },
         { name: 'finance', title: 'Финансирование' },
+        { name: 'state', title: 'Состояние' },
         { name: 'entrType', title: 'Способ поступления' },
         { name: 'phone', title: 'Телефон' },
         { name: 'direction', title: 'Распределен' },
@@ -54,6 +56,7 @@ const mapStateToProps = (state, ownProps) => {
         { columnName: 'fullName', width: 250 },
         { columnName: 'regAddress', width: 300 },
         { columnName: 'finance', width: 120 },
+        { columnName: 'state', width: 120 },
         { columnName: 'entrType', width: 150 },
         { columnName: 'phone', width: 150 },
         { columnName: 'direction', width: 250 },
@@ -96,8 +99,8 @@ const mapDispatchToProps = (dispatch, props) => {
     onHeaderLeftButtonClick: onHeaderLeftButtonClick(props.history),
     onLoadStudents: onLoadStudents(id),
     onStudentsSelected: onStudentsSelected(id),
-    onShowDistributionReport: onShowDistributionReport(props.history),
-    onShowEmploymentReport: onShowEmploymentReport(props.history),
+    onShowDistributionReport: onShowDistributionReport(props.history, id),
+    onShowEmploymentReport: onShowEmploymentReport(props.history, id),
     onSubmit: saveData(props.history),
     onSaveYes: onSaveYes(props.history),
     onSaveNo: onSaveNo(props.history),

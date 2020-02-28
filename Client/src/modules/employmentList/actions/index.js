@@ -85,7 +85,7 @@ export function getEmploymentSuggestions(params, formName) {
 }
 
 const onSuggestionsFetchRequested = (value) => async (dispatch) => {
-  const res = await fetching(dispatch, formName, apiGetEmploymentList({ limit: 20, search: value }));
+  const res = await fetching(dispatch, formName, apiGetEmploymentList({ search: value }));
   throwError(res);
   dispatch({ type: SET_EMPLOYMENT_SUGGESTIONS, data: res.data });
 };

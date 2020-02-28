@@ -11,6 +11,7 @@ const getContractTableCellData = (directionTypes, distributionTypes, column, row
     case 'fullName': return (row.student && row.student.fullName);
     case 'regAddress': return (row.student && row.student.regAddress);
     case 'finance': return (row.student && row.student.finance);
+    case 'state': return (row.student && row.student.state);
     case 'entrType': return (row.student && row.student.entrType);
     case 'phone': return (row.student && row.student.phone);
     case 'direction':

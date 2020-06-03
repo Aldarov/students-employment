@@ -21,7 +21,7 @@ class Navigation extends Component {
         </BrowserRouter>
         <Alert
           stack={{limit: 5}}
-          timeout={5000}
+          timeout='none'
           position='bottom'
           effect='scale'
         />

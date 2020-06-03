@@ -10,16 +10,19 @@ using System.Net.Http;
 using System.Xml.Linq;
 using System.Threading.Tasks;
 using System.IO;
+using Server.Models.University;
 
 namespace Server.Controllers
 {
     public class AccountController : Controller
     {
-
+        private UniversityContext db;
         private IJwt jwt;
-        public AccountController(IJwt token)
+
+        public AccountController(UniversityContext context, IJwt token)
         {
             jwt = token;
+            db = context;
         }
 
         private ClaimsIdentity GetClaimsIdentity(string employmentId)
@@ -54,8 +57,18 @@ namespace Server.Controllers
                     string state = res.Attributes().Where(q => q.Name == "state").Select(q => q.Value).FirstOrDefault();
                     if (state == "1")
                     {
-                        var identity = GetClaimsIdentity(props.EmploymentId);
-                        return Ok(jwt.GetToken(identity));
+                        var check = db.Placements
+                            .FromSql<Placement>("select * from dbo.pg_access_to_specialities({0})", props.EmploymentId)
+                            .Any();
+                        if (check)
+                        {
+                            var identity = GetClaimsIdentity(props.EmploymentId);
+                            return Ok(jwt.GetToken(identity));
+                        }
+                        else
+                        {
+                            return BadRequest("Ваше подразделение не добавлено в список разрешенных, обратитесь в ЦИТиДО");
+                        }
                     }
                     else
                         return StatusCode(403, Json("Access denied"));

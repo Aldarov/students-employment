@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,9 +14,11 @@ namespace Server
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseKestrel()
+            CreateWebHostBuilder(args).Build().Run();
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostContext, config) =>
                 {
                     config.SetBasePath(Directory.GetCurrentDirectory());
@@ -28,14 +30,6 @@ namespace Server
                     logging.AddConsole();
                     logging.AddDebug();
                 })
-                .UseStartup<Startup>()
-                .ConfigureKestrel((context, options) =>
-                {
-                    // Set properties and call methods on options
-                })
-                .Build();
-
-            host.Run();
-        }
+                .UseStartup<Startup>();
     }
 }

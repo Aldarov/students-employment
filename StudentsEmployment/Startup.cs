@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StudentsEmployment
 {
@@ -36,6 +37,11 @@ namespace StudentsEmployment
                     //включения преобразования Enum в строку и обратно, при работе с json
                     //opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                });
         }
 
         /// <summary>
@@ -63,7 +69,7 @@ namespace StudentsEmployment
                 name: "default",
                 pattern: "{controller}/{action=Index}/{id?}");
 
-            app.MapFallbackToFile("index.html"); ;
+            app.MapFallbackToFile("index.html");
 
             app.Run();
         }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentsEmployment.BLL.Services.Аuthentication
+namespace StudentsEmployment.BLL.Services.АuthService
 {
-    internal class АuthenticationService
+    public class АuthService
     {
     }
 }

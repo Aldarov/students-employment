@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
@@ -29,9 +29,7 @@ module.exports = merge(
       ]
     },
     devServer: {
-      stats: 'errors-only',
       historyApiFallback: true,
-      inline: true,
       hot: true,
       proxy: {
         '/api': 'http://localhost:5000',
@@ -40,7 +38,6 @@ module.exports = merge(
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NamedModulesPlugin(),
       new webpack.DefinePlugin({
         'process.env':{
           'NODE_ENV': JSON.stringify('development')

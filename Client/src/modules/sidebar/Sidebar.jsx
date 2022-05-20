@@ -15,7 +15,7 @@ import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 
 import { sidebarStyles } from './styles';
 
-@withStyles(sidebarStyles)
+
 class Sidebar extends Component {
   render () {
     const { classes, open, onClose, onRedirect } = this.props;
@@ -61,4 +61,4 @@ Sidebar.propTypes = {
   onRedirect: PropTypes.func,
 };
 
-export default Sidebar;
+export default withStyles(sidebarStyles)(Sidebar);

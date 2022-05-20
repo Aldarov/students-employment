@@ -11,7 +11,7 @@ import { AddButton, EditButton, DeleteButton } from './components/Buttons';
 import { DELETE_EMPLOYMENT_DIALOG } from './actions';
 
 
-@withStyles(employmentListStyles)
+
 class EmploymentList extends Component {
   componentDidMount() {
     this.props.onLoadData();
@@ -104,4 +104,4 @@ EmploymentList.propTypes = {
   onClearSuggestionSelected: PropTypes.func,
 };
 
-export default EmploymentList;
+export default withStyles(employmentListStyles)(EmploymentList);

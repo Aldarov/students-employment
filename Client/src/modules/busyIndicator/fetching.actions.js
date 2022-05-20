@@ -16,9 +16,23 @@ const fetching = (dispatch, formName, action) => {
     });
 };
 
+const fetchingAsync = async (dispatch, formName, action) => {
+  dispatch({ type: FETCHING_START, data: formName });
+  try {
+    const res = await action;
+    dispatch({ type: FETCHING_END, data: formName });
+    return res;
+  } catch (error) {
+    dispatch({ type: FETCHING_END, data: formName });
+    Alert.error(error.data);
+    throw error;
+  }
+};
+
 const fetchingEnd = (formName) => ({ type: FETCHING_END, data: formName });
 
 export {
   fetching,
-  fetchingEnd
+  fetchingEnd,
+  fetchingAsync
 };

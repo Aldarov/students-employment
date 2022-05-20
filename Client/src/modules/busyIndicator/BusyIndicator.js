@@ -5,7 +5,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import { busyIndicatorStyles } from './styles';
 
-@withStyles(busyIndicatorStyles)
 class BusyIndicator extends Component {
   render() {
     const { show, classes } = this.props;
@@ -25,4 +24,4 @@ BusyIndicator.propTypes = {
   classes: PropTypes.object,
 };
 
-export default BusyIndicator;
+export default withStyles(busyIndicatorStyles)(BusyIndicator);

@@ -23,7 +23,6 @@ import {
 } from './actions';
 
 
-@withStyles(employmentStyles)
 class Employment extends Component {
   componentDidMount() {
     this.props.onLoadData();
@@ -118,7 +117,6 @@ class Employment extends Component {
                 <Field
                   name='groupId'
                   disabled={false}
-                  disabled={!contractStuffIsEmpty}
                   select
                   component={RenderTextField}
                   label='Группа'
@@ -284,4 +282,4 @@ Employment.propTypes = {
   groups: PropTypes.array,
 };
 
-export default Employment;
+export default withStyles(employmentStyles)(Employment);

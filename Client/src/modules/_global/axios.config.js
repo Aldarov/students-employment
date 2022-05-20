@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { refreshToken, logout } from '../auth';
 
-const setRequestHeader = token => {
+export const setRequestHeader = token => {
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 };
 
@@ -15,15 +15,17 @@ export function initAxios(store) {
     function (response) {
       return response.data;
     },
-    function (error) {
+    async error => {
       if (error.response.status === 401) {
-        return refreshToken()
-          .then(token => {
-            setRequestHeader(token.access_token);
-            let prev_req = error.config;
-            prev_req.headers.Authorization = 'Bearer ' + token.access_token;
-            return axios(prev_req);
-          });
+        try {
+          const token = await store.dispatch(refreshToken());
+          setRequestHeader(token.access_token);
+          let prev_req = error.config;
+          prev_req.headers.Authorization = 'Bearer ' + token.access_token;
+          return axios(prev_req);
+        } catch {
+          store.dispatch(logout());
+        }
       }
       if (error.response.status === 403) {
         store.dispatch(logout());
@@ -33,4 +35,3 @@ export function initAxios(store) {
     }
   );
 }
-

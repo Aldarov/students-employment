@@ -49,5 +49,6 @@ module.exports = merge(
         template: paths.source + '/assets/index.html'
       }),
     ],
+    devtool: 'eval-source-map'
   }
 );

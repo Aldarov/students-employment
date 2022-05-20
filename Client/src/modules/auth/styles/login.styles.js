@@ -1,6 +1,6 @@
 export default theme => ({
   main: {
-    margin: '30px auto',
+    paddingTop: '100px',
     textAlign: 'center'
   }
 });

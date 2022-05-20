@@ -48,12 +48,12 @@ const App = () => {
           <Route path='*' element={<NotFound/>} />
         </Routes>
       </BrowserRouter>
-      {/* <Alert
+      <Alert
         stack={{limit: 5}}
         timeout='none'
         position='bottom'
         effect='scale'
-      /> */}
+      />
       <Dictionaries/>
     </>
   );

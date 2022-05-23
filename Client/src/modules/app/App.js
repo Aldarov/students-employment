@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Alert from 'react-s-alert';
 
 import { EmploymentList } from '../employmentList';
 import { Employment } from '../employment';
@@ -10,9 +9,7 @@ import { Login } from '../auth';
 import { Dictionaries } from '../layout';
 import PrivateRoute from './PrivateRoute';
 import NotFound from '../NotFound';
-
-import 'react-s-alert/dist/s-alert-default.css';
-import 'react-s-alert/dist/s-alert-css-effects/scale.css';
+import Alert from '../alert';
 
 const App = () => {
   return (
@@ -48,12 +45,7 @@ const App = () => {
           <Route path='*' element={<NotFound/>} />
         </Routes>
       </BrowserRouter>
-      <Alert
-        stack={{limit: 5}}
-        timeout='none'
-        position='bottom'
-        effect='scale'
-      />
+      <Alert/>
       <Dictionaries/>
     </>
   );

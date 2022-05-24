@@ -17,6 +17,7 @@ export const apiRefreshToken = async () => {
   if (refreshToken) {
     const token = await axios.post('api/token', { refresh_token: localStorage.getItem('refresh_token') });
     apiSetToken(token.access_token, token.refresh_token);
+    setRequestHeader(token.access_token);
     return token;
   }
   throw new Error("Не найден refresh-token");

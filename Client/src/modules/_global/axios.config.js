@@ -19,7 +19,6 @@ export function initAxios(store) {
       if (error.response.status === 401) {
         try {
           const token = await store.dispatch(refreshToken());
-          setRequestHeader(token.access_token);
           let prev_req = error.config;
           prev_req.headers.Authorization = 'Bearer ' + token.access_token;
           return axios(prev_req);

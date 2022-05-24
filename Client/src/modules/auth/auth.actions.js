@@ -24,7 +24,6 @@ const checkAuth = () => dispatch => {
 };
 
 const refreshToken = () => async dispatch => {
-  dispatch(logout());
   const token = await fetchingAsync(dispatch, 'login', apiRefreshToken());
   return token;
 }

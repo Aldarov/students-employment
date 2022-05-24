@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-
 import { formName } from '../employmentList.container';
 import { openSidebar } from '../../sidebar';
 import { fetching } from '../../busyIndicator';
@@ -60,17 +58,14 @@ const onChangeCurrentPage = (newPage) => (dispatch, getState) => {
   }
 };
 
-const onDoAction = (history) => (args) => dispatch => {
-  const navigate = useNavigate();
-
-  console.log('onDoAction', navigate);
+const onDoAction = (navigate) => (args) => dispatch => {
   switch (args.type) {
     case 'adding': {
-      history.push('/employment/add');
+      navigate('/employment/add');
       break;
     }
     case 'editing': {
-      history.push(`/employment/${args.row.id}`);
+      navigate(`/employment/${args.row.id}`);
       break;
     }
     case 'deleting': {

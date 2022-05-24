@@ -145,16 +145,16 @@ const saveEmployment = (data) => dispatch => {
   return fetching(dispatch, formName, apiPostEmployment(res));
 };
 
-const saveData = (history, redirectToList) => values => async dispatch => {
+const saveData = (navigate, redirectToList) => values => async dispatch => {
   const res = await dispatch(saveEmployment(values));
   throwError(res);
 
   if (redirectToList) {
-    history.push('/employment');
+    navigate('/employment');
   } else {
     dispatch(initialize(formName, values));
     dispatch(change(formName, 'id', res.id));
-    history.push(`/employment/${res.id}`);
+    navigate(`/employment/${res.id}`);
   }
   return res;
 };
@@ -189,13 +189,13 @@ const validate = values => (dispatch, getState) => {
   return errors;
 };
 
-const onSaveYes = (history) => () => (dispatch, getState) => {
+const onSaveYes = (navigate) => () => (dispatch, getState) => {
   dispatch(closeQuestionDialog(CONFIRM_SAVE_EMPLOYMENT_DIALOG));
   const state = getState();
   const values = getFormValues(formName)(state);
   const errors = dispatch(validate(values));
   if (isEmpty(errors)) {
-    dispatch(saveData(history, true)(values));
+    dispatch(saveData(navigate, true)(values));
   } else {
     for (var err in errors) {
       dispatch(touch(formName, err));
@@ -203,9 +203,9 @@ const onSaveYes = (history) => () => (dispatch, getState) => {
   }
 };
 
-const onSaveNo = (history) => () => (dispatch) => {
+const onSaveNo = (navigate) => () => (dispatch) => {
   dispatch(closeQuestionDialog(CONFIRM_SAVE_EMPLOYMENT_DIALOG));
-  history.push('/employment');
+  navigate('/employment');
 };
 
 export default {

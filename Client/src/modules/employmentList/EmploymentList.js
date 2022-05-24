@@ -11,7 +11,6 @@ import { AddButton, EditButton, DeleteButton } from './components/Buttons';
 import { DELETE_EMPLOYMENT_DIALOG } from './actions';
 
 
-
 class EmploymentList extends Component {
   componentDidMount() {
     this.props.onLoadData();

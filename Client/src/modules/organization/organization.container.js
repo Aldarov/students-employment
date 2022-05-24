@@ -1,15 +1,17 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import {
   reduxForm, getFormValues, isPristine, isSubmitting
 } from 'redux-form';
 
 import Organization from './Organization';
 import actions from './actions';
+import withParams from '../_global/hoc/withParams';
+import withRouter from '../_global/hoc/withRouter';
 
 
 const formName = 'organization';
-const getId = (props) => props.match.params.id === 'add' ? null : props.match.params.id;
+const getId = (props) => props.params.id === 'add' ? null : props.params.id;
 
 const mapStateToProps = (state, props) => {
   let id  = getId(props);
@@ -41,20 +43,21 @@ const mapDispatchToProps = (dispatch, props) => {
   } = actions;
 
   return bindActionCreators({
-    onHeaderLeftButtonClick: onHeaderLeftButtonClick(props.history),
-    onSaveYes: onSaveYes(props.history),
-    onSaveNo: onSaveNo(props.history),
+    onHeaderLeftButtonClick: onHeaderLeftButtonClick(props.navigate),
+    onSaveYes: onSaveYes(props.navigate),
+    onSaveNo: onSaveNo(props.navigate),
     onLoadData: onLoadData(id),
-    onSubmit: onSubmit(props.history),
+    onSubmit: onSubmit(props.navigate),
     ...rest
   }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  reduxForm({
-    form: formName,
-  })(Organization)
-);
+export default compose(
+  withRouter,
+  withParams,
+  connect(mapStateToProps, mapDispatchToProps),
+  reduxForm({form: formName})
+)(Organization);
 
 export {
   formName

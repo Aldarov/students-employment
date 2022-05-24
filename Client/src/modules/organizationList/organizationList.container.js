@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 
 import OrganizationList from './OrganizationList';
 import actions from './actions';
-
+import withRouter from '../_global/hoc/withRouter';
 
 const formName = 'organizationList';
 
@@ -49,12 +49,15 @@ const mapDispatchToProps = (dispatch, props) => {
   const { onDoAction, ...rest } = actions;
 
   return bindActionCreators({
-    onDoAction: onDoAction(props.history),
+    onDoAction: onDoAction(props.navigate),
     ...rest
   }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrganizationList);
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(OrganizationList);
 
 export {
   formName

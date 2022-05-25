@@ -11,7 +11,9 @@ const fetching = (dispatch, formName, action) => {
     })
     .catch(error => {
       dispatch({ type: FETCHING_END, data: formName });
-      dispatch(alertShow({ message: error.data, severity: 'error' }));
+      if (error?.data) {
+        dispatch(alertShow({ message: error?.data, severity: 'error' }));
+      }
       return error;
     });
 };
@@ -24,7 +26,9 @@ const fetchingAsync = async (dispatch, formName, action) => {
     return res;
   } catch (error) {
     dispatch({ type: FETCHING_END, data: formName });
-    dispatch(alertShow({ message: error.data, severity: 'error' }));
+    if (error?.data) {
+      dispatch(alertShow({ message: error?.data, severity: 'error' }));
+    }
     throw error;
   }
 };

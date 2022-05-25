@@ -47,7 +47,7 @@ const Alert = () => {
     }}
     open={alert?.open ?? false}
     onClose={handleClose}
-    message={alert?.info?.message ?? undefined}
+    message={alert?.info?.message ?? ''}
     action={
       <IconButton
         aria-label="Закрыть"

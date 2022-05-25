@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -9,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.Http;
 using System.Xml.Linq;
 using System.Threading.Tasks;
-using System.IO;
 using Server.Models.University;
 
 namespace Server.Controllers
@@ -71,7 +69,7 @@ namespace Server.Controllers
                         }
                     }
                     else
-                        return StatusCode(403, Json("Access denied"));
+                        return StatusCode(403);
                 }
             }
             return Unauthorized();
@@ -97,7 +95,7 @@ namespace Server.Controllers
             }
             catch
             {
-                return StatusCode(403, Json("Invalid refresh token"));
+                return StatusCode(403);
             }
         }
 

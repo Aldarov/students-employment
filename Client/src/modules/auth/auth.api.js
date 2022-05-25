@@ -26,7 +26,7 @@ export const apiRefreshToken = async () => {
 export const apiLogout = () => {
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
-  setRequestHeader(null);
+  setRequestHeader('');
 }
 
 export const apiIsAuth = () => {

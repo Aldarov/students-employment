@@ -43,9 +43,9 @@ module.exports = merge(
           }
         }),
       ],
-      splitChunks: {
-        chunks: 'all',
-      },
+      // splitChunks: {
+      //   chunks: 'all',
+      // },
     },
     plugins: [
       new CleanWebpackPlugin(),

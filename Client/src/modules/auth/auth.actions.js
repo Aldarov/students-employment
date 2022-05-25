@@ -1,13 +1,12 @@
 import { apiLogin, apiLogout, apiIsAuth } from './auth.api';
 import { LOGIN, LOGOUT } from '../../constants';
-import { fetching } from '../busyIndicator';
-import { formName } from './login.container';
-import throwError from '../_global/helpers/throwError';
+import { fetchingAsync } from '../busyIndicator';
+import { formName } from './Login';
+import { apiRefreshToken } from './auth.api';
 
 
-const onLogin = (employmentId, sessionId) => () => async dispatch => {
-  const res = await fetching(dispatch, formName, apiLogin({ employmentId, sessionId }));
-  throwError(res);
+const onLogin = (employmentId, sessionId) => async dispatch => {
+  await fetchingAsync(dispatch, formName, apiLogin({ employmentId, sessionId }));
   dispatch({ type: LOGIN });
 };
 
@@ -24,8 +23,14 @@ const checkAuth = () => dispatch => {
   }
 };
 
+const refreshToken = () => async dispatch => {
+  const token = await fetchingAsync(dispatch, 'login', apiRefreshToken());
+  return token;
+}
+
 export {
   onLogin,
   logout,
-  checkAuth
+  checkAuth,
+  refreshToken
 };

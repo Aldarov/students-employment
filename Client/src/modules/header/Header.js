@@ -12,7 +12,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import { headerStyles } from './styles';
 
-@withStyles(headerStyles)
 class Header extends Component {
   render() {
     const { classes, openedSidebar, headerProps, onLeftButtonClick, onRightButtonClick } = this.props;
@@ -58,4 +57,4 @@ Header.propTypes = {
   onRightButtonClick: PropTypes.func,
 };
 
-export default Header;
+export default withStyles(headerStyles)(Header);

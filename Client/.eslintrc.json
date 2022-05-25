@@ -9,16 +9,13 @@
       "eslint:recommended",
       "plugin:react/recommended"
     ],
-    "parser": "babel-eslint",
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
-      "ecmaFeatures": {
-        "experimentalObjectRestSpread": true,
-        "jsx": true
-      },
-      "sourceType": "module"
+      "sourceType": "module",
+      "requireConfigFile": false
     },
     "plugins": [
-      "react"
+      "jsx"
     ],
     "rules": {
       "indent": [

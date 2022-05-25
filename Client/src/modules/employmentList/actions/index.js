@@ -58,14 +58,14 @@ const onChangeCurrentPage = (newPage) => (dispatch, getState) => {
   }
 };
 
-const onDoAction = (history) => (args) => dispatch => {
+const onDoAction = (navigate) => (args) => dispatch => {
   switch (args.type) {
     case 'adding': {
-      history.push('/employment/add');
+      navigate('/employment/add');
       break;
     }
     case 'editing': {
-      history.push(`/employment/${args.row.id}`);
+      navigate(`/employment/${args.row.id}`);
       break;
     }
     case 'deleting': {

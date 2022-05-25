@@ -10,7 +10,7 @@ import RenderTextField from '../_global/components/RenderTextField';
 import RenderAutocomplete from '../_global/components/RenderAutocomplete';
 import { CONFIRM_SAVE_ORGANIZATION_DIALOG } from './actions';
 
-@withStyles(organizationStyles)
+
 class Organization extends Component {
   componentDidMount() {
     this.props.onLoadData();
@@ -111,4 +111,4 @@ Organization.propTypes = {
   isRussia: PropTypes.bool
 };
 
-export default Organization;
+export default withStyles(organizationStyles)(Organization);

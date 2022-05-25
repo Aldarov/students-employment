@@ -5,7 +5,7 @@ import {
   getFormValues,
   arrayPush
 } from 'redux-form';
-import Alert from 'react-s-alert';
+import { alertShow } from '../../alert';
 
 import { formName }  from '../employment.container';
 import { fetching } from '../../busyIndicator';
@@ -106,7 +106,7 @@ const onLoadStudents = (id) => () => async (dispatch, getState) => {
       dispatch(change(formName, 'pgContractStuffs', stuff));
     }
     else {
-      Alert.error('По указанным данным не найдено ни одного студента');
+      dispatch(alertShow({ message: 'По указанным данным не найдено ни одного студента', severity: 'error' }));
     }
   }
 };

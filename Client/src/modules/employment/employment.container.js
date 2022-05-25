@@ -5,10 +5,12 @@ import {
   isPristine,
   isSubmitting,
 } from 'redux-form';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 
 import Employment from './Employment';
 import actions from './actions';
+import withParams from '../_global/hoc/withParams';
+import withRouter from '../_global/hoc/withRouter';
 
 const formName = 'employment';
 const withSelectDirectionSchoolPgTypeIds = [8];
@@ -16,10 +18,10 @@ const withSelectDirectionOrganPgTypeIds = [9];
 const withSelectDistributionSchoolPgTypeIds = [17, 13, 14, 21, 25, 26];
 const withSelectDistributionOrganPgTypeIds = [18];
 
-const getId = (props) => props.match.params.id === 'add' ? null : props.match.params.id;
+const getId = (props) => props.params.id === 'add' ? null : props.params.id;
 
 const mapStateToProps = (state, ownProps) => {
-  let id  = getId(ownProps);
+  const id  = getId(ownProps);
   const formValues = getFormValues(formName)(state);
   const pristine = isPristine(formName)(state);
   const submitting = isSubmitting(formName)(state);
@@ -81,6 +83,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, props) => {
   let id  = getId(props);
+
   const {
     onEmploymentLoadData,
     onHeaderLeftButtonClick,
@@ -96,23 +99,24 @@ const mapDispatchToProps = (dispatch, props) => {
 
   return bindActionCreators({
     onLoadData: onEmploymentLoadData(id),
-    onHeaderLeftButtonClick: onHeaderLeftButtonClick(props.history),
+    onHeaderLeftButtonClick: onHeaderLeftButtonClick(props.navigate),
     onLoadStudents: onLoadStudents(id),
     onStudentsSelected: onStudentsSelected(id),
-    onShowDistributionReport: onShowDistributionReport(props.history, id),
-    onShowEmploymentReport: onShowEmploymentReport(props.history, id),
-    onSubmit: saveData(props.history),
-    onSaveYes: onSaveYes(props.history),
-    onSaveNo: onSaveNo(props.history),
+    onShowDistributionReport: onShowDistributionReport(props.navigate, id),
+    onShowEmploymentReport: onShowEmploymentReport(props.navigate, id),
+    onSubmit: saveData(props.navigate),
+    onSaveYes: onSaveYes(props.navigate),
+    onSaveNo: onSaveNo(props.navigate),
     ...rest
   }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  reduxForm({
-    form: formName,
-  })(Employment)
-);
+export default compose(
+  withRouter,
+  withParams,
+  connect(mapStateToProps, mapDispatchToProps),
+  reduxForm({form: formName})
+)(Employment);
 
 export {
   formName,

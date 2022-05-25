@@ -1,6 +1,4 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-require('@babel/polyfill');
 
 const paths = {
   source: path.resolve(__dirname, 'src'),
@@ -9,8 +7,7 @@ const paths = {
 module.exports = {
   entry: {
     main: [
-      '@babel/polyfill',
-      paths.source + '/App.js'
+      paths.source + '/index.js'
     ]
   },
   module: {
@@ -20,14 +17,7 @@ module.exports = {
         exclude: [/node_modules/, /build/],
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env', '@babel/preset-react'],
-              plugins: [
-                ['@babel/plugin-proposal-decorators', { 'legacy': true }],
-                ['@babel/plugin-proposal-class-properties', { "loose": true }]
-              ]
-            }
+            loader: 'babel-loader'
           },
         ]
       },

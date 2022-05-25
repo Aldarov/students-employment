@@ -10,7 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import { dialogStyles } from './styles';
 
-@withStyles(dialogStyles)
+
 class Contract extends Component {
   render () {
     const {
@@ -53,4 +53,4 @@ Contract.propTypes = {
   children: PropTypes.any,
 };
 
-export default Contract;
+export default withStyles(dialogStyles)(Contract);

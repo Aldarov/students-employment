@@ -1,4 +1,4 @@
-import Alert from 'react-s-alert';
+import { alertShow } from '../alert';
 
 import { FETCHING_START, FETCHING_END } from '../../constants';
 
@@ -9,16 +9,34 @@ const fetching = (dispatch, formName, action) => {
       dispatch({ type: FETCHING_END, data: formName });
       return res;
     })
-    .catch(err => {
+    .catch(error => {
       dispatch({ type: FETCHING_END, data: formName });
-      Alert.error(err.data);
-      return err;
+      if (error?.data) {
+        dispatch(alertShow({ message: error?.data, severity: 'error' }));
+      }
+      return error;
     });
+};
+
+const fetchingAsync = async (dispatch, formName, action) => {
+  dispatch({ type: FETCHING_START, data: formName });
+  try {
+    const res = await action;
+    dispatch({ type: FETCHING_END, data: formName });
+    return res;
+  } catch (error) {
+    dispatch({ type: FETCHING_END, data: formName });
+    if (error?.data) {
+      dispatch(alertShow({ message: error?.data, severity: 'error' }));
+    }
+    throw error;
+  }
 };
 
 const fetchingEnd = (formName) => ({ type: FETCHING_END, data: formName });
 
 export {
   fetching,
-  fetchingEnd
+  fetchingEnd,
+  fetchingAsync
 };

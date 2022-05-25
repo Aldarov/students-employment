@@ -76,7 +76,7 @@ const onLoadData = (id) => () => async dispatch => {
   }
 };
 
-const onSubmit = (history, redirectToList) => values => async (dispatch) => {
+const onSubmit = (navigate, redirectToList) => values => async (dispatch) => {
   const org = {
     ...values,
     country: null,
@@ -91,11 +91,11 @@ const onSubmit = (history, redirectToList) => values => async (dispatch) => {
   throwError(res);
 
   if (redirectToList) {
-    history.push('/organization');
+    navigate('/organization');
   } else {
     dispatch(initialize(formName, values));
     dispatch(change(formName, 'id', res.id));
-    history.push(`/organization/${res.id}`);
+    navigate(`/organization/${res.id}`);
   }
   return res;
 };
@@ -128,9 +128,9 @@ const onSaveYes = (history) => () => (dispatch, getState) => {
   }
 };
 
-const onSaveNo = (history) => () => (dispatch) => {
+const onSaveNo = (navigate) => () => (dispatch) => {
   dispatch(closeQuestionDialog(CONFIRM_SAVE_ORGANIZATION_DIALOG));
-  history.push('/organization');
+  navigate('/organization');
 };
 
 export default {

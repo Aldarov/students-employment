@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-
 import bowser from 'bowser';
 import 'normalize.css';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -9,23 +8,24 @@ import MomentUtils from '@date-io/moment';
 import 'moment/locale/ru';
 
 import store from './store';
-import { Navigation } from './modules/navigation';
+import { App } from './modules/app';
+
+const container = document.getElementById('root');
 
 if (bowser.msie) {
-  const root = document.getElementById('root');
-  root.innerHTML = `
+  container.innerHTML = `
     <p>Версия данного браузера не поддерживается.</p>
     Пожалуйста, используйте последние стабильные версии следующих браузеров: Google Chrome, Mozilla Firefox, Safari, Opera и Microsoft Edge
   `;
-  root.setAttribute('style', 'text-align: center; font-size: 1.5em; margin-top: 50px;');
-  document.body.appendChild(root);
+  container.setAttribute('style', 'text-align: center; font-size: 1.5em; margin-top: 50px;');
+  document.body.appendChild(container);
 } else {
-  ReactDOM.render(
+  const root = createRoot(container);
+  root.render(
     <Provider store={store}>
       <MuiPickersUtilsProvider utils={MomentUtils}>
-        <Navigation/>
+        <App/>
       </MuiPickersUtilsProvider>
-    </Provider>,
-    document.getElementById('root')
+    </Provider>
   );
 }

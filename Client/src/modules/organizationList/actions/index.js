@@ -47,14 +47,14 @@ const onChangeCurrentPage = (newPage) => (dispatch, getState) => {
   }
 };
 
-const onDoAction = history => (args) => dispatch => {
+const onDoAction = navigate => (args) => dispatch => {
   switch (args.type) {
     case 'adding': {
-      history.push('/organization/add');
+      navigate('/organization/add');
       break;
     }
     case 'editing': {
-      history.push(`/organization/${args.row.id}`);
+      navigate(`/organization/${args.row.id}`);
       break;
     }
     case 'deleting': {

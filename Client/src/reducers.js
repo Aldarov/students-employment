@@ -6,6 +6,7 @@ import { sidebarReducer } from './modules/sidebar';
 import { dialogReducer } from './modules/dialogs';
 import { dictionariesReducer } from './modules/layout';
 import { fetchingReducer } from './modules/busyIndicator';
+import { alertReducer } from './modules/alert';
 
 import { employmentListReducer } from './modules/employmentList';
 import { employmentReducer } from './modules/employment';
@@ -14,6 +15,7 @@ import { organizationReducer } from './modules/organization';
 
 const reducer = combineReducers({
   isAuth: authReducer,
+  alert: alertReducer,
   fetching: fetchingReducer,
   sidebar: sidebarReducer,
   dialog: dialogReducer,

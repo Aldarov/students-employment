@@ -10,7 +10,7 @@ import Autocomplete from '../_global/components/Autocomplete';
 import { AddButton, EditButton, DeleteButton } from './components/Buttons';
 import { DELETE_ORGANIZATION_DIALOG } from './actions';
 
-@withStyles(organizationListStyles)
+
 class OrganizationList extends Component {
   componentDidMount() {
     this.props.onLoadData();
@@ -102,4 +102,4 @@ OrganizationList.propTypes = {
   onClearSuggestionSelected: PropTypes.func
 };
 
-export default OrganizationList;
+export default withStyles(organizationListStyles)(OrganizationList);

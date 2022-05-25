@@ -1,5 +1,4 @@
 const path = require('path');
-require('@babel/polyfill');
 
 const paths = {
   source: path.resolve(__dirname, 'src'),
@@ -8,7 +7,6 @@ const paths = {
 module.exports = {
   entry: {
     main: [
-      '@babel/polyfill',
       paths.source + '/index.js'
     ]
   },

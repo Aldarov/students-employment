@@ -1,9 +1,9 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const paths = {
   build: path.resolve(__dirname, 'build')
@@ -35,10 +35,7 @@ module.exports = merge(
       minimize: true,
       minimizer: [
         new TerserPlugin({
-          extractComments: true,
-          cache: true,
-          parallel: true,
-          sourceMap: true,
+          extractComments: false,
           terserOptions: {
             compress: {
               drop_console: true
@@ -46,11 +43,13 @@ module.exports = merge(
           }
         }),
       ],
+      splitChunks: {
+        chunks: 'all',
+      },
     },
     plugins: [
+      new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({ filename: './css/[name].css' }),
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    ],
-    // devtool: 'source-map'
+    ]
   }
 );

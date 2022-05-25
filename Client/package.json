@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
-    "build": "webpack -p --config webpack.prod.js"
+    "build": "webpack --mode production --config webpack.prod.js"
   },
   "author": "Alex Aldarov",
   "license": "MIT",
@@ -37,14 +37,14 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.10",
     "@babel/core": "^7.17.10",
-    "@babel/plugin-proposal-class-properties": "^7.16.7",
-    "@babel/plugin-proposal-decorators": "^7.17.9",
-    "@babel/polyfill": "^7.12.1",
+    "@babel/eslint-parser": "^7.17.0",
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "^7.16.7",
-    "@babel/eslint-parser": "^7.17.0",
     "babel-loader": "^8.2.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "core-js": "^3.22.7",
     "css-loader": "^6.7.1",
     "eslint": "^8.15.0",
     "eslint-loader": "^4.0.2",

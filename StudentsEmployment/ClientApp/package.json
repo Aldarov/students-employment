@@ -1,53 +1,65 @@
 {
-  "name": "students-employment",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "^5.6.0",
-    "@mui/material": "^5.6.0",
-    "@mui/x-data-grid": "^5.8.0",
-    "@reduxjs/toolkit": "^1.8.1",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^12.1.4",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.1",
-    "@types/node": "^16.11.26",
-    "@types/react": "^17.0.44",
-    "@types/react-dom": "^17.0.15",
-    "date-fns": "^2.28.0",
-    "react": "^17.0.2",
-    "react-app-rewired": "^2.2.1",
-    "react-dom": "^17.0.2",
-    "react-redux": "^7.2.8",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "^5.0.0",
-    "typescript": "^4.6.3",
-    "web-vitals": "^2.1.4"
-  },
+  "name": "client",
+  "version": "1.0.1",
+  "description": "",
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "start": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack --mode production --config webpack.prod.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "author": "Alex Aldarov",
+  "license": "MIT",
+  "dependencies": {
+    "@date-io/moment": "^1.3.11",
+    "@devexpress/dx-react-core": "^2.1.2",
+    "@devexpress/dx-react-grid": "^2.1.2",
+    "@devexpress/dx-react-grid-material-ui": "^2.1.2",
+    "@material-ui/core": "^4.5.1",
+    "@material-ui/icons": "^4.5.1",
+    "@material-ui/pickers": "^3.2.7",
+    "autosuggest-highlight": "^3.1.1",
+    "axios": "^0.19.0",
+    "bowser": "^2.7.0",
+    "classnames": "^2.2.5",
+    "lodash": "^4.17.15",
+    "moment": "^2.20.1",
+    "node-sass": "^7.0.1",
+    "normalize.css": "^8.0.1",
+    "prop-types": "^15.6.0",
+    "query-string": "^7.1.1",
+    "react": "^18.1.0",
+    "react-autosuggest": "^10.1.0",
+    "react-dom": "^18.1.0",
+    "react-redux": "^8.0.1",
+    "react-router-dom": "^6.3.0",
+    "redux": "^4.0.4",
+    "redux-form": "^8.2.6",
+    "redux-promise": "^0.6.0",
+    "redux-thunk": "^2.2.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/preset-react": "^7.16.7",
+    "babel-loader": "^8.2.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "core-js": "^3.22.7",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.15.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-react": "^7.29.4",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "path": "^0.12.7",
+    "redux-devtools-extension": "^2.13.9",
+    "sass-loader": "^12.6.0",
+    "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.1",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.0",
+    "webpack-merge": "^5.8.0"
   }
 }

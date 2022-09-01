@@ -1,5 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Rotativa.AspNetCore;
+using StudentsEmployment.BLL;
+using StudentsEmployment.BLL.Models.Settings;
+using StudentsEmployment.DAL;
+using System.Text;
 
 namespace StudentsEmployment
 {
@@ -17,31 +24,54 @@ namespace StudentsEmployment
             var configuration = builder.Configuration;
             var services = builder.Services;
 
-            //services.Configure<AppSettings>(configuration);
+            services.Configure<AppSettings>(configuration);
 
-            services.Configure<ApiBehaviorOptions>(options =>
+            services.AddDbContext<UniversityContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("MainConnection"))
+            );
+
+            //services.Configure<ApiBehaviorOptions>(options =>
+            //{
+            //    //отключение стандартной обработки ошибок в ModelState
+            //    //options.SuppressModelStateInvalidFilter = true;
+            //});
+
+            services.AddControllersWithViews(options =>
             {
-                //отключение стандартной обработки ошибок в ModelState
-                options.SuppressModelStateInvalidFilter = true;
+                //ручная обработка ошибок
+                //options.Filters.Add(typeof(ThrowModelStateExceptionFilter));
+                //options.Filters.Add(typeof(APIExceptionFilterAttribute));
             });
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer();
+
             services
-                .AddControllersWithViews(options =>
+                .AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
+                .Configure<IOptions<AppSettings>>((options, settings) =>
                 {
-                    //ручная обработка ошибок
-                    //options.Filters.Add(typeof(ThrowModelStateExceptionFilter));
-                    //options.Filters.Add(typeof(APIExceptionFilterAttribute));
-                })
-                .AddJsonOptions(opt =>
-                {
-                    //включения преобразования Enum в строку и обратно, при работе с json
-                    //opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    var tokenSettings = settings.Value.TokenSettings;
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = tokenSettings.Issuer,
+                        ValidateAudience = true,
+                        ValidAudience = tokenSettings.Audience,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenSettings.Key)),
+                        ValidateIssuerSigningKey = true,
+                    };
                 });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                });
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
+
+            services.AddHttpContextAccessor();
+
+            services.AddServices();
         }
 
         /// <summary>
@@ -51,12 +81,16 @@ namespace StudentsEmployment
         /// <param name="env">Информация об окружении</param>
         public static void AddMiddlewares(this WebApplication app, IWebHostEnvironment env)
         {
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            }
+            else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
@@ -67,9 +101,11 @@ namespace StudentsEmployment
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller}/{action=Index}/{id?}");
+                pattern: "{controller}/{action}/{id?}");
 
             app.MapFallbackToFile("index.html");
+
+            RotativaConfiguration.Setup(env.ContentRootPath);
 
             app.Run();
         }

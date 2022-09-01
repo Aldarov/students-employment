@@ -5,11 +5,11 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsEmployment", "StudentsEmployment\StudentsEmployment.csproj", "{CA4DCFA4-FB19-4F14-8CD4-4FB7B91292E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsEmployment.BLL", "StudentsEmployment.BLL\StudentsEmployment.BLL.csproj", "{A8906BDD-242E-440C-80CF-B5052CD33252}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsEmployment.BLL", "StudentsEmployment.BLL\StudentsEmployment.BLL.csproj", "{A8906BDD-242E-440C-80CF-B5052CD33252}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsEmployment.DAL", "StudentsEmployment.DAL\StudentsEmployment.DAL.csproj", "{14781586-1BCA-4F50-B6FB-868D4428F00E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsEmployment.DAL", "StudentsEmployment.DAL\StudentsEmployment.DAL.csproj", "{14781586-1BCA-4F50-B6FB-868D4428F00E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{D2B37A5C-6A3E-4F25-8B24-C8C0AD846EA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{D2B37A5C-6A3E-4F25-8B24-C8C0AD846EA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

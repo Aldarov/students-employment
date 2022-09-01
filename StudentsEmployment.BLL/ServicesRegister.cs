@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using StudentsEmployment.BLL.Interfaces;
+using StudentsEmployment.BLL.Services;
 
 namespace StudentsEmployment.BLL
 {
@@ -14,8 +16,7 @@ namespace StudentsEmployment.BLL
         /// <returns></returns>
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            //services.AddSingleton<DapperContext>();
-            //services.AddTransient<IHangfireRecurringJobsService, HangfireRecurringJobsService>();
+            services.AddSingleton<IAuthService, AuthService>();
 
             return services;
         }

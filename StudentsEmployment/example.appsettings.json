@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "MainConnection": "Server=srv-db.bsu.ru;Database=University;MultipleActiveResultSets=true;User ID=<user>;Password=<password>"
+    "MainConnection": "Server=<server>;Database=<db-name>;MultipleActiveResultSets=true;User ID=<user>;Password=<password>"
   },
   "TokenSettings": {
     "Issuer": "<publisher of token>",

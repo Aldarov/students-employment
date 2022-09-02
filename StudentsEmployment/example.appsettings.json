@@ -5,7 +5,7 @@
   "TokenSettings": {
     "Issuer": "<publisher of token>",
     "Audience": "<consumer of token>",
-    "Кey": "<key for incrypt>",
+    "Key": "<key for incrypt>",
     "Lifetime": 10, // lifetime of token (min)
     "LifetimeRefreshToken": 1440 // lifetime of refresh token (min)
   },

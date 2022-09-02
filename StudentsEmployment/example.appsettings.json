@@ -1,0 +1,20 @@
+{
+  "ConnectionStrings": {
+    "MainConnection": "Server=<server>;Database=<db-name>;MultipleActiveResultSets=true;User ID=<user>;Password=<password>"
+  },
+  "TokenSettings": {
+    "Issuer": "<publisher of token>",
+    "Audience": "<consumer of token>",
+    "Кey": "<key for incrypt>",
+    "Lifetime": 10, // lifetime of token (min)
+    "LifetimeRefreshToken": 1440 // lifetime of refresh token (min)
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*"
+}

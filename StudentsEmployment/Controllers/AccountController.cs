@@ -52,10 +52,10 @@ namespace StudentsEmployment.Controllers
                     string state = res.Attributes().Where(q => q.Name == "state").Select(q => q.Value).FirstOrDefault();
                     if (state == "1")
                     {
-                        var check = db.Placements
+                        var countAccessSpec = await db.Placements
                             .FromSqlInterpolated($"select * from dbo.pg_access_to_specialities({props.EmploymentId})")
-                            .Any();
-                        if (check)
+                            .CountAsync();
+                        if (countAccessSpec > 0)
                         {
                             var identity = GetClaimsIdentity(props.EmploymentId);
                             return Ok(_authService.GetToken(identity));

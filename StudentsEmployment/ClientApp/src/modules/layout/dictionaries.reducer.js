@@ -1,6 +1,6 @@
 import {
   SET_EDU_FORMS, SET_DIRECTION_TYPES, SET_DISTRIBUTION_TYPES, SET_PROFILES, CLEAR_PROFILES,
-  SET_GROUPS, CLEAR_GROUPS
+  SET_GROUPS, CLEAR_GROUPS, SET_USER_INFO, CLEAR_USER_INFO
 } from '../../constants';
 
 const defaultData = {
@@ -8,7 +8,13 @@ const defaultData = {
   directionTypes: [],
   distributionTypes: [],
   profiles: [{ id: 0, name: 'Не указана', specialityID: null }],
-  groups: [{ id: 0, name: 'Не указана', specialityID: null, educationFormId: null }]
+  groups: [{ id: 0, name: 'Не указана', specialityID: null, educationFormId: null }],
+  user: {
+    employeePostId: null,
+    fullName: "",
+    post: "",
+    department: ""
+  }
 };
 
 export default function reducer(state = defaultData, action) {
@@ -55,6 +61,18 @@ export default function reducer(state = defaultData, action) {
         groups: defaultData.groups
       };
     }
+    case SET_USER_INFO: {
+      return {
+        ...state,
+        user: action.data
+      };
+    } 
+    case CLEAR_USER_INFO: {
+      return {
+        ...state,
+        user: defaultData.user
+      };
+    } 
     default:
       return state;
   }

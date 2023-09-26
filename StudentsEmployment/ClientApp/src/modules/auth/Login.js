@@ -5,7 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { useSearchParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
-import { onLogin } from './auth.actions';
+import { onLogin, logout } from './auth.actions';
 import { loginStyles } from './styles';
 import { BusyIndicator } from '../busyIndicator';
 
@@ -23,22 +23,28 @@ const Login = ({ classes }) => {
   const sessionId = searchParams.get('id');
 
   useEffect(() => {
-    if (!isAuth) {
+    var employeePostId = localStorage.getItem('employeePostId');
+
+    if (!isAuth && Boolean(employmentId) && Boolean(sessionId)) {
+      dispatch(onLogin(employmentId, sessionId));
+    } else if (isAuth && Boolean(employeePostId) && Boolean(employmentId) && employeePostId != employmentId) {
+      dispatch(logout());
       dispatch(onLogin(employmentId, sessionId));
     }
   }, [employmentId, sessionId, isAuth]);
 
 
-  if (isAuth)
+  if (isAuth) {
     return <Navigate to={from}/>;
+  }
   else
     return <div>
       <BusyIndicator formName={formName}/>
       <div className={classes.main}>
         {
           isBusy
-            ? 'Пожалуйста, подождите идет загрузка...'
-            : <span>Для доступа к сайту авторизуйтесь в <a href="http://my.bsu.ru/pg.php">личном кабинете</a></span>
+            ? <h3>Пожалуйста, подождите идет загрузка...</h3>
+            : <h3>Для доступа к сайту авторизуйтесь в <a href="http://my.bsu.ru/pg.php">личном кабинете</a></h3>
         }
       </div>
     </div>;

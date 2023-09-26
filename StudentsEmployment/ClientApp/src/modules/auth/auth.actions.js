@@ -1,5 +1,5 @@
 import { apiLogin, apiLogout, apiIsAuth } from './auth.api';
-import { LOGIN, LOGOUT } from '../../constants';
+import { LOGIN, LOGOUT, CLEAR_USER_INFO } from '../../constants';
 import { fetchingAsync } from '../busyIndicator';
 import { formName } from './Login';
 import { apiRefreshToken } from './auth.api';
@@ -13,6 +13,7 @@ const onLogin = (employmentId, sessionId) => async dispatch => {
 const logout = () => dispatch => {
   apiLogout();
   dispatch({ type: LOGOUT });
+  dispatch({ type: CLEAR_USER_INFO });
 };
 
 const checkAuth = () => dispatch => {
@@ -20,6 +21,7 @@ const checkAuth = () => dispatch => {
     dispatch({ type: LOGIN });
   } else {
     dispatch({ type: LOGOUT });
+    dispatch({ type: CLEAR_USER_INFO });
   }
 };
 

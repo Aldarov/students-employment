@@ -26,6 +26,7 @@ export const apiRefreshToken = async () => {
 export const apiLogout = () => {
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
+  localStorage.removeItem('employeePostId');
   setRequestHeader('');
 }
 

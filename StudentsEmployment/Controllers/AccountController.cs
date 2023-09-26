@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentsEmployment.BLL.Interfaces;
 using StudentsEmployment.BLL.Models.Auth;
 using StudentsEmployment.DAL;
+using StudentsEmployment.ExtensionMethods;
 using System.Security.Claims;
 using System.Xml.Linq;
 
@@ -14,10 +16,10 @@ namespace StudentsEmployment.Controllers
         private readonly UniversityContext db;
         private readonly IAuthService _authService;
 
-        public AccountController(UniversityContext context, IAuthService authService)
+        public AccountController(UniversityContext context, IAuthService authService, IHttpContextAccessor httpContextAccessor)
         {
             db = context;
-            _authService = authService;
+            _authService = authService;            
         }
 
         private ClaimsIdentity GetClaimsIdentity(string employmentId)
@@ -96,5 +98,23 @@ namespace StudentsEmployment.Controllers
             }
         }
 
+
+        [Authorize]
+        [HttpGet("get-user-info")]
+        public async Task<ActionResult> GetUserInfo()
+        {
+            var employmentId = HttpContext.GetEmploymentId();
+
+            var user = await db.Users.FromSqlInterpolated($@"
+                select employee_post_id, fio, post_name, department_name 
+                from vEmployeeList
+                where employee_post_id = {employmentId}
+            ").FirstOrDefaultAsync();
+
+            if (user != null)
+                return Ok(user);
+            else
+                return BadRequest($"Не найден пользователь с кодом: {employmentId}");
+        }
     }
 }

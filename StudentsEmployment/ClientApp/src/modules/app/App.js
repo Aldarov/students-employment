@@ -1,17 +1,28 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { EmploymentList } from '../employmentList';
 import { Employment } from '../employment';
 import { OrganizationList } from '../organizationList';
 import { Organization } from '../organization';
 import { Login } from '../auth';
-import { Dictionaries } from '../layout';
 import PrivateRoute from './PrivateRoute';
 import NotFound from '../NotFound';
 import Alert from '../alert';
+import { checkAuth } from '../auth/';
 
 const App = () => {
+  const dispatch = useDispatch();
+  const [loading, setLoading ] = useState(true);
+
+  useEffect(() => {
+    dispatch(checkAuth());
+    setLoading(false);
+  })
+
+  if (loading) return <h3>Пожалуйста, подождите идет загрузка...</h3>;
+
   return (
     <>
       <BrowserRouter>
@@ -46,7 +57,6 @@ const App = () => {
         </Routes>
       </BrowserRouter>
       <Alert/>
-      <Dictionaries/>
     </>
   );
 }

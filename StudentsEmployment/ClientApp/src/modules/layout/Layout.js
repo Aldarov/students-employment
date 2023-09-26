@@ -9,9 +9,12 @@ import { Header } from '../header';
 import { Sidebar } from '../sidebar';
 import { BusyIndicator } from '../busyIndicator';
 import { CLOSE_SIDEBAR } from '../../constants';
+import { logout } from '../auth/auth.actions'
+import Dictionaries from './Dictionaries';
 
 const Layout = (props) => {
   const openedSidebar = useSelector(state => state.sidebar.openedSidebar);
+  const user = useSelector(state => state.dictionaries.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,6 +41,8 @@ const Layout = (props) => {
         headerProps={headerProps}
         onLeftButtonClick={onHeaderLeftButtonClick}
         onRightButtonClick={onHeaderRightButtonClick}
+        user={user}
+        onLogout={() => dispatch(logout())}
       />
       <Sidebar
         open={openedSidebar}
@@ -47,6 +52,7 @@ const Layout = (props) => {
       <div className={classes.content}>
         {children}
       </div>
+      <Dictionaries/>
     </div>
   );
 }

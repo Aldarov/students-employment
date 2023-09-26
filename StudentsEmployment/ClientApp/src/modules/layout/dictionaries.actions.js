@@ -5,14 +5,16 @@ import {
   SET_PROFILES,
   CLEAR_PROFILES,
   SET_GROUPS,
-  CLEAR_GROUPS
+  CLEAR_GROUPS,
+  SET_USER_INFO
 } from '../../constants';
 
 import {
   apiGetEduForms,
   apiGetPgTypes,
   apiGetProfiles,
-  apiGetGroups
+  apiGetGroups,
+  apiGetUserInfo
 } from './dictionaries.api';
 
 export function getEduForms(params) {
@@ -58,4 +60,17 @@ export function getGroups(specialityId, args) {
 
 export function clearGroups() {
   return dispatch => dispatch({ type: CLEAR_GROUPS });
+}
+
+
+export function getUserInfo() {
+  return dispatch => apiGetUserInfo()
+    .then(res => {
+      dispatch({ type: SET_USER_INFO, data: res });
+      return res;
+    });
+}
+
+export function clearUserInfo() {
+  return dispatch => dispatch({ type: CLEAR_USER_INFO });
 }

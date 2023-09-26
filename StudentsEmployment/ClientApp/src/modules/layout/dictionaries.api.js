@@ -45,3 +45,9 @@ export function apiGetGroups(specialityId, args) {
   const url = getUrl({startUrl: 'api/groups/' + specialityId, ...args});
   return axios.get(url);
 }
+
+export async function apiGetUserInfo() {
+  var user = await axios.get('api/get-user-info');
+  localStorage.setItem('employeePostId', user?.employeePostId);
+  return user;
+}

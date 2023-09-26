@@ -31,9 +31,18 @@ namespace StudentsEmployment.DAL
         public DbSet<PlacementHeader> PlacementHeaders { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.EmployeePostId).HasColumnName("employee_post_id");
+                entity.Property(e => e.FullName).HasColumnName("fio");
+                entity.Property(e => e.Post).HasColumnName("post_name");
+                entity.Property(e => e.Department).HasColumnName("department_name");
+            });
+
             modelBuilder.Entity<Profile>(entity =>
             {
                 entity.ToTable("v_pg_specializations");

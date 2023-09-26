@@ -2,7 +2,7 @@ export default theme => ({
   appBar: {
     height: 64
   },
-  rightButtonColor: {
+  whiteColor: {
     color: 'white'
   },
   menuButton: {
@@ -15,4 +15,7 @@ export default theme => ({
   hide: {
     display: 'none',
   },
+  mr10: {
+    marginRight: 10
+  }
 });

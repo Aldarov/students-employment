@@ -112,7 +112,11 @@ const validateData = (row, dispatch, state) => {
   return error;
 };
 
-const onCloseContract = row => (dispatch, getState) => () => {
+const onCloseContract = () => (dispatch) => () => {
+  dispatch(closeEmploymentContract());
+};
+
+const onSaveContract = row => (dispatch, getState) => () => {
   const state = getState();
   const errors = validateData(row, dispatch, state);
 
@@ -120,8 +124,7 @@ const onCloseContract = row => (dispatch, getState) => () => {
     dispatch(stopAsyncValidation(formName, errors));
   } else {
     dispatch(closeEmploymentContract());
-    if (!isPristine(formName)(state))
-    {
+    if (!isPristine(formName)(state)) {
       dispatch(submit(formName));
     }
   }
@@ -194,5 +197,6 @@ export {
   onChangeContractDirectionType,
   DELETE_EMPLOYMENT_CONTRACT_DIALOG,
   onDelContractYes,
-  onDelContractNo
+  onDelContractNo,
+  onSaveContract
 };

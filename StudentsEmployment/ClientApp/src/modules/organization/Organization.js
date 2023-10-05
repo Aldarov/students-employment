@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, Form } from 'redux-form';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Button from '@material-ui/core/Button';
 
 import { Layout } from '../layout';
 import { QuestionDialog } from '../dialogs';
@@ -20,20 +21,19 @@ class Organization extends Component {
     const {
       classes,
       formName,
-      headerProps, onHeaderLeftButtonClick, onHeaderRightButtonClick,
+      headerProps, 
       handleSubmit, onSaveYes, onSaveNo,
       countriesSuggestions, onGetCountriesSuggestions, onClearCountriesSuggestions,
       onCountriesSelected, onClearCountriesSelectedSuggestion,
       addressesSuggestions, onGetKladrSuggestions, onClearKladrSuggestions,
-      onKladrSelected, onClearKladrSelectedSuggestion, isRussia
+      onKladrSelected, onClearKladrSelectedSuggestion, isRussia,
+      onCancel, pristine, submitting
     } = this.props;
 
     return (
       <Layout
         formName={formName}
         headerProps={headerProps}
-        onHeaderLeftButtonClick={onHeaderLeftButtonClick}
-        onHeaderRightButtonClick={onHeaderRightButtonClick}
       >
         <Form className={classes.form} onSubmit={handleSubmit}>
           <Field
@@ -73,6 +73,12 @@ class Organization extends Component {
             onClearSelectedSuggestion={onClearKladrSelectedSuggestion}
           />
         </Form>
+        <Button variant="contained" color="primary" disabled={pristine || submitting} className={classes.button} onClick={onSaveYes}>
+          Сохранить
+        </Button>
+        <Button variant="contained" color="primary" className={classes.button} onClick={onCancel}>
+          Отмена
+        </Button>
         <QuestionDialog
           dialogName={CONFIRM_SAVE_ORGANIZATION_DIALOG}
           contentText='Сохранить измененные данные?'
@@ -88,8 +94,7 @@ Organization.propTypes = {
   classes: PropTypes.object,
   formName: PropTypes.string,
   headerProps: PropTypes.object,
-  onHeaderLeftButtonClick: PropTypes.func,
-  onHeaderRightButtonClick: PropTypes.func,
+  onCancel: PropTypes.func,
 
   onLoadData: PropTypes.func,
   handleSubmit: PropTypes.func,

@@ -2,14 +2,11 @@ import {
   initialize,
   change,
   getFormValues,
-  touch
+  touch,
+  isPristine
 } from 'redux-form';
 import isEmpty from 'lodash/isEmpty';
 
-import {
-  onHeaderLeftButtonClick,
-  onHeaderRightButtonClick
-} from './header.actions';
 import {
   onGetCountriesSuggestions,
   onClearCountriesSuggestions,
@@ -22,7 +19,7 @@ import {
   onKladrSelected,
   onClearKladrSelectedSuggestion
 } from './kladr.actions';
-import { closeQuestionDialog } from '../../dialogs';
+import { openQuestionDialog, closeQuestionDialog } from '../../dialogs';
 import { formName } from '../organization.container';
 import { fetching } from '../../busyIndicator';
 import { apiGetOrganizationById, apiPostOrganization } from '../organization.api';
@@ -133,9 +130,19 @@ const onSaveNo = (navigate) => () => (dispatch) => {
   navigate('/organization');
 };
 
+const onCancel = (navigate) => () => (dispatch, getState) => {
+  const state = getState();
+  const pristine = isPristine(formName)(state);
+
+  if (!pristine) {
+    dispatch(openQuestionDialog(CONFIRM_SAVE_ORGANIZATION_DIALOG));
+  } else {
+    navigate('/organization');
+  }
+}
+
 export default {
-  onHeaderLeftButtonClick,
-  onHeaderRightButtonClick,
+  onCancel,
   onSaveYes,
   onSaveNo,
   onLoadData,

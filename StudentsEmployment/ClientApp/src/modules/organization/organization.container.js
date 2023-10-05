@@ -35,7 +35,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch, props) => {
   let id  = getId(props);
   const {
-    onHeaderLeftButtonClick,
+    onCancel,
     onSaveYes, onSaveNo,
     onLoadData,
     onSubmit,
@@ -43,7 +43,7 @@ const mapDispatchToProps = (dispatch, props) => {
   } = actions;
 
   return bindActionCreators({
-    onHeaderLeftButtonClick: onHeaderLeftButtonClick(props.navigate),
+    onCancel: onCancel(props.navigate),
     onSaveYes: onSaveYes(props.navigate),
     onSaveNo: onSaveNo(props.navigate),
     onLoadData: onLoadData(id),

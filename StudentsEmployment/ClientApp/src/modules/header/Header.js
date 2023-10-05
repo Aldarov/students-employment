@@ -22,6 +22,7 @@ class Header extends Component {
       <AppBar className={classes.appBar}>
         <Toolbar disableGutters={!openedSidebar}>
           {
+            onLeftButtonClick &&
             <IconButton
               aria-label="open drawer"
               onClick={onLeftButtonClick}

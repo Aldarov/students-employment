@@ -86,7 +86,7 @@ const mapDispatchToProps = (dispatch, props) => {
 
   const {
     onEmploymentLoadData,
-    onHeaderLeftButtonClick,
+    onCancel,
     onLoadStudents,
     onStudentsSelected,
     onShowDistributionReport,
@@ -99,7 +99,7 @@ const mapDispatchToProps = (dispatch, props) => {
 
   return bindActionCreators({
     onLoadData: onEmploymentLoadData(id),
-    onHeaderLeftButtonClick: onHeaderLeftButtonClick(props.navigate),
+    onCancel: onCancel(props.navigate),
     onLoadStudents: onLoadStudents(id),
     onStudentsSelected: onStudentsSelected(id),
     onShowDistributionReport: onShowDistributionReport(props.navigate, id),

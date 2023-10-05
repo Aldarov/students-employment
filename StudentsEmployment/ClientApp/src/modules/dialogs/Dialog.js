@@ -28,10 +28,10 @@ class Contract extends Component {
         onClose={onClose}
       >
         <AppBar className={classes.appBar}>
-          <Toolbar className={classes.toolbar}>
-            <IconButton className={classes.button} onClick={onClose} aria-label="Close">
-              <CloseIcon />
-            </IconButton>
+          <Toolbar className={classes.dialogToolbar}>
+            {/*<IconButton className={classes.button} onClick={onClose} aria-label="Close">*/}
+            {/*  <CloseIcon />*/}
+            {/*</IconButton>*/}
             <Typography type="title" color="inherit" className={classes.flex}>
               {title}
             </Typography>

@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Dialog } from '../../dialogs';
 import DirectionEdit from './DirectionEdit';
+
+
+const styles = theme => ({
+  button: {
+    marginRight: theme.spacing()
+  }
+});
 
 class Contract extends Component {
   render () {
     const {
       onClose,
+      onSave,
       data,
       directionTypes, distributionTypes,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
-      onChangeContractDirectionType,
+      onChangeContractDirectionType, classes, pristine, submitting
     } = this.props;
     const { opened, title, tableRow,
       showDirectionSchools, showDirectionOrganizations, showDistributionSchools, showDistributionOrganizations
@@ -21,7 +31,7 @@ class Contract extends Component {
     return (
       <Dialog
         opened={opened}
-        onClose={onClose(tableRow)}
+        onClose={onClose()}
         title={title}
       >
         <DirectionEdit
@@ -60,6 +70,13 @@ class Contract extends Component {
           onClearOrganizationSelected={onClearOrganizationSelected}
           onChangeDirectionType={onChangeContractDirectionType}
         />
+
+        <Button variant="contained" color="primary" className={classes.button} onClick={onSave(tableRow)} disabled={pristine || submitting}>
+          Сохранить
+        </Button>
+        <Button variant="contained" color="primary" className={classes.button} onClick={onClose()}>
+          Отмена
+        </Button>
       </Dialog>
     );
   }
@@ -88,4 +105,5 @@ Contract.propTypes = {
   onChangeContractDirectionType: PropTypes.func
 };
 
-export default Contract;
+
+export default withStyles(styles)(Contract);

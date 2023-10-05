@@ -3,6 +3,7 @@ import {
   getFormValues,
   change,
   touch,
+  isPristine
 } from 'redux-form';
 import isEmpty from 'lodash/isEmpty';
 
@@ -28,10 +29,10 @@ import {
   onChangeContractDirectionType,
   DELETE_EMPLOYMENT_CONTRACT_DIALOG,
   onDelContractYes,
-  onDelContractNo
+  onDelContractNo,
+  onSaveContract
 } from './contract.actions';
 import {
-  onHeaderLeftButtonClick,
   onHeaderRightButtonClick
 } from './header.actions';
 import {
@@ -208,10 +209,20 @@ const onSaveNo = (navigate) => () => (dispatch) => {
   navigate('/employment');
 };
 
+const onCancel = (navigate) => () => (dispatch, getState) => {
+  const state = getState();
+  const pristine = isPristine(formName)(state);
+  if (pristine) {
+    navigate('/employment');
+  } else {
+    dispatch(openQuestionDialog(CONFIRM_SAVE_EMPLOYMENT_DIALOG));
+  }
+};
+
 export default {
   onEmploymentLoadData,
-  onHeaderLeftButtonClick,
   onHeaderRightButtonClick,
+  onCancel,
 
   onGetSpecialitySuggestions,
   onClearSpecialitySuggestions,
@@ -229,6 +240,7 @@ export default {
   onClearOrganizationSelected,
 
   onCloseContract,
+  onSaveContract,
   onChangeContractDirectionType,
 
   onDoAction,

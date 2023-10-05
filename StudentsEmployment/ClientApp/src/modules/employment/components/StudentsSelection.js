@@ -10,6 +10,7 @@ import List from '../../_global/components/List';
 const styles = theme => ({
   button: {
     marginBottom: theme.spacing(),
+    marginRight: theme.spacing()
   },
   rightIcon: {
     marginLeft: theme.spacing(),
@@ -44,8 +45,13 @@ class StudentsSelection extends Component {
           onClose={onClose}
         >
           <Tooltip title="Добавить выбранных студентов">
-            <Button variant="contained" className={classes.button} onClick={this.handleSelected}>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.handleSelected}>
               Выбрать
+            </Button>
+          </Tooltip>
+          <Tooltip title="Вернуться к списку без выбора">
+            <Button variant="contained" color="primary" className={classes.button} onClick={onClose}>
+              Отмена
             </Button>
           </Tooltip>
           <List

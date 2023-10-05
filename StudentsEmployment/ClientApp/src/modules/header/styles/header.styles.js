@@ -1,6 +1,8 @@
 export default theme => ({
   appBar: {
-    height: 64
+    height: 64,
+    paddingLeft: theme.spacing(),
+    paddingRight: theme.spacing(),
   },
   whiteColor: {
     color: 'white'

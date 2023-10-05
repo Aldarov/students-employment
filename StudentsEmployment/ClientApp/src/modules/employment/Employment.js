@@ -30,19 +30,19 @@ class Employment extends Component {
 
   render() {
     const {
-      classes, formName, headerProps, onHeaderLeftButtonClick, onHeaderRightButtonClick,
+      classes, formName, headerProps, onHeaderRightButtonClick,
       onSaveYes, onSaveNo, onDelContractYes, onDelContractNo,
       error, handleSubmit, eduForms,
       specialities, onGetSpecialitySuggestions, onClearSpecialitySuggestions, onClearSpecialitySelectedSuggestion, onSpecialitySelected,
       directionTypes, distributionTypes,
       gridSettingContracts, onDoAction,
-      contract, onCloseContract,
+      contract, onCloseContract, onSaveContract,
       schoolsSuggestions, onGetSchoolsSuggestions, onClearSchoolsSuggestions, onSchoolSelected, onClearSchoolSelected,
       organizationsSuggestions, onGetOrganizationsSuggestions, onClearOrganizationsSuggestions, onOrganizationSelected, onClearOrganizationSelected,
       onChangeContractDirectionType,
       openedStudentsSelection, studentsSelection, onCloseStudentsSelection, onStudentsSelected, onLoadStudents, contractStuffIsEmpty,
       onShowDistributionReport, onShowEmploymentReport,
-      profiles, groups
+      profiles, groups, pristine, submitting, onCancel
     } = this.props;
 
     return (
@@ -52,7 +52,7 @@ class Employment extends Component {
           <Layout
             formName={formName}
             headerProps={headerProps}
-            onHeaderLeftButtonClick={onHeaderLeftButtonClick}
+            onHeaderLeftButtonClick={onCancel}
             onHeaderRightButtonClick={onHeaderRightButtonClick}
           >
             <form onSubmit={handleSubmit} >
@@ -138,17 +138,17 @@ class Employment extends Component {
 
               {
                 contractStuffIsEmpty &&
-                <Button className={classNames(classes.marginTop, classes.marginBottom)} color="primary" onClick={onLoadStudents}>
+                  <Button className={classNames(classes.marginTop, classes.marginBottom)} variant="contained" color="primary" onClick={onLoadStudents}>
                   Загрузить студентов по выбранным выше данным
                 </Button>
               }
               {
                 !contractStuffIsEmpty &&
                 <div className={classNames(classes.marginTop, classes.marginBottom, classes.row)}>
-                  <Button className={classes.marginRight} color="primary" onClick={onShowDistributionReport}>
+                      <Button className={classes.marginRight} color="primary" variant="contained" onClick={onShowDistributionReport}>
                     Отчет по распределению
                   </Button>
-                  <Button color="primary" onClick={onShowEmploymentReport}>
+                      <Button color="primary" variant="contained" onClick={onShowEmploymentReport}>
                     Отчет по трудоустройству
                   </Button>
                 </div>
@@ -198,9 +198,11 @@ class Employment extends Component {
             title={contract.title}
             tableRow={contract.tableRow}
             onClose={onCloseContract}
+            onSave={onSaveContract}
             directionTypes={directionTypes}
             distributionTypes={distributionTypes}
-
+            pristine={pristine}
+            submitting={submitting}
             schoolsSuggestions={schoolsSuggestions}
             onGetSchoolsSuggestions={onGetSchoolsSuggestions}
             onClearSchoolsSuggestions={onClearSchoolsSuggestions}
@@ -225,7 +227,7 @@ Employment.propTypes = {
   classes: PropTypes.object,
   formName: PropTypes.string,
   headerProps: PropTypes.object,
-  onHeaderLeftButtonClick: PropTypes.func,
+  onCancel: PropTypes.func,
   onHeaderRightButtonClick: PropTypes.func,
 
   onLoadData: PropTypes.func,
@@ -252,6 +254,7 @@ Employment.propTypes = {
 
   contract: PropTypes.object,
   onCloseContract: PropTypes.func,
+  onSaveContract: PropTypes.func,
 
   schoolsSuggestions: PropTypes.array,
   onGetSchoolsSuggestions: PropTypes.func,

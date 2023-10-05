@@ -2,8 +2,7 @@ export default theme => ({
   appBar: {
     position: 'relative',
   },
-  toolbar: {
-    marginLeft: '-20px'
+  dialogToolbar: {
   },
   flex: {
     flex: 1,

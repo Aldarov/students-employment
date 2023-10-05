@@ -17,4 +17,7 @@ export default theme => ({
     },
     marginTop: theme.spacing(2)
   },
+  button: {
+    marginRight: theme.spacing()
+  }
 });

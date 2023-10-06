@@ -23,7 +23,7 @@ namespace StudentsEmployment.Controllers
         {
             var query = db.Addresses.AsQueryable();
             if (args.q != null)
-                query = query.Where(x => x.Name.Contains(args.q));
+                query = query.Where(x => x.Name.Contains(args.q.Trim()));
             var res = query.Filter(Request.Query.ToList())
                 .Sort(args)
                 .AsNoTracking()

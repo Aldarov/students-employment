@@ -28,7 +28,7 @@ namespace StudentsEmployment.Controllers
             IQueryable<Placement> query;
 
             if (args.q != null)
-                query = db.Placements.FromSqlInterpolated($"select * from dbo.pg_search_placements({_employmentId}, {args.q})");
+                query = db.Placements.FromSqlInterpolated($"select * from dbo.pg_search_placements({_employmentId}, {args.q.Trim()})");
             else
                 query = db.Placements.FromSqlInterpolated($"select * from dbo.pg_placements({_employmentId})");
 

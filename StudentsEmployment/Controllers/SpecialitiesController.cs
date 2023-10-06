@@ -27,7 +27,7 @@ namespace StudentsEmployment.Controllers
             var query = db.Specialities
                 .FromSqlInterpolated($"select speciality_id, speciality from dbo.pg_access_to_specialities({_employmentId})");
             if (args.q != null)
-                query = query.Where(x => x.Name.Contains(args.q));
+                query = query.Where(x => x.Name.Contains(args.q.Trim()));
 
             var res = query
                 .Filter(Request.Query.ToList())
